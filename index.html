@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>webworks — Jordan Kelly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0e1117;
+      --surface: #161b22;
+      --surface-hover: #1c2230;
+      --border: #30363d;
+      --text-primary: #e6edf3;
+      --text-secondary: #8b949e;
+      --text-muted: #6e7681;
+      --accent: #d4a04a;
+      --accent-dim: rgba(212, 160, 74, 0.12);
+      --green: #3fb950;
+      --blue: #58a6ff;
+      --purple: #bc8cff;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- HEADER ---- */
+    header {
+      padding: 3rem 2rem 2rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .wordmark {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .wordmark span {
+      color: var(--text-muted);
+    }
+
+    header h1 {
+      font-family: var(--sans);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      max-width: 600px;
+    }
+
+    header p {
+      margin-top: 1rem;
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.65;
+    }
+
+    /* ---- GRID ---- */
+    .projects {
+      max-width: 960px;
+      margin: 2rem auto 0;
+      padding: 0 2rem 5rem;
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    /* ---- CARD ---- */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem 2.25rem;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .card:hover {
+      border-color: #444c56;
+      background: var(--surface-hover);
+      transform: translateY(-2px);
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    .card:nth-child(1)::before { background: linear-gradient(90deg, var(--green), transparent); }
+    .card:nth-child(2)::before { background: linear-gradient(90deg, var(--blue), transparent); }
+    .card:nth-child(3)::before { background: linear-gradient(90deg, var(--purple), transparent); }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card h2 {
+      font-family: var(--sans);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .card-status {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+    }
+
+    .card:nth-child(1) .card-status { color: var(--green); background: rgba(63, 185, 80, 0.1); }
+    .card:nth-child(2) .card-status { color: var(--blue); background: rgba(88, 166, 255, 0.1); }
+    .card:nth-child(3) .card-status { color: var(--purple); background: rgba(188, 140, 255, 0.1); }
+
+    .card-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--accent); }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 600px) {
+      header { padding: 2rem 1.25rem 1.5rem; }
+      .projects { padding: 0 1.25rem 4rem; }
+      .card { padding: 1.5rem; }
+      footer { padding: 0 1.25rem 2rem; padding-top: 1.5rem; }
+      .card-top { flex-direction: column; gap: 0.5rem; }
+    }
+
+    /* ---- REDUCED MOTION ---- */
+    @media (prefers-reduced-motion: reduce) {
+      .card { transition: none; }
+      .card::before { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="wordmark">webworks <span>/ jordan kelly</span></div>
+    <h1>Small tools, real patterns.</h1>
+    <p>Full-stack web applications built to solve actual problems — authentication, data visualization, API-driven persistence, and shared state.</p>
+  </header>
+
+  <section class="projects">
+
+    <article class="card">
+      <div class="card-top">
+        <h2>Meal Scheduler</h2>
+        <span class="card-status">Full Stack</span>
+      </div>
+      <p class="card-desc">
+        Collaborative meal scheduling app with user authentication, an interactive calendar UI, and persistent shared state across sessions. Built for coordinating group meal planning with real-time updates.
+      </p>
+      <div class="card-meta">
+        <span class="tag">HTML5</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">CRUD</span>
+        <span class="tag">Auth</span>
+        <span class="tag">Calendar UI</span>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-top">
+        <h2>Drop Rate Dashboard</h2>
+        <span class="card-status">Data Viz</span>
+      </div>
+      <p class="card-desc">
+        Interactive data visualization dashboard with filterable, sortable tables and probability calculations. Transforms raw game data into searchable reference charts with dynamic filtering by category and tier.
+      </p>
+      <div class="card-meta">
+        <span class="tag">HTML5</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">DataTables</span>
+        <span class="tag">Data Viz</span>
+        <span class="tag">Filtering</span>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-top">
+        <h2>Event RSVP</h2>
+        <span class="card-status">API Integration</span>
+      </div>
+      <p class="card-desc">
+        Lightweight RSVP application backed by the Excel API for serverless data persistence. No database required — spreadsheet-as-backend pattern for rapid deployment and zero-cost hosting.
+      </p>
+      <div class="card-meta">
+        <span class="tag">HTML5</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Excel API</span>
+        <span class="tag">REST</span>
+        <span class="tag">Serverless</span>
+      </div>
+    </article>
+
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Jordan Kelly</p>
+    <div class="footer-links">
+      <a href="https://github.com/Jordunkelly" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://jordunkelly.github.io" target="_blank" rel="noopener">Resume</a>
+    </div>
+  </footer>
+
+</body>
+</html>
