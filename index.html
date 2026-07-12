@@ -38,10 +38,9 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ---- HEADER ---- */
     header {
       padding: 3rem 2rem 2rem;
-      max-width: 960px;
+      max-width: 1080px;
       margin: 0 auto;
     }
 
@@ -53,57 +52,67 @@
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .wordmark span {
-      color: var(--text-muted);
+    .wordmark .muted { color: var(--text-muted); }
+
+    .resume-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
     }
+
+    .resume-link:hover { color: var(--text-primary); }
 
     header h1 {
-      font-family: var(--sans);
-      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
       font-weight: 700;
       line-height: 1.15;
       letter-spacing: -0.03em;
-      color: var(--text-primary);
       max-width: 600px;
     }
 
     header p {
-      margin-top: 1rem;
-      font-size: 1.05rem;
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
       color: var(--text-secondary);
       max-width: 520px;
-      line-height: 1.65;
+      line-height: 1.6;
     }
 
-    /* ---- GRID ---- */
     .projects {
-      max-width: 960px;
-      margin: 2rem auto 0;
+      max-width: 1080px;
+      margin: 1.5rem auto 0;
       padding: 0 2rem 5rem;
       display: grid;
-      gap: 1.25rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
     }
 
-    /* ---- CARD ---- */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 2rem 2.25rem;
+      padding: 1.5rem;
       transition: border-color 0.2s, background 0.2s, transform 0.2s;
-      cursor: default;
+      cursor: pointer;
       position: relative;
       overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
     }
 
     .card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 2px;
       opacity: 0;
       transition: opacity 0.3s;
@@ -116,70 +125,60 @@
     }
 
     .card:hover::before { opacity: 1; }
-
     .card:nth-child(1)::before { background: linear-gradient(90deg, var(--green), transparent); }
     .card:nth-child(2)::before { background: linear-gradient(90deg, var(--blue), transparent); }
     .card:nth-child(3)::before { background: linear-gradient(90deg, var(--purple), transparent); }
 
-    .card-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .card h2 {
-      font-family: var(--sans);
-      font-size: 1.35rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
     .card-status {
       font-family: var(--mono);
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       font-weight: 500;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 0.25rem 0.6rem;
+      padding: 0.2rem 0.5rem;
       border-radius: 4px;
-      white-space: nowrap;
-      flex-shrink: 0;
-      margin-top: 0.2rem;
+      width: fit-content;
+      margin-bottom: 0.75rem;
     }
 
     .card:nth-child(1) .card-status { color: var(--green); background: rgba(63, 185, 80, 0.1); }
     .card:nth-child(2) .card-status { color: var(--blue); background: rgba(88, 166, 255, 0.1); }
     .card:nth-child(3) .card-status { color: var(--purple); background: rgba(188, 140, 255, 0.1); }
 
+    .card h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
     .card-desc {
       color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 1.25rem;
+      font-size: 0.82rem;
+      line-height: 1.55;
+      margin-bottom: auto;
+      padding-bottom: 1rem;
     }
 
     .card-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.35rem;
     }
 
     .tag {
       font-family: var(--mono);
-      font-size: 0.7rem;
+      font-size: 0.6rem;
       font-weight: 500;
-      padding: 0.2rem 0.55rem;
+      padding: 0.15rem 0.45rem;
       border-radius: 4px;
       background: var(--accent-dim);
       color: var(--accent);
       letter-spacing: 0.02em;
     }
 
-    /* ---- FOOTER ---- */
     footer {
-      max-width: 960px;
+      max-width: 1080px;
       margin: 0 auto;
       padding: 0 2rem 3rem;
       border-top: 1px solid var(--border);
@@ -191,35 +190,25 @@
       gap: 1rem;
     }
 
-    footer p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
+    footer p { font-size: 0.8rem; color: var(--text-muted); }
 
     footer a {
       color: var(--text-secondary);
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       transition: color 0.2s;
     }
 
     footer a:hover { color: var(--accent); }
+    .footer-links { display: flex; gap: 1.5rem; }
 
-    .footer-links {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    /* ---- RESPONSIVE ---- */
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      .projects { grid-template-columns: 1fr; }
       header { padding: 2rem 1.25rem 1.5rem; }
       .projects { padding: 0 1.25rem 4rem; }
-      .card { padding: 1.5rem; }
       footer { padding: 0 1.25rem 2rem; padding-top: 1.5rem; }
-      .card-top { flex-direction: column; gap: 0.5rem; }
     }
 
-    /* ---- REDUCED MOTION ---- */
     @media (prefers-reduced-motion: reduce) {
       .card { transition: none; }
       .card::before { transition: none; }
@@ -229,63 +218,49 @@
 <body>
 
   <header>
-    <div class="wordmark">webworks <span>/ jordan kelly</span></div>
+    <div class="wordmark">
+      <span>webworks <span class="muted">/ jordan kelly</span></span>
+      <a href="https://jordunkelly.github.io" class="resume-link">RESUME →</a>
+    </div>
     <h1>Small tools, real patterns.</h1>
     <p>Full-stack web applications built to solve actual problems — authentication, data visualization, API-driven persistence, and shared state.</p>
   </header>
 
   <section class="projects">
 
-    <article class="card">
-      <div class="card-top">
-        <h2>Meal Scheduler</h2>
-        <span class="card-status">Full Stack</span>
-      </div>
-      <p class="card-desc">
-        Collaborative meal scheduling app with user authentication, an interactive calendar UI, and persistent shared state across sessions. Built for coordinating group meal planning with real-time updates.
-      </p>
+    <a class="card" href="meal-train/">
+      <span class="card-status">Full Stack</span>
+      <h2>Meal Scheduler</h2>
+      <p class="card-desc">Collaborative scheduling app with authentication, calendar UI, and persistent shared state across sessions.</p>
       <div class="card-meta">
-        <span class="tag">HTML5</span>
         <span class="tag">JavaScript</span>
         <span class="tag">CRUD</span>
         <span class="tag">Auth</span>
-        <span class="tag">Calendar UI</span>
+        <span class="tag">Calendar</span>
       </div>
-    </article>
+    </a>
 
-    <article class="card">
-      <div class="card-top">
-        <h2>Drop Rate Dashboard</h2>
-        <span class="card-status">Data Viz</span>
-      </div>
-      <p class="card-desc">
-        Interactive data visualization dashboard with filterable, sortable tables and probability calculations. Transforms raw game data into searchable reference charts with dynamic filtering by category and tier.
-      </p>
+    <a class="card" href="pso-drop-charts/">
+      <span class="card-status">Data Viz</span>
+      <h2>Drop Rate Dashboard</h2>
+      <p class="card-desc">Interactive dashboard with filterable, sortable tables and probability calculations over structured datasets.</p>
       <div class="card-meta">
-        <span class="tag">HTML5</span>
         <span class="tag">JavaScript</span>
         <span class="tag">DataTables</span>
         <span class="tag">Data Viz</span>
-        <span class="tag">Filtering</span>
       </div>
-    </article>
+    </a>
 
-    <article class="card">
-      <div class="card-top">
-        <h2>Event RSVP</h2>
-        <span class="card-status">API Integration</span>
-      </div>
-      <p class="card-desc">
-        Lightweight RSVP application backed by the Excel API for serverless data persistence. No database required — spreadsheet-as-backend pattern for rapid deployment and zero-cost hosting.
-      </p>
+    <a class="card" href="event-attendance/">
+      <span class="card-status">API Integration</span>
+      <h2>Event RSVP</h2>
+      <p class="card-desc">Lightweight RSVP app using Excel API as a serverless backend — spreadsheet-as-database for zero-cost persistence.</p>
       <div class="card-meta">
-        <span class="tag">HTML5</span>
         <span class="tag">JavaScript</span>
         <span class="tag">Excel API</span>
         <span class="tag">REST</span>
-        <span class="tag">Serverless</span>
       </div>
-    </article>
+    </a>
 
   </section>
 
