@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome Everly and Eldon to Planet Earth</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c1430;--bg2:#101a44;--panel:#0e1838;--panel2:#14224a;
+    --ink-line:#ffffff;--accent:#5aa0f0;--accent2:#bfe0ff;
+    --ev:#f48fb1;--el:#7ad0ff;--gold:#ffe27a;--green:#7ae8b0;
+    --txt:#e8f0ff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:'Press Start 2P',monospace;color:var(--txt);
+    background:radial-gradient(circle at 50% 0%,#16205a 0%,var(--bg) 70%);
+    min-height:100%;display:flex;flex-direction:column;align-items:center;
+    padding:24px 14px 60px;image-rendering:pixelated;overflow-x:hidden}
+
+  /* twinkle starfield */
+  .stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .star{position:absolute;width:3px;height:3px;background:#fff;animation:tw 1.8s steps(2) infinite}
+  @keyframes tw{0%,100%{opacity:1}50%{opacity:.2}}
+
+  .wrap{position:relative;z-index:1;width:100%;max-width:640px;display:flex;flex-direction:column;align-items:center;gap:22px}
+
+  h1{font-size:clamp(12px,3vw,18px);text-align:center;line-height:1.9;text-shadow:2px 2px 0 #000}
+  h1 .ev{color:var(--ev)} h1 .el{color:var(--el)}
+  .sub{font-size:8px;color:var(--gold);letter-spacing:2px;text-align:center;margin-top:6px}
+
+  /* hero sprites */
+  .heroes{display:flex;gap:48px;align-items:flex-end;justify-content:center}
+  .hero{display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;
+    background:none;border:none;font-family:inherit;color:var(--txt);
+    transition:transform .12s}
+  .hero:hover{transform:translateY(-4px)}
+  .hero:active{transform:translateY(2px)}
+  .hero svg{width:84px;height:auto;image-rendering:pixelated}
+  .hero .nm{font-size:9px}
+  .hero.ev .nm{color:var(--ev)} .hero.el .nm{color:var(--el)}
+  .hero .tap{font-size:6px;color:var(--accent);opacity:.7}
+  .bob{animation:bob 2.4s ease-in-out infinite}
+  .bob2{animation:bob 2.4s ease-in-out infinite .6s}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  .blink{animation:blink 4s steps(1) infinite}
+  @keyframes blink{0%,92%,100%{opacity:1}94%,98%{opacity:0}}
+  .pop{animation:pop .5s ease}
+  @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.18) rotate(-4deg)}100%{transform:scale(1)}}
+
+  /* speech bubble */
+  .bubble{position:relative;background:#fff;color:#1a2240;border:3px solid #1a2240;
+    border-radius:8px;padding:10px 12px;font-size:8px;line-height:1.7;max-width:220px;
+    opacity:0;transform:translateY(6px);transition:opacity .2s,transform .2s;pointer-events:none}
+  .bubble.show{opacity:1;transform:translateY(0)}
+  .bubble:after{content:"";position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);
+    border:6px solid transparent;border-top-color:#1a2240}
+
+  /* dialogue / dice panel */
+  .panel{width:100%;background:var(--panel);border:4px solid var(--ink-line);
+    box-shadow:inset 0 0 0 2px var(--accent);padding:20px 18px;border-radius:4px}
+  .questline{font-size:9px;color:var(--gold);text-align:center;margin-bottom:14px;line-height:1.8}
+
+  .fact{font-size:9px;line-height:2;color:var(--accent2);text-align:center;min-height:64px;
+    display:flex;align-items:center;justify-content:center;padding:4px 2px}
+  .fact .roll{color:var(--gold)}
+
+  .controls{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:8px}
+  .die{width:72px;height:72px;cursor:pointer;image-rendering:pixelated;
+    transition:transform .1s}
+  .die:hover{transform:scale(1.05)}
+  .rolling{animation:rollspin .6s steps(8)}
+  @keyframes rollspin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+  .btn{font-family:inherit;font-size:9px;color:#0c1430;background:var(--gold);
+    border:3px solid #fff;padding:10px 16px;cursor:pointer;border-radius:4px;
+    box-shadow:3px 3px 0 #00000055;transition:transform .08s}
+  .btn:hover{background:#fff3b0}
+  .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #00000055}
+
+  .count{font-size:7px;color:var(--accent);opacity:.8}
+
+
+  /* ===== SECRET / RARE FACT FX ===== */
+  .fact.secret{color:#ffe27a;text-shadow:0 0 6px #ffd24a55;animation:secretpulse 1s steps(2) 2}
+  @keyframes secretpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  .panel.secret-glow{box-shadow:inset 0 0 0 2px var(--gold),0 0 0 3px #ffe27a,0 0 26px 6px #ffd24a66;
+    animation:panelglow 1.4s steps(2) infinite}
+  @keyframes panelglow{0%,100%{box-shadow:inset 0 0 0 2px var(--gold),0 0 0 3px #ffe27a,0 0 26px 6px #ffd24a55}
+    50%{box-shadow:inset 0 0 0 2px var(--gold),0 0 0 3px #fff3b0,0 0 34px 10px #ffd24a99}}
+  .secret-banner{font-size:8px;color:#ffe27a;text-align:center;letter-spacing:2px;margin-bottom:8px;
+    text-shadow:1px 1px 0 #000}
+  .spark{position:fixed;width:8px;height:8px;pointer-events:none;z-index:50;image-rendering:pixelated}
+  .hero.secretpop svg{animation:secretspin .7s ease}
+  @keyframes secretspin{0%{transform:scale(1) rotate(0)}30%{transform:scale(1.25) rotate(-8deg)}
+    60%{transform:scale(1.25) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
+  .bubble.secret{background:#fff6d0;border-color:#b8860b;color:#5a3a00;
+    box-shadow:0 0 12px 2px #ffd24a88}
+  .bubble.secret:after{border-top-color:#b8860b}
+  .crown{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:14px;
+    opacity:0;transition:opacity .2s}
+  .crown.show{opacity:1;animation:crownbob 1s ease-in-out infinite}
+  @keyframes crownbob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-3px)}}
+
+  @media (prefers-reduced-motion:reduce){
+    .star,.bob,.bob2,.blink,.rolling,.pop,.fact.secret,.panel.secret-glow,.hero.secretpop svg,.crown.show{animation:none}}
+
+  /* ===== COLLECTION (LUFIA STATUS WINDOW) ===== */
+  .collection-panel.lufia{margin-top:4px;background:#101a44;
+    border:4px solid #fff;box-shadow:inset 0 0 0 3px #2a4ad0,inset 0 0 0 5px #0c1430}
+  .lufia-card{background:#0e1640;border:2px solid #5a7af0;border-radius:3px;
+    padding:8px 10px;margin:8px 0;box-shadow:inset 0 0 0 1px #1a2a6a}
+  .lufia-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .lufia-name{font-size:9px;color:#fff;letter-spacing:1px}
+  .lufia-name.ev{color:var(--ev)} .lufia-name.el{color:var(--el)}
+  .lufia-lv{font-size:8px;color:#ffe27a}
+  .lufia-lv b{color:#fff}
+  .lufia-stat{display:flex;align-items:center;gap:8px;margin:3px 0}
+  .lufia-tag{font-size:7px;color:#9be8ff;min-width:26px}
+  .lufia-gauge{flex:1;height:11px;background:#06102e;border:1px solid #2a4ad0;border-radius:2px;overflow:hidden}
+  .lufia-fill{height:100%;width:0%;transition:width .5s ease;
+    background:linear-gradient(180deg,#9be8b0,#3fc28a)}
+  .lufia-fill.ev{background:linear-gradient(180deg,#ffc0d4,var(--ev))}
+  .lufia-fill.el{background:linear-gradient(180deg,#bfe0ff,var(--el))}
+  .lufia-val{font-size:7px;color:#fff;min-width:50px;text-align:right}
+  .lufia-exp{font-size:7px;color:#ffe27a;min-width:40px}
+  .lufia-next{font-size:7px;color:#7a9adc;margin-left:auto}
+  .lufia-next b{color:#fff}
+  .lvlup{animation:lvlup .7s steps(2) 3}
+  @keyframes lvlup{0%,100%{box-shadow:inset 0 0 0 1px #1a2a6a,0 0 0 2px #ffe27a}
+    50%{box-shadow:inset 0 0 0 1px #1a2a6a,0 0 0 4px #fff3b0}}
+
+  /* how-to-earn legend */
+  .howto{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;background:#0a1230;
+    border:2px solid #2a4ad0;border-radius:3px;padding:8px 10px;margin-bottom:10px}
+  .howto-row{display:flex;justify-content:space-between;align-items:center;font-size:7px;color:#bfe0ff}
+  .howto-row b{color:#ffe27a}
+  /* bigger EXP gauge */
+  .lufia-gauge.big{height:16px}
+  .lufia-sub{display:flex;justify-content:space-between;align-items:center;margin-top:4px;font-size:7px}
+  .lufia-sub span{color:#9be8ff}
+  .lufia-toward{color:#ffe27a!important}
+  .lufia-fill.flush{animation:fillflush .6s steps(2) 2}
+  @keyframes fillflush{0%,100%{filter:brightness(1)}50%{filter:brightness(1.6)}}
+
+  /* floating +EXP popups */
+  .exp-pop{position:fixed;z-index:80;font-family:'Press Start 2P',monospace;font-size:10px;
+    color:#ffe27a;text-shadow:1px 1px 0 #000,0 0 6px #ffd24a;pointer-events:none;white-space:nowrap}
+  @keyframes expfloat{0%{transform:translateY(0) scale(.8);opacity:0}
+    15%{opacity:1;transform:translateY(-6px) scale(1)}
+    100%{transform:translateY(-46px) scale(1);opacity:0}}
+  .exp-pop.newbig{font-size:11px;color:#9be8ff;text-shadow:1px 1px 0 #000,0 0 8px #5aa0f0}
+
+  /* big LEVEL UP banner */
+  .lvlup-banner{position:fixed;left:50%;top:34%;transform:translate(-50%,-50%);z-index:118;
+    pointer-events:none;text-align:center;opacity:0}
+  .lvlup-banner.show{opacity:1;animation:lvbanner 1.8s ease forwards}
+  @keyframes lvbanner{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}
+    18%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
+    30%{transform:translate(-50%,-50%) scale(1)}
+    80%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.05)}}
+  .lvlup-banner .lvb{background:#0e1640;border:4px solid #ffe27a;box-shadow:0 0 0 3px #5aa0f0,0 0 36px 8px #ffd24aaa;
+    border-radius:4px;padding:16px 22px;font-size:13px;color:#ffe27a;letter-spacing:2px}
+  .lvlup-banner .lvb small{display:block;font-size:8px;color:#fff;margin-top:8px}
+  .coll-secret{font-size:8px;text-align:center;color:var(--gold);margin:10px 0 4px;text-shadow:1px 1px 0 #000}
+  .coll-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+  .btn.small{font-size:8px;padding:8px 12px}
+  .btn.reset{background:#e26a98;color:#fff}
+  .btn.reset:hover{background:#f48fb1}
+  .coll-saved{font-size:6px;color:var(--accent2);opacity:.8;text-align:center;margin-top:10px;line-height:1.7}
+  .complete-glow{animation:panelglow 1.4s steps(2) infinite}
+
+  /* ===== DRESS-UP SHOP ===== */
+  .dress-group{margin:8px 0}
+  .dress-who{font-size:8px;margin-bottom:6px;letter-spacing:1px}
+  .swatches{display:flex;gap:6px;flex-wrap:wrap}
+  .sw{width:40px;cursor:pointer;background:#0e1640;border:2px solid #2a4ad0;border-radius:3px;
+    padding:3px;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .sw:hover{border-color:#5a7af0}
+  .sw.active{border-color:#ffe27a;box-shadow:0 0 0 1px #ffe27a}
+  .sw svg{width:32px;height:32px;image-rendering:pixelated}
+  .sw .swn{font-size:5px;color:#9be8ff;text-align:center;line-height:1.3}
+
+  /* ===== COMET / SHOOTING STAR ===== */
+  .comet{position:fixed;z-index:60;cursor:pointer;width:64px;height:20px;pointer-events:auto}
+  .comet .head{position:absolute;right:0;top:4px;width:12px;height:12px;background:#bfe0ff;
+    border-radius:50%;box-shadow:0 0 8px 3px #9be8ff,0 0 14px 6px #5aa0f088}
+  .comet .tail{position:absolute;right:10px;top:8px;width:54px;height:4px;
+    background:linear-gradient(270deg,#bfe0ff,#9be8ff00);border-radius:2px}
+  .comet .label{position:absolute;right:0;top:-12px;font-size:6px;color:#bfe0ff;white-space:nowrap;
+    text-shadow:0 0 4px #5aa0f0}
+  @keyframes cometfly{from{transform:translate(0,0)}to{transform:translate(var(--cdx),var(--cdy))}}
+
+  /* legendary laugh banner */
+  .legend-flash{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;
+    pointer-events:none;background:radial-gradient(circle,#5aa0f055,transparent 65%);opacity:0}
+  .legend-flash.show{opacity:1;animation:legendpulse 2.4s ease forwards}
+  @keyframes legendpulse{0%{opacity:0;transform:scale(.9)}15%{opacity:1;transform:scale(1)}
+    80%{opacity:1}100%{opacity:0;transform:scale(1.05)}}
+  .legend-card{background:#0e1640;border:4px solid #ffe27a;box-shadow:0 0 0 3px #5aa0f0,0 0 40px 10px #5aa0f0aa;
+    border-radius:4px;padding:20px 22px;max-width:340px;text-align:center}
+  .legend-card .lt{font-size:9px;color:#ffe27a;letter-spacing:2px;margin-bottom:12px}
+  .legend-card .ll{font-size:9px;color:#fff;line-height:1.9}
+
+  /* ===== MODAL ===== */
+  .modal-bg{position:fixed;inset:0;background:rgba(6,10,28,.86);z-index:100;
+    display:none;align-items:center;justify-content:center;padding:16px}
+  .modal-bg.open{display:flex}
+  .modal{background:var(--panel);border:4px solid var(--ink-line);box-shadow:inset 0 0 0 2px var(--accent),0 0 30px #000;
+    width:100%;max-width:560px;max-height:86vh;display:flex;flex-direction:column;border-radius:4px}
+  .modal-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;
+    border-bottom:2px solid var(--accent);font-size:11px;color:var(--gold)}
+  .modal-x{background:none;border:2px solid var(--accent2);color:var(--accent2);font-family:inherit;
+    font-size:10px;width:26px;height:26px;cursor:pointer;border-radius:3px}
+  .modal-x:hover{background:var(--accent2);color:#0c1430}
+  .modal-tabs{display:flex;gap:6px;padding:10px 16px 0;flex-wrap:wrap}
+  .tab{flex:1;min-width:60px;font-family:inherit;font-size:8px;padding:9px 4px;cursor:pointer;color:var(--accent2);
+    background:#0a1230;border:2px solid var(--accent);border-bottom:none;border-radius:3px 3px 0 0}
+  .tab.active{background:var(--panel2);color:var(--gold)}
+  .modal-body{overflow-y:auto;padding:12px 16px 18px;display:flex;flex-direction:column;gap:7px}
+  .ci{font-size:8px;line-height:1.7;padding:8px 10px;border-radius:3px;border:2px solid #1a2a5a;
+    background:#0e1838;color:#3a4a78}
+  .ci.found{color:var(--accent2);border-color:var(--accent)}
+  .ci.found.sec{color:#5a3a00;background:#fff6d0;border-color:#b8860b}
+  .ci.found.leg{color:#06204a;background:#bfe0ff;border-color:#5aa0f0}
+  .ci .chk{color:var(--green);margin-right:6px}
+  .ci.locked .chk{color:#3a4a78}
+
+  @media (prefers-reduced-motion:reduce){.lufia-fill{transition:none}.complete-glow,.lvlup,.legend-flash.show{animation:none}}
+</style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+
+  <div class="wrap">
+    <div>
+      <h1>Welcome <span class="ev">EVERLY</span> &amp; <span class="el">ELDON</span></h1>
+      <div class="sub">★ TO PLANET EARTH ★</div>
+    </div>
+
+    <div class="heroes">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div class="crown" id="crown-ev" aria-hidden="true">👑</div>
+        <div class="bubble" id="bub-ev"></div>
+        <button class="hero ev" id="hero-ev" aria-label="Everly the hero">
+          <div class="bob" id="spr-ev">
+            <svg viewBox="0 0 32 40" shape-rendering="crispEdges">
+              <rect x="8" y="2" width="16" height="6" fill="#7a4a2a"/>
+              <rect x="6" y="6" width="20" height="8" fill="#7a4a2a"/>
+              <rect x="3" y="4" width="4" height="3" fill="#f06a9a"/>
+              <rect x="25" y="4" width="4" height="3" fill="#f06a9a"/>
+              <rect x="8" y="8" width="16" height="12" fill="#ffd9b8"/>
+              <rect x="8" y="8" width="16" height="3" fill="#7a4a2a"/>
+              <rect x="8" y="11" width="3" height="2" fill="#7a4a2a"/>
+              <rect x="21" y="11" width="3" height="2" fill="#7a4a2a"/>
+              <rect x="11" y="13" width="3" height="3" fill="#3a2a3a" class="blink"/>
+              <rect x="18" y="13" width="3" height="3" fill="#3a2a3a" class="blink"/>
+              <rect x="12" y="13" width="1" height="1" fill="#fff"/>
+              <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+              <rect x="9" y="16" width="2" height="2" fill="#ffc0d4"/>
+              <rect x="21" y="16" width="2" height="2" fill="#ffc0d4"/>
+              <rect x="14" y="17" width="4" height="1" fill="#c25a7a"/>
+              <rect x="10" y="20" width="12" height="12" fill="#f06a9a"/>
+              <rect x="8" y="24" width="16" height="8" fill="#f06a9a"/>
+              <rect x="8" y="30" width="16" height="2" fill="#c2417a"/>
+              <rect x="6" y="22" width="3" height="7" fill="#ffd9b8"/>
+              <rect x="23" y="22" width="3" height="7" fill="#ffd9b8"/>
+              <rect x="11" y="32" width="3" height="5" fill="#ffd9b8"/>
+              <rect x="18" y="32" width="3" height="5" fill="#ffd9b8"/>
+              <rect x="10" y="37" width="5" height="2" fill="#c2417a"/>
+              <rect x="17" y="37" width="5" height="2" fill="#c2417a"/>
+              <g id="outfit-ev"></g>
+            </svg>
+          </div>
+          <span class="nm">EVERLY</span>
+          <span class="tap">▶ tap me</span>
+        </button>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div class="crown" id="crown-el" aria-hidden="true">👑</div>
+        <div class="bubble" id="bub-el"></div>
+        <button class="hero el" id="hero-el" aria-label="Eldon the hero">
+          <div class="bob2" id="spr-el">
+            <svg viewBox="0 0 32 40" shape-rendering="crispEdges">
+              <rect x="8" y="3" width="16" height="6" fill="#3a5a8a"/>
+              <rect x="7" y="5" width="18" height="5" fill="#3a5a8a"/>
+              <rect x="14" y="2" width="4" height="2" fill="#3a5a8a"/>
+              <rect x="8" y="8" width="16" height="12" fill="#ffd9b8"/>
+              <rect x="8" y="8" width="16" height="2" fill="#3a5a8a"/>
+              <rect x="8" y="10" width="2" height="2" fill="#3a5a8a"/>
+              <rect x="22" y="10" width="2" height="2" fill="#3a5a8a"/>
+              <rect x="11" y="13" width="3" height="3" fill="#2a2a3a" class="blink"/>
+              <rect x="18" y="13" width="3" height="3" fill="#2a2a3a" class="blink"/>
+              <rect x="12" y="13" width="1" height="1" fill="#fff"/>
+              <rect x="19" y="13" width="1" height="1" fill="#fff"/>
+              <rect x="9" y="16" width="2" height="2" fill="#ffb0b0"/>
+              <rect x="21" y="16" width="2" height="2" fill="#ffb0b0"/>
+              <rect x="14" y="17" width="4" height="1" fill="#c25a7a"/>
+              <rect x="9" y="20" width="14" height="12" fill="#5a9ad0"/>
+              <rect x="9" y="20" width="14" height="2" fill="#fff" opacity=".4"/>
+              <rect x="12" y="22" width="2" height="8" fill="#3a6a9a"/>
+              <rect x="18" y="22" width="2" height="8" fill="#3a6a9a"/>
+              <rect x="14" y="24" width="4" height="3" fill="#ffe27a"/>
+              <rect x="6" y="22" width="3" height="7" fill="#ffd9b8"/>
+              <rect x="23" y="22" width="3" height="7" fill="#ffd9b8"/>
+              <rect x="11" y="32" width="3" height="5" fill="#ffd9b8"/>
+              <rect x="18" y="32" width="3" height="5" fill="#ffd9b8"/>
+              <rect x="10" y="37" width="5" height="2" fill="#3a6a9a"/>
+              <rect x="17" y="37" width="5" height="2" fill="#3a6a9a"/>
+              <g id="outfit-el"></g>
+            </svg>
+          </div>
+          <span class="nm">ELDON</span>
+          <span class="tap">▶ tap me</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="panel dressup-panel">
+      <div class="questline">🎽 DRESS-UP SHOP 🎽</div>
+      <div class="dress-group">
+        <div class="dress-who" style="color:var(--ev)">👑 EVERLY</div>
+        <div class="swatches" id="sw-ev"></div>
+      </div>
+      <div class="dress-group">
+        <div class="dress-who" style="color:var(--el)">🏹 ELDON</div>
+        <div class="swatches" id="sw-el"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="questline">✦ THE DICE OF DESTINY ✦</div>
+      <div class="fact" id="fact">Roll the die to reveal a fact of pure positivity...</div>
+      <div class="controls">
+        <svg class="die" id="die" viewBox="0 0 24 24" shape-rendering="crispEdges" role="button" aria-label="Roll the dice">
+          <rect x="3" y="3" width="18" height="18" fill="#ffe27a"/>
+          <rect x="3" y="3" width="18" height="18" fill="none" stroke="#0c1430" stroke-width="1"/>
+          <rect x="3" y="3" width="18" height="3" fill="#fff3b0"/>
+          <rect x="7" y="7" width="3" height="3" fill="#0c1430" id="d1"/>
+          <rect x="14" y="7" width="3" height="3" fill="#0c1430" id="d2"/>
+          <rect x="10.5" y="10.5" width="3" height="3" fill="#0c1430" id="d3"/>
+          <rect x="7" y="14" width="3" height="3" fill="#0c1430" id="d4"/>
+          <rect x="14" y="14" width="3" height="3" fill="#0c1430" id="d5"/>
+        </svg>
+        <button class="btn" id="rollbtn">🎲 ROLL FOR POSITIVITY</button>
+        <div class="count" id="count">Rolls: 0</div>
+      </div>
+    </div>
+
+    <div class="panel collection-panel lufia">
+      <div class="questline">⚔ PARTY STATUS ⚔</div>
+
+      <div class="howto">
+        <div class="howto-row"><span>🎲 Roll dice</span><b>+2 EXP</b></div>
+        <div class="howto-row"><span>👑🏹 Tap a kid</span><b>+2 EXP</b></div>
+        <div class="howto-row"><span>✨ Find NEW one</span><b>+10 EXP</b></div>
+        <div class="howto-row"><span>☄ Catch a comet</span><b>+25 ALL</b></div>
+      </div>
+
+      <div class="lufia-card" id="card-facts">
+        <div class="lufia-top">
+          <span class="lufia-name">📖 CHRONICLE</span>
+          <span class="lufia-lv">LV <b id="lv-facts">1</b></span>
+        </div>
+        <div class="lufia-stat">
+          <div class="lufia-gauge big"><div class="lufia-fill hp" id="fill-facts"></div></div>
+        </div>
+        <div class="lufia-sub">
+          <span id="bar-facts">0 / 10 EXP</span>
+          <span class="lufia-toward" id="toward-facts">10 to LV 2</span>
+        </div>
+      </div>
+
+      <div class="lufia-card" id="card-ev">
+        <div class="lufia-top">
+          <span class="lufia-name ev">👑 EVERLY</span>
+          <span class="lufia-lv">LV <b id="lv-ev">1</b></span>
+        </div>
+        <div class="lufia-stat">
+          <div class="lufia-gauge big"><div class="lufia-fill ev" id="fill-ev"></div></div>
+        </div>
+        <div class="lufia-sub">
+          <span id="bar-ev">0 / 10 EXP</span>
+          <span class="lufia-toward" id="toward-ev">10 to LV 2</span>
+        </div>
+      </div>
+
+      <div class="lufia-card" id="card-el">
+        <div class="lufia-top">
+          <span class="lufia-name el">🏹 ELDON</span>
+          <span class="lufia-lv">LV <b id="lv-el">1</b></span>
+        </div>
+        <div class="lufia-stat">
+          <div class="lufia-gauge big"><div class="lufia-fill el" id="fill-el"></div></div>
+        </div>
+        <div class="lufia-sub">
+          <span id="bar-el">0 / 10 EXP</span>
+          <span class="lufia-toward" id="toward-el">10 to LV 2</span>
+        </div>
+      </div>
+
+      <div class="coll-secret" id="coll-secret">✨ Secrets found: 0/25 ✨</div>
+      <div class="coll-secret" id="coll-legend" style="color:#9be8ff">☄ Legendary laughs caught: 0/0 ☄</div>
+      <div class="coll-controls">
+        <button class="btn small" id="viewcoll">📖 ITEM LOG</button>
+        <button class="btn small reset" id="resetcoll">🗑 RESET</button>
+      </div>
+      <div class="coll-saved">Tip: catch a shooting star for a legendary laugh + big EXP! Progress saves on this device.</div>
+    </div>
+  </div>
+
+  <div class="modal-bg" id="modal">
+    <div class="modal">
+      <div class="modal-head">
+        <span id="modal-title">📖 Item Log</span>
+        <button class="modal-x" id="modal-x" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-tabs">
+        <button class="tab active" data-tab="facts">🎲 Facts</button>
+        <button class="tab" data-tab="ev">👑 Everly</button>
+        <button class="tab" data-tab="el">🏹 Eldon</button>
+        <button class="tab" data-tab="legend">☄ Legend</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <div class="lvlup-banner" id="lvlup-banner" aria-hidden="true">
+    <div class="lvb" id="lvlup-text">⭐ LEVEL UP! ⭐</div>
+  </div>
+
+  <div class="legend-flash" id="legend-flash" aria-hidden="true">
+    <div class="legend-card">
+      <div class="lt">☄ LEGENDARY LAUGH ☄</div>
+      <div class="ll" id="legend-text"></div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // starfield
+    var sf = document.getElementById('stars');
+    for(var i=0;i<40;i++){
+      var s=document.createElement('div');
+      s.className='star';
+      s.style.left=Math.random()*100+'%';
+      s.style.top=Math.random()*100+'%';
+      s.style.animationDelay=(Math.random()*1.8)+'s';
+      sf.appendChild(s);
+    }
+
+    var facts = [
+      "Babies are born with NO kneecaps. They grow in around age 3. Wobble wobble!",
+      "A baby's first poop is greenish-black and called meconium. Gross but true!",
+      "Newborns can't cry actual tears for about 3 weeks. Just dramatic wailing!",
+      "Babies have around 100 more bones than adults. They fuse together over time.",
+      "[[SECRET]]Legend speaks of a star child born on the ninth day of the sixth moon, 2026... her name was Everly.",
+      "Newborns can recognize their mom's voice from inside the belly. Eavesdroppers!",
+      "Babies smile in their sleep before they ever smile at you. Rude but adorable.",
+      "A baby can poop up to 10 times a day. Tiny, mighty, and unstoppable.",
+      "Babies blink way less than adults, only once or twice a minute. Staring contest champs!",
+      "A newborn's stomach is the size of a cherry on day one. Then a walnut. Then an egg!",
+      "Babies are basically nose-breathers and can breathe and swallow at the same time.",
+      "A baby's grip is strong enough to support its whole body weight. Tiny climber!",
+      "[[SECRET]]Four days after Everly, on the thirteenth, a forest warrior was born under the same summer sky: Eldon.",
+      "Babies sometimes 'crawl' to the milk on their own at birth. The breast crawl!",
+      "A baby is born with about 10,000 taste buds, way more than grown-ups.",
+      "Babies' brains can grow over 1% PER DAY in the first months. Speed run!",
+      "A baby can hold its breath underwater by instinct. The dive reflex!",
+      "Newborns prefer sweet tastes and will make a happy face for sugar.",
+      "Babies recognize the smell of their own parent in days. Sniff sniff, that's you!",
+      "A baby laughs up to 300 times a day. Adults? Like 20. Be more baby!",
+      "[[SECRET]]It is whispered that Everly's mother is a healer of small ones, tending children in a pediatric guild.",
+      "A newborn can't taste salt until about 4 months old. French fries can wait!",
+      "Babies kick in the womb partly to build their bones and muscles. Tiny workout!",
+      "A baby's yawn in the belly has been caught on ultrasound. Sleepy before birth!",
+      "Newborns lose that newborn smell in about 6 weeks. Bottle it while you can!",
+      "Babies have a reflex that makes them step like walking when held upright.",
+      "A baby's cry can hit the same volume as a chainsaw. Banshee training, day one!",
+      "Babies are born knowing how to swim-paddle but forget it by 6 months.",
+      "A newborn poops about its own body weight every couple of days. Champion!",
+      "[[SECRET]]Everly's father is a legendary king of the great roads, master of trucks, management, and the sacred art of safety.",
+      "Pennsylvania means 'Penn's Woods.' Most of it is still trees. Hello, forest!",
+      "Punxsutawney Phil has been 'predicting' spring since 1887. That's one old groundhog!",
+      "In Pennsylvania, it's technically illegal to sleep on top of a refrigerator outdoors. Wat.",
+      "Hershey, PA streetlights are shaped like chocolate kisses. The whole town smells sweet!",
+      "Pennsylvania made the first pretzel in America. Twist and shout!",
+      "Pittsburgh has 446 bridges, MORE than Venice, Italy. Bridge capital of the world!",
+      "The banana split was invented in Latrobe, Pennsylvania. Yum quest unlocked!",
+      "[[SECRET]]The star child's family keeps a stronghold in the village of Shippensburg, deep in Penn's Woods.",
+      "The first piano in America was built in Pennsylvania. Tickle those keys!",
+      "Pennsylvania's Pine Creek Gorge is called the Grand Canyon of the East.",
+      "It's illegal in PA to catch a fish with your bare hands. Sorry, bear technique!",
+      "The first computer, ENIAC, was built in Pennsylvania. It weighed 30 tons!",
+      "Pennsylvania's state animal is the white-tailed deer. Warriors of the forest!",
+      "Crayola crayons are made in Easton, Pennsylvania. Color your whole world!",
+      "The Slinky was invented in Pennsylvania. Walks down stairs, alone or in pairs!",
+      "[[SECRET]]Eldon's mother is a farmer's daughter of unmatched power: a stay-at-home queen who runs 5,000 quests at once.",
+      "Pennsylvania had the first zoo in America, opened in Philadelphia in 1874.",
+      "Gettysburg, PA is one of the most famous spots in all of American history.",
+      "Pennsylvania's groundhog day inspired a whole movie. Phil's a star!",
+      "The first daily newspaper in America was printed in Philadelphia, PA.",
+      "Pennsylvania makes more mushrooms than any other state. Fungi capital!",
+      "Wild rhododendrons bloom bright pink across PA mountains every summer.",
+      "The Liberty Bell, cracked and famous, lives in Philadelphia, PA.",
+      "[[SECRET]]They say Eldon's mother can garden, cook, clean, and craft all before noon. A true beast of the homestead!",
+      "Whoopie pies are a beloved Pennsylvania Dutch treat. Cake hug!",
+      "Philadelphia means 'City of Brotherly Love.' Aww, Pennsylvania!",
+      "Pennsylvania's Ricketts Glen has 22 waterfalls on one hiking trail!",
+      "The first baseball stadium was built in Pennsylvania. Play ball!",
+      "Pennsylvania snow can fall 100+ inches a year up in the mountains. Snow forts!",
+      "PA is shaped like a rectangle, but its rivers wiggle everywhere. Squiggly!",
+      "[[SECRET]]Eldon's father is an engineer AND the legendary slayer of every deer across 20 private acres in Dillsburg.",
+      "Deer can smell a person from a quarter mile away. Stealth required, hunter!",
+      "A buck grows and sheds his antlers every single year. New crown, new season!",
+      "The best hunters are the most patient. Stillness is a superpower.",
+      "Forest soil is so alive that one handful holds billions of tiny creatures.",
+      "Acorns feed the whole forest, from deer to squirrels to mighty oaks.",
+      "A real warrior protects the weak and shares the harvest. Strength + heart.",
+      "Owls can turn their heads almost all the way around. Forest guardians!",
+      "[[SECRET]]Two families, two villages, one destiny: Everly of Shippensburg and Eldon of the Dillsburg wilds.",
+      "A campfire under the stars is the oldest TV in the world. Crackle, pop!",
+      "Deer travel in family groups. Even the forest knows family matters.",
+      "Tracking footprints in the snow is real-life detective work. Sherlock of the woods!",
+      "A single oak tree can drop 10,000 acorns in a good year. Forest buffet!",
+      "Moss always tells a story about which way the wind and water go.",
+      "The strongest warrior is the one who's also the kindest. True legend.",
+      "[[SECRET]]The ancient scroll reads: 'When the healer's daughter meets the hunter's son, a grand adventure begins.'",
+      "The name Kelly means 'bright-headed' and 'lively.' Sounds about right!",
+      "A Kelly never quits. Roll the dice and try again, brave one.",
+      "Family is the best adventuring party you'll ever roll into.",
+      "Cheeseheads, deer hunters, and farmers all know: teamwork wins.",
+      "Kelly green is one of the cheeriest colors in the whole world.",
+      "Lambeau Field has sold out every game for decades. Loyalty, legendary!",
+      "[[SECRET]]Born just four days apart, Everly and Eldon are the youngest legends in the whole Kelly saga.",
+      "The strongest castle is built on family. The Kelly keep stands tall!",
+      "A Kelly hug restores full hit points. Scientific fact (almost).",
+      "You are the newest legend in a long story of brave adventurers.",
+      "Mistakes are just XP. Every hero levels up by trying again.",
+      "Your laugh is a power-up for everyone who hears it.",
+      "[[SECRET]]In Dillsburg's secret 20-acre forest, no deer escapes the engineer-hunter. A father of two great crafts!",
+      "Courage isn't never being scared. It's rolling the dice anyway!",
+      "A baby's giggle and a deer in the meadow share one secret: pure joy.",
+      "Even the tallest oak in the forest started as one tiny acorn.",
+      "[[SECRET]]Everly's dad rules the kingdom of the highways, where safety is the highest law of the land.",
+      "Roll the dice, hug your people, explore the woods. Adventure awaits!",
+      "The world got brighter the day you arrived. True story, little hero!",
+      "A baby's first word is usually 'dada' or 'mama'... or a happy shriek!",
+      "[[SECRET]]Eldon's mom's garden is said to grow faster than any other in Pennsylvania. Magic in her green thumbs!",
+      "Babies dream a LOT. Half their sleep is dream time. Tiny adventures!",
+      "The chocolate-chip cookie of states? Pennsylvania, home of sweet treats!",
+      "[[SECRET]]The healer mother mends the tiniest patients by day, then comes home to her star child Everly by night.",
+      "A baby's brain doubles in size in the first year. Tiny supercomputer booting up!",
+      "Newborns can't see color well at first. The world loads in slowly, like an old game.",
+      "Babies are born with a sweet tooth and reject bitter foods. Smart little gamers!",
+      "A baby's heart beats up to 160 times a minute. Drummer of the family!",
+      "Newborns sleep up to 17 hours a day. Ultimate AFK champions.",
+      "Babies recognize music they heard in the womb. Pre-loaded playlists!",
+      "A baby can drink a quarter of its body weight in milk a day. Speedrun snacking!",
+      "Newborns have a reflex to grab anything that touches their palm. Loot collectors!",
+      "Babies cry without tears for weeks, then unlock the waterworks. DLC update!",
+      "A baby learns your face before almost anything else. You're the main character!",
+      "Newborns can feel you smiling through your voice. Charisma boost incoming!",
+      "Babies practice crying faces in the womb. Rehearsing for the big debut!",
+      "A baby's first laugh usually comes around 3 months. Achievement unlocked!",
+      "Pennsylvania is home to the oldest continuously running farmers market in the US.",
+      "Hershey, PA was literally built around a chocolate factory. Sweetest village ever!",
+      "Pennsylvania grows almost half of America's mushrooms. Fungi kingdom!",
+      "The Hershey's Kiss got its name from the 'kiss' sound the machine makes. Smooch!",
+      "Pennsylvania's Pymatuning Spillway has so many fish the ducks walk on them!",
+      "Centralia, PA has had an underground coal fire burning since 1962. Spooky quest!",
+      "Pennsylvania has 121 state parks, all free to enter. Open-world exploring!",
+      "The ice cream sundae may have been invented in Pennsylvania. Sweet legend!",
+      "Pennsylvania's elk herd is the largest in the northeastern US. Majestic bois!",
+      "Punxsutawney Phil has an official 'wife' groundhog named Phyllis. Aww!",
+      "Pennsylvania made the first auto service station in the world. Vroom history!",
+      "The Pennsylvania state fossil is a trilobite. Ancient little armored bug!",
+      "Bubble gum was invented in Philadelphia, PA. Pop and chew, adventurer!",
+      "Pennsylvania has more roads than almost any state. Everly's dad would be proud!",
+      "Little League baseball was founded in Williamsport, Pennsylvania. Play ball!",
+      "Pennsylvania's groundhogs can sleep through winter for 5 whole months. Mega nap!",
+      "A deer's antlers can grow up to an inch a day. Fastest-growing tissue around!",
+      "Honeybees beat their wings 200 times a second. Tiny farm helicopters!",
+      "A single cornstalk can have 800 kernels on one ear. Farm jackpot!",
+      "Cows can walk upstairs but not down. Funny farm fact!",
+      "A pig can run a 7-minute mile. Faster than you'd think, farmer!",
+      "Chickens can remember over 100 different faces. Sharp barnyard memory!",
+      "A farmer's scarecrow tradition is over 3,000 years old. Ancient quest item!",
+      "Goats have rectangular pupils, so they can see almost all around. 360 vision!",
+      "One cow makes enough milk for 24 people a day. Dairy hero!",
+      "Soil holds more carbon than all the world's plants and air combined. Save the dirt!",
+      "A barn owl can hear a mouse's heartbeat. Night-vision predator!",
+      "Farmers in Kim's family rise with the rooster. Dawn is the real boss battle!",
+      "The name Kelly means 'bright-headed' and 'warrior.' A name made for legends!",
+      "A controller has more computing power than the rockets that went to the moon!",
+      "The first video game was made in 1958. Pong came later and changed everything!",
+      "Save points exist in games because the best heroes know when to rest. Wise!",
+      "In old RPGs, grinding XP meant patience. Just like farming. And parenting!",
+      "The most important stat in any party isn't strength. It's teamwork. Always.",
+      "A 'critical hit' is rare and powerful. Like a good nap with a clean diaper!",
+      "Co-op mode is the best mode. Everything's better with your party. Family!",
+      "Every great RPG starts in a small village. Yours starts in Penn's Woods!",
+      "The rarest loot in any game is the people who love you. You found the jackpot!",
+      "Boss music exists to make you feel brave. Hum it during diaper changes!",
+      "Side quests are where the real fun hides. Go explore, little adventurer!",
+      "Leveling up isn't about being the strongest. It's about who you become. Aww!",
+      "A deer can leap a 7-foot fence from a standstill. Forest parkour champion!",
+      "Pennsylvania winters can dump over 100 inches of snow up north. Snow fort raid!",
+      "Baby giggles register on the same brain scans as winning a prize. Pure joy!",
+      "A newborn's grip can hold their whole weight. Tiny rock climber stats!",
+      "Maple syrup season in PA starts when days warm and nights still freeze. Sweet!",
+      "Fireflies light up Pennsylvania summers like nature's own pixel particles!",
+      "The world's first oil well was drilled in Titusville, PA in 1859. It kicked off the entire oil industry!",
+      "Titusville had just 250 people the year oil was struck. By 1865 it boomed to 10,000!",
+      "By the 1880s, Pennsylvania pumped about 85% of the WORLD'S oil. Energy kingdom!",
+      "ENIAC, the first general-purpose electronic computer, was built in Philadelphia in 1945. It weighed 30 tons!",
+      "Wanamaker's in Philadelphia was America's FIRST department store, opened in 1876.",
+      "Wanamaker's was the first store with electric lights (1878) and the first with a telephone (1879)!",
+      "The Declaration of Independence AND the Constitution were both signed in Philadelphia, PA.",
+      "Philadelphia was the capital of the United States from 1790 to 1800. PA ran the country!",
+      "The Liberty Bell cracked and was never rung the same again, but it still rings in our hearts!",
+      "Benjamin Franklin started America's first lending library in Philadelphia in 1731.",
+      "Franklin also founded the first volunteer fire company in America, right in Philly!",
+      "The first US Mint opened in Philadelphia in 1792. That's where coins were born in America!",
+      "Pennsylvania was founded by William Penn in 1681 as a land of religious freedom.",
+      "Gettysburg, PA was the site of the Civil War's biggest battle and Lincoln's famous speech.",
+      "The first computer bug was a real moth, found by programmers. The term stuck forever!",
+      "Hershey, PA was built from scratch by Milton Hershey as a town for his chocolate workers.",
+      "Milton Hershey gave away almost his whole fortune to found a school for kids in need. Hero!",
+      "The Ferris wheel's inventor, George Ferris, was an engineer trained in Pennsylvania!",
+      "The first baseball stadium made of steel and concrete was Forbes Field in Pittsburgh, 1909.",
+      "The Slinky was invented in Pennsylvania in 1943 when an engineer knocked over some springs!",
+      "Crayola crayons have been made in Easton, PA since 1903. Billions of colors of childhood!",
+      "Pittsburgh once made over half the nation's steel. It built America's skyscrapers and bridges!",
+      "The first daily newspaper in the US was printed in Philadelphia in 1784.",
+      "The banana split was invented in Latrobe, PA in 1904 by a 23-year-old pharmacist!",
+      "America's first zoo opened in Philadelphia in 1874. Animal adventures since way back!",
+      "Little League Baseball was founded in Williamsport, PA in 1939. Play ball, kids!",
+      "The first piano built in America was made in Philadelphia in 1775.",
+      "Punxsutawney Phil has 'predicted' the weather every Groundhog Day since 1887!",
+      "Bubble gum was invented in Philadelphia in 1928. The first batch was bright pink by accident!",
+      "Pennsylvania's name means 'Penn's Woods,' and it's still about 60% forest today.",
+      "The first auto service station in the world opened in Pittsburgh in 1913.",
+      "Betsy Ross is said to have sewn an early American flag in her Philadelphia home.",
+      "The ice cream soda was invented in Pennsylvania, fizzing its way into history!",
+      "Pennsylvania had the first commercial radio station, KDKA in Pittsburgh, broadcasting in 1920.",
+      "The teddy bear's stuffing and early toy industry had roots in Pennsylvania workshops.",
+      "Pennsylvania's Pine Creek Gorge drops nearly 1,000 feet: the Grand Canyon of the East!",
+      "The first Thanksgiving parade tradition and many holiday customs grew in PA towns.",
+      "Pennsylvania farmers helped feed the entire Revolutionary Army through brutal winters.",
+      "Valley Forge, PA is where Washington's army survived a freezing winter and grew stronger.",
+      "The first long-distance telephone line ran between Pennsylvania cities. Hello, history!",
+      "Babies are born with the ability to hold their breath underwater. Tiny mermaids!",
+      "A newborn's eyes are already 80% of their adult size. Big beautiful peepers!",
+      "Babies grow the fastest in spring. Little seedlings of the family!",
+      "A baby can recognize the theme song of a show heard in the womb. Pre-installed playlist!",
+      "Newborns turn toward the smell of their own parent. Built-in family radar!",
+      "Babies have a stronger sense of smell than adults. Super-sniffers!",
+      "A baby's brain forms a MILLION new connections every second early on. Whoa!",
+      "Newborns cry in the 'accent' of their parents' language. Tiny linguists!",
+      "Babies are born with a fear of only two things: falling and loud noises. Brave otherwise!",
+      "A baby can tell the difference between two languages just by watching faces. Genius!",
+      "Newborns have a 'rooting reflex' that turns their head toward a cheek touch. Adorable!",
+      "Babies dream so much that half their sleep is dream sleep. Tiny epic adventures!",
+      "A baby's heart started beating around 6 weeks after conception. Early little drummer!",
+      "Newborns can grip so hard they could (briefly) hold their own weight. Mini gymnasts!",
+      "Babies prefer the smell of vanilla and bananas. Tiny dessert fans!",
+      "A baby's first social smile around 6 weeks is aimed right at YOU. Heart melt!",
+      "Newborns can't taste salt until about 4 months. Save the fries for later!",
+      "Babies are born knowing how to suckle but learn everything else. Quick studies!",
+      "A baby's kneecaps start as soft cartilage and harden over years. Wobble-proof at first!",
+      "Newborns lose their startle reflex around 4 months. Then they're cool as cucumbers!",
+      "Babies blink only 1-2 times a minute. Adults blink 10-20. Tiny staring champs!",
+      "A baby can recognize your voice immediately at birth. You're the headliner!",
+      "Newborns sometimes hold their breath when they cry hard, then unleash the BIG wail!",
+      "Babies have taste buds on the sides AND back of the tongue, not just the top!",
+      "A baby's giggle uses the same happy brain spots as winning a game. Pure jackpot joy!",
+      "A baby will sleep through a rock concert but wake up if you set them down 1mm too fast.",
+      "Babies save their biggest blowout for the exact moment you put on a clean outfit.",
+      "A newborn can hold a poop hostage until 30 seconds after a fresh diaper. Negotiators!",
+      "Babies will refuse a $40 toy to play with the cardboard box it came in. Wise investors!",
+      "A baby's favorite food is whatever is currently in YOUR mouth.",
+      "Babies fall asleep in the car, then reboot the instant the engine turns off. Rude!",
+      "A diaper can hold a surprising amount. You will learn this at the worst possible time.",
+      "Babies think peekaboo is the funniest thing humans have ever invented. They're right.",
+      "A baby will scream at bath time, then refuse to ever leave the bath. Make it make sense.",
+      "Newborns sneeze the tiniest sneezes, and it's medically impossible not to say 'aww.'",
+      "A baby's grip on your hair has the strength of a small mountain climber.",
+      "Babies practice their angry faces in the womb. They come fully loaded with attitude.",
+      "A baby will ignore 100 toys to chew on a TV remote or a single sock.",
+      "Spit-up always lands on the one shirt you can't easily change out of. Every time.",
+      "Babies have a sixth sense for the exact moment you sit down to eat. Then: WAAAH!",
+      "A newborn can projectile spit-up with the range of a garden hose. Impressive, honestly.",
+      "Babies clap for themselves before they can do literally anything. Confidence icons!",
+      "A baby will laugh hysterically at you ripping paper. Cheapest entertainment on Earth!",
+      "Babies fight sleep like it's a final boss. They lose. They're furious about it.",
+      "A baby's burp can be louder than a grown adult's. Tiny body, mighty acoustics!",
+      "Newborns make more facial expressions in a minute than most people do in a day.",
+      "A baby will only fall asleep if you're holding them in one specific, exhausting position.",
+      "Babies discover their own feet and treat it like winning the lottery. Toes! Amazing!",
+      "A baby can go from giggling to sobbing to giggling in under 4 seconds. Mood: weather.",
+      "Newborns grunt, squeak, and snort in their sleep like tiny barnyard animals. Adorable!",
+      "A baby will refuse vegetables, then eat a fistful of floor lint. Standards are flexible.",
+      "Babies always poop right after a bath. It's basically a law of physics.",
+      "A baby's first laugh will make grown adults act like complete fools to hear it again.",
+      "Newborns can scream at a pitch that bypasses your ears and hits your soul directly.",
+      "A baby will stay awake all day, then party at 3am. Tiny nocturnal DJ!",
+      "Babies will let go of a toy, look devastated it's gone, then forget within seconds.",
+      "A diaper blowout always happens 5 minutes into a 40-minute car ride. Cosmic timing!",
+      "Babies think your phone is the most delicious object in the entire house.",
+      "A baby's hiccups can last forever and somehow not bother them at all. Built different!",
+      "Newborns yawn so big their whole face disappears. Maximum cuteness overload!",
+      "A baby will nap perfectly until you try to transfer them to the crib. Ninja senses!",
+      "Babies drool enough in one day to fill a small swimming pool. Slobber economy booming!",
+      "A baby's smile after a giant burp is the most satisfied face in all of nature.",
+      "Newborns can fart loud enough to startle themselves, then cry about it. Iconic.",
+      "A baby will fall asleep mid-bite, mid-cry, or mid-crawl. No warning. Just: offline."
+    ];
+    var evLines = [
+      "Hi, I'm Everly! Twirl with me, but DON'T mention diapers!",
+      "EEEEEEEE! That was my banshee scream. Did you hear it?",
+      "I refuse to poop. Pooping is for peasants.",
+      "Do you like my sparkly tiara? It's level 100 fabulous.",
+      "I screamed so loud the deer ran away. Oops. Sorry, Eldon!",
+      "I'm girly AND a warrior princess. Deal with it.",
+      "Pooping? No thank you. I am far too pretty for that.",
+      "*deep breath* AAAAAHHHH! Just a casual banshee warm-up.",
+      "I want everything PINK. Pink castle, pink dragon, pink snacks!",
+      "I held my poop for the kingdom. You're welcome.",
+      "My scream can shatter glass and grumpy moods. Power!",
+      "Eldon brought mud into the castle. I screamed. Justice served.",
+      "I'm wearing my fanciest dress to hunt... butterflies only!",
+      "Banshee mode: ACTIVATED. Cover your ears, party!",
+      "I do NOT poop on command. I poop on my royal schedule. Never.",
+      "Twinkle twinkle, I'm the sparkliest hero in Penn's Woods!",
+      "My hair bow gives me +20 charisma. It's basically armor.",
+      "I let out a scream so big a groundhog predicted EARLY spring!",
+      "Diaper change?? How DARE you. I am a delicate flower.",
+      "I painted my nails with flower juice. So glam, so woodsy.",
+      "AAAH! ... sorry, I saw a spider. Banshee reflexes!",
+      "I'm the prettiest princess in all of Pennsylvania, obviously.",
+      "Pooping is gross and I will scream about it. Loudly.",
+      "I made a daisy crown to match my sparkly boots!",
+      "My scream scared a bear once. Eldon was VERY impressed.",
+      "I want a tea party in the forest. Bring the fancy cups!",
+      "I'm holding it. Forever. I shall never poop again. The end.",
+      "Glitter is my battle paint. Fear my fabulous fury!",
+      "When I cry, windows rattle. Banshee blood, baby!",
+      "Eldon, did you bring me a flower? You'd better have.",
+      "I screamed at bath time. The whole valley heard. Iconic.",
+      "I'm a girly warrior. My sword is pink and covered in gems.",
+      "No poops today. Or tomorrow. I've decided. Royal decree!",
+      "Look at my twirl! Did you see the sparkles fly?!",
+      "My banshee wail can wake Punxsutawney Phil from a nap!",
+      "I dressed the deer in a flower crown. They love me.",
+      "Ewww, a stinky diaper?! NOT ON MY WATCH. *screeches*",
+      "I'm fancy, I'm fierce, and I'm allergic to pooping.",
+      "I scream-sang a lullaby. It was... loud. And beautiful.",
+      "Pink ribbons, pink boots, pink everything. Princess approved!",
+      "I held my breath AND my poop. Champion of self-control!",
+      "My tiara fell off and I screamed. Drama is my talent.",
+      "Tea, twirls, and tantrums. That's the Everly special!",
+      "I scared the chickens with my banshee voice. Tee hee!",
+      "I'm too glam to poop. It simply does not fit my brand.",
+      "I picked the prettiest flower in Pennsylvania, just for me.",
+      "When I'm mad, mountains tremble. Banshee princess power!",
+      "Eldon got mud on my dress. The scream was HEARD in Ohio.",
+      "I do NOT do diapers. I do glitter and grandeur.",
+      "Watch my pirouette! Even the owls are clapping!",
+      "My scream cleared the whole forest. More space for twirling!",
+      "I refuse to be changed. I prefer to remain mysteriously regal.",
+      "I made the deer bow to me. Then I gave them snacks. Mercy!",
+      "Pooping is SO undignified. I shall hold it like a true queen.",
+      "I'm wearing three crowns today. One isn't enough for me.",
+      "AAAAH! A leaf touched me! Banshee response: maximum!",
+      "I scream-laughed and a flock of birds did a loop. Magic!",
+      "No, I will NOT use the potty. I am a forest fairy queen.",
+      "My sparkly cape doubles as a cozy royal blanket!",
+      "I out-screamed a thunderstorm once. The storm apologized.",
+      "I want my hair braided with flowers and tiny bells!",
+      "Diapers? Disgusting. I float above such mortal concerns.",
+      "I twirled so fast I made my own little glitter tornado!",
+      "My banshee shriek made Eldon drop his deer-tracking map. Ha!",
+      "I'm holding it. The poop shall not win. Royal willpower!",
+      "I dressed in pink to match the rhododendrons. Iconic match!",
+      "My scream is my superpower. Use responsibly. (I don't.)",
+      "I refuse bath time AND potty time. I am a glittery rebel.",
+      "I made a throne out of flowers in the forest. Bow, peasants!",
+      "AAAAAH! Eldon snuck up on me. He's lucky I'm fabulous.",
+      "I want a pink pony, a pink castle, AND a pink banshee crown.",
+      "I screamed so the deer would know who's queen of the woods.",
+      "Pooping ruins my whole aesthetic. Hard pass, forever.",
+      "My twirl knocked over Eldon's hay bale tower. Worth it!",
+      "I'm a delicate princess with the lungs of a dragon. Surprise!",
+      "I refuse to be undignified. The diaper is my mortal enemy.",
+      "My banshee song can be heard three Pennsylvania counties away!",
+      "I picked flowers, screamed at a bee, and twirled. Busy day!",
+      "I'm too cute to poop. It's a confirmed scientific fact. (No.)",
+      "My sparkles blinded a squirrel. It's fine, it's an honor!",
+      "I want the fanciest tea in all of Penn's Woods, please!",
+      "AAAAH! ... false alarm, just a butterfly. Banshee on standby.",
+      "I made Eldon carry my flower crown like a royal guard.",
+      "Holding my poop is my greatest quest. I am undefeated.",
+      "I twirled past the deer and they gave me a standing ovation!",
+      "Pink dress, pink crown, pink fury. Fear me, gently!",
+      "My scream is the loudest in the whole Kelly kingdom!",
+      "No poops, only pirouettes. That's the royal rule today.",
+      "I sparkled so hard the sun got jealous. Sorry, sun!",
+      "I'm a banshee princess and pooping is BENEATH me. Literally never.",
+      "Eldon hunts deer. I hunt the perfect twirl AND avoid the potty!",
+      "I love you to the sparkliest star and back, my brave hero!",
+      "Roll the dice, do a twirl, scream a little. The Everly way!",
+      "I screamed at the bath water. It was 2 degrees too cold. Standards!",
+      "I am a princess, a banshee, AND a flower. Triple threat, no poops!",
+      "[[SECRET]]Psst... my mommy fixes tiny humans at the kids' doctor place. She's the BEST healer!",
+      "[[SECRET]]My daddy is the KING of trucks and safety. Nobody bosses the highways like him!",
+      "[[SECRET]]We live in Shippensburg. It's the prettiest village in all of Penn's Woods!",
+      "[[SECRET]]Secret: I was born June 9th, 2026. That makes me the OLDEST. By four whole days. Respect!",
+      "[[SECRET]]Mommy keeps all the little kids healthy. Then she comes home to her princess. Me!",
+      "I respawned from my nap fabulous AND furious. Banshee mode: ON!",
+      "I refuse to poop. It's not in my character build. I'm pure charisma!",
+      "EEEEEEE! That scream was a critical hit. 9,999 sparkle damage!",
+      "I'm the princess class: high glam, high volume, zero potty.",
+      "My tiara is legendary loot. Do NOT touch it, peasant.",
+      "I screamed so loud I paused Daddy's video game. Power move!",
+      "Pooping? In THIS outfit? Absolutely not. Hard pass.",
+      "I twirled into a glitter tornado and won the boss fight. Flawless!",
+      "My banshee wail has its own boss music. Bow down!",
+      "I hoarded all the pink toys like rare drops. Mine. All mine!",
+      "I cried because my bow was crooked. Tragedy! Drama queen achievement!",
+      "I out-screamed the vacuum. Final boss defeated.",
+      "No poops today. I'm grinding the 'fabulous' skill tree instead.",
+      "I sparkled so hard I blinded a deer. It's an honor, deer.",
+      "I demand to be carried like royalty. Walking is for NPCs.",
+      "My scream unlocked a secret level. It's called 'bedtime chaos.'",
+      "I refuse the potty quest. I decline. Quest abandoned forever!",
+      "I'm a glittery tank: high defense, full sparkle, never poops.",
+      "I screamed, Eldon dropped his controller. Teamwork? Nope. Domination!",
+      "My pout does 5,000 guilt damage. Super effective on Daddy!",
+      "I collected 10 hair bows like a true loot goblin. Pretty hoard!",
+      "I twirled past Kim's farmer family and they all clapped. Iconic!",
+      "Banshee combo: scream, sparkle, refuse diaper. Triple finisher!",
+      "I'm too pretty to poop. It's a confirmed stat. (It is not.)",
+      "I screamed at bath time, then refused to leave. Make it make sense!",
+      "My dress has more sparkles than the night sky. I counted. Twice.",
+      "I rage-quit the high chair. The food was NOT fabulous enough.",
+      "I demand a glitter throne and a pink dragon mount. Now, please!",
+      "My scream echoed across Penn's Woods. The forest knows my name!",
+      "I refuse to nap, then pass out mid-twirl. Dramatic exit!",
+      "I'm the rarest princess loot in the whole Kelly kingdom!",
+      "I screamed with joy AND rage at the same time. Multiclassing!",
+      "Pooping is a peasant quest. I only do royal activities. Hmph!",
+      "I booped Eldon's nose and screamed. He cried. Victory dance!",
+      "My banshee wail leveled up. New ability: shatter naptime!",
+      "I wore three crowns to assert dominance. One is for napping.",
+      "I refuse to be changed. I prefer to remain mysteriously regal.",
+      "I sparkled at the Packers game and stole the whole show. Go Pack... ME!",
+      "I screamed, twirled, and refused the potty. Perfect run. No deaths!",
+      "I love you to the sparkliest boss castle and back, brave hero!",
+      "I waited until the FRESH diaper to poop. A queen times her moves.",
+      "I blew out my diaper in my prettiest dress. The drama! The horror! The legend!",
+      "I screamed at the broccoli until it left the kingdom. Banshee diplomacy!",
+      "I fell asleep in the car, then woke up FURIOUS the second we parked. How dare you.",
+      "I clapped for myself for sneezing. I'm just naturally talented, okay?",
+      "I refused my fancy toy to chew on a sock. The sock spoke to me.",
+      "I cried because my own foot touched my face. Betrayal! Outrage!",
+      "I spit up perfectly onto Mommy's only clean shirt. Aim like a princess archer!",
+      "I giggled at peekaboo for an HOUR. Best invention in all the land!",
+      "I pooped right after my bath. It's tradition. It's royal. It's inevitable.",
+      "I screamed so loud at 3am the whole castle woke. Banshee party hours!",
+      "I discovered my toes and screamed with JOY. Ten little sparkly treasures!",
+      "I held my poop hostage during the diaper change. Hand over the snacks!",
+      "I yawned so big my whole face vanished. Then I screamed. Balance!",
+      "I stole a fry off Daddy's plate. MY plate now. Everything is my plate.",
+      "I cried at the vegetables, then ate a crumb off the floor. I have STANDARDS.",
+      "I refused to nap, then passed out mid-twirl. A dramatic exit, as always.",
+      "I drooled a sparkly river down my chin. Glitter saliva, basically. Iconic.",
+      "I clapped, then immediately fell over. Worth it. The crowd went wild.",
+      "I screamed at the bath, then refused to get OUT of the bath. Royal logic!",
+      "My burp echoed through the castle. The court was stunned. I curtsied.",
+      "I went from giggling to sobbing to giggling in 4 seconds. Mood: glitter storm.",
+      "I chewed Daddy's phone. It's mine now. Everything shiny is mine.",
+      "I blew a spit bubble fit for a princess. It popped. I screamed. Tragedy!",
+      "I fought my nap like a final boss. I lost. I am NOT happy about it.",
+      "I startled myself with my own toot, then blamed Eldon. Banshee justice!",
+      "I let go of my toy, looked heartbroken, then forgot it existed. Fickle queen!",
+      "I pooped exactly 5 minutes into the car ride. My timing is impeccable.",
+      "I made 50 faces in one minute. Each more fabulous than the last!",
+      "I love you bigger than my biggest banshee scream, and that's HUGE!"
+    ];
+    var elLines = [
+      "I respawned from my nap with full HP and an empty diaper bar. Time to refill it!",
+      "My poop did 9,999 damage to Dad's nose. Critical hit!",
+      "I'm grinding the 'sit up' skill tree. Currently level 1. Wobbling.",
+      "Diaper blowout = boss fight. Dad lost. I am the final boss.",
+      "I mashed every button on the controller and somehow paused Dad's game. Pro gamer baby!",
+      "Mom says Kim's whole family are farmers. So I come from a long line of legends!",
+      "I tooted and called it my 'special attack.' Super effective!",
+      "I drooled on the controller. It's a wireless mess now. GG.",
+      "Loading my nap... loading... loading... NOPE. Quest abandoned!",
+      "I ate Grandpa's farm dirt. Tastes like the family bloodline. Mmm, heritage!",
+      "My burp combo hit a 3x multiplier. New high score!",
+      "I cried until someone handed me the TV remote. Negotiation: won.",
+      "Kim's family grows everything. Me? I grow diapers. Full ones.",
+      "I'm a tank class: high defense, slow movement, leaks everywhere.",
+      "I spit up right on the 'New Game' screen. Off to a great start!",
+      "I pulled a stealth poop during co-op snuggles. Sneak attack!",
+      "Every farmer in Kim's family woke at dawn. So did I. To scream.",
+      "I rage-quit tummy time after 4 seconds. Too hard. 0 stars.",
+      "My diaper is a status effect: 'Poisoned.' Everyone's affected.",
+      "I beat Dad at staring contests. He blinked. I drooled. Victory!",
+      "I farmed XP all night by not sleeping. Mom did NOT get the loot.",
+      "I chewed the game cartridge. It's saved now. In my mouth.",
+      "Kim's family harvests crops. I harvest snacks off the floor.",
+      "I unlocked a new skill: throwing food off the high chair. AOE attack!",
+      "I pooped during the cutscene. Couldn't skip it. Sorry, party.",
+      "My drool meter is full. Releasing it now. Splash damage!",
+      "I'm the DLC the family didn't know they needed. Surprise content!",
+      "I crawled three feet then forgot the mission. Side quest failed.",
+      "Tractor go vroom = my favorite RPG mount. Kim's family approved!",
+      "I spit out broccoli and gained the 'Picky Eater' achievement.",
+      "I cried, leveled up my lungs, and unlocked 'Banshee Brother.' Like Everly!",
+      "My nap is on a 4-hour cooldown. And I refuse to use it.",
+      "I farmed in the dirt like Kim's family, then ate the harvest. Raw. Mud.",
+      "I clutched the bottle like it was a legendary drop. Mine. MINE.",
+      "I pooped, drooled, AND spit up. Triple combo finisher! Flawless victory!",
+      "Mom's whole crew are farmers. I'm just here doing farmer cardio: screaming.",
+      "I pressed start on bath time, then immediately pressed escape.",
+      "I gnawed the wooden spoon like a true farm-bred warrior. Heritage tastes good!",
+      "My diaper change has a quick-time event. I never let Dad win it.",
+      "I'm collecting drool stains like trading cards. Got a rare one today!",
+      "Kim's family plants seeds. I plant... surprises. In my pants.",
+      "I aggroed the dog with one giggle. Now he follows me everywhere. Pet acquired!",
+      "I fell asleep holding a toy tractor. Even my dreams are farmer-coded.",
+      "I respawned three times during one nap. Death by hiccup.",
+      "I dropped my pacifier off the high chair 11 times. Endless quest!",
+      "My poops are limited-edition. Each one rarer and smellier than the last.",
+      "I'm speedrunning teething. Current strategy: chew everything, cry often.",
+      "Kim's family are farming legends. I'm the chosen one. Of chaos.",
+      "I booped the cat, screamed with joy, then pooped. Best combo all week!",
+      "I main the 'baby' class. Overpowered. Please nerf. (No.)",
+      "I pooped so loud the deer fled the forest. Warrior salute!",
+      "I drooled a river. Call it Lake Eldon. Population: slobber.",
+      "I filled my diaper mid-nap and didn't even wake up. Pro move!",
+      "I spit up on Dad's hunting jacket. Marked my territory!",
+      "Burped like a thunderclap. The whole barn heard it. Respect!",
+      "I pooped in the bath. Strategic. Now nobody can find me.",
+      "My diaper is a weapon of mass destruction. Be afraid.",
+      "I sneezed and scared myself. Then cried. Then forgot why.",
+      "I ate my own foot. It tasted like victory. And foot.",
+      "Blowout diaper achievement unlocked. Up the BACK. Legendary!",
+      "I drooled on the farm dog. We're blood brothers now.",
+      "I pooped right after a fresh diaper. Timing is my superpower.",
+      "I cried for 20 minutes. The reason? A leaf. Worth it.",
+      "I grabbed Dad's beard and would NOT let go. Strength stat: max.",
+      "I spit out my peas like a tiny catapult. Siege warfare!",
+      "My poops smell like the apocalypse. You're welcome, family.",
+      "I fell asleep mid-bottle with milk on my face. Battle-worn.",
+      "I rolled over for the first time and looked SO smug about it.",
+      "I pooped during the Packers game. Even I was disappointed.",
+      "I drooled through three bibs before lunch. Slobber champion!",
+      "I screamed because Everly screamed. Solidarity, sister!",
+      "I tooted so hard I startled the cat. Forest warrior, baby edition.",
+      "I put EVERYTHING in my mouth. Rocks, socks, the remote. Snack quest!",
+      "My diaper could clear a deer stand at 50 yards. Stealth ruined.",
+      "I cried, then giggled, then cried. Mood: chaos. Mood: baby.",
+      "I pooped in my onesie right before church. Heavenly timing.",
+      "I blew a spit bubble so big it deserved a trophy.",
+      "I refuse to nap, then fall asleep face-first in the mashed potatoes.",
+      "I yanked Mom's hair and laughed like a tiny villain. Sorry, Mom!",
+      "My burp echoed off the barn. The herd applauded.",
+      "I pooped, Dad gagged, the deer escaped. Total victory for me!",
+      "I drooled on my own hunting bow. Slimed it. It's mine now.",
+      "I cried because my sock came off. Tragedy. True heartbreak.",
+      "I spit up in a perfect arc. Olympic-level distance, honestly.",
+      "I held my poop until the EXACT moment of the new diaper. Genius.",
+      "I gummed Dad's camo hat. Tastes like adventure and sweat.",
+      "I farted in the carrier and blamed the dog. Crime: committed.",
+      "I cried at bath time, then refused to leave the bath. Make it make sense!",
+      "I pooped so big Dad called it 'the big buck of diapers.'",
+      "I drooled, sneezed, AND pooped in one heroic combo move. Triple kill!",
+      "I grabbed my own toes and discovered they're delicious.",
+      "My diaper change is a 4-person operation. I do NOT cooperate.",
+      "I spit out medicine like a tiny dragon. No thank you, peasant!",
+      "I pooped twice during one episode of farm cartoons. Encore!",
+      "I gnawed on a wooden spoon like a true mountain warrior.",
+      "[[SECRET]]Psst... my mom is a farmer's daughter who does FIVE THOUSAND projects a day. Unstoppable!",
+      "[[SECRET]]My dad's an engineer AND the greatest deer slayer in all of Dillsburg's 20 secret acres.",
+      "[[SECRET]]Secret: I was born June 13th, 2026. Four days after Everly. The forest welcomed me!",
+      "[[SECRET]]My mom can garden, cook, clean, and build all at once. Stay-at-home QUEEN!",
+      "[[SECRET]]In our Dillsburg woods, no buck is safe from my engineer-hunter dad. Legend!",
+      "I pooped mid-boss-fight and Dad lost the controller. We both lost.",
+      "My diaper blowout was an AOE attack. Cleared the whole room!",
+      "I'm grinding teething XP. Strategy: chew Dad's TV remote.",
+      "I drooled on the save file. It's autosaved now. In slobber.",
+      "My fart had a 4x combo multiplier. New family record!",
+      "I farmed the floor for snacks like Kim's family farms crops. Heritage!",
+      "I rage-quit tummy time. Too hard. Refund my nap, please.",
+      "I main the 'baby' class. Unkillable. Constantly leaking. Balanced? No.",
+      "My poop did fall damage to Dad's nose. Brutal hit!",
+      "I crawled two feet, forgot the quest, and ate a sock. Side quest!",
+      "I respawned from my nap with a full diaper bar. Time to empty it!",
+      "Kim's family grows corn. I grow surprises. Pungent ones.",
+      "I clutched the bottle like legendary loot. Do not steal my treasure!",
+      "I mashed every button and somehow ordered Dad a new tractor. Oops!",
+      "My burp echoed off the barn. The cows gave a standing ovation.",
+      "I spit up in a perfect arc. Olympic distance, frankly impressive.",
+      "I dropped my pacifier 14 times. Endless fetch quest for Mom!",
+      "Diaper change = quick-time event. I never let Dad win it.",
+      "I aggroed the farm dog with one giggle. Loyal companion acquired!",
+      "I ate Grandpa's dirt. Tastes like the Kelly-farmer bloodline. Yum!",
+      "I pooped during the cutscene. Couldn't skip it. Sorry, party.",
+      "My nap has a 4-hour cooldown and I refuse to cast it.",
+      "I'm the DLC this family didn't know they needed. Surprise content!",
+      "I gnawed a wooden spoon like a true farm-warrior. Tastes legendary!",
+      "I screamed because Everly screamed. Co-op banshee mode unlocked!",
+      "I tooted on the tractor and blamed the dog. Crime: committed.",
+      "My drool meter overflowed. Splash damage to the whole couch!",
+      "I farmed XP all night by not sleeping. Mom got zero loot. Sorry, Mom!",
+      "I chewed the game cartridge. It's saved now. Permanently. In me.",
+      "I pulled a stealth poop during snuggles. Sneak attack landed!",
+      "I'm a tank class: high defense, slow crawl, leaks from all sides.",
+      "I booped the cat, screamed with joy, then pooped. Triple combo!",
+      "I fell asleep clutching a toy tractor. Farmer-coded even in dreams.",
+      "My poops are limited edition. Each rarer and smellier than the last!",
+      "I beat Dad in a staring contest. He blinked, I drooled. Victory!",
+      "I farted so loud the deer left the forest. Stealth: ruined. Worth it!",
+      "Kim's whole family are farmers. I'm the chosen one... of chaos.",
+      "I threw food off the high chair. AOE splash. Dog approves!",
+      "I pooped, drooled, and spit up in one move. Flawless victory!",
+      "I love you to Lambeau Field and the cornfields and back, big sis!",
+      "I saved my biggest blowout for right after Dad said 'he's finally clean.' Boss timing!",
+      "I fell asleep in the car, then rebooted the SECOND the engine stopped. Lag detected!",
+      "I clapped for myself for burping. Achievement unlocked: noise!",
+      "I refused the fancy toy for the cardboard box. The box has more lore.",
+      "I chewed the TV remote like a true forest warrior. Tastes like victory.",
+      "I projectile spit-up with garden-hose range. New family record!",
+      "I cried at peekaboo, then laughed, then cried. Emotional speedrun!",
+      "I held my poop until the new diaper, then released it. Sneak attack landed!",
+      "I discovered my feet and treated it like legendary loot. TOES! Epic drop!",
+      "I pooped right after bath. It's basically a law of physics, Dad.",
+      "I partied at 3am like a tiny nocturnal DJ. Mom got zero loot. Sorry, Mom!",
+      "I ate floor lint after refusing veggies. Standards: flexible. Bloodline: farmer.",
+      "I fought sleep like a final boss. I lost. I rage-quit into a nap.",
+      "My burp was louder than Dad's. Tiny body, MASSIVE acoustics. Respect!",
+      "I startled myself with my own fart, then cried about it. Iconic warrior moment.",
+      "I stole food off Dad's plate. It's MY plate now. I claimed it. Conquest!",
+      "I yawned so big my whole face disappeared. Then I needed a nap from yawning.",
+      "I drooled enough to fill a pond. Kim's family farms it; I farm slobber.",
+      "I napped perfectly until the crib transfer. Ninja senses: maximum!",
+      "I chewed Dad's phone. Delicious. Most legendary item in the house.",
+      "I went giggle-sob-giggle in 4 seconds flat. Mood: weather. Chaotic weather.",
+      "I clapped, then toppled over like a felled tree. Timber! Worth it!",
+      "I screamed at bath time, then refused to leave the bath. Warrior logic!",
+      "I let go of my toy, looked devastated, then forgot. Goldfish memory, baby!",
+      "I pooped 5 minutes into the car ride. Cosmic timing. Dad was thrilled. (No.)",
+      "I farted loud enough to scare the dog AND myself. Double startle combo!",
+      "I made more faces in a minute than Dad makes all day. Expression grind: maxed!",
+      "I hiccupped for an hour and didn't even care. Built different. Farmer tough!",
+      "I fell asleep mid-crawl. No warning. Just went offline. System nap initiated.",
+      "I love you to the cornfields and back, big sis, even when you scream at me!"
+    ];
+
+    var fact = document.getElementById('fact');
+    var die = document.getElementById('die');
+    var rollbtn = document.getElementById('rollbtn');
+    var countEl = document.getElementById('count');
+    var panel = document.querySelector('.panel');
+    var dots = ['d1','d2','d3','d4','d5'].map(function(id){return document.getElementById(id);});
+    var rolls = 0, busy=false, last=-1, secretsFound=0;
+
+    var SECRET='[[SECRET]]';
+    function isSecret(s){ return s.indexOf(SECRET)===0; }
+    function clean(s){ return isSecret(s) ? s.slice(SECRET.length) : s; }
+
+    /* ===== LEGENDARY LAUGHS (caught from comets) ===== */
+    var legends=[
+      "EVERLY unleashes the Legendary Banshee Cackle: 'MWA HA HEEEEE!' Windows everywhere tremble!",
+      "ELDON lets out the Forest Warrior's Belly Laugh: 'BWAHAHA!' Even the deer chuckle along!",
+      "The whole Kelly family laughs at once. The sound echoes across all of Penn's Woods!",
+      "ELDON giggles so hard mid-poop that it becomes a LEGENDARY combo laugh. Flawless!",
+      "EVERLY laughs in pure sparkle: 'TEE HEE HEEE!' Glitter rains from the sky!",
+      "A baby snort-laugh so powerful it levels up the entire party. +999 joy!",
+      "ELDON laughs at his own fart. It's the funniest thing in the universe. To him.",
+      "EVERLY and ELDON laugh together. Co-op laughter: the rarest drop of all!",
+      "Grandpa's farm laugh joins in. Three generations of Kelly giggles unite!",
+      "The Legendary Hiccup-Laugh: ELDON can't stop. Nobody can. The forest is in stitches!",
+      "EVERLY laughs so regally it sounds like tiny royal trumpets. Fancy AND funny!",
+      "A laugh so contagious the cat, the dog, and the chickens all join in. Barnyard chorus!"
+    ];
+    var totalLegends=legends.length;
+
+    /* ===== COLLECTION + EXP/LEVELING (localStorage) ===== */
+    var STORE_KEY='everlyEldonCollection_v3';
+    var collected={facts:{},ev:{},el:{},legend:{}};
+    var totals={facts:facts.length,ev:evLines.length,el:elLines.length,legend:legends.length};
+    var totalSecrets=0;
+    [facts,evLines,elLines].forEach(function(a){a.forEach(function(s){if(isSecret(s))totalSecrets++;});});
+
+    // EXP economy: each character (and the Chronicle) has exp + level. Levels 1..20.
+    var xp={facts:{exp:0,lv:1},ev:{exp:0,lv:1},el:{exp:0,lv:1}};
+    var MAX_LV=20;
+    // EXP needed to go from level L to L+1 (gentle curve, always reachable)
+    function expForLevel(L){ return 8 + (L-1)*4; }   // LV1->2 = 8, LV2->3 = 12, ...
+
+    function loadCollection(){
+      try{
+        var raw=localStorage.getItem(STORE_KEY);
+        if(raw){var d=JSON.parse(raw);
+          collected.facts=d.facts||{};collected.ev=d.ev||{};collected.el=d.el||{};collected.legend=d.legend||{};
+          rolls=d.rolls||0;
+          if(d.xp){ ['facts','ev','el'].forEach(function(k){ if(d.xp[k]){xp[k].exp=d.xp[k].exp||0;xp[k].lv=d.xp[k].lv||1;} }); }
+        }
+      }catch(e){}
+    }
+    function saveCollection(){
+      try{localStorage.setItem(STORE_KEY,JSON.stringify({
+        facts:collected.facts,ev:collected.ev,el:collected.el,legend:collected.legend,rolls:rolls,xp:xp
+      }));}catch(e){}
+    }
+    function countFound(cat){var n=0;for(var k in collected[cat])if(collected[cat][k])n++;return n;}
+    function countSecretsFound(){
+      var n=0;
+      [['facts',facts],['ev',evLines],['el',elLines]].forEach(function(pair){
+        var cat=pair[0],arr=pair[1];
+        for(var k in collected[cat]){ if(collected[cat][k] && isSecret(arr[+k])) n++; }
+      });
+      return n;
+    }
+    function pct(a,b){return b?Math.round(a/b*100):0;}
+
+    var charLabel={facts:'CHRONICLE',ev:'EVERLY',el:'ELDON'};
+    // Award EXP to a character; handles multi-level-ups, popups, and the banner.
+    function awardExp(cat, amount, srcEl, isNew){
+      var st=xp[cat];
+      if(st.lv>=MAX_LV){ st.exp=expForLevel(MAX_LV); renderCard(cat); return; }
+      st.exp += amount;
+      var leveled=0;
+      while(st.lv<MAX_LV && st.exp>=expForLevel(st.lv)){ st.exp-=expForLevel(st.lv); st.lv++; leveled++; }
+      if(st.lv>=MAX_LV){ st.exp=Math.min(st.exp,expForLevel(MAX_LV)); }
+      saveCollection();
+      renderCard(cat);
+      // floating popup near the source element
+      if(srcEl) expPopup(srcEl, (isNew?'NEW! +':'+')+amount+' EXP', isNew);
+      if(leveled){
+        var fill=document.getElementById('fill-'+cat);
+        if(!reduce&&fill){fill.classList.remove('flush');void fill.offsetWidth;fill.classList.add('flush');}
+        showLevelUp(charLabel[cat], st.lv);
+      }
+      updateMetaLines();
+    }
+    function awardAll(amount, srcEl){
+      ['facts','ev','el'].forEach(function(c){ awardExp(c, amount, null, false); });
+      if(srcEl) expPopup(srcEl, '+'+amount+' ALL!', true);
+    }
+
+    function renderCard(cat){
+      var st=xp[cat];
+      var need=expForLevel(st.lv);
+      var atMax=st.lv>=MAX_LV;
+      document.getElementById('lv-'+cat).textContent=st.lv;
+      document.getElementById('fill-'+cat).style.width=(atMax?100:pct(st.exp,need))+'%';
+      document.getElementById('bar-'+cat).textContent=atMax?('MAX • '+st.exp+' EXP'):(st.exp+' / '+need+' EXP');
+      document.getElementById('toward-'+cat).textContent=atMax?'★ MAX LEVEL ★':((need-st.exp)+' to LV '+(st.lv+1));
+    }
+    function updateMetaLines(){
+      var fG=countFound('legend');
+      document.getElementById('coll-secret').textContent='\u2728 Secrets found: '+countSecretsFound()+'/'+totalSecrets+' \u2728';
+      document.getElementById('coll-legend').textContent='\u2604 Legendary laughs caught: '+fG+'/'+totalLegends+' \u2604';
+      var maxed=(xp.facts.lv>=MAX_LV&&xp.ev.lv>=MAX_LV&&xp.el.lv>=MAX_LV);
+      document.querySelector('.collection-panel').classList.toggle('complete-glow',maxed);
+      document.querySelector('.collection-panel .questline').textContent=maxed?'\uD83C\uDFC6 PARTY MAXED OUT! \uD83C\uDFC6':'\u2694 PARTY STATUS \u2694';
+    }
+    function updateCollectionUI(){
+      renderCard('facts'); renderCard('ev'); renderCard('el');
+      updateMetaLines();
+    }
+
+    // floating +EXP popup
+    function expPopup(srcEl, text, big){
+      if(reduce||!srcEl) return;
+      var r=srcEl.getBoundingClientRect();
+      var p=document.createElement('div');
+      p.className='exp-pop'+(big?' newbig':'');
+      p.textContent=text;
+      p.style.left=(r.left+r.width/2)+'px';
+      p.style.top=(r.top+8)+'px';
+      p.style.transform='translateX(-50%)';
+      p.style.animation='expfloat 1.2s ease forwards';
+      document.body.appendChild(p);
+      setTimeout(function(){p.remove();},1200);
+    }
+
+    // big LEVEL UP banner
+    var lvBanner=document.getElementById('lvlup-banner');
+    var lvBannerText=document.getElementById('lvlup-text');
+    var lvBannerTimer;
+    function showLevelUp(who, lv){
+      lvBannerText.innerHTML='\u2B50 LEVEL UP! \u2B50<small>'+who+' reached LV '+lv+'!</small>';
+      lvBanner.classList.remove('show'); void lvBanner.offsetWidth; lvBanner.classList.add('show');
+      if(!reduce) sparkleBurst(window.innerWidth/2, window.innerHeight*0.34, 30);
+      clearTimeout(lvBannerTimer);
+      lvBannerTimer=setTimeout(function(){lvBanner.classList.remove('show');},1800);
+    }
+
+    // Mark a saying/fact found. Returns true if it was NEW.
+    function markFound(cat,idx){
+      if(!collected[cat][idx]){collected[cat][idx]=true;saveCollection();return true;}
+      return false;
+    }
+
+    var sparkColors=['#ffe27a','#fff3b0','#ffd24a','#ffffff','#ffb86a'];
+    function sparkleBurst(cx,cy,count){
+      if(reduce) return;
+      for(var i=0;i<count;i++){
+        var sp=document.createElement('div');
+        sp.className='spark';
+        sp.style.left=cx+'px'; sp.style.top=cy+'px';
+        sp.style.background=sparkColors[i%sparkColors.length];
+        document.body.appendChild(sp);
+        var ang=Math.random()*Math.PI*2, spd=3+Math.random()*5;
+        var vx=Math.cos(ang)*spd, vy=Math.sin(ang)*spd-3, x=cx, y=cy, life=0;
+        (function anim(){
+          life++; vy+=0.22; x+=vx; y+=vy;
+          sp.style.left=x+'px'; sp.style.top=y+'px';
+          sp.style.opacity=Math.max(0,1-life/46);
+          if(life<46) requestAnimationFrame(anim); else sp.remove();
+        })();
+      }
+    }
+    function panelCelebrate(){
+      if(reduce) return;
+      panel.classList.add('secret-glow');
+      var r=panel.getBoundingClientRect();
+      sparkleBurst(r.left+r.width/2, r.top+30, 28);
+      setTimeout(function(){ panel.classList.remove('secret-glow'); }, 2600);
+    }
+
+    /* ===== COMET / SHOOTING STAR SYSTEM ===== */
+    var legendFlash=document.getElementById('legend-flash');
+    var legendText=document.getElementById('legend-text');
+    var flashTimer;
+    function catchLegend(){
+      // pick an uncaught legend if possible
+      var avail=[];
+      for(var i=0;i<legends.length;i++){ if(!collected.legend[i]) avail.push(i); }
+      var idx = avail.length ? avail[Math.floor(Math.random()*avail.length)]
+                             : Math.floor(Math.random()*legends.length);
+      markFound('legend', idx);
+      // BIG reward: +25 EXP to the whole party
+      awardAll(25, null);
+      legendText.textContent=legends[idx];
+      legendFlash.classList.remove('show'); void legendFlash.offsetWidth; legendFlash.classList.add('show');
+      if(!reduce) sparkleBurst(window.innerWidth/2, window.innerHeight/2, 40);
+      clearTimeout(flashTimer);
+      flashTimer=setTimeout(function(){legendFlash.classList.remove('show');}, 2400);
+    }
+
+    function spawnComet(){
+      if(reduce) return;
+      var c=document.createElement('div');
+      c.className='comet';
+      c.innerHTML='<div class="label">catch me! \u2604</div><div class="tail"></div><div class="head"></div>';
+      // start off-screen on a random edge-ish, fly diagonally across
+      var startX = Math.random()*window.innerWidth*0.5;
+      var startY = -30 + Math.random()*60;
+      var dx = window.innerWidth*0.6 + Math.random()*window.innerWidth*0.3;
+      var dy = window.innerHeight*0.5 + Math.random()*window.innerHeight*0.3;
+      var ang = Math.atan2(dy,dx)*180/Math.PI;
+      c.style.left=startX+'px';
+      c.style.top=startY+'px';
+      c.style.setProperty('--cdx', dx+'px');
+      c.style.setProperty('--cdy', dy+'px');
+      c.style.transform='rotate('+ang+'deg)';
+      var dur = 2600 + Math.random()*1400;
+      c.style.animation='cometfly '+dur+'ms linear forwards';
+      var caught=false;
+      function grab(){
+        if(caught) return; caught=true;
+        var rect=c.getBoundingClientRect();
+        if(!reduce) sparkleBurst(rect.left+rect.width/2, rect.top+rect.height/2, 26);
+        c.remove();
+        catchLegend();
+      }
+      c.addEventListener('click',grab);
+      c.addEventListener('touchstart',function(e){e.preventDefault();grab();},{passive:false});
+      document.body.appendChild(c);
+      setTimeout(function(){ if(c.parentNode) c.remove(); }, dur+200);
+    }
+
+    function scheduleComet(){
+      var wait = 14000 + Math.random()*16000; // 14-30s between comets
+      setTimeout(function(){ spawnComet(); scheduleComet(); }, wait);
+    }
+
+    var pip = {
+      1:[2],2:[0,4],3:[0,2,4],4:[0,1,3,4],5:[0,1,2,3,4]
+    };
+    function showFace(n){
+      dots.forEach(function(d,i){ d.style.display = pip[n].indexOf(i)>-1 ? '' : 'none'; });
+    }
+    showFace(5);
+
+    function pick(arr){
+      var i;
+      do { i = Math.floor(Math.random()*arr.length); } while(arr.length>1 && i===last);
+      last = i; return {i:i,v:arr[i]};
+    }
+
+    function roll(){
+      if(busy) return; busy=true;
+      rolls++; countEl.textContent='Rolls: '+rolls;
+      if(!reduce){ die.classList.remove('rolling'); void die.offsetWidth; die.classList.add('rolling'); }
+      var flips=0;
+      var iv=setInterval(function(){ showFace(1+Math.floor(Math.random()*5)); flips++;
+        if(flips>=8){ clearInterval(iv);
+          var face=1+Math.floor(Math.random()*5); showFace(face);
+          var p=pick(facts);
+          var secret=isSecret(p.v);
+          var isNewFact=markFound('facts',p.i);
+          // EXP: base +2, or big +10 for discovering a new fact
+          awardExp('facts', isNewFact?10:2, rollbtn, isNewFact);
+          if(secret){
+            secretsFound++;
+            fact.classList.add('secret');
+            fact.innerHTML='<div class="secret-banner">\u2728 SUPER SECRET LORE \u2728</div>'+clean(p.v);
+            panelCelebrate();
+          } else {
+            fact.classList.remove('secret');
+            fact.innerHTML='<span class="roll">\u2684 Rolled '+(p.i+1)+'!</span><br>'+p.v;
+          }
+          busy=false;
+        }
+      }, reduce?20:60);
+    }
+    die.addEventListener('click',roll);
+    rollbtn.addEventListener('click',roll);
+    die.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();roll();}});
+    die.setAttribute('tabindex','0');
+
+    function setupHero(heroId, sprId, bubId, crownId, lines, cat){
+      var hero=document.getElementById(heroId);
+      var spr=document.getElementById(sprId);
+      var bub=document.getElementById(bubId);
+      var crown=document.getElementById(crownId);
+      var li=-1, t;
+      hero.addEventListener('click',function(){
+        var p; do{p=Math.floor(Math.random()*lines.length);}while(lines.length>1&&p===li); li=p;
+        var line=lines[p], secret=isSecret(line);
+        var isNew=markFound(cat,p);
+        awardExp(cat, isNew?10:2, hero, isNew);
+        bub.textContent=clean(line);
+        bub.classList.toggle('secret', secret);
+        bub.classList.add('show');
+        if(!reduce){
+          spr.classList.remove('pop'); void spr.offsetWidth; spr.classList.add('pop');
+          if(secret){
+            hero.classList.remove('secretpop'); void hero.offsetWidth; hero.classList.add('secretpop');
+            crown.classList.add('show');
+            var r=hero.getBoundingClientRect();
+            sparkleBurst(r.left+r.width/2, r.top+10, 22);
+          }
+        }
+        clearTimeout(t); t=setTimeout(function(){
+          bub.classList.remove('show'); crown.classList.remove('show');
+        }, secret?5200:4200);
+      });
+    }
+    setupHero('hero-ev','spr-ev','bub-ev','crown-ev',evLines,'ev');
+    setupHero('hero-el','spr-el','bub-el','crown-el',elLines,'el');
+
+    /* ===== MODAL / COLLECTION VIEWER ===== */
+    var modal=document.getElementById('modal');
+    var modalBody=document.getElementById('modal-body');
+    var modalTitle=document.getElementById('modal-title');
+    var dataMap={facts:{arr:facts,cat:'facts',title:'\uD83C\uDFB2 Fact Collection'},
+                 ev:{arr:evLines,cat:'ev',title:'\uD83D\uDC51 Everly\u2019s Sayings'},
+                 el:{arr:elLines,cat:'el',title:'\uD83C\uDFF9 Eldon\u2019s Sayings'},
+                 legend:{arr:legends,cat:'legend',title:'\u2604 Legendary Laughs'}};
+    function renderTab(tab){
+      var d=dataMap[tab];
+      modalTitle.textContent=d.title;
+      var html='';
+      for(var i=0;i<d.arr.length;i++){
+        var found=!!collected[d.cat][i];
+        var isLeg=(d.cat==='legend');
+        var sec=!isLeg && isSecret(d.arr[i]);
+        var cls='ci '+(found?'found':'locked')+(found&&sec?' sec':'')+(found&&isLeg?' leg':'');
+        var chk=found?'\u2714':'\u2610';
+        var lockMsg=isLeg?'??? Catch a shooting star to unlock!':'??? Keep playing to unlock!';
+        var prefix=found?(isLeg?'\u2604 ':(sec?'\u2728 ':'')):'';
+        var txt=found?(prefix+clean(d.arr[i])):lockMsg;
+        html+='<div class="'+cls+'"><span class="chk">'+chk+'</span>'+txt+'</div>';
+      }
+      modalBody.innerHTML=html;
+    }
+    var tabs=document.querySelectorAll('.tab');
+    tabs.forEach(function(tb){tb.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('active');});
+      tb.classList.add('active'); renderTab(tb.getAttribute('data-tab'));
+    });});
+    function openModal(){var active=document.querySelector('.tab.active').getAttribute('data-tab');
+      renderTab(active); modal.classList.add('open');}
+    function closeModal(){modal.classList.remove('open');}
+    document.getElementById('viewcoll').addEventListener('click',openModal);
+    document.getElementById('modal-x').addEventListener('click',closeModal);
+    modal.addEventListener('click',function(e){if(e.target===modal)closeModal();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+
+    document.getElementById('resetcoll').addEventListener('click',function(){
+      if(confirm('Reset your whole collection and levels? This cannot be undone!')){
+        collected={facts:{},ev:{},el:{},legend:{}}; rolls=0;
+        xp={facts:{exp:0,lv:1},ev:{exp:0,lv:1},el:{exp:0,lv:1}};
+        countEl.textContent='Rolls: 0';
+        try{localStorage.removeItem(STORE_KEY);}catch(e){}
+        updateCollectionUI();
+        document.querySelector('.collection-panel .questline').textContent='\u2694 PARTY STATUS \u2694';
+      }
+    });
+
+    /* ===== DRESS-UP SHOP ===== */
+    // Each outfit is an SVG fragment drawn over the base sprite (clothes + optional hat).
+    // Body parts (head/face/arms/legs) stay; we just swap the clothing layer.
+    var DRESS_KEY='everlyEldonDressup_v2';
+    var wornEv='wizard', wornEl='farmer';
+
+    var outfitsEv={
+      princess:{name:'Princess',svg:''}, // default look = empty overlay
+      knight:{name:'Knight',svg:
+        '<rect x="8" y="20" width="16" height="12" fill="#9aa6b8"/>'+
+        '<rect x="8" y="20" width="16" height="2" fill="#c8d2e0"/>'+
+        '<rect x="14" y="22" width="4" height="8" fill="#5a6678"/>'+
+        '<rect x="6" y="22" width="4" height="7" fill="#9aa6b8"/>'+
+        '<rect x="22" y="22" width="4" height="7" fill="#9aa6b8"/>'+
+        '<rect x="7" y="2" width="18" height="6" fill="#9aa6b8"/>'+
+        '<rect x="7" y="6" width="18" height="2" fill="#5a6678"/>'+
+        '<rect x="14" y="0" width="4" height="3" fill="#ffe27a"/>'},
+      packers:{name:'Packers',svg:
+        '<rect x="8" y="20" width="16" height="12" fill="#2a7a3a"/>'+
+        '<rect x="8" y="20" width="16" height="2" fill="#ffe27a"/>'+
+        '<rect x="13" y="23" width="6" height="6" fill="#ffe27a"/>'+
+        '<rect x="6" y="22" width="3" height="7" fill="#2a7a3a"/>'+
+        '<rect x="23" y="22" width="3" height="7" fill="#2a7a3a"/>'},
+      farmer:{name:'Farmer',svg:
+        '<rect x="8" y="22" width="16" height="10" fill="#3a6ad0"/>'+
+        '<rect x="11" y="20" width="2" height="6" fill="#3a6ad0"/>'+
+        '<rect x="19" y="20" width="2" height="6" fill="#3a6ad0"/>'+
+        '<rect x="8" y="24" width="16" height="2" fill="#2a4aa0"/>'+
+        '<rect x="6" y="0" width="20" height="3" fill="#c89a4a"/>'+
+        '<rect x="9" y="2" width="14" height="3" fill="#c89a4a"/>'},
+      banshee:{name:'Banshee',svg:
+        '<rect x="6" y="19" width="20" height="14" fill="#6a3a8a"/>'+
+        '<rect x="6" y="19" width="20" height="2" fill="#9a5ad0"/>'+
+        '<rect x="4" y="19" width="3" height="10" fill="#6a3a8a"/>'+
+        '<rect x="25" y="19" width="3" height="10" fill="#6a3a8a"/>'+
+        '<rect x="13" y="22" width="6" height="3" fill="#ffe27a"/>'},
+      wizard:{name:'Wizard',svg:
+        '<rect x="7" y="20" width="18" height="13" fill="#7a3a9a"/>'+
+        '<rect x="7" y="20" width="18" height="2" fill="#b06ad0"/>'+
+        '<rect x="12" y="23" width="2" height="2" fill="#ffe27a"/>'+
+        '<rect x="18" y="26" width="2" height="2" fill="#ffe27a"/>'+
+        '<rect x="14" y="28" width="2" height="2" fill="#ffe27a"/>'+
+        '<rect x="14" y="0" width="4" height="2" fill="#ffe27a"/>'+
+        '<rect x="12" y="2" width="8" height="2" fill="#7a3a9a"/>'+
+        '<rect x="10" y="4" width="12" height="2" fill="#7a3a9a"/>'+
+        '<rect x="8" y="6" width="16" height="2" fill="#7a3a9a"/>'},
+      warrior:{name:'War Princess',svg:
+        '<rect x="8" y="20" width="16" height="12" fill="#d04a7a"/>'+
+        '<rect x="8" y="20" width="16" height="2" fill="#ffd24a"/>'+
+        '<rect x="7" y="20" width="3" height="5" fill="#ffd24a"/>'+
+        '<rect x="22" y="20" width="3" height="5" fill="#ffd24a"/>'+
+        '<rect x="14" y="23" width="4" height="7" fill="#ffd24a"/>'+
+        '<rect x="9" y="1" width="14" height="3" fill="#ffd24a"/>'+
+        '<rect x="11" y="0" width="2" height="2" fill="#ff5a7a"/>'+
+        '<rect x="15" y="0" width="2" height="2" fill="#5aa0f0"/>'+
+        '<rect x="19" y="0" width="2" height="2" fill="#ff5a7a"/>'+
+        '<rect x="26" y="18" width="4" height="2" fill="#cfd8e0"/>'+
+        '<rect x="28" y="14" width="2" height="6" fill="#cfd8e0"/>'},
+      fairy:{name:'Fairy',svg:
+        '<rect x="9" y="20" width="14" height="12" fill="#9be8c0"/>'+
+        '<rect x="9" y="20" width="14" height="2" fill="#d0ffe8"/>'+
+        '<rect x="12" y="24" width="2" height="2" fill="#ffe27a"/>'+
+        '<rect x="18" y="24" width="2" height="2" fill="#ffe27a"/>'+
+        '<rect x="3" y="19" width="5" height="8" fill="#bfffe0"/>'+
+        '<rect x="24" y="19" width="5" height="8" fill="#bfffe0"/>'+
+        '<rect x="13" y="0" width="6" height="2" fill="#ffe27a"/>'+
+        '<rect x="15" y="2" width="2" height="2" fill="#ffe27a"/>'},
+      tutu:{name:'Ballerina',svg:
+        '<rect x="6" y="24" width="20" height="6" fill="#ffc0e0"/>'+
+        '<rect x="6" y="24" width="20" height="2" fill="#fff"/>'+
+        '<rect x="10" y="20" width="12" height="5" fill="#ff9ad0"/>'+
+        '<rect x="13" y="20" width="6" height="2" fill="#fff"/>'+
+        '<rect x="13" y="2" width="6" height="2" fill="#ff9ad0"/>'},
+      cupcake:{name:'Cupcake',svg:
+        '<rect x="8" y="22" width="16" height="10" fill="#fff0d0"/>'+
+        '<rect x="8" y="22" width="16" height="2" fill="#ffd9b8"/>'+
+        '<rect x="9" y="25" width="14" height="2" fill="#f4a0c0"/>'+
+        '<rect x="9" y="29" width="14" height="2" fill="#f4a0c0"/>'+
+        '<rect x="10" y="18" width="12" height="4" fill="#ffb0d4"/>'+
+        '<rect x="14" y="0" width="4" height="4" fill="#ff5a7a"/>'+
+        '<rect x="15" y="0" width="2" height="2" fill="#fff"/>'},
+      pumpkin:{name:'Lil Pumpkin',svg:
+        '<rect x="7" y="20" width="18" height="13" fill="#f08a3a"/>'+
+        '<rect x="11" y="20" width="2" height="13" fill="#d06a1a"/>'+
+        '<rect x="16" y="20" width="2" height="13" fill="#d06a1a"/>'+
+        '<rect x="21" y="20" width="2" height="13" fill="#d06a1a"/>'+
+        '<rect x="14" y="0" width="4" height="3" fill="#5aa05a"/>'+
+        '<rect x="13" y="3" width="2" height="2" fill="#3a7a3a"/>'}
+    };
+    var outfitsEl={
+      hunter:{name:'Hunter',svg:''}, // default overalls look
+      camo:{name:'Camo',svg:
+        '<rect x="8" y="20" width="16" height="12" fill="#4a6a3a"/>'+
+        '<rect x="9" y="22" width="3" height="3" fill="#2a4a2a"/>'+
+        '<rect x="15" y="24" width="3" height="3" fill="#2a4a2a"/>'+
+        '<rect x="19" y="21" width="3" height="3" fill="#6a8a4a"/>'+
+        '<rect x="12" y="27" width="3" height="3" fill="#6a8a4a"/>'+
+        '<rect x="6" y="22" width="3" height="7" fill="#4a6a3a"/>'+
+        '<rect x="23" y="22" width="3" height="7" fill="#4a6a3a"/>'+
+        '<rect x="7" y="2" width="18" height="5" fill="#4a6a3a"/>'+
+        '<rect x="6" y="6" width="20" height="2" fill="#3a5a2a"/>'},
+      wizard:{name:'Wizard',svg:
+        '<rect x="7" y="20" width="18" height="13" fill="#3a3a8a"/>'+
+        '<rect x="7" y="20" width="18" height="2" fill="#6a6ad0"/>'+
+        '<rect x="12" y="23" width="2" height="2" fill="#ffe27a"/>'+
+        '<rect x="18" y="26" width="2" height="2" fill="#ffe27a"/>'+
+        '<rect x="14" y="28" width="2" height="2" fill="#ffe27a"/>'+
+        '<rect x="14" y="0" width="4" height="2" fill="#ffe27a"/>'+
+        '<rect x="12" y="2" width="8" height="2" fill="#3a3a8a"/>'+
+        '<rect x="10" y="4" width="12" height="2" fill="#3a3a8a"/>'+
+        '<rect x="8" y="6" width="16" height="2" fill="#3a3a8a"/>'},
+      packers:{name:'Packers',svg:
+        '<rect x="9" y="20" width="14" height="12" fill="#2a7a3a"/>'+
+        '<rect x="9" y="20" width="14" height="2" fill="#ffe27a"/>'+
+        '<rect x="13" y="23" width="6" height="6" fill="#ffe27a"/>'+
+        '<rect x="6" y="22" width="3" height="7" fill="#2a7a3a"/>'+
+        '<rect x="23" y="22" width="3" height="7" fill="#2a7a3a"/>'},
+      antlers:{name:'Antlers',svg:
+        '<rect x="6" y="0" width="2" height="6" fill="#8a6a3a"/>'+
+        '<rect x="4" y="1" width="2" height="2" fill="#8a6a3a"/>'+
+        '<rect x="8" y="2" width="2" height="2" fill="#8a6a3a"/>'+
+        '<rect x="24" y="0" width="2" height="6" fill="#8a6a3a"/>'+
+        '<rect x="26" y="1" width="2" height="2" fill="#8a6a3a"/>'+
+        '<rect x="22" y="2" width="2" height="2" fill="#8a6a3a"/>'},
+      armor:{name:'Lil Armor',svg:
+        '<rect x="9" y="20" width="14" height="12" fill="#9aa6b8"/>'+
+        '<rect x="9" y="20" width="14" height="2" fill="#c8d2e0"/>'+
+        '<rect x="14" y="23" width="4" height="6" fill="#5a6678"/>'+
+        '<rect x="6" y="21" width="4" height="6" fill="#9aa6b8"/>'+
+        '<rect x="22" y="21" width="4" height="6" fill="#9aa6b8"/>'},
+      farmer:{name:'Farmer',svg:
+        '<rect x="8" y="22" width="16" height="10" fill="#3a6ad0"/>'+
+        '<rect x="11" y="20" width="2" height="6" fill="#3a6ad0"/>'+
+        '<rect x="19" y="20" width="2" height="6" fill="#3a6ad0"/>'+
+        '<rect x="8" y="24" width="16" height="2" fill="#2a4aa0"/>'+
+        '<rect x="14" y="26" width="4" height="3" fill="#c89a4a"/>'+
+        '<rect x="6" y="0" width="20" height="3" fill="#c89a4a"/>'+
+        '<rect x="9" y="2" width="14" height="3" fill="#c89a4a"/>'},
+      archer:{name:'Archer',svg:
+        '<rect x="8" y="20" width="16" height="12" fill="#3a6a3a"/>'+
+        '<rect x="8" y="20" width="16" height="2" fill="#5a8a4a"/>'+
+        '<rect x="10" y="22" width="12" height="2" fill="#6a4a2a"/>'+
+        '<rect x="14" y="24" width="4" height="6" fill="#2a4a2a"/>'+
+        '<rect x="3" y="8" width="2" height="18" fill="#8a5a2a"/>'+
+        '<rect x="4" y="7" width="2" height="2" fill="#8a5a2a"/>'+
+        '<rect x="4" y="25" width="2" height="2" fill="#8a5a2a"/>'+
+        '<rect x="5" y="9" width="1" height="16" fill="#cfd8e0"/>'+
+        '<rect x="6" y="16" width="14" height="1" fill="#6a4a2a"/>'+
+        '<polygon points="20,14 24,16.5 20,19" fill="#ffe27a"/>'},
+      ranger:{name:'Ranger',svg:
+        '<rect x="8" y="20" width="16" height="12" fill="#4a5a3a"/>'+
+        '<rect x="8" y="20" width="16" height="2" fill="#6a7a4a"/>'+
+        '<rect x="8" y="25" width="16" height="2" fill="#3a2a1a"/>'+
+        '<rect x="14" y="25" width="4" height="2" fill="#ffd24a"/>'+
+        '<rect x="6" y="0" width="20" height="2" fill="#3a5a2a"/>'+
+        '<rect x="9" y="2" width="14" height="3" fill="#4a6a3a"/>'+
+        '<rect x="20" y="1" width="3" height="2" fill="#8a5a2a"/>'},
+      antlers:{name:'Antler Scout',svg:
+        '<rect x="9" y="20" width="14" height="12" fill="#8a6a4a"/>'+
+        '<rect x="9" y="20" width="14" height="2" fill="#a88a6a"/>'+
+        '<rect x="13" y="23" width="6" height="3" fill="#fff"/>'+
+        '<rect x="5" y="0" width="2" height="7" fill="#8a6a3a"/>'+
+        '<rect x="3" y="1" width="2" height="2" fill="#8a6a3a"/>'+
+        '<rect x="7" y="2" width="2" height="2" fill="#8a6a3a"/>'+
+        '<rect x="25" y="0" width="2" height="7" fill="#8a6a3a"/>'+
+        '<rect x="27" y="1" width="2" height="2" fill="#8a6a3a"/>'+
+        '<rect x="23" y="2" width="2" height="2" fill="#8a6a3a"/>'},
+      lumberjack:{name:'Lumberjack',svg:
+        '<rect x="8" y="20" width="16" height="12" fill="#c03a3a"/>'+
+        '<rect x="11" y="20" width="2" height="12" fill="#2a1a1a"/>'+
+        '<rect x="17" y="20" width="2" height="12" fill="#2a1a1a"/>'+
+        '<rect x="8" y="24" width="16" height="2" fill="#2a1a1a"/>'+
+        '<rect x="8" y="28" width="16" height="2" fill="#2a1a1a"/>'+
+        '<rect x="22" y="22" width="3" height="2" fill="#9aa6b8"/>'+
+        '<rect x="23" y="24" width="2" height="6" fill="#8a5a2a"/>'+
+        '<rect x="7" y="1" width="18" height="3" fill="#e08a3a"/>'}
+    };
+
+    function applyOutfit(who){
+      var g=document.getElementById('outfit-'+who);
+      var table=(who==='ev')?outfitsEv:outfitsEl;
+      var key=(who==='ev')?wornEv:wornEl;
+      g.innerHTML=(table[key]&&table[key].svg)||'';
+    }
+
+    function buildSwatches(who, table, current, onPick){
+      var box=document.getElementById('sw-'+who);
+      box.innerHTML='';
+      Object.keys(table).forEach(function(key){
+        var o=table[key];
+        var b=document.createElement('div');
+        b.className='sw'+(key===current?' active':'');
+        b.setAttribute('role','button');
+        b.setAttribute('tabindex','0');
+        b.setAttribute('aria-label',o.name);
+        // mini preview: a tiny torso + the outfit overlay
+        b.innerHTML='<svg viewBox="0 0 32 34" shape-rendering="crispEdges">'+
+          '<rect x="11" y="4" width="10" height="9" fill="#ffd9b8"/>'+
+          '<rect x="9" y="20" width="14" height="12" fill="#5a5a6a"/>'+
+          (o.svg||'')+
+          '</svg><span class="swn">'+o.name+'</span>';
+        function pick(){
+          box.querySelectorAll('.sw').forEach(function(x){x.classList.remove('active');});
+          b.classList.add('active');
+          onPick(key);
+        }
+        b.addEventListener('click',pick);
+        b.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
+        box.appendChild(b);
+      });
+    }
+    function saveDressup(){try{localStorage.setItem(DRESS_KEY,JSON.stringify({ev:wornEv,el:wornEl}));}catch(e){}}
+    function loadDressup(){try{var d=JSON.parse(localStorage.getItem(DRESS_KEY)||'null');
+      if(d){if(outfitsEv[d.ev])wornEv=d.ev; if(outfitsEl[d.el])wornEl=d.el;}}catch(e){}}
+
+    function initDressup(){
+      loadDressup();
+      buildSwatches('ev',outfitsEv,wornEv,function(k){wornEv=k;applyOutfit('ev');saveDressup();
+        var s=document.getElementById('spr-ev');if(!reduce){s.classList.remove('pop');void s.offsetWidth;s.classList.add('pop');}});
+      buildSwatches('el',outfitsEl,wornEl,function(k){wornEl=k;applyOutfit('el');saveDressup();
+        var s=document.getElementById('spr-el');if(!reduce){s.classList.remove('pop');void s.offsetWidth;s.classList.add('pop');}});
+      applyOutfit('ev'); applyOutfit('el');
+    }
+
+    /* ===== INIT ===== */
+    loadCollection();
+    countEl.textContent='Rolls: '+rolls;
+    updateCollectionUI();
+    initDressup();
+    // shooting stars: first one soon, then periodically
+    if(!reduce){ setTimeout(spawnComet, 6000); scheduleComet(); }
+  })();
+  </script>
+</body>
+</html>

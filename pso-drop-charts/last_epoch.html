@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fire Aura Spellblade — S4 Build Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #070b14; --bg2: #0f172a; --bg3: #111827; --bg4: #1f2937;
+    --border: #1f2937; --border2: #374151;
+    --text: #e5e7eb; --muted: #9ca3af; --dim: #6b7280;
+    --orange: #fb923c; --cyan: #67e8f9; --yellow: #fbbf24;
+    --red: #f87171; --purple: #c084fc; --blue: #818cf8; --green: #6ee7b7;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Rajdhani', sans-serif; min-height: 100vh; }
+  ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: var(--bg2); } ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  button { font-family: 'Rajdhani', sans-serif; cursor: pointer; border: none; outline: none; }
+  input { font-family: 'Rajdhani', sans-serif; outline: none; }
+
+  /* HEADER */
+  .header { background: linear-gradient(135deg, #0f172a 0%, #1a0a00 50%, #0a0f1a 100%); border-bottom: 1px solid var(--border); padding: 16px 20px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(251,146,60,0.06) 0%, transparent 70%); }
+  .header-inner { max-width: 900px; margin: 0 auto; position: relative; display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .build-title { font-family: 'Cinzel', serif; font-weight: 700; font-size: 22px; color: var(--orange); letter-spacing: 0.05em; display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; border: 1px solid; }
+  .tag-mage { background: rgba(129,140,248,.15); border-color: rgba(129,140,248,.4); color: var(--blue); }
+  .tag-sb { background: rgba(251,146,60,.15); border-color: rgba(251,146,60,.4); color: var(--orange); }
+  .tag-s4 { background: rgba(110,231,183,.15); border-color: rgba(110,231,183,.4); color: var(--green); }
+  .tag-new { background: rgba(248,113,113,.15); border-color: rgba(248,113,113,.4); color: var(--red); }
+  .perf-box { text-align: right; }
+  .perf-label { color: var(--dim); font-size: 11px; margin-bottom: 4px; }
+  .perf-grades { display: flex; gap: 8px; }
+  .perf-grade { text-align: center; }
+  .perf-grade span { display: block; color: var(--dim); font-size: 10px; }
+  .perf-grade strong { font-family: 'Cinzel', serif; font-weight: 700; font-size: 18px; }
+  .grade-s { color: var(--orange); } .grade-sp { color: var(--yellow); } .grade-a { color: var(--cyan); }
+
+  /* TABS */
+  .tabbar { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 0 20px; }
+  .tabbar-inner { max-width: 900px; margin: 0 auto; display: flex; }
+  .tab-btn { padding: 11px 16px; background: none; border-bottom: 2px solid transparent; color: var(--dim); font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 6px; transition: color .2s, border-color .2s; }
+  .tab-btn.active { border-color: var(--orange); color: var(--orange); }
+  .tab-btn:hover:not(.active) { color: var(--muted); }
+
+  /* MAIN */
+  .main { max-width: 900px; margin: 0 auto; padding: 20px; }
+  .tab-panel { display: none; } .tab-panel.active { display: block; }
+
+  /* SECTION HEADER */
+  .section-hd { margin-bottom: 16px; }
+  .section-hd h2 { font-family: 'Cinzel', serif; font-size: 16px; color: var(--text); margin-bottom: 4px; }
+  .section-hd p { color: var(--dim); font-size: 13px; }
+
+  /* SKILL CARD */
+  .skill-card { background: linear-gradient(135deg, #111827 0%, #0f172a 100%); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 10px; transition: border-color .2s, box-shadow .2s; }
+  .skill-card.open { border-color: var(--skill-color, var(--orange)); box-shadow: 0 0 20px var(--skill-glow, transparent); }
+  .skill-header { width: 100%; background: none; padding: 14px 16px; text-align: left; display: flex; align-items: center; gap: 12px; }
+  .skill-icon { font-size: 22px; }
+  .skill-name-wrap { flex: 1; }
+  .skill-name { color: var(--skill-color, var(--orange)); font-family: 'Cinzel', serif; font-weight: 700; font-size: 15px; display: inline; }
+  .skill-role { color: var(--dim); font-size: 11px; margin-left: 8px; }
+  .skill-counter { background: var(--bg4); border: 1px solid rgba(255,255,255,.08); border-radius: 6px; padding: 2px 10px; font-weight: 600; font-size: 13px; color: var(--skill-color, var(--orange)); }
+  .skill-chevron { color: var(--dim); font-size: 12px; margin-left: 6px; }
+  .skill-desc-mini { color: var(--muted); font-size: 12px; margin: 6px 0 0 34px; line-height: 1.4; }
+  .skill-body { padding: 0 16px 16px; border-top: 1px solid var(--border); }
+  .skill-body p { color: var(--muted); font-size: 12px; margin: 12px 0; line-height: 1.5; }
+
+  /* NODES */
+  .node-row { display: flex; align-items: center; gap: 10px; border-radius: 8px; padding: 8px 10px; margin-bottom: 6px; border: 1px solid var(--border); background: var(--bg3); transition: all .15s; }
+  .node-row.allocated { border-color: var(--skill-color, rgba(251,146,60,.3)); background: var(--node-bg, rgba(251,146,60,.05)); }
+  .node-info { flex: 1; }
+  .node-name { font-weight: 600; font-size: 13px; color: var(--dim); display: inline; }
+  .node-row.allocated .node-name { color: var(--skill-color, var(--orange)); }
+  .badge { font-size: 9px; padding: 1px 5px; border-radius: 3px; font-weight: 700; margin-left: 5px; display: inline-block; }
+  .badge-core { background: rgba(251,146,60,.15); color: var(--orange); }
+  .badge-s4 { background: rgba(110,231,183,.15); color: var(--green); }
+  .node-desc { color: var(--dim); font-size: 11px; margin-top: 2px; }
+  .node-ctrl { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .ctrl-btn { width: 22px; height: 22px; border-radius: 4px; border: 1px solid var(--border2); background: var(--bg4); color: var(--muted); font-size: 15px; display: flex; align-items: center; justify-content: center; line-height: 1; }
+  .ctrl-btn:hover { border-color: var(--muted); color: var(--text); }
+  .node-pts { font-weight: 700; font-size: 13px; min-width: 28px; text-align: center; color: var(--text); }
+  .node-pts.maxed { color: var(--skill-color, var(--orange)); }
+
+  /* PASSIVES */
+  .passives-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .passive-tree { background: var(--bg2); border-radius: 12px; overflow: hidden; }
+  .passive-tree-hd { border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
+  .passive-tree-title { font-family: 'Cinzel', serif; font-weight: 700; font-size: 15px; }
+  .passive-counter { background: var(--bg4); border-radius: 6px; padding: 3px 12px; font-weight: 700; font-size: 13px; }
+  .passive-body { padding: 12px; }
+  .cat-label { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; margin-top: 10px; }
+  .cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .cat-name { font-size: 11px; font-weight: 600; letter-spacing: .1em; }
+  .cat-label:first-child { margin-top: 0; }
+  .p-node { display: flex; align-items: center; gap: 8px; border-radius: 8px; padding: 7px 10px; margin-bottom: 4px; border: 1px solid var(--border); background: var(--bg3); transition: all .15s; }
+  .p-node.allocated { background: var(--node-bg); border-color: var(--node-border); }
+  .p-node-info { flex: 1; }
+  .p-node-name { font-weight: 600; font-size: 13px; color: var(--dim); }
+  .p-node.allocated .p-node-name { color: var(--text); }
+  .p-node-desc { color: var(--dim); font-size: 11px; margin-top: 1px; }
+
+  /* GEAR */
+  .phase-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+  .phase-btn { padding: 6px 14px; border-radius: 8px; font-weight: 600; font-size: 13px; border: 1px solid var(--border2); background: var(--bg4); color: var(--dim); transition: all .2s; }
+  .phase-btn.active { border-color: var(--phase-color); color: var(--phase-color); }
+  .gear-phase-hd { border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; border: 1px solid var(--border); background: var(--bg2); }
+  .gear-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .gear-slot { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; transition: all .2s; }
+  .gear-slot.key { background: linear-gradient(135deg, var(--bg4) 0%, var(--bg2) 100%); border-color: rgba(251,191,36,.27); box-shadow: 0 0 12px rgba(251,191,36,.07); }
+  .gear-slot.obtained { opacity: .45; }
+  .gear-slot-inner { display: flex; align-items: flex-start; gap: 10px; }
+  .gear-slot-left { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .gear-slot-icon { font-size: 20px; }
+  .gear-slot-check { cursor: pointer; accent-color: var(--yellow); width: 14px; height: 14px; }
+  .gear-slot-right { flex: 1; min-width: 0; }
+  .gear-slot-label { color: var(--dim); font-size: 10px; font-weight: 600; letter-spacing: .08em; margin-bottom: 3px; display: flex; align-items: center; gap: 5px; }
+  .key-badge { background: rgba(251,191,36,.15); color: var(--yellow); font-size: 9px; padding: 1px 5px; border-radius: 3px; font-weight: 700; }
+  .gear-item-name { font-weight: 600; font-size: 13px; color: var(--text); cursor: text; display: inline-flex; align-items: center; gap: 4px; }
+  .gear-slot.key .gear-item-name { color: var(--yellow); }
+  .edit-icon { color: var(--border2); font-size: 10px; }
+  .gear-item-input { background: var(--bg4); border: 1px solid var(--border2); border-radius: 6px; padding: 3px 8px; color: var(--text); font-size: 13px; font-weight: 600; width: 100%; }
+  .gear-affix { color: var(--dim); font-size: 11px; display: block; }
+  .gear-affix.primary { color: var(--cyan); }
+  .gear-note { color: var(--yellow); font-size: 11px; font-style: italic; margin-top: 5px; display: block; }
+  .affixes { margin-top: 5px; }
+  .warning-box { margin-top: 14px; background: var(--bg2); border-radius: 10px; padding: 14px; border: 1px solid; }
+  .warning-box p { font-size: 12px; line-height: 1.6; }
+  .warning-box strong { font-size: 12px; font-weight: 700; display: block; margin-bottom: 4px; }
+
+  /* STATS */
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .stat-card { background: var(--bg2); border-radius: 10px; padding: 14px; border: 1px solid; }
+  .stat-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .stat-icon { font-size: 18px; }
+  .stat-label { font-family: 'Cinzel', serif; font-weight: 600; font-size: 13px; }
+  .stat-value { font-weight: 700; font-size: 16px; }
+  .stat-bar-track { background: var(--bg4); border-radius: 4px; height: 6px; overflow: hidden; }
+  .stat-bar-fill { height: 100%; border-radius: 4px; transition: width .6s ease; }
+  .stat-target { color: var(--dim); font-size: 11px; margin-top: 5px; }
+  .s4-section-title { font-family: 'Cinzel', serif; color: var(--green); font-size: 15px; margin-bottom: 12px; }
+  .s4-card { border-radius: 10px; padding: 14px; margin-bottom: 10px; border: 1px solid; }
+  .s4-card-title { font-family: 'Cinzel', serif; font-weight: 700; font-size: 13px; margin-bottom: 6px; }
+  .s4-card-desc { color: var(--muted); font-size: 12px; line-height: 1.5; margin-bottom: 8px; }
+  .s4-example { border-radius: 6px; padding: 6px 10px; }
+  .s4-example span { font-size: 11px; font-style: italic; }
+
+  /* ROTATION BOX */
+  .rotation-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-top: 16px; }
+  .rotation-box p { color: var(--dim); font-size: 12px; line-height: 1.6; }
+  .rotation-box strong { color: var(--muted); }
+
+  /* INFO CALLOUT */
+  .callout { border-radius: 10px; padding: 14px; border: 1px solid; margin-top: 14px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .passives-grid, .gear-grid, .stats-grid { grid-template-columns: 1fr; }
+    .tab-btn { padding: 11px 10px; font-size: 12px; }
+    .build-title { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <div class="build-title">🔥 Fire Aura Spellblade ❄️</div>
+      <div class="tags">
+        <span class="tag tag-mage">MAGE</span>
+        <span class="tag tag-sb">SPELLBLADE</span>
+        <span class="tag tag-s4">S4 SHATTERED OMENS</span>
+        <span class="tag tag-new">⚠️ BRAND NEW BUILD</span>
+      </div>
+    </div>
+    <div class="perf-box">
+      <div class="perf-label">Performance</div>
+      <div class="perf-grades">
+        <div class="perf-grade"><span>Clear</span><strong class="grade-s">S</strong></div>
+        <div class="perf-grade"><span>Boss</span><strong class="grade-a">A+</strong></div>
+        <div class="perf-grade"><span>Unique</span><strong class="grade-sp">S+</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabbar">
+  <div class="tabbar-inner">
+    <button class="tab-btn active" data-tab="skills">⚔️ Skills</button>
+    <button class="tab-btn" data-tab="passives">📊 Passives</button>
+    <button class="tab-btn" data-tab="gear">🎒 Gear</button>
+    <button class="tab-btn" data-tab="stats">🔬 Stats & S4</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- SKILLS TAB -->
+  <div class="tab-panel active" id="tab-skills">
+    <div class="section-hd">
+      <h2>Skill Setup</h2>
+      <p>Click any skill to expand nodes. Use +/− to adjust point allocation. Core nodes highlighted in orange.</p>
+    </div>
+    <div id="skills-container"></div>
+    <div class="rotation-box">
+      <p>💡 <strong>Gameplay loop:</strong> Spam Firebrand (left-click) → Frost Claws + Ice Barrage auto-trigger → Fire Auras stack passively → Pop Enchant Weapon before packs/bosses → Flame Ward for one-shots → Teleport for repositioning. That's it.</p>
+    </div>
+  </div>
+
+  <!-- PASSIVES TAB -->
+  <div class="tab-panel" id="tab-passives">
+    <div class="section-hd">
+      <h2>Passive Trees</h2>
+      <p>20 points minimum in Mage Base before accessing Spellblade Mastery. Use +/− to adjust allocation.</p>
+    </div>
+    <div class="passives-grid" id="passives-container"></div>
+    <div class="callout" style="border-color:rgba(251,191,36,.3);">
+      <p style="color:var(--yellow);font-weight:700;font-size:12px;margin-bottom:4px;">⚠️ Priority Order</p>
+      <p style="color:var(--muted);font-size:12px;">Mage: Sphere of Protection → Arcane Insight → Enchanted Armor → Clarity | Spellblade: Flame Walker → <strong style="color:var(--text)">Freezing Aura (immediately!)</strong> → Incinerating Aura → Calculated Destruction → Flame Drinker → Gemini → Prodigy → everything else</p>
+    </div>
+  </div>
+
+  <!-- GEAR TAB -->
+  <div class="tab-panel" id="tab-gear">
+    <div class="section-hd" style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div>
+        <h2>Gear Planner</h2>
+        <p>Click item names to edit. ✓ checkboxes to track obtained items. KEY ITEM = build-defining unique.</p>
+      </div>
+      <div class="phase-btns" id="phase-btns"></div>
+    </div>
+    <div class="gear-phase-hd" id="gear-phase-hd"></div>
+    <div class="gear-grid" id="gear-grid"></div>
+    <div id="gear-warning"></div>
+  </div>
+
+  <!-- STATS TAB -->
+  <div class="tab-panel" id="tab-stats">
+    <h2 style="font-family:'Cinzel',serif;font-size:16px;margin-bottom:16px;">Stat Targets & S4 Mechanics</h2>
+    <div class="stats-grid" id="stats-grid"></div>
+    <h3 class="s4-section-title">🆕 S4 Mechanics That Make This Build</h3>
+    <div id="s4-cards"></div>
+    <div class="callout" style="border-color:rgba(110,231,183,.3);">
+      <p style="color:var(--green);font-family:'Cinzel',serif;font-weight:700;font-size:13px;margin-bottom:6px;">Why Nobody Has Found The Ceiling Yet</p>
+      <p style="color:var(--muted);font-size:12px;line-height:1.6;">Incinerating Aura's overcap conversion is a brand new mechanic with an unknown maximum. If S4's Corrupted Item system can push elemental overcap above 100%, each additional point still multiplies into the "More Damage" calculation. The build's ceiling isn't mapped — it may be significantly higher than the 20–35M sustained DPS estimate. Day-one testing will reveal the true cap.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const SKILLS = [
+  { id:'firebrand', name:'Firebrand', role:'Primary Spam', color:'#fb923c', glow:'rgba(251,146,60,.3)',
+    icon:'🔥', maxPts:20,
+    desc:'Free instant cast. Stacks Illuminating Fire buff multiplying your next non-Firebrand hit. The entire cascade starts here.',
+    nodes:[
+      {n:'Incineration',      max:1, def:1, core:true,  desc:'Consumes stacks on next melee hit for multiplicative damage'},
+      {n:'Illuminating Fire', max:5, def:5, core:true,  desc:'+Crit Chance/Multi per Firebrand stack'},
+      {n:'Undying Fire',      max:3, def:3,             desc:'Stacks persist longer between presses'},
+      {n:'Everflames',        max:2, def:2,             desc:'Extended stack duration during movement'},
+      {n:'Fading Flame',      max:1, def:1,             desc:'Ward on gaining or consuming stacks — free sustain'},
+      {n:'Excitation',        max:1, def:1, core:true, s4:true, desc:'Lightning Blast chains 2× per stack consumed (NEW S4)'},
+      {n:'Frost Shard',       max:1, def:1, core:true,  desc:'Partial cold conversion — enables Freezing Aura synergy'},
+    ]
+  },
+  { id:'ice_barrage', name:'Ice Barrage', role:'Auto-Triggered DPS', color:'#67e8f9', glow:'rgba(103,232,249,.3)',
+    icon:'❄️', maxPts:20,
+    desc:"Rarely manually cast. Triggered by Frost Claws. Frost Armor is the primary DPS multiplier — stacks with every trigger.",
+    nodes:[
+      {n:'Frost Armor',       max:5, def:5, core:true, desc:'PRIMARY DPS — stacking cold damage buff on each trigger'},
+      {n:'Concentrated Cold', max:4, def:4,            desc:'More cold damage per Frost Armor stack'},
+      {n:'Barrier of Ice',    max:1, def:1,            desc:'Ward generation on trigger — passive tankiness'},
+      {n:'Shards of Fate',    max:3, def:3,            desc:'More projectiles per trigger'},
+      {n:'Crystal Lance',     max:1, def:1,            desc:'Piercing projectiles for screen clear'},
+      {n:'Hail of Ice',       max:3, def:0,            desc:'Optional: additional projectile coverage'},
+    ]
+  },
+  { id:'enchant_weapon', name:'Enchant Weapon', role:'Active Buff (On Cooldown)', color:'#fbbf24', glow:'rgba(251,191,36,.3)',
+    icon:'⚔️', maxPts:20,
+    desc:'Activate before dense packs or bosses. Increases flat melee damage, which feeds Fire Aura stacking via melee hits.',
+    nodes:[
+      {n:'Flame Lance',           max:5, def:5, core:true, desc:'Flat fire damage → feeds Fire Aura generation'},
+      {n:'Molten Steel',          max:3, def:3,            desc:'More flat fire melee damage'},
+      {n:'Tempered Steel',        max:2, def:2,            desc:'+Attack Speed during buff window'},
+      {n:'Combustion',            max:1, def:1,            desc:'Ignite chance on hit during buff'},
+      {n:'Infused Weapon',        max:1, def:1,            desc:'Elemental flat damage bonus'},
+      {n:'Prolonged Enchantment', max:3, def:0,            desc:'Optional: longer buff duration'},
+    ]
+  },
+  { id:'flame_ward', name:'Flame Ward', role:'Panic Button', color:'#f87171', glow:'rgba(248,113,113,.3)',
+    icon:'🛡️', maxPts:20,
+    desc:'Save for telegraphed one-shots ONLY. Massive damage reduction. Flame Rush turns it into a blink.',
+    nodes:[
+      {n:'Flame Rush',     max:1, def:1, core:true, desc:'Blink movement — dodge through boss attacks'},
+      {n:'Arcane Shielding',max:3, def:3,            desc:'Ward generation on cast'},
+      {n:'Resonating Aegis',max:3, def:3,            desc:'Extended duration and effectiveness'},
+      {n:'Unwavering Aegis',max:2, def:2,            desc:'Damage reduction while shield active'},
+      {n:'Fire Absorption', max:1, def:1,            desc:'Fire resistance while active — stacks with Incinerating Aura'},
+      {n:'Heat Sink',       max:2, def:0,            desc:'Optional: cooldown reduction'},
+    ]
+  },
+  { id:'teleport', name:'Teleport', role:'Movement', color:'#c084fc', glow:'rgba(192,132,252,.3)',
+    icon:'⚡', maxPts:20,
+    desc:'Minimal spec. Rock Phase stun immunity is the only mandatory node. Remove Wrongwarp after Low Life transition.',
+    nodes:[
+      {n:'Rock Phase',    max:1, def:1, core:true, desc:'2 sec stun immunity after use — crucial at 600+ corruption'},
+      {n:'Tunnel Finder', max:2, def:2,            desc:'Reduced cooldown for more repositioning'},
+      {n:'Time Dilation', max:1, def:1,            desc:'Maintains Rock Phase uptime'},
+      {n:'Wrongwarp',     max:1, def:0,            desc:'Ward burst on use — REMOVE after Low Life transition'},
+      {n:'Displacement',  max:2, def:0,            desc:'Optional: increased teleport range'},
+    ]
+  },
+];
+
+const PASSIVES = [
+  { id:'mage', label:'Mage Base', color:'#818cf8',
+    nodes:[
+      {n:'Sphere of Protection', max:5, def:5, core:true, cat:'Defense',  desc:'Ward retention + max. Mandatory on every Mage.'},
+      {n:'Arcane Insight',       max:5, def:5, core:true, cat:'Offense',  desc:'Intelligence scaling.'},
+      {n:'Enchanted Armor',      max:4, def:4,            cat:'Defense',  desc:'Flat armor and hybrid defense.'},
+      {n:'Clarity',              max:3, def:3,            cat:'Utility',  desc:'Mana regen — critical before Flame Drinker.'},
+      {n:'Arcane Momentum',      max:3, def:3,            cat:'Utility',  desc:'Move/cast speed after Teleport.'},
+    ]
+  },
+  { id:'spellblade', label:'Spellblade Mastery', color:'#fb923c',
+    nodes:[
+      {n:'Flame Walker',        max:5, def:5, core:true,           cat:'Core',    desc:'Fire Aura chance on melee hit — primary generator.'},
+      {n:'Freezing Aura',       max:1, def:1, core:true,           cat:'Core',    desc:'Converts ALL Fire Auras to Cold. THE BUILD KEYSTONE.'},
+      {n:'Incinerating Aura',   max:8, def:8, core:true, s4:true,  cat:'Core',    desc:'S4 REWORK: More Cold Dmg per overcapped Cold Resist.'},
+      {n:'Calculated Destruction',max:5,def:5,core:true,           cat:'Core',    desc:'Fire Aura on crit up to 3/sec.'},
+      {n:'Prodigy',             max:5, def:5,                       cat:'Offense', desc:'Intelligence scaling. Feeds Calculated Destruction.'},
+      {n:'Flame Drinker',       max:5, def:5, core:true, s4:true,  cat:'Core',    desc:'S4 REWORK: More Elemental Dmg for high-cost melee. Auras→Mana.'},
+      {n:'Blade Conduit',       max:5, def:5,            s4:true,  cat:'Utility', desc:'NEW S4: Stacking Mana Regen on spell cast.'},
+      {n:'Gemini',              max:1, def:1, core:true,           cat:'Core',    desc:'DUAL WIELD ENABLER — unlocks the weapon combo.'},
+      {n:'Prismatic Blade',     max:3, def:3,                       cat:'Offense', desc:'Flat elemental melee damage.'},
+      {n:'Cold Steel',          max:5, def:5,                       cat:'Offense', desc:'Cold damage for melee hits.'},
+      {n:'Arcane Shielding',    max:3, def:3,                       cat:'Defense', desc:'Ward on hit.'},
+      {n:'Resonating Aegis',    max:3, def:3,                       cat:'Defense', desc:'Enhanced Flame Ward.'},
+      {n:'Infused Weapon',      max:5, def:3,                       cat:'Offense', desc:'Flat elemental damage on hits.'},
+      {n:'Chromatic Blade',     max:3, def:2,                       cat:'Offense', desc:'Elemental damage scaling.'},
+      {n:'Fire Blood',          max:3, def:2,                       cat:'Offense', desc:'Flat fire melee damage.'},
+    ]
+  },
+];
+
+const GEAR_PHASES = {
+  early: {
+    label:'Early Game', sub:'Campaign → 200 Corruption', color:'#86efac',
+    slots:[
+      {slot:'Weapon 1', item:"Crystal Sword (Rare)", icon:'🗡️', key:false, affixes:["T5 Melee Crit Strike Chance","T4 Added Cold Melee Damage","T3 Melee Attack Speed"], note:'Best 1H sword base. Crit is everything early.'},
+      {slot:'Weapon 2', item:"Crystal Sword (Rare)", icon:'🗡️', key:false, affixes:["T5 Melee Crit Strike Chance","T4 Flat Cold Damage","T3 Intelligence"], note:'Mirror weapon 1 as closely as possible.'},
+      {slot:'Helmet', item:"Vul'kaur Regalia (Rare)", icon:'🪖', key:false, affixes:["T5 Intelligence","T4 Ward","T3+ Fire Resistance"], note:'Best Mage helm base for ward.'},
+      {slot:'Body Armor', item:"Any Chest (Rare)", icon:'🥋', key:false, affixes:["T5 Fire Resist","T4 Cold Resist","T3 Lightning Resist","T3 Health"], note:'Cap all resistances first. Damage comes later.'},
+      {slot:'Gloves', item:"Any Gloves (Rare)", icon:'🧤', key:false, affixes:["T5 Melee Crit Chance","T4 Attack Speed","T3 Intelligence"], note:'Attack speed sustains Fire Aura stacks.'},
+      {slot:'Boots', item:"Arcane Boots (Rare)", icon:'👢', key:false, affixes:["T5 Movement Speed","T4 Lightning Resist","T3 Health"], note:''},
+      {slot:'Belt', item:"Spidersilk Sash (Rare)", icon:'⚙️', key:false, affixes:["Ailment Cleanse on Potion Use","T4 Ward on Potion Use","T3 Cold Resist"], note:'Cleanse affix is critical at higher corruption.'},
+      {slot:'Amulet', item:"Bone Amulet (Rare)", icon:'📿', key:false, affixes:["T7 Intelligence","T4 Cold Resist","T3 Fire Resist"], note:'Intelligence is your primary stat.'},
+      {slot:'Ring 1', item:"Any Ring (Rare)", icon:'💍', key:false, affixes:["T5 Intelligence","T4 Elemental Resistances","T3 Health"], note:''},
+      {slot:'Ring 2', item:"Any Ring (Rare)", icon:'💍', key:false, affixes:["T5 Intelligence","T4 Elemental Resistances","T3 Mana Regen"], note:''},
+      {slot:'Relic', item:"Scrivening Quill (Rare)", icon:'🔮', key:false, affixes:["T5 Ward","T4 Intelligence","T3 Mana"], note:'Best Mage relic base.'},
+    ]
+  },
+  endgame: {
+    label:'Endgame', sub:'300–600 Corruption', color:'#93c5fd',
+    slots:[
+      {slot:'Weapon 1', item:"Mad Alchemist's Ladle (LP1)", icon:'🗡️', key:true, affixes:["More Spell Dmg per Ailment on Enemy","+ T5 Cold Damage Multiplier (LP)"], note:'Farm from Exiled Mages. Primary DPS weapon.'},
+      {slot:'Weapon 2', item:"Transcriber's Graver (LP1)", icon:'🗡️', key:true, affixes:["Complementary spell damage stats","+ T5 Intelligence OR Melee Crit (LP)"], note:'Pairs with Ladle to form the core damage duo.'},
+      {slot:'Helmet', item:"Vul'kaur Regalia (Rare)", icon:'🪖', key:false, affixes:["T7 Intelligence","T5 Reduced Channel Cost","T4 Ward Retention"], note:'Upgrade affixes.'},
+      {slot:'Body Armor', item:"Exsanguinous (LP2)", icon:'🥋', key:true, affixes:["Low Life ward engine","Experimental Ward per Missing HP (LP)"], note:'⚠️ Equip ONLY with Last Steps. Farm Exiled Mages.'},
+      {slot:'Gloves', item:"Exalted Gloves", icon:'🧤', key:false, affixes:["T7 Melee Crit Chance","T5 Attack Speed","T4 Intelligence","T3 Cold Flat Dmg"], note:'Start crafting T7 crit now.'},
+      {slot:'Boots', item:"Last Steps of the Living (LP2)", icon:'👢', key:true, affixes:["15% Missing HP as Ward/sec","Experimental Ward per Missing HP (LP)"], note:'⚠️ Equip ONLY with Exsanguinous. Farm Exiled Mages.'},
+      {slot:'Belt', item:"Spidersilk Sash (Exalted)", icon:'⚙️', key:false, affixes:["Ailment Cleanse on Potion","T5 Ward on Potion","T4 Intelligence","T3 Ward Retention"], note:''},
+      {slot:'Amulet', item:"Omnis (LP1)", icon:'📿', key:true, affixes:["All skill bonuses + all resistances","+ Cold Damage Multiplier (LP)"], note:'Frees up other slots for pure damage.'},
+      {slot:'Ring 1', item:"Heirlooms of the Last Nomad", icon:'💍', key:false, affixes:["Intelligence + Resistance coverage simultaneously"], note:'Bridge until 180 INT for Red Rings.'},
+      {slot:'Ring 2', item:"Heirlooms of the Last Nomad", icon:'💍', key:false, affixes:["Intelligence + Resistance coverage simultaneously"], note:'Bridge until 180 INT for Red Rings.'},
+      {slot:'Relic', item:"Ucenui's Sphere (LP1)", icon:'🔮', key:true, affixes:["Stat stick — various Mage bonuses","+ Intelligence OR Cold Dmg (LP)"], note:'Farm from Temporal Sanctum (Julra).'},
+    ]
+  },
+  bis: {
+    label:'BiS / Uber Ready', sub:'600–1000+ Corruption', color:'#fcd34d',
+    slots:[
+      {slot:'Weapon 1', item:"Mad Alchemist's Ladle (LP2)", icon:'🗡️', key:true, affixes:["More Spell Dmg per Ailment","T5 Cold Dmg Multiplier (LP)","T5 Intelligence (LP2)"], note:'Two damage LP affixes. Highest damage item.'},
+      {slot:'Weapon 2', item:"Transcriber's Graver (LP2)", icon:'🗡️', key:true, affixes:["Base spell stats","T5 Melee Crit Chance (LP)","T5 Intelligence (LP2)"], note:'Capped crit + intelligence from this slot.'},
+      {slot:'Helmet', item:"Mask of Indifference (LP1)", icon:'🪖', key:true, affixes:["Reduced dmg taken while Low Life","+ Cold Dmg Multiplier (LP)"], note:'The endgame defensive helmet.'},
+      {slot:'Body Armor', item:"Exsanguinous (LP2+)", icon:'🥋', key:true, affixes:["Low Life ward engine","Experimental Ward/Missing HP (LP ×2)"], note:'Two ward LP affixes = near-immortal ward gen.'},
+      {slot:'Gloves', item:"Exalted Gloves (Crafted)", icon:'🧤', key:false, affixes:["T7 Melee Crit Chance","T7 Attack Speed","T5 Intelligence","T5 Cold Flat Damage"], note:'Four-affix exalted. Target farm via Prophecies.'},
+      {slot:'Boots', item:"Last Steps of the Living (LP2+)", icon:'👢', key:true, affixes:["15% Missing HP as Ward/sec","Experimental Ward/Missing HP (LP ×2)"], note:'Two ward LP affixes for max Low Life scaling.'},
+      {slot:'Belt', item:"Exalted Belt (Crafted)", icon:'⚙️', key:false, affixes:["T7 Elemental Resist","Ailment Cleanse on Potion","T5 Ward Retention","T4 Mana Regen"], note:''},
+      {slot:'Amulet', item:"Omnis (LP1) — CORRUPTED", icon:'📿', key:true, affixes:["All skill bonuses + Resistances","Cold Dmg Multiplier (LP)","INT → Brilliance (Rune of Corruption)"], note:'🔥 Corrupted with Brilliance for More Spell Dmg.'},
+      {slot:'Ring 1', item:"Red Ring of Atlaria (LP1)", icon:'💍', key:true, affixes:["19% Dmg Reduction (needs ×2 rings)","All Resistances + move speed","Cold Dmg Multiplier (LP)","⚠️ Requires 180 Intelligence"], note:'The gating item. Farm when at 175+ INT.'},
+      {slot:'Ring 2', item:"Red Ring of Atlaria (LP1)", icon:'💍', key:true, affixes:["19% Dmg Reduction completes here","All Resistances","Intelligence (LP)"], note:'Both rings together = 38% dmg reduction at Uber.'},
+      {slot:'Relic', item:"Ucenui's Sphere (LP2)", icon:'🔮', key:true, affixes:["Full Mage stat stick","Cold Dmg Multiplier + Intelligence (LP2)"], note:'Final relic upgrade. Farm T4 Julra.'},
+    ]
+  }
+};
+
+const STATS = [
+  {label:'Intelligence', icon:'🧠', value:'180+', target:'Required for Red Ring of Atlaria activation', color:'#818cf8', pct:85},
+  {label:'Melee Crit Chance', icon:'⚡', value:'100%', target:'Hard cap — stop investing here', color:'#fbbf24', pct:100},
+  {label:'Crit Multiplier', icon:'💥', value:'400%+', target:'BiS target ~500%', color:'#f87171', pct:80},
+  {label:'Cold Dmg Overcap', icon:'❄️', value:'30–50%', target:'Each % = More Dmg via Incinerating Aura', color:'#67e8f9', pct:70},
+  {label:'Attack Speed', icon:'🌀', value:'60%+ inc.', target:'Sustains 50+ Fire Aura stacks', color:'#fb923c', pct:65},
+  {label:'Ward Regen', icon:'🛡️', value:'3,000+/s', target:'With Low Life setup active', color:'#c084fc', pct:90},
+];
+
+const S4_MECHANICS = [
+  {name:'Incinerating Aura (S4 Rework)', color:'#67e8f9', bg:'rgba(103,232,249,.06)', border:'rgba(103,232,249,.3)',
+   desc:"Now grants More Cold Damage per point of overcapped Cold Resistance. Every point you overcap is a multiplicative damage bonus — from gear you needed anyway.",
+   example:"50% overcap = ~50 'More Cold Dmg' instances. Previously this was just wasted stat budget."},
+  {name:'Flame Drinker (S4 Rework)', color:'#fb923c', bg:'rgba(251,146,60,.06)', border:'rgba(251,146,60,.3)',
+   desc:"Now grants More Elemental Damage for high-cost melee attacks AND consumes Fire Auras for Mana. Your aura stacks simultaneously become damage and mana. Essentially free.",
+   example:"At 50+ auras: ~15–25% More Elemental Dmg multiplier + full mana sustain with zero extra effort."},
+  {name:'Excitation (S4 New Node)', color:'#fbbf24', bg:'rgba(251,191,36,.06)', border:'rgba(251,191,36,.3)',
+   desc:"Firebrand node. Causes Lightning Blast to chain 2 additional times per Firebrand stack consumed. Fires completely automatically.",
+   example:"At max Firebrand stacks: 5 stacks × 2 chains = 10 extra Lightning Blast hits per detonation. Zero button presses."},
+  {name:'Blade Conduit (S4 New Passive)', color:'#c084fc', bg:'rgba(192,132,252,.06)', border:'rgba(192,132,252,.3)',
+   desc:"Stacking Mana Regen buff as you cast spells. Stacks with Flame Drinker to completely solve the build's previously awkward mana economy.",
+   example:"Between Blade Conduit + Flame Drinker, you effectively have infinite mana during the Firebrand spam cycle."},
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+const skillPts = {};
+const passivePts = {};
+SKILLS.forEach(s => s.nodes.forEach(n => { skillPts[s.id+'_'+n.n] = n.def; }));
+PASSIVES.forEach(t => t.nodes.forEach(n => { passivePts[t.id+'_'+n.n] = n.def; }));
+
+let currentPhase = 'early';
+
+// ─── RENDER SKILLS ────────────────────────────────────────────────────────────
+function skillTotal(id) {
+  return SKILLS.find(s=>s.id===id).nodes.reduce((a,n)=>a+(skillPts[id+'_'+n.n]||0),0);
+}
+
+function renderSkills() {
+  const $c = $('#skills-container').empty();
+  SKILLS.forEach(skill => {
+    const open = skill.id === (window._openSkill || 'firebrand');
+    const total = skillTotal(skill.id);
+    const $card = $('<div>').addClass('skill-card').attr('id','skill-'+skill.id).toggleClass('open',open).css({
+      '--skill-color': skill.color, '--skill-glow': skill.glow
+    });
+    const $hdr = $('<button>').addClass('skill-header');
+    $hdr.html(`
+      <span class="skill-icon">${skill.icon}</span>
+      <div class="skill-name-wrap">
+        <span class="skill-name" style="color:${skill.color}">${skill.name}</span>
+        <span class="skill-role">— ${skill.role}</span>
+        ${!open ? `<p class="skill-desc-mini">${skill.desc}</p>` : ''}
+      </div>
+      <span class="skill-counter" style="color:${skill.color}">${total}/${skill.maxPts}</span>
+      <span class="skill-chevron">${open?'▲':'▼'}</span>
+    `);
+    $hdr.on('click', function(){
+      window._openSkill = (window._openSkill === skill.id) ? null : skill.id;
+      renderSkills();
+    });
+    $card.append($hdr);
+    if(open) {
+      const $body = $('<div>').addClass('skill-body');
+      $body.append($('<p>').text(skill.desc));
+      skill.nodes.forEach(node => {
+        const key = skill.id+'_'+node.n;
+        const cur = skillPts[key]||0;
+        const isMaxed = cur===node.max;
+        const $row = $('<div>').addClass('node-row').toggleClass('allocated', cur>0).css({
+          '--skill-color': skill.color,
+          '--node-bg': hexToRgba(skill.color, 0.05)
+        });
+        $row.html(`
+          <div class="node-info">
+            <span class="node-name">${node.n}</span>${node.core?'<span class="badge badge-core">CORE</span>':''}${node.s4?'<span class="badge badge-s4">S4</span>':''}
+            <div class="node-desc">${node.desc}</div>
+          </div>
+          <div class="node-ctrl">
+            <button class="ctrl-btn dec" data-key="${key}" data-max="${node.max}">−</button>
+            <span class="node-pts ${isMaxed?'maxed':''}" style="${isMaxed?`color:${skill.color}`:''}">
+              ${cur}/${node.max}
+            </span>
+            <button class="ctrl-btn inc" data-key="${key}" data-max="${node.max}">+</button>
+          </div>
+        `);
+        $body.append($row);
+      });
+      $card.append($body);
+    }
+    $c.append($card);
+  });
+  // bind +/-
+  $('#skills-container .ctrl-btn').on('click', function(e){
+    e.stopPropagation();
+    const key = $(this).data('key'), max = +$(this).data('max');
+    const delta = $(this).hasClass('inc') ? 1 : -1;
+    skillPts[key] = Math.max(0, Math.min(max, (skillPts[key]||0)+delta));
+    renderSkills();
+  });
+}
+
+// ─── RENDER PASSIVES ─────────────────────────────────────────────────────────
+const CAT_COLORS = {Core:'#fb923c', Offense:'#f87171', Defense:'#67e8f9', Utility:'#c084fc'};
+
+function passiveTotal(treeId) {
+  return PASSIVES.find(t=>t.id===treeId).nodes.reduce((a,n)=>a+(passivePts[treeId+'_'+n.n]||0),0);
+}
+
+function renderPassives() {
+  const $c = $('#passives-container').empty();
+  PASSIVES.forEach(tree => {
+    const $tree = $('<div>').addClass('passive-tree').css({'border':'1px solid '+hexToRgba(tree.color,.27)});
+    const maxTotal = tree.nodes.reduce((a,n)=>a+n.max,0);
+    const total = passiveTotal(tree.id);
+    $tree.append(`
+      <div class="passive-tree-hd" style="background:linear-gradient(90deg,${hexToRgba(tree.color,.13)} 0%,transparent 100%);border-bottom:1px solid ${hexToRgba(tree.color,.2)}">
+        <span class="passive-tree-title" style="color:${tree.color}">${tree.label}</span>
+        <span class="passive-counter" style="border:1px solid ${hexToRgba(tree.color,.3)};color:${tree.color}">${total}/${maxTotal} pts</span>
+      </div>
+    `);
+    const $body = $('<div>').addClass('passive-body');
+    const byCategory = {};
+    tree.nodes.forEach(n => { (byCategory[n.cat]=[...(byCategory[n.cat]||[]),n]); });
+    Object.entries(byCategory).forEach(([cat, nodes]) => {
+      const catColor = CAT_COLORS[cat]||'#6b7280';
+      $body.append(`<div class="cat-label"><div class="cat-dot" style="background:${catColor}"></div><span class="cat-name" style="color:${catColor}">${cat.toUpperCase()}</span></div>`);
+      nodes.forEach(node => {
+        const key = tree.id+'_'+node.n;
+        const cur = passivePts[key]||0;
+        const isMaxed = cur===node.max;
+        const $row = $('<div>').addClass('p-node').toggleClass('allocated', cur>0).css({
+          '--node-bg': hexToRgba(tree.color,.05),
+          '--node-border': hexToRgba(tree.color,.3)
+        });
+        $row.html(`
+          <div class="p-node-info">
+            <span class="p-node-name">${node.n}</span>${node.core?'<span class="badge badge-core">CORE</span>':''}${node.s4?'<span class="badge badge-s4">S4</span>':''}
+            <div class="p-node-desc">${node.desc}</div>
+          </div>
+          <div class="node-ctrl">
+            <button class="ctrl-btn pdec" data-key="${key}" data-max="${node.max}">−</button>
+            <span class="node-pts ${isMaxed?'maxed':''}" style="${isMaxed?`color:${tree.color}`:''}">
+              ${cur}/${node.max}
+            </span>
+            <button class="ctrl-btn pinc" data-key="${key}" data-max="${node.max}">+</button>
+          </div>
+        `);
+        $body.append($row);
+      });
+    });
+    $tree.append($body);
+    $c.append($tree);
+  });
+  // update counter on change
+  $('#passives-container .ctrl-btn').on('click', function(){
+    const key = $(this).data('key'), max = +$(this).data('max');
+    const delta = $(this).hasClass('pinc') ? 1 : -1;
+    passivePts[key] = Math.max(0, Math.min(max, (passivePts[key]||0)+delta));
+    renderPassives();
+  });
+}
+
+// ─── RENDER GEAR ─────────────────────────────────────────────────────────────
+const gearCustom = {};
+
+function renderGear() {
+  const phase = GEAR_PHASES[currentPhase];
+  // phase buttons
+  const $btns = $('#phase-btns').empty();
+  Object.entries(GEAR_PHASES).forEach(([key, ph]) => {
+    const $b = $('<button>').addClass('phase-btn').toggleClass('active', key===currentPhase)
+      .css({'--phase-color': ph.color}).text(ph.label);
+    if(key===currentPhase) $b.css({borderColor: ph.color, color: ph.color});
+    $b.on('click', ()=>{ currentPhase=key; renderGear(); });
+    $btns.append($b);
+  });
+  // phase header
+  $('#gear-phase-hd').html(`<span style="color:${phase.color};font-family:'Cinzel',serif;font-weight:700;font-size:13px">${phase.label}</span> <span style="color:var(--dim);font-size:12px;margin-left:8px">${phase.sub}</span>`).css({'border-color': hexToRgba(phase.color,.2)});
+  // slots
+  const $grid = $('#gear-grid').empty();
+  phase.slots.forEach((slot, i) => {
+    const gkey = currentPhase+'_'+i;
+    const displayItem = gearCustom[gkey] || slot.item;
+    const obtained = !!gearCustom[gkey+'_checked'];
+    const $s = $('<div>').addClass('gear-slot').toggleClass('key', slot.key).toggleClass('obtained', obtained);
+    const affixHtml = slot.affixes.map((a,ai)=>`<span class="gear-affix${ai===0&&slot.key?' primary':''}">${a}</span>`).join('');
+    const noteHtml = slot.note ? `<span class="gear-note">${slot.note}</span>` : '';
+    $s.html(`
+      <div class="gear-slot-inner">
+        <div class="gear-slot-left">
+          <span class="gear-slot-icon">${slot.icon}</span>
+          <input type="checkbox" class="gear-slot-check" data-gkey="${gkey}" ${obtained?'checked':''} title="Mark as obtained">
+        </div>
+        <div class="gear-slot-right">
+          <div class="gear-slot-label">${slot.slot.toUpperCase()} ${slot.key?'<span class="key-badge">KEY ITEM</span>':''}</div>
+          <div class="gear-item-name" data-gkey="${gkey}">${displayItem} <span class="edit-icon">✎</span></div>
+          <div class="affixes">${affixHtml}</div>
+          ${noteHtml}
+        </div>
+      </div>
+    `);
+    $grid.append($s);
+  });
+  // edit on click
+  $('#gear-grid .gear-item-name').on('click', function(){
+    const gk = $(this).data('gkey');
+    const cur = gearCustom[gk] || $(this).text().replace('✎','').trim();
+    const $inp = $('<input>').addClass('gear-item-input').val(cur);
+    $(this).replaceWith($inp.attr('data-gkey', gk));
+    $inp.focus().on('blur keydown', function(e){
+      if(e.type==='blur'||(e.type==='keydown'&&e.key==='Enter')){
+        gearCustom[gk] = $(this).val().trim() || '';
+        renderGear();
+      }
+    });
+  });
+  // checkbox
+  $('#gear-grid .gear-slot-check').on('change', function(){
+    const gk = $(this).data('gkey');
+    gearCustom[gk+'_checked'] = $(this).is(':checked');
+    $(this).closest('.gear-slot').toggleClass('obtained', $(this).is(':checked'));
+  });
+  // warnings
+  const $w = $('#gear-warning').empty();
+  if(currentPhase==='endgame') {
+    $w.append(`<div class="warning-box" style="border-color:rgba(248,113,113,.3)"><strong style="color:var(--red)">⚠️ LOW LIFE TRANSITION WARNING</strong><p style="color:var(--muted)">Equip Exsanguinous AND Last Steps of the Living at the same time. Never one without the other. Pre-check your ward generation is above 1,000/sec before transitioning.</p></div>`);
+  } else if(currentPhase==='bis') {
+    $w.append(`<div class="warning-box" style="border-color:rgba(251,191,36,.3)"><strong style="color:var(--yellow)">💡 RED RING OF ATLARIA GATE</strong><p style="color:var(--muted)">You need exactly 180 Intelligence before Red Rings activate. Track this explicitly — allocate Arcane Insight + Prodigy passives first, T7 Intelligence on amulet, then check total in character sheet. Both rings together = 38% damage reduction at Uber Aberroth.</p></div>`);
+  }
+}
+
+// ─── RENDER STATS ─────────────────────────────────────────────────────────────
+function renderStats() {
+  const $sg = $('#stats-grid').empty();
+  STATS.forEach(s => {
+    $sg.append(`
+      <div class="stat-card" style="border-color:${hexToRgba(s.color,.3)}">
+        <div class="stat-top">
+          <span class="stat-icon">${s.icon}</span>
+          <div>
+            <div class="stat-label" style="color:${s.color}">${s.label}</div>
+            <div class="stat-value" style="color:${s.color}">${s.value}</div>
+          </div>
+        </div>
+        <div class="stat-bar-track">
+          <div class="stat-bar-fill" style="background:${s.color};width:${s.pct}%"></div>
+        </div>
+        <div class="stat-target">${s.target}</div>
+      </div>
+    `);
+  });
+  const $sc = $('#s4-cards').empty();
+  S4_MECHANICS.forEach(m => {
+    $sc.append(`
+      <div class="s4-card" style="background:${m.bg};border-color:${m.border}">
+        <div class="s4-card-title" style="color:${m.color}">${m.name}</div>
+        <div class="s4-card-desc">${m.desc}</div>
+        <div class="s4-example" style="background:${m.bg};border:1px solid ${m.border}">
+          <span style="color:${m.color};font-size:11px;font-style:italic">Example: ${m.example}</span>
+        </div>
+      </div>
+    `);
+  });
+}
+
+// ─── TABS ─────────────────────────────────────────────────────────────────────
+$('.tab-btn').on('click', function(){
+  const tab = $(this).data('tab');
+  $('.tab-btn').removeClass('active');
+  $(this).addClass('active');
+  $('.tab-panel').removeClass('active');
+  $('#tab-'+tab).addClass('active');
+});
+
+// ─── UTIL ─────────────────────────────────────────────────────────────────────
+function hexToRgba(hex, a) {
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+$(function(){
+  window._openSkill = 'firebrand';
+  renderSkills();
+  renderPassives();
+  renderGear();
+  renderStats();
+});
+</script>
+</body>
+</html>
