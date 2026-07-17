@@ -17,54 +17,59 @@
       --sans: 'Inter', system-ui, sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--sn); font-family: var(--sans); font-size: 14px; line-height: 1.6; }
+    body { background: var(--bg); color: var(--sn); font-family: var(--sans); font-size: 13px; line-height: 1.5; }
     
     input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
     input[type=number] { -moz-appearance: textfield; appearance: textfield; }
     ::selection { background: var(--ru); color: var(--bg); }
     
-    .card { background: var(--sf); padding: 20px; margin-bottom: 16px; border: 1px solid var(--bd); border-radius: 8px; }
+    /* Layout Framework */
+    .app-container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+    .grid-layout { display: flex; flex-wrap: wrap; gap: 16px; }
+    .grid-col { flex: 1 1 340px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+    
+    .card { background: var(--sf); padding: 16px; border: 1px solid var(--bd); border-radius: 8px; }
     .card.gold { border-color: var(--ru); box-shadow: 0 0 15px rgba(210, 168, 255, 0.05); }
     
-    .hdr { font-family: var(--hd); font-size: 10px; color: var(--ru); letter-spacing: 1px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .hdr { font-family: var(--hd); font-size: 9px; color: var(--ru); letter-spacing: 1px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
     .hdr::after { content: ''; flex: 1; border-bottom: 1px solid var(--bd); }
     
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed var(--gd); }
-    .row .l { color: var(--ic); display: flex; align-items: center; gap: 8px; font-size: 13px; }
-    .row .r { font-weight: 700; font-family: var(--mono); font-size: 14px; }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px dashed var(--gd); }
+    .row .l { color: var(--ic); display: flex; align-items: center; gap: 6px; font-size: 12px; }
+    .row .r { font-weight: 700; font-family: var(--mono); font-size: 13px; }
     
-    .tag { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.5px; }
+    .tag { font-size: 8px; font-weight: 700; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.5px; }
     .tag.bloat { background: rgba(248, 81, 73, 0.15); color: var(--bl); }
     .tag.gov { background: rgba(88, 166, 255, 0.15); color: var(--fj); }
     
-    .field-row { margin-bottom: 12px; }
-    .field { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-    .lbl { display: flex; align-items: baseline; font-size: 13px; color: var(--sn); flex: 1; }
-    .lbl span { color: var(--dm); margin-left: 8px; font-size: 11px; }
+    .field-row { margin-bottom: 10px; }
+    .field { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .lbl { display: flex; align-items: baseline; font-size: 12px; color: var(--sn); flex: 1; }
+    .lbl span { color: var(--dm); margin-left: 6px; font-size: 10px; }
     
-    .inp-wrap { display: flex; align-items: center; background: var(--in); border: 1px solid var(--bd); border-radius: 4px; flex: 0 0 160px; overflow: hidden; transition: border-color 0.2s; }
+    .inp-wrap { display: flex; align-items: center; background: var(--in); border: 1px solid var(--bd); border-radius: 4px; flex: 0 0 120px; overflow: hidden; transition: border-color 0.2s; }
     .inp-wrap:focus-within { border-color: var(--ru); }
     .inp-wrap.hi { border-color: var(--pn); background: var(--pb); }
     
-    .inp-wrap .pre { padding: 8px 0 8px 10px; color: var(--ic); font-family: var(--mono); font-size: 13px; user-select: none; }
-    .inp-wrap input { flex: 1; border: none; background: none; color: var(--sn); padding: 8px 10px; font-size: 14px; font-family: var(--mono); outline: none; min-width: 0; text-align: right; }
-    .inp-wrap .suf { padding: 8px 10px 8px 0; color: var(--ic); font-family: var(--mono); font-size: 13px; user-select: none; }
+    .inp-wrap .pre { padding: 6px 0 6px 8px; color: var(--ic); font-family: var(--mono); font-size: 12px; user-select: none; }
+    .inp-wrap input { flex: 1; border: none; background: none; color: var(--sn); padding: 6px 8px; font-size: 13px; font-family: var(--mono); outline: none; min-width: 0; text-align: right; }
+    .inp-wrap .suf { padding: 6px 8px 6px 0; color: var(--ic); font-family: var(--mono); font-size: 12px; user-select: none; }
     
-    .warn { font-size: 12px; color: var(--bl); margin-top: 4px; text-align: right; }
+    .warn { font-size: 11px; color: var(--bl); margin-top: 4px; text-align: right; }
     
-    .big { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 0 4px; border-top: 2px solid var(--gd); margin-top: 8px; }
-    .big .l { font-weight: 700; font-size: 14px; color: var(--ru); letter-spacing: 1px; }
-    .big .r { font-family: var(--mono); font-size: 24px; color: var(--ru); font-weight: 700; }
+    .big { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0 2px; border-top: 2px solid var(--gd); margin-top: 6px; }
+    .big .l { font-weight: 700; font-size: 12px; color: var(--ru); letter-spacing: 1px; }
+    .big .r { font-family: var(--mono); font-size: 20px; color: var(--ru); font-weight: 700; }
     
-    textarea { width: 100%; min-height: 80px; background: var(--in); color: var(--sn); padding: 12px; font: 13px var(--mono); resize: vertical; outline: none; border: 1px solid var(--bd); border-radius: 4px; line-height: 1.6; }
+    textarea { width: 100%; min-height: 80px; background: var(--in); color: var(--sn); padding: 12px; font: 12px var(--mono); resize: vertical; outline: none; border: 1px solid var(--bd); border-radius: 4px; line-height: 1.6; }
     textarea:focus { border-color: var(--ru); }
     textarea::placeholder, input::placeholder { color: var(--dm); }
     
-    .pbtn { padding: 10px 16px; border: 1px solid var(--bd); border-radius: 4px; font: 12px var(--sans); font-weight: 600; cursor: pointer; letter-spacing: 0.5px; transition: all 0.2s; }
+    .pbtn { padding: 8px 14px; border: 1px solid var(--bd); border-radius: 4px; font: 11px var(--sans); font-weight: 600; cursor: pointer; letter-spacing: 0.5px; transition: all 0.2s; }
     .pbtn:hover { filter: brightness(1.2); }
     
     .collapse-btn { display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; }
-    .tips p { margin: 0 0 10px; font-size: 13px; color: var(--ic); line-height: 1.6; }
+    .tips p { margin: 0 0 8px; font-size: 12px; color: var(--ic); line-height: 1.5; }
     .tips p:last-child { margin: 0; }
     .tips b { color: var(--ru); margin-right: 6px; }
   </style>
@@ -101,4 +106,274 @@
           system:`Extract vehicle listing data. ONLY JSON:\n{"year":number|null,"make":"str"|null,"model":"str"|null,"trim":"str"|null,"msrp":number|null,"dealer_price":number|null,"dealer_discount":number|null,"rebates":[{"name":"str","amount":number}],"doc_fee":number|null,"freight":number|null,"bloat_addons":[{"name":"str","amount":number}]}\ndoc/admin=doc_fee. freight/destination=freight. nitrogen/paint/fabric/tint/market adj/accessories=bloat_addons. Skip tax/tag/title. No markdown.`,
           messages:[{role:"user",content:`${ctx}Extract:\n\n${text.slice(0,4000)}`}]})});
       const d=await r.json();
-      return JSON.parse((d.content?.find(b=>b.type==="text")?.text||"").replace(/```json|
+      return JSON.parse((d.content?.find(b=>b.type==="text")?.text||"").replace(/```json|```/g,"").trim());
+    }
+    function urlHints(url){const h={};try{const u=new URL(url),p=u.pathname.toLowerCase().split("/").filter(Boolean);if(u.hostname.includes("autotrader")){h.source="Autotrader";const i=p.findIndex(x=>x.includes("-cars"));if(i>=0){h.make=p[i+2];h.model=p[i+3];h.condition=p[i].includes("new")?"New":"Used";}}else if(u.hostname.includes("cars.com"))h.source="Cars.com";else if(u.hostname.includes("cargurus"))h.source="CarGurus";else if(u.hostname.includes("truecar")){h.source="TrueCar";const t=p.filter(x=>!["new","used","prices","overview"].includes(x));h.make=t[0];h.model=t[1];}else h.source=u.hostname.replace("www.","");}catch{}return h;}
+
+    // Berserker Icon
+    function Logo(){
+      const P="var(--ru)",S="var(--sn)",B="var(--bd)",R="var(--bl)",G="var(--dm)",N="var(--pn)",_=null,Z=3;
+      const g=[[_,P,_,_,_,_,_,_,_,_,_,_,_,_,P,_],[P,B,P,_,_,P,P,P,P,P,P,_,_,P,B,P],[B,_,B,P,P,P,P,P,P,P,P,P,P,B,_,B],[_,_,_,B,P,P,P,P,P,P,P,P,B,_,_,_],[_,_,B,S,S,B,P,P,P,P,B,S,S,B,_,_],[_,_,B,B,S,B,B,P,P,B,B,S,B,B,_,_],[_,_,_,B,S,S,S,S,S,S,S,S,B,_,_,_],[_,_,B,P,P,S,R,R,R,R,S,P,P,B,_,_],[_,P,B,G,G,P,B,B,B,B,P,G,G,B,R,_],[P,P,B,G,G,G,B,G,G,B,G,G,G,B,R,N],[_,_,B,G,G,G,B,G,G,B,G,G,G,B,R,_],[_,_,_,B,P,P,P,P,P,P,P,P,B,_,_,_],[_,_,_,B,G,G,B,B,B,B,G,G,B,_,_,_],[_,_,B,B,B,B,_,_,_,_,B,B,B,B,_,_]];
+      return <svg width={16*Z} height={g.length*Z} viewBox={`0 0 ${16*Z} ${g.length*Z}`} style={{imageRendering:"pixelated"}}>{g.map((r,y)=>r.map((c,x)=>c?<rect key={`${x}${y}`} x={x*Z} y={y*Z} width={Z} height={Z} fill={c}/>:null))}</svg>;
+    }
+
+    // Horizontal Field Component
+    function F({label,value,onChange,pre="$",suf,hint,warn,hi:h}){
+      return <div className="field-row">
+        <div className="field">
+          <label className="lbl">{label}{hint&&<span>{hint}</span>}</label>
+          <div className={`inp-wrap${h?" hi":""}`}>
+            {pre&&<span className="pre">{pre}</span>}
+            <input type="number" value={value} onChange={e=>onChange(e.target.value===""?"":Number(e.target.value))}/>
+            {suf&&<span className="suf">{suf}</span>}
+          </div>
+        </div>
+        {warn&&<div className="warn">⚠ {warn}</div>}
+      </div>;
+    }
+
+    // Row Component for Read-Only Outputs
+    function R({l,v,c,b,tag}){
+      return <div className="row">
+        <span className="l" style={{color:c||undefined}}>{l}{tag&&<span className={`tag ${tag.toLowerCase()}`}>{tag}</span>}</span>
+        <span className="r" style={{color:c||undefined}}>{typeof v==="string"?v:fmt(v)}</span>
+      </div>;
+    }
+
+    // Import Component
+    function Import({onApply}){
+      const[open,setOpen]=useState(false);
+      const[txt,setTxt]=useState("");
+      const[st,setSt]=useState("idle");
+      const[pv,setPv]=useState(null);
+      const[hints,setHints]=useState({});
+      const[key,setKey]=useState(()=>{try{return localStorage.getItem("skald_key")||"";}catch{return"";}});
+      const saveKey=k=>{setKey(k);try{localStorage.setItem("skald_key",k);}catch{}};
+
+      const go=useCallback(async()=>{
+        if(txt.trim().length<30||!key)return;
+        setSt("loading");
+        try{const r=await aiExtract(txt,hints,key);setPv(r);setSt("preview");}
+        catch{setSt("error");}
+      },[txt,hints,key]);
+
+      const handleTxt=t=>{setTxt(t);if(!t.trim()){setSt("idle");return;}
+        const m=t.trim().match(/^https?:\/\/\S+$/);if(m){setHints(urlHints(m[0]));setSt("idle");}};
+
+      const apply=()=>{if(!pv)return;
+        onApply({msrp:pv.msrp,discountPct:pv.msrp&&pv.dealer_discount?Math.round(pv.dealer_discount/pv.msrp*100):null,
+          r1:pv.rebates?.[0]?.amount,r2:pv.rebates?.[1]?.amount,r3:pv.rebates?.[2]?.amount,
+          doc:pv.doc_fee,freight:pv.freight,
+          bloat:(pv.bloat_addons?.reduce((s,f)=>s+f.amount,0))||null,
+          name:[pv.year,pv.make,pv.model,pv.trim].filter(Boolean).join(" ")});
+        setOpen(false);setSt("idle");};
+
+      return <div className="card" style={{borderColor: "var(--fj)", marginBottom: "16px"}}>
+        <div className="collapse-btn" onClick={()=>setOpen(!open)}>
+          <span className="hdr" style={{marginBottom:0, color: "var(--fj)"}}>ᛊ AI IMPORT</span>
+          <span style={{color:"var(--dm)",fontSize:14,transform:open?"rotate(180deg)":"",transition:"transform .2s",display:"inline-block"}}>▼</span>
+        </div>
+        {open&&<div style={{marginTop:16}}>
+          <div className="field-row">
+            <div className="field">
+              <label className="lbl">API KEY <span>(stored locally)</span></label>
+              <div className="inp-wrap" style={{flex: "0 0 180px"}}>
+                <input type="password" value={key} onChange={e=>saveKey(e.target.value)} placeholder="sk-ant-..." style={{fontSize:12, textAlign:"left"}}/>
+              </div>
+            </div>
+          </div>
+          {hints.source&&<div style={{fontSize:11,color:"var(--pn)",marginBottom:10,padding:"6px 10px",background:"var(--pb)", borderRadius: 4}}>✓ Detected {hints.source}{hints.make?` · ${hints.make} ${hints.model||""}`:""}</div>}
+          <textarea value={txt} onChange={e=>handleTxt(e.target.value)} placeholder="Paste vehicle listing URL, followed by pricing details..."/>
+          {st==="loading"&&<div style={{fontSize:11,color:"var(--ru)",marginTop:8}}>◆ Extracting pricing data...</div>}
+          {st==="error"&&<div style={{fontSize:11,color:"var(--bl)",marginTop:8}}>Could not parse. Check your API key or paste more text.</div>}
+          {st==="preview"&&pv&&<div style={{marginTop:12}}>
+            <div style={{background:"var(--gd)",padding:12,marginBottom:10, borderRadius: 6}}>
+              {pv.year&&pv.make&&<div style={{fontFamily:"var(--sans)", fontWeight: 700, fontSize:13,color:"var(--sn)",marginBottom:8}}>{[pv.year,pv.make,pv.model,pv.trim].filter(Boolean).join(" ")}</div>}
+              {pv.msrp&&<R l="MSRP" v={pv.msrp} b/>}
+              {pv.dealer_discount&&<R l="Discount" v={pv.dealer_discount} c="var(--pn)"/>}
+              {pv.rebates?.map((r,i)=><R key={i} l={r.name||`Rebate`} v={r.amount} c="var(--pn)"/>)}
+              {pv.doc_fee&&<R l="Doc Fee" v={pv.doc_fee}/>}
+              {pv.freight&&<R l="Freight" v={pv.freight} tag="BLOAT" c="var(--bl)"/>}
+              {pv.bloat_addons?.map((b,i)=><R key={i} l={b.name} v={b.amount} tag="BLOAT" c="var(--bl)"/>)}
+            </div>
+            <div style={{display:"flex",gap:8}}>
+              <button className="pbtn" onClick={apply} style={{background:"var(--pn)",color:"#fff",borderColor:"var(--pn)"}}>APPLY DATA</button>
+              <button className="pbtn" onClick={()=>{setSt("idle");setPv(null);setTxt("");}} style={{background:"transparent",color:"var(--sn)"}}>CLEAR</button>
+            </div>
+          </div>}
+          {st==="idle"&&txt.trim().length>30&&key&&<button className="pbtn" onClick={go} style={{background:"var(--ru)",color:"var(--bg)",marginTop:10, borderColor:"var(--ru)"}}>EXTRACT DATA</button>}
+          {st==="idle"&&txt.trim().length>30&&!key&&<div style={{fontSize:11,color:"var(--dm)",marginTop:8}}>Enter Anthropic API key to extract</div>}
+        </div>}
+      </div>;
+    }
+
+    // Main App
+    function App(){
+      const[msrp,setMsrp]=useState(55000);const[disc,setDisc]=useState(10);
+      const[r1,setR1]=useState(0);const[r2,setR2]=useState(0);const[r3,setR3]=useState(0);
+      const[trOff,setTrOff]=useState(0);const[trPay,setTrPay]=useState(0);const[down,setDown]=useState(0);
+      const[zip,setZip]=useState("17013");const[tag,setTag]=useState(558);
+      const[doc,setDoc]=useState(500);const[frt,setFrt]=useState(0);const[adn,setAdn]=useState(0);
+      const[apr,setApr]=useState(5.5);const[trm,setTrm]=useState(84);const[d2f,setD2f]=useState(30);
+      const[vName,setVName]=useState("");const[hiSet,setHi]=useState(new Set());
+      const st=useMemo(()=>z2s(zip),[zip]);
+      const[tipsOpen,setTipsOpen]=useState(false);
+
+      const imp=useCallback(d=>{
+        const t=new Set();
+        if(d.msrp){setMsrp(d.msrp);t.add("msrp");}if(d.discountPct){setDisc(d.discountPct);t.add("disc");}
+        if(d.r1){setR1(d.r1);t.add("r1");}if(d.r2){setR2(d.r2);t.add("r2");}if(d.r3){setR3(d.r3);t.add("r3");}
+        if(d.doc!=null){setDoc(d.doc);t.add("doc");}if(d.freight){setFrt(d.freight);t.add("frt");}
+        if(d.bloat){setAdn(d.bloat);t.add("adn");}if(d.name)setVName(d.name);
+        setHi(t);setTimeout(()=>setHi(new Set()),3000);
+      },[]);
+
+      const c=useMemo(()=>{
+        const s=st||"PA",dsc=msrp*(disc/100),dp=msrp-dsc,reb=(r1||0)+(r2||0)+(r3||0),fp=dp-reb;
+        const te=(trOff||0)-(trPay||0),tc=TC.has(s)?Math.max(trOff||0,0):0;
+        const txb=Math.max(fp-tc,0),tr=TAX[s]||0,tx=txb*tr;
+        const bl=(frt||0)+(adn||0),gv=tag||0;
+        const otd=fp-te+tx+(doc||0)+bl+gv-(down||0);
+        const mo=(apr/100)/12;let mp=0,ti=0,tl=0;
+        if(mo>0&&trm>0&&otd>0){mp=otd*(mo*Math.pow(1+mo,trm))/(Math.pow(1+mo,trm)-1);tl=mp*trm;ti=tl-otd;}
+        else if(trm>0&&otd>0){mp=otd/trm;tl=otd;}
+        const dr=(apr/100)/365;
+        return{s,dsc,dp,reb,fp,te,tc,txb,tr,tx,doc:doc||0,bl,gv,otd,mp,ti,tl,dr,ii:otd*dr*(d2f||30),pct:msrp>0?((msrp-fp)/msrp)*100:0,dn:down||0};
+      },[msrp,disc,r1,r2,r3,trOff,trPay,down,st,tag,doc,frt,adn,apr,trm,d2f]);
+
+      const h=f=>hiSet.has(f);
+
+      return <div className="app-container">
+        {/* Header (Full Width) */}
+        <div style={{textAlign: "center", marginBottom: 24}}>
+          <div style={{display: "flex", justifyContent: "center", marginBottom: 10}}><Logo/></div>
+          <h1 style={{fontFamily: "var(--hd)", fontSize: 20, color: "var(--ru)", margin: 0}}>SKALD</h1>
+          <div style={{fontSize: 10, fontWeight: 600, color: "var(--ic)", marginTop: 8, letterSpacing: 1}}>10% OFF · STACK REBATES · SLAY BLOAT</div>
+        </div>
+
+        {/* Import Module (Full Width) */}
+        <Import onApply={imp}/>
+        
+        {vName&&<div style={{marginBottom: 16, padding: "10px 14px", background: "var(--pb)", borderRadius: 6, color: "var(--pn)", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+          <span style={{fontWeight: 700, fontSize: 13}}>⚔ {vName}</span>
+          <span style={{color: "var(--pn)", fontSize: 10, opacity: 0.8}}>Data Imported</span>
+        </div>}
+
+        {/* 2-Column Responsive Grid */}
+        <div className="grid-layout">
+          
+          {/* LEFT COLUMN: Vehicle Pricing & OTD */}
+          <div className="grid-col">
+            <div className="card">
+              <div className="hdr">ᚹ PRICE NEGOTIATION</div>
+              <F label="MSRP" value={msrp} onChange={setMsrp} hi={h("msrp")}/>
+              <F label="Discount Target" value={disc} onChange={setDisc} pre="" suf="% off" hint={`= ${fmt(c.dsc)}`} hi={h("disc")}/>
+              <R l="Target Dealer Price" v={c.dp} b/>
+              <div style={{margin: "12px 0", borderTop: "1px dashed var(--gd)"}}/>
+              <F label="Rebate 1" value={r1} onChange={setR1} hint="national" hi={h("r1")}/>
+              <F label="Rebate 2" value={r2} onChange={setR2} hint="inventory" hi={h("r2")}/>
+              <F label="Rebate 3" value={r3} onChange={setR3} hint="promo" hi={h("r3")}/>
+              {c.reb>0&&<R l="Total Rebates Applied" v={-c.reb} c="var(--pn)"/>}
+              <div className="big"><span className="l">VEHICLE PRICE</span><span className="r">{fmt(c.fp)}</span></div>
+              {c.pct>0&&<div style={{fontSize: 11, color: "var(--pn)", textAlign: "right", marginTop: 4}}>{c.pct.toFixed(1)}% total off MSRP</div>}
+            </div>
+
+            <div className="card">
+              <div className="hdr">ᚠ TAXES & FEES</div>
+              <div className="field-row">
+                <div className="field">
+                  <label className="lbl">ZIP CODE</label>
+                  <div style={{display: "flex", gap: 12, alignItems: "center"}}>
+                    <div style={{textAlign: "right"}}>
+                      {st ? <><div style={{fontSize: 12, fontWeight: 700, color: "var(--pn)"}}>✓ {NAMES[st]}</div>
+                              <div style={{fontSize: 11, color: "var(--ic)"}}>{(TAX[st]*100).toFixed(2)}%{TC.has(st)?<span style={{color: "var(--pn)", marginLeft: 4}}>+trade cred</span>:null}</div></>
+                          : <span style={{fontSize: 11, color: "var(--dm)"}}>{zip.length>0&&zip.length<3?"...":zip.length>=3?"unknown":"enter zip"}</span>}
+                    </div>
+                    <div className="inp-wrap" style={{flex: "0 0 75px"}}>
+                      <input type="text" inputMode="numeric" maxLength={5} value={zip} placeholder="17013"
+                        onChange={e=>setZip(e.target.value.replace(/\D/g,"").slice(0,5))} style={{textAlign: "center", letterSpacing: 1, fontSize: 14}}/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {st&&TC.has(st)&&trOff>0&&<div style={{fontSize: 11, color: "var(--pn)", marginBottom: 10, textAlign: "right"}}>✓ Taxed on {fmt(c.txb)}</div>}
+              <R l={`Estimated Tax (${pct(c.tr)})`} v={c.tx} tag="GOV"/>
+              <F label="Tag / Title / Reg" value={tag} onChange={setTag} hint="gov"/>
+              
+              <div style={{margin: "12px 0", borderTop: "1px dashed var(--gd)"}}/>
+              
+              <div className="hdr" style={{color: "var(--bl)"}}>⚠ DEALER FEES</div>
+              <F label="Doc / Processing Fee" value={doc} onChange={setDoc} hint="legit" hi={h("doc")}/>
+              <F label="Freight / Destination" value={frt} onChange={setFrt} warn={frt>0?"Should be in MSRP.":""} hi={h("frt")}/>
+              <F label="Other Add-Ons" value={adn} onChange={setAdn} warn={adn>0?"Refuse nitrogen/coatings.":""} hi={h("adn")}/>
+              {c.bl>0&&<R l="Total Dealer Bloat" v={c.bl} tag="BLOAT" c="var(--bl)" b/>}
+            </div>
+
+            <div className="card gold">
+              <div className="hdr">ᛟ OUT THE DOOR</div>
+              <R l="Vehicle Price" v={c.fp}/>
+              <R l="Trade Equity" v={-c.te} c={c.te>0?"var(--pn)":c.te<0?"var(--bl)":"var(--ic)"}/>
+              <R l="Taxes" v={c.tx}/>
+              <R l="Government Fees" v={c.gv}/>
+              <R l="Doc Fee" v={c.doc}/>
+              {c.bl>0&&<R l="Add-on Bloat" v={c.bl} tag="BLOAT" c="var(--bl)"/>}
+              <R l="Cash Down" v={-c.dn} c={c.dn>0?"var(--pn)":"var(--ic)"}/>
+              <div className="big" style={{marginTop: 12}}><span className="l">TOTAL OTD</span><span className="r" style={{fontSize: 24}}>{fmt(c.otd)}</span></div>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: Trade, Finance & Info */}
+          <div className="grid-col">
+            <div className="card">
+              <div className="hdr">ᛏ TRADE & EQUITY</div>
+              <F label="Trade-In Offer" value={trOff} onChange={setTrOff}/>
+              <F label="Loan Payoff" value={trPay} onChange={setTrPay}/>
+              <R l="Net Equity" v={c.te} b c={c.te<0?"var(--bl)":"var(--pn)"}/>
+              {c.te<0&&<div style={{fontSize: 11, color: "var(--bl)", marginTop: 4, textAlign: "right"}}>⚠ {fmt(Math.abs(c.te))} negative equity rolled in</div>}
+              <div style={{margin: "12px 0", borderTop: "1px dashed var(--gd)"}}/>
+              <F label="Cash Down" value={down} onChange={setDown}/>
+            </div>
+
+            <div className="card">
+              <div className="hdr">ᚷ FINANCING</div>
+              <F label="Interest Rate (APR)" value={apr} onChange={setApr} pre="" suf="%"/>
+              <F label="Loan Term" value={trm} onChange={setTrm} pre="" suf="mo"/>
+              <F label="Days to 1st Payment" value={d2f} onChange={setD2f} pre="" suf="days"/>
+              
+              <div style={{margin: "12px 0", borderTop: "1px dashed var(--gd)"}}/>
+              
+              <R l="Total Interest Paid" v={c.ti} c="var(--bl)"/>
+              <R l="Total Loan Cost" v={c.tl} b/>
+              <R l="Daily Interest Rate" v={pct(c.dr)}/>
+              <R l={`Accrued Interest (${d2f||30}d)`} v={c.ii} c="var(--bl)"/>
+              <div className="big"><span className="l">MONTHLY</span><span className="r">{fmt(c.mp)}</span></div>
+            </div>
+
+            <div className="card">
+              <div className="collapse-btn" onClick={()=>setTipsOpen(!tipsOpen)}>
+                <span className="hdr" style={{marginBottom:0, color: "var(--ic)"}}>ᛉ NEGOTIATION TIPS</span>
+                <span style={{color: "var(--dm)", fontSize: 14, transform: tipsOpen?"rotate(180deg)":"", transition: "transform .2s", display: "inline-block"}}>▼</span>
+              </div>
+              {tipsOpen&&<div className="tips" style={{marginTop: 16}}>
+                <p><b>►</b> Walk in with your exact numbers: Out The Door (OTD) and Monthly Payment. You are there to confirm, not to negotiate.</p>
+                <p><b>►</b> 10% off MSRP is a standard solid target. Dealer invoice usually sits 6-8% under MSRP, and manufacturer holdbacks add another 2-3% of pure profit.</p>
+                <p><b>►</b> Stack every single rebate you qualify for. Ask directly, some are not advertised.</p>
+                <p><b>►</b> Refuse dealer add-ons flat out. Freight is already printed on the factory sticker (MSRP). Nitrogen tires, ceramic coats, and LoJack are pure margin padding.</p>
+                <p><b>►</b> Keep transactions isolated. Negotiate the vehicle price first, then the trade-in value, then the APR. Never negotiate based on the monthly payment.</p>
+              </div>}
+            </div>
+          </div>
+
+        </div>
+
+        {/* Footer */}
+        <div style={{textAlign: "center", fontSize: 10, color: "var(--dm)", padding: "20px 0", letterSpacing: 1}}>
+          SKALD · Not financial advice
+        </div>
+      </div>;
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+  </script>
+</body>
+</html>
