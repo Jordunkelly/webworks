@@ -1,0 +1,534 @@
+import { useState, useMemo, useCallback } from "react";
+
+/*
+ * SKALD · 8-bit Nordic Deal Calculator
+ * "The bard who speaks your deal's true name"
+ */
+
+// --- Pixel border ---
+const px = (color = "var(--border)", size = 2) => ({
+  boxShadow: `${size}px 0 0 0 ${color},-${size}px 0 0 0 ${color},0 ${size}px 0 0 ${color},0 -${size}px 0 0 ${color}`,
+});
+
+const fmt = (n) => {
+  if (n === null || n === undefined || isNaN(n)) return "";
+  const abs = Math.abs(n);
+  const s = abs.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return `$${s}`;
+};
+const pct = (n) => (n * 100).toFixed(1) + "%";
+
+// --- Tax Data ---
+const STATE_TAX = {
+  AL:0.02,AK:0,AZ:0.056,AR:0.065,CA:0.0725,CO:0.029,CT:0.0635,DE:0,DC:0.06,FL:0.06,
+  GA:0.04,HI:0.04,ID:0.06,IL:0.0625,IN:0.07,IA:0.06,KS:0.065,KY:0.06,LA:0.0445,ME:0.055,
+  MD:0.06,MA:0.0625,MI:0.06,MN:0.06875,MS:0.05,MO:0.04225,MT:0,NE:0.055,NV:0.0685,NH:0,
+  NJ:0.06625,NM:0.05125,NY:0.04,NC:0.03,ND:0.05,OH:0.0575,OK:0.045,OR:0,PA:0.06,RI:0.07,
+  SC:0.06,SD:0.042,TN:0.07,TX:0.0625,UT:0.0485,VT:0.06,VA:0.0415,WA:0.065,WV:0.06,WI:0.05,WY:0.04,
+};
+const STATE_NAMES = {
+  AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",
+  CT:"Connecticut",DE:"Delaware",DC:"DC",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",
+  IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",
+  MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",
+  MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",
+  NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",
+  PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",
+  TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",
+  WI:"Wisconsin",WY:"Wyoming",
+};
+const TRADE_CREDIT = new Set(["AL","AZ","CA","CO","CT","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","MD","MA","MI","MN","MS","MO","NE","NV","NJ","NM","NY","NC","ND","OH","OK","PA","RI","SC","SD","TN","TX","UT","VA","WA","WV","WI","WY"]);
+
+// --- Zip Lookup ---
+const ZIP_RANGES = [
+  [5,9,"NY"],[10,27,"MA"],[28,29,"RI"],[30,38,"NH"],[39,49,"ME"],[50,59,"VT"],[60,69,"CT"],
+  [70,89,"NJ"],[100,149,"NY"],[150,196,"PA"],[197,199,"DE"],[200,205,"DC"],[206,219,"MD"],
+  [220,246,"VA"],[247,268,"WV"],[270,289,"NC"],[290,299,"SC"],[300,319,"GA"],[320,349,"FL"],
+  [350,369,"AL"],[370,385,"TN"],[386,397,"MS"],[398,399,"GA"],[400,427,"KY"],[430,458,"OH"],
+  [460,479,"IN"],[480,499,"MI"],[500,528,"IA"],[530,549,"WI"],[550,567,"MN"],[570,577,"SD"],
+  [580,588,"ND"],[590,599,"MT"],[600,629,"IL"],[630,658,"MO"],[660,679,"KS"],[680,693,"NE"],
+  [700,714,"LA"],[716,729,"AR"],[730,749,"OK"],[750,799,"TX"],[800,816,"CO"],[820,831,"WY"],
+  [832,838,"ID"],[840,847,"UT"],[850,865,"AZ"],[870,884,"NM"],[885,885,"TX"],[889,898,"NV"],
+  [900,961,"CA"],[967,968,"HI"],[970,979,"OR"],[980,994,"WA"],[995,999,"AK"],
+];
+function zipToState(zip) {
+  if (!zip || zip.length < 3) return null;
+  const p = parseInt(zip.substring(0, 3), 10);
+  if (isNaN(p)) return null;
+  for (const [lo, hi, st] of ZIP_RANGES) { if (p >= lo && p <= hi) return st; }
+  return null;
+}
+
+// --- AI Import ---
+function parseUrlHints(url) {
+  const h = {};
+  try {
+    const u = new URL(url), parts = u.pathname.toLowerCase().split("/").filter(Boolean);
+    if (u.hostname.includes("autotrader")) {
+      h.source = "Autotrader";
+      const i = parts.findIndex(p => p.includes("-cars"));
+      if (i >= 0) { h.make = parts[i+2]; h.model = parts[i+3]; h.condition = parts[i].includes("new") ? "New" : "Used"; }
+    } else if (u.hostname.includes("cars.com")) h.source = "Cars.com";
+    else if (u.hostname.includes("cargurus")) h.source = "CarGurus";
+    else if (u.hostname.includes("truecar")) {
+      h.source = "TrueCar"; const tc = parts.filter(p => !["new","used","prices","overview"].includes(p));
+      h.make = tc[0]; h.model = tc[1];
+    } else h.source = u.hostname.replace("www.","");
+  } catch {}
+  return h;
+}
+
+async function extractWithAI(text, hints) {
+  const ctx = hints.make ? `Vehicle: ${hints.condition||""} ${hints.make||""} ${hints.model||""}\n` : "";
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6", max_tokens: 1000,
+      system: `Extract vehicle listing data. Return ONLY JSON:\n{"year":number|null,"make":"str"|null,"model":"str"|null,"trim":"str"|null,"msrp":number|null,"dealer_price":number|null,"dealer_discount":number|null,"rebates":[{"name":"str","amount":number}],"doc_fee":number|null,"freight":number|null,"other_fees":[{"name":"str","amount":number}],"bloat_addons":[{"name":"str","amount":number}]}\ndoc/processing/admin=doc_fee. destination/freight=freight. nitrogen/paint protection/fabric coat/tint/pinstripe/market adjustment/dealer accessories/protection packages=bloat_addons. Ignore tax/tag/title. No markdown.`,
+      messages: [{ role: "user", content: `${ctx}Extract:\n\n${text.slice(0, 4000)}` }],
+    }),
+  });
+  const d = await res.json();
+  return JSON.parse((d.content?.find(b => b.type === "text")?.text || "").replace(/```json|```/g, "").trim());
+}
+
+// --- 8-Bit Berserker Logo ---
+function BerserkerLogo() {
+  // 20x24 pixel grid berserker: horned helmet, beard, axe, shield
+  const P = "var(--rune)";   // gold (helmet, horns, axe head)
+  const S = "var(--snow)";   // white (face, eyes)
+  const B = "var(--border)"; // dark blue (outline)
+  const R = "var(--blood)";  // red (shield, mouth)
+  const G = "var(--dim)";    // grey (armor, handle)
+  const N = "var(--pine)";   // green (shield accent)
+  const _ = null;            // transparent
+
+  const grid = [
+    // Row 0-3: Horns + helmet top
+    [_,_,P,_,_,_,_,_,_,_,_,_,_,_,_,_,_,P,_,_],
+    [_,P,B,P,_,_,_,_,_,_,_,_,_,_,_,_,P,B,P,_],
+    [P,B,_,B,P,_,_,P,P,P,P,P,P,_,_,P,B,_,B,P],
+    [B,_,_,_,B,P,P,P,P,P,P,P,P,P,P,B,_,_,_,B],
+    // Row 4-5: Helmet body
+    [_,_,_,_,_,B,P,P,P,P,P,P,P,P,B,_,_,_,_,_],
+    [_,_,_,_,_,B,P,P,P,P,P,P,P,P,B,_,_,_,_,_],
+    // Row 6-7: Eyes + nose guard
+    [_,_,_,_,B,S,S,B,P,P,P,P,B,S,S,B,_,_,_,_],
+    [_,_,_,_,B,B,S,B,B,P,P,B,B,S,B,B,_,_,_,_],
+    // Row 8-9: Face + beard start
+    [_,_,_,_,_,B,S,S,S,S,S,S,S,S,B,_,_,_,_,_],
+    [_,_,_,_,_,B,S,S,R,R,R,R,S,S,B,_,_,_,_,_],
+    // Row 10-11: Beard
+    [_,_,_,_,B,P,P,S,S,S,S,S,S,P,P,B,_,_,_,_],
+    [_,_,_,B,P,P,P,P,S,S,S,S,P,P,P,P,B,_,_,_],
+    // Row 12-13: Shoulders + axe + shield
+    [_,P,P,B,G,G,G,P,P,B,B,P,P,G,G,G,B,R,R,_],
+    [P,P,P,B,G,G,G,G,B,G,G,B,G,G,G,G,B,R,N,R],
+    // Row 14-15: Torso + axe handle + shield
+    [_,P,_,B,G,G,G,G,B,G,G,B,G,G,G,G,B,R,R,_],
+    [_,_,_,_,B,G,G,G,B,G,G,B,G,G,G,B,_,_,_,_],
+    // Row 16-17: Belt + legs
+    [_,_,_,_,B,P,P,P,P,P,P,P,P,P,P,B,_,_,_,_],
+    [_,_,_,_,B,G,G,G,B,B,B,B,G,G,G,B,_,_,_,_],
+    // Row 18-19: Legs + boots
+    [_,_,_,_,B,G,G,B,_,_,_,_,B,G,G,B,_,_,_,_],
+    [_,_,_,B,B,B,B,B,_,_,_,_,B,B,B,B,B,_,_,_],
+  ];
+
+  const S_PX = 4; // pixel size
+  return (
+    <svg width={20 * S_PX} height={grid.length * S_PX} viewBox={`0 0 ${20 * S_PX} ${grid.length * S_PX}`} style={{ imageRendering: "pixelated" }}>
+      {grid.map((row, y) => row.map((c, x) => c ? (
+        <rect key={`${x}-${y}`} x={x * S_PX} y={y * S_PX} width={S_PX} height={S_PX} fill={c} />
+      ) : null))}
+    </svg>
+  );
+}
+
+// --- UI Components ---
+function InputField({ label, value, onChange, prefix = "$", suffix, hint, warn, highlight }) {
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <label style={{ display: "block", fontSize: 11, color: "var(--ice)", letterSpacing: 1, marginBottom: 6, fontFamily: "var(--ff)" }}>
+        {label}
+        {hint && <span style={{ color: "var(--dim)", marginLeft: 8, fontSize: 10 }}>{hint}</span>}
+      </label>
+      <div style={{ display: "flex", alignItems: "center", background: "var(--input)", ...px(highlight ? "var(--pine)" : "var(--border)") }}>
+        {prefix && <span style={{ padding: "10px 0 10px 10px", color: "var(--dim)", fontSize: 13, fontFamily: "var(--ff)", userSelect: "none" }}>{prefix}</span>}
+        <input
+          type="number" value={value}
+          onChange={(e) => onChange(e.target.value === "" ? "" : Number(e.target.value))}
+          style={{ flex: 1, border: "none", background: "transparent", color: "var(--snow)", padding: "10px", fontSize: 16, fontFamily: "var(--ff)", outline: "none", minWidth: 0 }}
+        />
+        {suffix && <span style={{ padding: "10px 10px 10px 0", color: "var(--dim)", fontSize: 11, fontFamily: "var(--ff)", userSelect: "none" }}>{suffix}</span>}
+      </div>
+      {warn && <div style={{ fontSize: 10, color: "var(--rune)", marginTop: 5, fontFamily: "var(--ff)" }}>⚠ {warn}</div>}
+    </div>
+  );
+}
+
+function Row({ label, value, color, bold, tag }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 0", borderBottom: "1px dashed var(--grid)" }}>
+      <span style={{ fontSize: 11, color: color || "var(--ice)", fontFamily: "var(--ff)", display: "flex", alignItems: "center", gap: 8 }}>
+        {label}
+        {tag && <span style={{ fontSize: 9, padding: "2px 6px", background: tag === "BLOAT" ? "var(--rune)" : tag === "GOV" ? "var(--fjord-light)" : "var(--pine)", color: "var(--deep)", fontFamily: "var(--ff)", letterSpacing: 1 }}>{tag}</span>}
+      </span>
+      <span style={{ fontSize: 14, fontFamily: "var(--ff)", fontWeight: bold ? 700 : 400, color: color || "var(--snow)" }}>{typeof value === "string" ? value : fmt(value)}</span>
+    </div>
+  );
+}
+
+function Section({ title, children, rune }) {
+  return (
+    <div style={{ marginBottom: 20 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+        {rune && <span style={{ fontSize: 16, color: "var(--rune)" }}>{rune}</span>}
+        <div style={{ fontSize: 12, color: "var(--rune)", letterSpacing: 2, fontFamily: "var(--ff)" }}>{title}</div>
+        <div style={{ flex: 1, borderBottom: "2px solid var(--grid)" }} />
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function Card({ children, accent }) {
+  return <div style={{ background: "var(--surface)", padding: 18, marginBottom: 18, ...px(accent || "var(--border)", 3) }}>{children}</div>;
+}
+
+function PixelDivider() {
+  return <div style={{ textAlign: "center", padding: "8px 0", fontSize: 10, letterSpacing: 6, color: "var(--rune)", fontFamily: "monospace", userSelect: "none" }}>◆ · · ᛟ · · ◆</div>;
+}
+
+// --- Zip Input ---
+function ZipInput({ zip, onZipChange, resolvedState }) {
+  const rate = resolvedState ? STATE_TAX[resolvedState] : null;
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <label style={{ display: "block", fontSize: 11, color: "var(--ice)", letterSpacing: 1, marginBottom: 6, fontFamily: "var(--ff)" }}>ZIP CODE</label>
+      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+        <div style={{ flex: "0 0 130px", background: "var(--input)", ...px("var(--border)") }}>
+          <input type="text" inputMode="numeric" maxLength={5} value={zip} placeholder="17013"
+            onChange={(e) => onZipChange(e.target.value.replace(/\D/g, "").slice(0, 5))}
+            style={{ width: "100%", border: "none", background: "transparent", color: "var(--snow)", padding: 10, fontSize: 18, fontFamily: "var(--ff)", outline: "none", letterSpacing: 4, textAlign: "center", boxSizing: "border-box" }}
+          />
+        </div>
+        <div style={{ flex: 1 }}>
+          {resolvedState ? (
+            <div style={{ fontFamily: "var(--ff)", lineHeight: 2 }}>
+              <div style={{ fontSize: 12, color: "var(--pine)" }}>✓ {STATE_NAMES[resolvedState]}</div>
+              <div style={{ fontSize: 11, color: "var(--rune)" }}>TAX {(rate * 100).toFixed(2)}%{TRADE_CREDIT.has(resolvedState) ? <span style={{ color: "var(--pine)", marginLeft: 8 }}>+TRADE CREDIT</span> : null}</div>
+            </div>
+          ) : (
+            <span style={{ fontSize: 10, color: "var(--dim)", fontFamily: "var(--ff)" }}>
+              {zip.length > 0 && zip.length < 3 ? "typing..." : zip.length >= 3 ? "unknown zip" : "enter zip"}
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --- Import Panel ---
+function ImportPanel({ onImport }) {
+  const [pasteText, setPasteText] = useState("");
+  const [status, setStatus] = useState("idle");
+  const [preview, setPreview] = useState(null);
+  const [urlHints, setUrlHints] = useState({});
+  const [errorMsg, setErrorMsg] = useState("");
+  const [expanded, setExpanded] = useState(true);
+
+  const handlePaste = useCallback(async (text) => {
+    setPasteText(text);
+    if (!text.trim()) { setStatus("idle"); return; }
+    const urlMatch = text.trim().match(/^https?:\/\/\S+$/);
+    if (urlMatch) { setUrlHints(parseUrlHints(urlMatch[0])); setStatus("idle"); return; }
+    if (text.trim().length > 30) {
+      setStatus("parsing"); setErrorMsg("");
+      try { setPreview(await extractWithAI(text, urlHints)); setStatus("preview"); }
+      catch { setErrorMsg("The runes could not be read. Paste more text."); setStatus("error"); }
+    }
+  }, [urlHints]);
+
+  const applyPreview = () => {
+    if (!preview) return;
+    onImport({
+      msrp: preview.msrp, dealerPrice: preview.dealer_price,
+      discountPct: preview.msrp && preview.dealer_discount ? Math.round((preview.dealer_discount / preview.msrp) * 100) : null,
+      rebate1: preview.rebates?.[0]?.amount || null, rebate2: preview.rebates?.[1]?.amount || null, rebate3: preview.rebates?.[2]?.amount || null,
+      docFee: preview.doc_fee, freight: preview.freight,
+      addOn1: (preview.other_fees?.reduce((s,f)=>s+f.amount,0)||0)+(preview.bloat_addons?.reduce((s,f)=>s+f.amount,0)||0)||null,
+      vehicle: [preview.year, preview.make, preview.model, preview.trim].filter(Boolean).join(" "),
+    });
+    setExpanded(false); setStatus("idle");
+  };
+
+  const btn = (bg, fg) => ({ padding: "10px 16px", background: bg, color: fg, border: "none", fontSize: 11, fontFamily: "var(--ff)", cursor: "pointer", letterSpacing: 1, ...px(fg, 2) });
+
+  return (
+    <Card accent="var(--fjord-light)">
+      <div onClick={() => setExpanded(!expanded)} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", userSelect: "none" }}>
+        <span style={{ fontSize: 12, color: "var(--rune)", fontFamily: "var(--ff)", letterSpacing: 2 }}>ᛊ IMPORT LISTING</span>
+        <span style={{ fontSize: 16, color: "var(--dim)", fontFamily: "monospace", transform: expanded ? "rotate(180deg)" : "", transition: "transform 0.2s" }}>▼</span>
+      </div>
+      {expanded && (
+        <div style={{ marginTop: 14 }}>
+          <div style={{ fontSize: 10, color: "var(--dim)", marginBottom: 10, fontFamily: "var(--ff)", lineHeight: 2 }}>
+            Paste URL first, then pricing text. The oracle extracts MSRP, fees, flags bloat.
+          </div>
+          {urlHints.source && (
+            <div style={{ fontSize: 10, color: "var(--pine)", marginBottom: 10, padding: "8px 10px", background: "var(--pine-bg)", fontFamily: "var(--ff)", ...px("var(--pine)", 1) }}>
+              ✓ {urlHints.source} {urlHints.make && `· ${urlHints.condition||""} ${urlHints.make} ${urlHints.model||""}`}
+            </div>
+          )}
+          <textarea value={pasteText} onChange={(e) => handlePaste(e.target.value)}
+            placeholder={"Paste URL or listing text...\nCopy the pricing section from the dealer page."}
+            style={{ width: "100%", minHeight: 90, background: "var(--input)", color: "var(--snow)", padding: 10, fontSize: 12, fontFamily: "var(--ff)", resize: "vertical", outline: "none", border: "none", boxSizing: "border-box", lineHeight: 1.8, ...px("var(--border)") }}
+          />
+          {status === "parsing" && <div style={{ fontSize: 11, color: "var(--rune)", marginTop: 10, fontFamily: "var(--ff)" }}>◆ Reading the runes...</div>}
+          {status === "error" && <div style={{ fontSize: 11, color: "var(--blood)", marginTop: 10, fontFamily: "var(--ff)" }}>{errorMsg}</div>}
+          {status === "preview" && preview && (
+            <div style={{ marginTop: 14 }}>
+              <div style={{ fontSize: 11, color: "var(--pine)", fontFamily: "var(--ff)", letterSpacing: 1, marginBottom: 10 }}>FOUND · REVIEW</div>
+              <div style={{ background: "var(--input)", padding: 12, ...px("var(--pine)", 1) }}>
+                {preview.year && preview.make && <div style={{ fontSize: 13, color: "var(--snow)", fontFamily: "var(--ff)", marginBottom: 10 }}>{[preview.year, preview.make, preview.model, preview.trim].filter(Boolean).join(" ")}</div>}
+                {preview.msrp && <Row label="MSRP" value={preview.msrp} bold />}
+                {preview.dealer_price && <Row label="Dealer Price" value={preview.dealer_price} />}
+                {preview.dealer_discount && <Row label="Discount" value={preview.dealer_discount} color="var(--pine)" />}
+                {preview.rebates?.map((r,i) => <Row key={i} label={r.name||`Rebate ${i+1}`} value={r.amount} color="var(--pine)" />)}
+                {preview.doc_fee && <Row label="Doc Fee" value={preview.doc_fee} />}
+                {preview.freight && <Row label="Freight" value={preview.freight} tag="BLOAT" color="var(--rune)" />}
+                {preview.bloat_addons?.length > 0 && <>
+                  <div style={{ fontSize: 10, color: "var(--rune)", marginTop: 10, marginBottom: 6, fontFamily: "var(--ff)", letterSpacing: 1 }}>⚠ BLOAT DETECTED</div>
+                  {preview.bloat_addons.map((b,i) => <Row key={i} label={b.name} value={b.amount} tag="BLOAT" color="var(--rune)" />)}
+                </>}
+              </div>
+              <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
+                <button onClick={applyPreview} style={btn("var(--pine)","var(--deep)")}>APPLY</button>
+                <button onClick={() => { setStatus("idle"); setPreview(null); setPasteText(""); }} style={btn("transparent","var(--dim)")}>CLEAR</button>
+              </div>
+            </div>
+          )}
+          {status === "idle" && pasteText.trim().length > 30 && (
+            <button onClick={() => handlePaste(pasteText)} style={{ ...btn("var(--rune)","var(--deep)"), marginTop: 10 }}>EXTRACT</button>
+          )}
+        </div>
+      )}
+    </Card>
+  );
+}
+
+// --- Main ---
+export default function VehicleCalculator() {
+  const [msrp, setMsrp] = useState(55000);
+  const [discountPct, setDiscountPct] = useState(10);
+  const [rebate1, setRebate1] = useState(0);
+  const [rebate2, setRebate2] = useState(0);
+  const [rebate3, setRebate3] = useState(0);
+  const [tradeOffer, setTradeOffer] = useState(0);
+  const [tradePayoff, setTradePayoff] = useState(0);
+  const [cashDown, setCashDown] = useState(0);
+  const [zip, setZip] = useState("17013");
+  const [tagTitle, setTagTitle] = useState(558);
+  const [docFee, setDocFee] = useState(500);
+  const [freight, setFreight] = useState(0);
+  const [addOn1, setAddOn1] = useState(0);
+  const [apr, setApr] = useState(5.5);
+  const [term, setTerm] = useState(84);
+  const [daysToFirst, setDaysToFirst] = useState(30);
+  const [vehicleName, setVehicleName] = useState("");
+  const [importedFields, setImportedFields] = useState(new Set());
+  const resolvedState = useMemo(() => zipToState(zip), [zip]);
+
+  const handleImport = useCallback((data) => {
+    const t = new Set();
+    if (data.msrp) { setMsrp(data.msrp); t.add("msrp"); }
+    if (data.discountPct) { setDiscountPct(data.discountPct); t.add("discountPct"); }
+    if (data.rebate1) { setRebate1(data.rebate1); t.add("rebate1"); }
+    if (data.rebate2) { setRebate2(data.rebate2); t.add("rebate2"); }
+    if (data.rebate3) { setRebate3(data.rebate3); t.add("rebate3"); }
+    if (data.docFee != null) { setDocFee(data.docFee); t.add("docFee"); }
+    if (data.freight) { setFreight(data.freight); t.add("freight"); }
+    if (data.addOn1) { setAddOn1(data.addOn1); t.add("addOn1"); }
+    if (data.vehicle) setVehicleName(data.vehicle);
+    setImportedFields(t);
+    setTimeout(() => setImportedFields(new Set()), 3000);
+  }, []);
+
+  const calc = useMemo(() => {
+    const st = resolvedState || "PA";
+    const discount = msrp * (discountPct / 100), dealerPrice = msrp - discount;
+    const totalRebates = (rebate1||0)+(rebate2||0)+(rebate3||0), finalPrice = dealerPrice - totalRebates;
+    const tradeEquity = (tradeOffer||0)-(tradePayoff||0);
+    const tradeTaxCredit = TRADE_CREDIT.has(st) ? Math.max(tradeOffer||0, 0) : 0;
+    const taxable = Math.max(finalPrice - tradeTaxCredit, 0), taxRate = STATE_TAX[st]||0, tax = taxable * taxRate;
+    const dealerBloat = (freight||0)+(addOn1||0), govFees = tagTitle||0;
+    const otd = finalPrice - tradeEquity + tax + (docFee||0) + dealerBloat + govFees - (cashDown||0);
+    const r = (apr/100)/12; let monthly=0, totalInterest=0, totalLoan=0;
+    if (r>0 && term>0 && otd>0) { monthly = otd*(r*Math.pow(1+r,term))/(Math.pow(1+r,term)-1); totalLoan = monthly*term; totalInterest = totalLoan-otd; }
+    else if (term>0 && otd>0) { monthly = otd/term; totalLoan = otd; }
+    const dailyRate = (apr/100)/365, initialInterest = otd * dailyRate * (daysToFirst||30);
+    const discountFromMsrp = msrp > 0 ? ((msrp - finalPrice)/msrp)*100 : 0;
+    return { st, discount, dealerPrice, totalRebates, finalPrice, tradeEquity, tradeTaxCredit, taxable, taxRate, tax, docFee:docFee||0, dealerBloat, govFees, otd, monthly, totalInterest, totalLoan, dailyRate, initialInterest, discountFromMsrp, cashDown:cashDown||0 };
+  }, [msrp, discountPct, rebate1, rebate2, rebate3, tradeOffer, tradePayoff, cashDown, resolvedState, tagTitle, docFee, freight, addOn1, apr, term, daysToFirst]);
+
+  const bloat = calc.dealerBloat;
+  const hi = (f) => importedFields.has(f);
+
+  return (
+    <div style={{
+      "--deep": "#0a0e17", "--surface": "#111827", "--input": "#0d1321", "--border": "#2a3a5c",
+      "--snow": "#e8eef6", "--ice": "#94b8d4", "--dim": "#4a6480", "--grid": "#1c2a42",
+      "--rune": "#d4a843", "--pine": "#5daa68", "--pine-bg": "#5daa6815", "--blood": "#c44040",
+      "--fjord": "#1e3a5f", "--fjord-light": "#2e5a8f",
+      "--ff": "'Press Start 2P', 'Courier New', monospace",
+      fontFamily: "var(--ff)", color: "var(--snow)", background: "var(--deep)",
+      minHeight: "100vh", padding: "20px 12px",
+      WebkitFontSmoothing: "none", MozOsxFontSmoothing: "unset", imageRendering: "pixelated",
+    }}>
+      <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+      <style>{`
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+        ::selection { background: var(--rune); color: var(--deep); }
+        textarea::placeholder, input::placeholder { color: var(--dim); font-family: var(--ff); font-size: 11px; }
+        * { -webkit-font-smoothing: none; -moz-osx-font-smoothing: unset; }
+      `}</style>
+
+      <div style={{ maxWidth: 540, margin: "0 auto" }}>
+
+        {/* HEADER + BERSERKER */}
+        <div style={{ textAlign: "center", marginBottom: 30, padding: "24px 0" }}>
+          <div style={{ fontSize: 10, color: "var(--dim)", letterSpacing: 4, marginBottom: 16 }}>◆ · · · · · · · · ◆</div>
+          <div style={{ display: "flex", justifycontent: "center", marginBottom: 14 }}>
+            <BerserkerLogo />
+          </div>
+          <h1 style={{ fontSize: 28, color: "var(--rune)", margin: 0, letterSpacing: 10, textShadow: "3px 3px 0 #000, 5px 5px 0 #1a1200" }}>SKALD</h1>
+          <div style={{ fontSize: 10, color: "var(--ice)", margin: "12px 0 0", letterSpacing: 2, lineHeight: 2 }}>
+            10% OFF MSRP · STACK INCENTIVES · SLAY BLOAT
+          </div>
+          <div style={{ fontSize: 10, color: "var(--dim)", letterSpacing: 4, marginTop: 16 }}>◆ · · · · · · · · ◆</div>
+        </div>
+
+        <ImportPanel onImport={handleImport} />
+
+        {vehicleName && (
+          <div style={{ marginBottom: 18, padding: "10px 14px", background: "var(--pine-bg)", fontSize: 12, color: "var(--pine)", fontFamily: "var(--ff)", display: "flex", justifyContent: "space-between", ...px("var(--pine)", 2) }}>
+            <span>⚔ {vehicleName}</span>
+            <span style={{ color: "var(--dim)", fontSize: 10 }}>imported</span>
+          </div>
+        )}
+
+        {/* VEHICLE PRICE */}
+        <Card>
+          <Section title="VEHICLE PRICE" rune="ᚹ">
+            <InputField label="MSRP" value={msrp} onChange={setMsrp} highlight={hi("msrp")} />
+            <InputField label="Discount" value={discountPct} onChange={setDiscountPct} prefix="" suffix="% off" hint={`= ${fmt(calc.discount)}`} highlight={hi("discountPct")} />
+            <Row label="Dealer Price" value={calc.dealerPrice} bold />
+          </Section>
+          <PixelDivider />
+          <Section title="REBATES" rune="ᚱ">
+            <InputField label="Rebate 1" value={rebate1} onChange={setRebate1} hint="national" highlight={hi("rebate1")} />
+            <InputField label="Rebate 2" value={rebate2} onChange={setRebate2} hint="inventory" highlight={hi("rebate2")} />
+            <InputField label="Rebate 3" value={rebate3} onChange={setRebate3} hint="promo" highlight={hi("rebate3")} />
+            {calc.totalRebates > 0 && <Row label="Total Rebates" value={-calc.totalRebates} color="var(--pine)" />}
+          </Section>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "10px 0", borderTop: "3px solid var(--rune)" }}>
+            <span style={{ fontSize: 12, color: "var(--rune)" }}>FINAL PRICE</span>
+            <span style={{ fontSize: 18, color: "var(--rune)", textShadow: "2px 2px 0 #000" }}>{fmt(calc.finalPrice)}</span>
+          </div>
+          {calc.discountFromMsrp > 0 && <div style={{ fontSize: 10, color: "var(--pine)", textAlign: "right", marginTop: 4 }}>{calc.discountFromMsrp.toFixed(1)}% total off MSRP</div>}
+        </Card>
+
+        {/* TRADE */}
+        <Card>
+          <Section title="TRADE IN & EQUITY" rune="ᛏ">
+            <InputField label="Trade In Offer" value={tradeOffer} onChange={setTradeOffer} />
+            <InputField label="Loan Payoff" value={tradePayoff} onChange={setTradePayoff} />
+            <Row label="Net Trade Equity" value={calc.tradeEquity} bold color={calc.tradeEquity < 0 ? "var(--blood)" : "var(--pine)"} />
+            {calc.tradeEquity < 0 && <div style={{ fontSize: 10, color: "var(--blood)", marginTop: 5 }}>⚠ Negative equity: {fmt(Math.abs(calc.tradeEquity))} rolled in</div>}
+          </Section>
+          <InputField label="Cash Down" value={cashDown} onChange={setCashDown} />
+        </Card>
+
+        {/* TAXES + FEES */}
+        <Card>
+          <Section title="TAXES & FEES" rune="ᚠ">
+            <ZipInput zip={zip} onZipChange={setZip} resolvedState={resolvedState} />
+            {resolvedState && TRADE_CREDIT.has(resolvedState) && tradeOffer > 0 && (
+              <div style={{ fontSize: 10, color: "var(--pine)", marginBottom: 10, fontFamily: "var(--ff)" }}>✓ Trade in tax credit · taxed on {fmt(calc.taxable)}</div>
+            )}
+            <Row label="Taxable Amount" value={calc.taxable} />
+            <Row label={`Sales Tax (${pct(calc.taxRate)})`} value={calc.tax} tag="GOV" />
+            <InputField label="Tag / Title / Reg" value={tagTitle} onChange={setTagTitle} hint="gov" />
+            <Row label="Gov Fees Total" value={calc.govFees + calc.tax} tag="GOV" bold />
+          </Section>
+          <PixelDivider />
+          <Section title="DEALER FEES · BLOAT" rune="⚠">
+            <InputField label="Doc / Processing" value={docFee} onChange={setDocFee} hint="legit fee" highlight={hi("docFee")} />
+            <InputField label="Freight / Dest" value={freight} onChange={setFreight} warn={freight > 0 ? "In MSRP already. Push back." : ""} highlight={hi("freight")} />
+            <InputField label="Other Add-On" value={addOn1} onChange={setAddOn1} warn={addOn1 > 0 ? "Nitrogen? Paint coat? Say no." : ""} highlight={hi("addOn1")} />
+            {bloat > 0 && <Row label="Dealer Bloat" value={bloat} tag="BLOAT" color="var(--rune)" bold />}
+          </Section>
+        </Card>
+
+        {/* OTD */}
+        <Card accent="var(--rune)">
+          <Section title="OUT THE DOOR" rune="ᛟ">
+            <Row label="Final Vehicle Price" value={calc.finalPrice} />
+            <Row label="Net Trade Equity" value={-calc.tradeEquity} color={calc.tradeEquity > 0 ? "var(--pine)" : calc.tradeEquity < 0 ? "var(--blood)" : "var(--dim)"} />
+            <Row label="Sales Tax" value={calc.tax} />
+            <Row label="Gov Fees" value={calc.govFees} />
+            <Row label="Doc Fee" value={calc.docFee} />
+            {bloat > 0 && <Row label="Dealer Bloat" value={bloat} tag="BLOAT" color="var(--rune)" />}
+            <Row label="Cash Down" value={-calc.cashDown} color={calc.cashDown > 0 ? "var(--pine)" : "var(--dim)"} />
+          </Section>
+          <div style={{ borderTop: "4px double var(--rune)", paddingTop: 12, display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+            <span style={{ fontSize: 12, color: "var(--rune)" }}>OTD · FINANCED</span>
+            <span style={{ fontSize: 22, color: "var(--rune)", textShadow: "3px 3px 0 #000" }}>{fmt(calc.otd)}</span>
+          </div>
+        </Card>
+
+        {/* FINANCE */}
+        <Card>
+          <Section title="FINANCE" rune="ᚷ">
+            <InputField label="APR" value={apr} onChange={setApr} prefix="" suffix="%" />
+            <InputField label="Loan Term" value={term} onChange={setTerm} prefix="" suffix="mo" />
+            <InputField label="Days to 1st Pmt" value={daysToFirst} onChange={setDaysToFirst} prefix="" suffix="days" />
+            <div style={{ height: 8 }} />
+            <Row label="Amount Financed" value={calc.otd} />
+            <Row label="Total Interest" value={calc.totalInterest} color="var(--blood)" />
+            <Row label="Total Loan Cost" value={calc.totalLoan} bold />
+            <div style={{ height: 8 }} />
+            <Row label="Daily Rate" value={pct(calc.dailyRate)} />
+            <Row label={`Accrued (${daysToFirst||30}d)`} value={calc.initialInterest} color="var(--rune)" />
+          </Section>
+          <div style={{ borderTop: "4px double var(--rune)", paddingTop: 12, display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+            <span style={{ fontSize: 12, color: "var(--rune)" }}>MONTHLY</span>
+            <span style={{ fontSize: 26, color: "var(--rune)", textShadow: "3px 3px 0 #000, 5px 5px 0 #1a1200" }}>{fmt(calc.monthly)}</span>
+          </div>
+        </Card>
+
+        {/* CODE */}
+        <Card accent="var(--fjord-light)">
+          <Section title="THE WARRIOR'S CODE" rune="ᛉ">
+            <div style={{ fontSize: 10, color: "var(--ice)", lineHeight: 2.4 }}>
+              <p style={{ margin: "0 0 12px" }}><span style={{ color: "var(--rune)" }}>►</span> Walk in with your number. You know OTD. You know monthly. You're confirming, not negotiating.</p>
+              <p style={{ margin: "0 0 12px" }}><span style={{ color: "var(--rune)" }}>►</span> 10% off MSRP is the floor. Invoice is 6 to 8% under. Holdback adds 2 to 3%. 10% leaves them room.</p>
+              <p style={{ margin: "0 0 12px" }}><span style={{ color: "var(--rune)" }}>►</span> Stack every rebate. National + inventory + conquest + trade assist + military. Ask. Some aren't posted.</p>
+              <p style={{ margin: "0 0 12px" }}><span style={{ color: "var(--rune)" }}>►</span> Refuse add-ons. Freight is in MSRP. Nitrogen, paint coat, LoJack, "market adjustment" · all margin.</p>
+              <p style={{ margin: "0 0 12px" }}><span style={{ color: "var(--rune)" }}>►</span> Negotiate price first. APR second. Never on monthly. That's where margin hides.</p>
+              <p style={{ margin: 0 }}><span style={{ color: "var(--rune)" }}>►</span> Get pre-approved at a credit union first. Make the dealer beat it. No credit pull without a locked price.</p>
+            </div>
+          </Section>
+        </Card>
+
+        <div style={{ textAlign: "center", fontSize: 9, color: "var(--dim)", paddingBottom: 36, letterSpacing: 2, lineHeight: 2.5 }}>
+          ◆ · · ◆<br />SKALD · Not financial advice · Do your own math<br />◆ · · ◆
+        </div>
+      </div>
+    </div>
+  );
+}
