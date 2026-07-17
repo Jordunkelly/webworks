@@ -26,7 +26,9 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+    </style>
+    <link rel="stylesheet" href="../global-nav.css">
+    <style>
         body {
             font-family: 'DM Sans', sans-serif;
             background: linear-gradient(180deg, var(--endzone) 0%, var(--field-green) 20%, var(--field-green) 80%, var(--endzone) 100%);
@@ -34,7 +36,12 @@
             color: var(--chalk);
             position: relative;
             overflow-x: hidden;
+            padding-top: 60px;
         }
+        @media (max-width: 768px) {
+            body { padding-top: 100px; }
+        }
+    </style>
 
         body::before {
             content: '';
@@ -1127,5 +1134,6 @@
         // Initial welcome burst after 2 seconds
         setTimeout(createConfettiBurst, 2000);
     </script>
+    <script src="../global-nav.js" defer></script>
 </body>
 </html>

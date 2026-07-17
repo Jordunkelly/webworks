@@ -12,12 +12,17 @@
     --ev:#f48fb1;--el:#7ad0ff;--gold:#ffe27a;--green:#7ae8b0;
     --txt:#e8f0ff;
   }
+  <link rel="stylesheet" href="../global-nav.css">
+  <style>
+    body { padding-top: 60px !important; }
+    @media (max-width: 768px) { body { padding-top: 100px !important; } }
+  </style>
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{font-family:'Press Start 2P',monospace;color:var(--txt);
     background:radial-gradient(circle at 50% 0%,#16205a 0%,var(--bg) 70%);
     min-height:100%;display:flex;flex-direction:column;align-items:center;
-    padding:24px 14px 60px;image-rendering:pixelated;overflow-x:hidden}
+    padding:84px 14px 60px;image-rendering:pixelated;overflow-x:hidden}
 
   /* twinkle starfield */
   .stars{position:fixed;inset:0;pointer-events:none;z-index:0}
@@ -1655,5 +1660,6 @@
     if(!reduce){ setTimeout(spawnComet, 6000); scheduleComet(); }
   })();
   </script>
+  <script src="../global-nav.js" defer></script>
 </body>
 </html>

@@ -39,6 +39,8 @@
             --force: #a855f7;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+    <link rel="stylesheet" href="../global-nav.css">
+    <style>
         body {
             margin: 0;
             background: var(--bg);
@@ -48,7 +50,12 @@
             min-height: 100vh;
             overflow-x: hidden;
             overscroll-behavior: none;
+            padding-top: 60px;
         }
+        @media (max-width: 768px) {
+            body { padding-top: 100px; }
+        }
+    </style>
         .game-world-wrapper {
             display: flex;
             flex-direction: column;
@@ -2016,5 +2023,6 @@
             });
         });
     </script>
+    <script src="../global-nav.js" defer></script>
 </body>
 </html>

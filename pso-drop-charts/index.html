@@ -9,6 +9,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../global-nav.css">
+  <style>
+    body { padding-top: 60px; }
+    @media screen and (max-width: 768px) { body { padding-top: 100px; } }
+  </style>
   
   <style>
     .modal-overlay {
@@ -531,5 +536,6 @@
       if (e.key === "Escape") closeModal();
     });
   </script>
+  <script src="../global-nav.js" defer></script>
 </body>
 </html>
