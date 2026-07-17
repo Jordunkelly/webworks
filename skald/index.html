@@ -3,25 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SKALD · Vehicle Deal Calculator</title>
+  <title>SKALD</title>
   <link rel="stylesheet" href="../global-nav.css">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     :root {
-      --deep: #0a0e17; --surface: #111827; --input: #0d1321; --border: #2a3a5c;
-      --snow: #e8eef6; --ice: #94b8d4; --dim: #4a6480; --grid: #1c2a42;
-      --rune: #d4a843; --pine: #5daa68; --pine-bg: #5daa6815; --blood: #c44040;
-      --fjord: #1e3a5f; --fjord-light: #2e5a8f;
-      --ff: 'Press Start 2P', 'Courier New', monospace;
+      --bg:#0a0e17;--sf:#111827;--in:#0d1321;--bd:#2a3a5c;--sn:#e6edf3;--ic:#94b8d4;
+      --dm:#4a6480;--gd:#1c2a42;--ru:#d4a843;--pn:#5daa68;--pb:#5daa6815;--bl:#c44040;
+      --fj:#2e5a8f;--hd:'Press Start 2P',monospace;--bd2:'Consolas','Courier New',monospace;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: none; -moz-osx-font-smoothing: unset; }
-    body { background: var(--deep); color: var(--snow); font-family: var(--ff); image-rendering: pixelated; }
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-    input[type=number] { -moz-appearance: textfield; appearance: textfield; }
-    ::selection { background: var(--rune); color: var(--deep); }
-    textarea::placeholder, input::placeholder { color: var(--dim); font-family: var(--ff); font-size: 11px; }
-    #root { padding: 20px 12px; min-height: 100vh; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--sn);font-family:var(--bd2);font-size:13px;line-height:1.6}
+    input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+    input[type=number]{-moz-appearance:textfield;appearance:textfield}
+    ::selection{background:var(--ru);color:var(--bg)}
+    .card{background:var(--sf);padding:14px;margin-bottom:14px;box-shadow:3px 0 0 0 var(--bd),-3px 0 0 0 var(--bd),0 3px 0 0 var(--bd),0 -3px 0 0 var(--bd)}
+    .card.gold{box-shadow:3px 0 0 0 var(--ru),-3px 0 0 0 var(--ru),0 3px 0 0 var(--ru),0 -3px 0 0 var(--ru)}
+    .hdr{font-family:var(--hd);font-size:9px;color:var(--ru);letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .hdr::after{content:'';flex:1;border-bottom:1px solid var(--gd)}
+    .row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px dashed var(--gd);font-size:13px}
+    .row .l{color:var(--ic);display:flex;align-items:center;gap:6px}
+    .row .r{font-weight:700;font-family:var(--bd2)}
+    .tag{font-size:8px;font-family:var(--hd);padding:1px 5px;letter-spacing:1px}
+    .tag.bloat{background:var(--ru);color:var(--bg)}.tag.gov{background:var(--fj);color:var(--sn)}
+    .lbl{display:block;font-size:10px;color:var(--ic);margin-bottom:4px;letter-spacing:0.5px}
+    .lbl span{color:var(--dm);margin-left:6px}
+    .inp-wrap{display:flex;align-items:center;background:var(--in);box-shadow:2px 0 0 0 var(--bd),-2px 0 0 0 var(--bd),0 2px 0 0 var(--bd),0 -2px 0 0 var(--bd)}
+    .inp-wrap.hi{box-shadow:2px 0 0 0 var(--pn),-2px 0 0 0 var(--pn),0 2px 0 0 var(--pn),0 -2px 0 0 var(--pn)}
+    .inp-wrap .pre{padding:6px 0 6px 8px;color:var(--dm);font-size:12px;user-select:none}
+    .inp-wrap input{flex:1;border:none;background:none;color:var(--sn);padding:6px 8px;font-size:14px;font-family:var(--bd2);outline:none;min-width:0}
+    .inp-wrap .suf{padding:6px 8px 6px 0;color:var(--dm);font-size:11px;user-select:none}
+    .field{margin-bottom:10px}
+    .warn{font-size:10px;color:var(--ru);margin-top:3px}
+    .big{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0 0;border-top:3px double var(--ru)}
+    .big .l{font-family:var(--hd);font-size:10px;color:var(--ru)}
+    .big .r{font-family:var(--hd);font-size:18px;color:var(--ru);text-shadow:2px 2px 0 #000}
+    textarea{width:100%;min-height:70px;background:var(--in);color:var(--sn);padding:8px;font:12px var(--bd2);resize:vertical;outline:none;border:none;line-height:1.6;box-shadow:2px 0 0 0 var(--bd),-2px 0 0 0 var(--bd),0 2px 0 0 var(--bd),0 -2px 0 0 var(--bd)}
+    textarea::placeholder,input::placeholder{color:var(--dm)}
+    .pbtn{padding:8px 14px;border:none;font:11px var(--hd);cursor:pointer;letter-spacing:1px;box-shadow:2px 0 0 0 currentColor,-2px 0 0 0 currentColor,0 2px 0 0 currentColor,0 -2px 0 0 currentColor}
+    .collapse-btn{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;padding:2px 0}
+    .tips p{margin:0 0 8px;font-size:12px;color:var(--ic);line-height:1.8}
+    .tips p:last-child{margin:0}
+    .tips b{color:var(--ru)}
   </style>
 </head>
 <body>
@@ -33,480 +56,243 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="../global-nav.js"></script>
 
-  <script type="text/babel" data-type="module">
+  <script type="text/babel">
     const { useState, useMemo, useCallback } = React;
 
-    // --- Pixel border ---
-    const px = (color = "var(--border)", size = 2) => ({
-      boxShadow: `${size}px 0 0 0 ${color},-${size}px 0 0 0 ${color},0 ${size}px 0 0 ${color},0 -${size}px 0 0 ${color}`,
-    });
     const fmt = (n) => {
-      if (n === null || n === undefined || isNaN(n)) return "";
-      const abs = Math.abs(n);
-      const s = abs.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      return `$${s}`;
+      if (n==null||isNaN(n)) return "";
+      return `$${Math.abs(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}`;
     };
-    const pct = (n) => (n * 100).toFixed(1) + "%";
+    const pct = (n) => (n*100).toFixed(1)+"%";
 
-    // --- Tax Data ---
-    const STATE_TAX = {
-      AL:0.02,AK:0,AZ:0.056,AR:0.065,CA:0.0725,CO:0.029,CT:0.0635,DE:0,DC:0.06,FL:0.06,
-      GA:0.04,HI:0.04,ID:0.06,IL:0.0625,IN:0.07,IA:0.06,KS:0.065,KY:0.06,LA:0.0445,ME:0.055,
-      MD:0.06,MA:0.0625,MI:0.06,MN:0.06875,MS:0.05,MO:0.04225,MT:0,NE:0.055,NV:0.0685,NH:0,
-      NJ:0.06625,NM:0.05125,NY:0.04,NC:0.03,ND:0.05,OH:0.0575,OK:0.045,OR:0,PA:0.06,RI:0.07,
-      SC:0.06,SD:0.042,TN:0.07,TX:0.0625,UT:0.0485,VT:0.06,VA:0.0415,WA:0.065,WV:0.06,WI:0.05,WY:0.04,
-    };
-    const STATE_NAMES = {
-      AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",
-      CT:"Connecticut",DE:"Delaware",DC:"DC",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",
-      IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",
-      MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",
-      MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",
-      NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",
-      PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",
-      TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",
-      WI:"Wisconsin",WY:"Wyoming",
-    };
-    const TRADE_CREDIT = new Set(["AL","AZ","CA","CO","CT","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","MD","MA","MI","MN","MS","MO","NE","NV","NJ","NM","NY","NC","ND","OH","OK","PA","RI","SC","SD","TN","TX","UT","VA","WA","WV","WI","WY"]);
+    const TAX={AL:.02,AK:0,AZ:.056,AR:.065,CA:.0725,CO:.029,CT:.0635,DE:0,DC:.06,FL:.06,GA:.04,HI:.04,ID:.06,IL:.0625,IN:.07,IA:.06,KS:.065,KY:.06,LA:.0445,ME:.055,MD:.06,MA:.0625,MI:.06,MN:.06875,MS:.05,MO:.04225,MT:0,NE:.055,NV:.0685,NH:0,NJ:.06625,NM:.05125,NY:.04,NC:.03,ND:.05,OH:.0575,OK:.045,OR:0,PA:.06,RI:.07,SC:.06,SD:.042,TN:.07,TX:.0625,UT:.0485,VT:.06,VA:.0415,WA:.065,WV:.06,WI:.05,WY:.04};
+    const NAMES={AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"DC",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
+    const TC=new Set(Object.keys(TAX).filter(s=>!["AK","DE","ME","MT","NH","OR","VT"].includes(s)));
+    const ZR=[[5,9,"NY"],[10,27,"MA"],[28,29,"RI"],[30,38,"NH"],[39,49,"ME"],[50,59,"VT"],[60,69,"CT"],[70,89,"NJ"],[100,149,"NY"],[150,196,"PA"],[197,199,"DE"],[200,205,"DC"],[206,219,"MD"],[220,246,"VA"],[247,268,"WV"],[270,289,"NC"],[290,299,"SC"],[300,319,"GA"],[320,349,"FL"],[350,369,"AL"],[370,385,"TN"],[386,397,"MS"],[398,399,"GA"],[400,427,"KY"],[430,458,"OH"],[460,479,"IN"],[480,499,"MI"],[500,528,"IA"],[530,549,"WI"],[550,567,"MN"],[570,577,"SD"],[580,588,"ND"],[590,599,"MT"],[600,629,"IL"],[630,658,"MO"],[660,679,"KS"],[680,693,"NE"],[700,714,"LA"],[716,729,"AR"],[730,749,"OK"],[750,799,"TX"],[800,816,"CO"],[820,831,"WY"],[832,838,"ID"],[840,847,"UT"],[850,865,"AZ"],[870,884,"NM"],[885,885,"TX"],[889,898,"NV"],[900,961,"CA"],[967,968,"HI"],[970,979,"OR"],[980,994,"WA"],[995,999,"AK"]];
+    const z2s=(z)=>{if(!z||z.length<3)return null;const p=parseInt(z.substring(0,3));if(isNaN(p))return null;for(const[a,b,s]of ZR)if(p>=a&&p<=b)return s;return null;};
 
-    // --- Zip Lookup ---
-    const ZIP_RANGES = [
-      [5,9,"NY"],[10,27,"MA"],[28,29,"RI"],[30,38,"NH"],[39,49,"ME"],[50,59,"VT"],[60,69,"CT"],
-      [70,89,"NJ"],[100,149,"NY"],[150,196,"PA"],[197,199,"DE"],[200,205,"DC"],[206,219,"MD"],
-      [220,246,"VA"],[247,268,"WV"],[270,289,"NC"],[290,299,"SC"],[300,319,"GA"],[320,349,"FL"],
-      [350,369,"AL"],[370,385,"TN"],[386,397,"MS"],[398,399,"GA"],[400,427,"KY"],[430,458,"OH"],
-      [460,479,"IN"],[480,499,"MI"],[500,528,"IA"],[530,549,"WI"],[550,567,"MN"],[570,577,"SD"],
-      [580,588,"ND"],[590,599,"MT"],[600,629,"IL"],[630,658,"MO"],[660,679,"KS"],[680,693,"NE"],
-      [700,714,"LA"],[716,729,"AR"],[730,749,"OK"],[750,799,"TX"],[800,816,"CO"],[820,831,"WY"],
-      [832,838,"ID"],[840,847,"UT"],[850,865,"AZ"],[870,884,"NM"],[885,885,"TX"],[889,898,"NV"],
-      [900,961,"CA"],[967,968,"HI"],[970,979,"OR"],[980,994,"WA"],[995,999,"AK"],
-    ];
-    function zipToState(zip) {
-      if (!zip || zip.length < 3) return null;
-      const p = parseInt(zip.substring(0, 3), 10);
-      if (isNaN(p)) return null;
-      for (const [lo, hi, st] of ZIP_RANGES) { if (p >= lo && p <= hi) return st; }
-      return null;
+    // AI import
+    async function aiExtract(text,hints,key){
+      const ctx=hints.make?`Vehicle: ${hints.condition||""} ${hints.make||""} ${hints.model||""}\n`:"";
+      const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
+        headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+        body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,
+          system:`Extract vehicle listing data. ONLY JSON:\n{"year":number|null,"make":"str"|null,"model":"str"|null,"trim":"str"|null,"msrp":number|null,"dealer_price":number|null,"dealer_discount":number|null,"rebates":[{"name":"str","amount":number}],"doc_fee":number|null,"freight":number|null,"bloat_addons":[{"name":"str","amount":number}]}\ndoc/admin=doc_fee. freight/destination=freight. nitrogen/paint/fabric/tint/market adj/accessories=bloat_addons. Skip tax/tag/title. No markdown.`,
+          messages:[{role:"user",content:`${ctx}Extract:\n\n${text.slice(0,4000)}`}]})});
+      const d=await r.json();
+      return JSON.parse((d.content?.find(b=>b.type==="text")?.text||"").replace(/```json|```/g,"").trim());
+    }
+    function urlHints(url){const h={};try{const u=new URL(url),p=u.pathname.toLowerCase().split("/").filter(Boolean);if(u.hostname.includes("autotrader")){h.source="Autotrader";const i=p.findIndex(x=>x.includes("-cars"));if(i>=0){h.make=p[i+2];h.model=p[i+3];h.condition=p[i].includes("new")?"New":"Used";}}else if(u.hostname.includes("cars.com"))h.source="Cars.com";else if(u.hostname.includes("cargurus"))h.source="CarGurus";else if(u.hostname.includes("truecar")){h.source="TrueCar";const t=p.filter(x=>!["new","used","prices","overview"].includes(x));h.make=t[0];h.model=t[1];}else h.source=u.hostname.replace("www.","");}catch{}return h;}
+
+    // Berserker (compact 16x16)
+    function Logo(){
+      const P="var(--ru)",S="var(--sn)",B="var(--bd)",R="var(--bl)",G="var(--dm)",N="var(--pn)",_=null,Z=3;
+      const g=[[_,P,_,_,_,_,_,_,_,_,_,_,_,_,P,_],[P,B,P,_,_,P,P,P,P,P,P,_,_,P,B,P],[B,_,B,P,P,P,P,P,P,P,P,P,P,B,_,B],[_,_,_,B,P,P,P,P,P,P,P,P,B,_,_,_],[_,_,B,S,S,B,P,P,P,P,B,S,S,B,_,_],[_,_,B,B,S,B,B,P,P,B,B,S,B,B,_,_],[_,_,_,B,S,S,S,S,S,S,S,S,B,_,_,_],[_,_,B,P,P,S,R,R,R,R,S,P,P,B,_,_],[_,P,B,G,G,P,B,B,B,B,P,G,G,B,R,_],[P,P,B,G,G,G,B,G,G,B,G,G,G,B,R,N],[_,_,B,G,G,G,B,G,G,B,G,G,G,B,R,_],[_,_,_,B,P,P,P,P,P,P,P,P,B,_,_,_],[_,_,_,B,G,G,B,B,B,B,G,G,B,_,_,_],[_,_,B,B,B,B,_,_,_,_,B,B,B,B,_,_]];
+      return <svg width={16*Z} height={g.length*Z} viewBox={`0 0 ${16*Z} ${g.length*Z}`} style={{imageRendering:"pixelated"}}>{g.map((r,y)=>r.map((c,x)=>c?<rect key={`${x}${y}`} x={x*Z} y={y*Z} width={Z} height={Z} fill={c}/>:null))}</svg>;
     }
 
-    // --- AI Import ---
-    function parseUrlHints(url) {
-      const h = {};
-      try {
-        const u = new URL(url), parts = u.pathname.toLowerCase().split("/").filter(Boolean);
-        if (u.hostname.includes("autotrader")) {
-          h.source = "Autotrader";
-          const i = parts.findIndex(p => p.includes("-cars"));
-          if (i >= 0) { h.make = parts[i+2]; h.model = parts[i+3]; h.condition = parts[i].includes("new") ? "New" : "Used"; }
-        } else if (u.hostname.includes("cars.com")) h.source = "Cars.com";
-        else if (u.hostname.includes("cargurus")) h.source = "CarGurus";
-        else if (u.hostname.includes("truecar")) {
-          h.source = "TrueCar"; const tc = parts.filter(p => !["new","used","prices","overview"].includes(p));
-          h.make = tc[0]; h.model = tc[1];
-        } else h.source = u.hostname.replace("www.","");
-      } catch {}
-      return h;
+    // Components
+    function F({label,value,onChange,pre="$",suf,hint,warn,hi:h}){
+      return <div className="field"><label className="lbl">{label}{hint&&<span>{hint}</span>}</label><div className={`inp-wrap${h?" hi":""}`}>{pre&&<span className="pre">{pre}</span>}<input type="number" value={value} onChange={e=>onChange(e.target.value===""?"":Number(e.target.value))}/>{suf&&<span className="suf">{suf}</span>}</div>{warn&&<div className="warn">⚠ {warn}</div>}</div>;
+    }
+    function R({l,v,c,b,tag}){
+      return <div className="row"><span className="l" style={{color:c||undefined}}>{l}{tag&&<span className={`tag ${tag.toLowerCase()}`}>{tag}</span>}</span><span className="r" style={{color:c||undefined}}>{typeof v==="string"?v:fmt(v)}</span></div>;
     }
 
-    async function extractWithAI(text, hints, apiKey) {
-      const ctx = hints.make ? `Vehicle: ${hints.condition||""} ${hints.make||""} ${hints.model||""}\n` : "";
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-6", max_tokens: 1000,
-          system: `Extract vehicle listing data. Return ONLY JSON:\n{"year":number|null,"make":"str"|null,"model":"str"|null,"trim":"str"|null,"msrp":number|null,"dealer_price":number|null,"dealer_discount":number|null,"rebates":[{"name":"str","amount":number}],"doc_fee":number|null,"freight":number|null,"other_fees":[{"name":"str","amount":number}],"bloat_addons":[{"name":"str","amount":number}]}\ndoc/processing/admin=doc_fee. destination/freight=freight. nitrogen/paint protection/fabric coat/tint/pinstripe/market adjustment/dealer accessories/protection packages=bloat_addons. Ignore tax/tag/title. No markdown.`,
-          messages: [{ role: "user", content: `${ctx}Extract:\n\n${text.slice(0, 4000)}` }],
-        }),
-      });
-      const d = await res.json();
-      return JSON.parse((d.content?.find(b => b.type === "text")?.text || "").replace(/```json|```/g, "").trim());
-    }
+    // Import
+    function Import({onApply}){
+      const[open,setOpen]=useState(false);
+      const[txt,setTxt]=useState("");
+      const[st,setSt]=useState("idle");
+      const[pv,setPv]=useState(null);
+      const[hints,setHints]=useState({});
+      const[key,setKey]=useState(()=>{try{return localStorage.getItem("skald_key")||"";}catch{return"";}});
+      const saveKey=k=>{setKey(k);try{localStorage.setItem("skald_key",k);}catch{}};
 
-    // --- Berserker Logo ---
-    function BerserkerLogo() {
-      const P = "var(--rune)", S = "var(--snow)", B = "var(--border)", R = "var(--blood)", G = "var(--dim)", N = "var(--pine)", _ = null;
-      const grid = [
-        [_,_,P,_,_,_,_,_,_,_,_,_,_,_,_,_,_,P,_,_],
-        [_,P,B,P,_,_,_,_,_,_,_,_,_,_,_,_,P,B,P,_],
-        [P,B,_,B,P,_,_,P,P,P,P,P,P,_,_,P,B,_,B,P],
-        [B,_,_,_,B,P,P,P,P,P,P,P,P,P,P,B,_,_,_,B],
-        [_,_,_,_,_,B,P,P,P,P,P,P,P,P,B,_,_,_,_,_],
-        [_,_,_,_,_,B,P,P,P,P,P,P,P,P,B,_,_,_,_,_],
-        [_,_,_,_,B,S,S,B,P,P,P,P,B,S,S,B,_,_,_,_],
-        [_,_,_,_,B,B,S,B,B,P,P,B,B,S,B,B,_,_,_,_],
-        [_,_,_,_,_,B,S,S,S,S,S,S,S,S,B,_,_,_,_,_],
-        [_,_,_,_,_,B,S,S,R,R,R,R,S,S,B,_,_,_,_,_],
-        [_,_,_,_,B,P,P,S,S,S,S,S,S,P,P,B,_,_,_,_],
-        [_,_,_,B,P,P,P,P,S,S,S,S,P,P,P,P,B,_,_,_],
-        [_,P,P,B,G,G,G,P,P,B,B,P,P,G,G,G,B,R,R,_],
-        [P,P,P,B,G,G,G,G,B,G,G,B,G,G,G,G,B,R,N,R],
-        [_,P,_,B,G,G,G,G,B,G,G,B,G,G,G,G,B,R,R,_],
-        [_,_,_,_,B,G,G,G,B,G,G,B,G,G,G,B,_,_,_,_],
-        [_,_,_,_,B,P,P,P,P,P,P,P,P,P,P,B,_,_,_,_],
-        [_,_,_,_,B,G,G,G,B,B,B,B,G,G,G,B,_,_,_,_],
-        [_,_,_,_,B,G,G,B,_,_,_,_,B,G,G,B,_,_,_,_],
-        [_,_,_,B,B,B,B,B,_,_,_,_,B,B,B,B,B,_,_,_],
-      ];
-      const SZ = 4;
-      return (
-        <svg width={20*SZ} height={grid.length*SZ} viewBox={`0 0 ${20*SZ} ${grid.length*SZ}`} style={{imageRendering:"pixelated"}}>
-          {grid.map((row,y) => row.map((c,x) => c ? <rect key={`${x}-${y}`} x={x*SZ} y={y*SZ} width={SZ} height={SZ} fill={c}/> : null))}
-        </svg>
-      );
-    }
+      const go=useCallback(async()=>{
+        if(txt.trim().length<30||!key)return;
+        setSt("loading");
+        try{const r=await aiExtract(txt,hints,key);setPv(r);setSt("preview");}
+        catch{setSt("error");}
+      },[txt,hints,key]);
 
-    // --- UI Components ---
-    function InputField({ label, value, onChange, prefix="$", suffix, hint, warn, highlight }) {
-      return (
-        <div style={{marginBottom:16}}>
-          <label style={{display:"block",fontSize:11,color:"var(--ice)",letterSpacing:1,marginBottom:6,fontFamily:"var(--ff)"}}>
-            {label}{hint && <span style={{color:"var(--dim)",marginLeft:8,fontSize:10}}>{hint}</span>}
-          </label>
-          <div style={{display:"flex",alignItems:"center",background:"var(--input)",...px(highlight?"var(--pine)":"var(--border)")}}>
-            {prefix && <span style={{padding:"10px 0 10px 10px",color:"var(--dim)",fontSize:13,fontFamily:"var(--ff)",userSelect:"none"}}>{prefix}</span>}
-            <input type="number" value={value} onChange={(e)=>onChange(e.target.value===""?"":Number(e.target.value))}
-              style={{flex:1,border:"none",background:"transparent",color:"var(--snow)",padding:"10px",fontSize:16,fontFamily:"var(--ff)",outline:"none",minWidth:0}}/>
-            {suffix && <span style={{padding:"10px 10px 10px 0",color:"var(--dim)",fontSize:11,fontFamily:"var(--ff)",userSelect:"none"}}>{suffix}</span>}
-          </div>
-          {warn && <div style={{fontSize:10,color:"var(--rune)",marginTop:5,fontFamily:"var(--ff)"}}>⚠ {warn}</div>}
+      const handleTxt=t=>{setTxt(t);if(!t.trim()){setSt("idle");return;}
+        const m=t.trim().match(/^https?:\/\/\S+$/);if(m){setHints(urlHints(m[0]));setSt("idle");}};
+
+      const apply=()=>{if(!pv)return;
+        onApply({msrp:pv.msrp,discountPct:pv.msrp&&pv.dealer_discount?Math.round(pv.dealer_discount/pv.msrp*100):null,
+          r1:pv.rebates?.[0]?.amount,r2:pv.rebates?.[1]?.amount,r3:pv.rebates?.[2]?.amount,
+          doc:pv.doc_fee,freight:pv.freight,
+          bloat:(pv.bloat_addons?.reduce((s,f)=>s+f.amount,0))||null,
+          name:[pv.year,pv.make,pv.model,pv.trim].filter(Boolean).join(" ")});
+        setOpen(false);setSt("idle");};
+
+      return <div className="card" style={{boxShadow:"3px 0 0 0 var(--fj),-3px 0 0 0 var(--fj),0 3px 0 0 var(--fj),0 -3px 0 0 var(--fj)"}}>
+        <div className="collapse-btn" onClick={()=>setOpen(!open)}>
+          <span className="hdr" style={{marginBottom:0}}>ᛊ IMPORT</span>
+          <span style={{color:"var(--dm)",fontSize:14,transform:open?"rotate(180deg)":"",transition:"transform .2s",display:"inline-block"}}>▼</span>
         </div>
-      );
+        {open&&<div style={{marginTop:10}}>
+          <div className="field"><label className="lbl">API KEY <span style={{color:"var(--bl)"}}>(stored locally)</span></label>
+            <div className="inp-wrap"><input type="password" value={key} onChange={e=>saveKey(e.target.value)} placeholder="sk-ant-..." style={{fontSize:11}}/></div></div>
+          {hints.source&&<div style={{fontSize:11,color:"var(--pn)",marginBottom:8,padding:"5px 8px",background:"var(--pb)"}}>✓ {hints.source}{hints.make?` · ${hints.make} ${hints.model||""}`:""}</div>}
+          <textarea value={txt} onChange={e=>handleTxt(e.target.value)} placeholder="Paste listing URL, then pricing text..."/>
+          {st==="loading"&&<div style={{fontSize:11,color:"var(--ru)",marginTop:6}}>◆ Reading the runes...</div>}
+          {st==="error"&&<div style={{fontSize:11,color:"var(--bl)",marginTop:6}}>Could not parse. Check key or paste more.</div>}
+          {st==="preview"&&pv&&<div style={{marginTop:10}}>
+            <div style={{background:"var(--in)",padding:10,marginBottom:8}}>
+              {pv.year&&pv.make&&<div style={{fontFamily:"var(--hd)",fontSize:10,color:"var(--sn)",marginBottom:6}}>{[pv.year,pv.make,pv.model,pv.trim].filter(Boolean).join(" ")}</div>}
+              {pv.msrp&&<R l="MSRP" v={pv.msrp} b/>}{pv.dealer_discount&&<R l="Discount" v={pv.dealer_discount} c="var(--pn)"/>}
+              {pv.rebates?.map((r,i)=><R key={i} l={r.name||`Rebate`} v={r.amount} c="var(--pn)"/>)}
+              {pv.doc_fee&&<R l="Doc Fee" v={pv.doc_fee}/>}{pv.freight&&<R l="Freight" v={pv.freight} tag="BLOAT" c="var(--ru)"/>}
+              {pv.bloat_addons?.map((b,i)=><R key={i} l={b.name} v={b.amount} tag="BLOAT" c="var(--ru)"/>)}
+            </div>
+            <div style={{display:"flex",gap:8}}><button className="pbtn" onClick={apply} style={{background:"var(--pn)",color:"var(--bg)"}}>APPLY</button><button className="pbtn" onClick={()=>{setSt("idle");setPv(null);setTxt("");}} style={{background:"transparent",color:"var(--dm)"}}>CLEAR</button></div>
+          </div>}
+          {st==="idle"&&txt.trim().length>30&&key&&<button className="pbtn" onClick={go} style={{background:"var(--ru)",color:"var(--bg)",marginTop:8}}>EXTRACT</button>}
+          {st==="idle"&&txt.trim().length>30&&!key&&<div style={{fontSize:10,color:"var(--dm)",marginTop:6}}>Enter API key to enable extraction</div>}
+        </div>}
+      </div>;
     }
 
-    function Row({ label, value, color, bold, tag }) {
-      return (
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"6px 0",borderBottom:"1px dashed var(--grid)"}}>
-          <span style={{fontSize:11,color:color||"var(--ice)",fontFamily:"var(--ff)",display:"flex",alignItems:"center",gap:8}}>
-            {label}
-            {tag && <span style={{fontSize:9,padding:"2px 6px",background:tag==="BLOAT"?"var(--rune)":tag==="GOV"?"var(--fjord-light)":"var(--pine)",color:"var(--deep)",fontFamily:"var(--ff)",letterSpacing:1}}>{tag}</span>}
-          </span>
-          <span style={{fontSize:14,fontFamily:"var(--ff)",fontWeight:bold?700:400,color:color||"var(--snow)"}}>{typeof value==="string"?value:fmt(value)}</span>
+    // Main
+    function App(){
+      const[msrp,setMsrp]=useState(55000);const[disc,setDisc]=useState(10);
+      const[r1,setR1]=useState(0);const[r2,setR2]=useState(0);const[r3,setR3]=useState(0);
+      const[trOff,setTrOff]=useState(0);const[trPay,setTrPay]=useState(0);const[down,setDown]=useState(0);
+      const[zip,setZip]=useState("17013");const[tag,setTag]=useState(558);
+      const[doc,setDoc]=useState(500);const[frt,setFrt]=useState(0);const[adn,setAdn]=useState(0);
+      const[apr,setApr]=useState(5.5);const[trm,setTrm]=useState(84);const[d2f,setD2f]=useState(30);
+      const[vName,setVName]=useState("");const[hiSet,setHi]=useState(new Set());
+      const st=useMemo(()=>z2s(zip),[zip]);
+      const[tipsOpen,setTipsOpen]=useState(false);
+
+      const imp=useCallback(d=>{
+        const t=new Set();
+        if(d.msrp){setMsrp(d.msrp);t.add("msrp");}if(d.discountPct){setDisc(d.discountPct);t.add("disc");}
+        if(d.r1){setR1(d.r1);t.add("r1");}if(d.r2){setR2(d.r2);t.add("r2");}if(d.r3){setR3(d.r3);t.add("r3");}
+        if(d.doc!=null){setDoc(d.doc);t.add("doc");}if(d.freight){setFrt(d.freight);t.add("frt");}
+        if(d.bloat){setAdn(d.bloat);t.add("adn");}if(d.name)setVName(d.name);
+        setHi(t);setTimeout(()=>setHi(new Set()),3000);
+      },[]);
+
+      const c=useMemo(()=>{
+        const s=st||"PA",dsc=msrp*(disc/100),dp=msrp-dsc,reb=(r1||0)+(r2||0)+(r3||0),fp=dp-reb;
+        const te=(trOff||0)-(trPay||0),tc=TC.has(s)?Math.max(trOff||0,0):0;
+        const txb=Math.max(fp-tc,0),tr=TAX[s]||0,tx=txb*tr;
+        const bl=(frt||0)+(adn||0),gv=tag||0;
+        const otd=fp-te+tx+(doc||0)+bl+gv-(down||0);
+        const mo=(apr/100)/12;let mp=0,ti=0,tl=0;
+        if(mo>0&&trm>0&&otd>0){mp=otd*(mo*Math.pow(1+mo,trm))/(Math.pow(1+mo,trm)-1);tl=mp*trm;ti=tl-otd;}
+        else if(trm>0&&otd>0){mp=otd/trm;tl=otd;}
+        const dr=(apr/100)/365;
+        return{s,dsc,dp,reb,fp,te,tc,txb,tr,tx,doc:doc||0,bl,gv,otd,mp,ti,tl,dr,ii:otd*dr*(d2f||30),pct:msrp>0?((msrp-fp)/msrp)*100:0,dn:down||0};
+      },[msrp,disc,r1,r2,r3,trOff,trPay,down,st,tag,doc,frt,adn,apr,trm,d2f]);
+
+      const h=f=>hiSet.has(f);
+
+      return <div style={{maxWidth:480,margin:"0 auto",padding:"16px 10px"}}>
+        {/* Header */}
+        <div style={{textAlign:"center",marginBottom:20,padding:"16px 0"}}>
+          <div style={{display:"flex",justifyContent:"center",marginBottom:10}}><Logo/></div>
+          <h1 style={{fontFamily:"var(--hd)",fontSize:22,color:"var(--ru)",letterSpacing:8,textShadow:"2px 2px 0 #000",margin:0}}>SKALD</h1>
+          <div style={{fontSize:9,fontFamily:"var(--hd)",color:"var(--ic)",marginTop:8,letterSpacing:1}}>10% OFF · STACK REBATES · SLAY BLOAT</div>
         </div>
-      );
-    }
 
-    function Section({ title, children, rune }) {
-      return (
-        <div style={{marginBottom:20}}>
-          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
-            {rune && <span style={{fontSize:16,color:"var(--rune)"}}>{rune}</span>}
-            <div style={{fontSize:12,color:"var(--rune)",letterSpacing:2,fontFamily:"var(--ff)"}}>{title}</div>
-            <div style={{flex:1,borderBottom:"2px solid var(--grid)"}}/>
-          </div>
-          {children}
+        <Import onApply={imp}/>
+        {vName&&<div style={{marginBottom:14,padding:"8px 12px",background:"var(--pb)",fontSize:12,color:"var(--pn)",display:"flex",justifyContent:"space-between"}}>
+          <span>⚔ {vName}</span><span style={{color:"var(--dm)",fontSize:10}}>imported</span></div>}
+
+        {/* Price + Rebates */}
+        <div className="card">
+          <div className="hdr">ᚹ PRICE</div>
+          <F label="MSRP" value={msrp} onChange={setMsrp} hi={h("msrp")}/>
+          <F label="Discount" value={disc} onChange={setDisc} pre="" suf="% off" hint={`= ${fmt(c.dsc)}`} hi={h("disc")}/>
+          <R l="Dealer Price" v={c.dp} b/>
+          <div style={{margin:"8px 0",borderTop:"1px dashed var(--gd)"}}/>
+          <F label="Rebate 1" value={r1} onChange={setR1} hint="national" hi={h("r1")}/>
+          <F label="Rebate 2" value={r2} onChange={setR2} hint="inventory" hi={h("r2")}/>
+          <F label="Rebate 3" value={r3} onChange={setR3} hint="promo" hi={h("r3")}/>
+          {c.reb>0&&<R l="Total Rebates" v={-c.reb} c="var(--pn)"/>}
+          <div className="big"><span className="l">FINAL</span><span className="r">{fmt(c.fp)}</span></div>
+          {c.pct>0&&<div style={{fontSize:10,color:"var(--pn)",textAlign:"right",marginTop:2}}>{c.pct.toFixed(1)}% off MSRP</div>}
         </div>
-      );
-    }
 
-    function Card({ children, accent }) {
-      return <div style={{background:"var(--surface)",padding:18,marginBottom:18,...px(accent||"var(--border)",3)}}>{children}</div>;
-    }
-
-    function PixelDivider() {
-      return <div style={{textAlign:"center",padding:"8px 0",fontSize:10,letterSpacing:6,color:"var(--rune)",fontFamily:"monospace",userSelect:"none"}}>◆ · · ᛟ · · ◆</div>;
-    }
-
-    // --- Zip Input ---
-    function ZipInput({ zip, onZipChange, resolvedState }) {
-      const rate = resolvedState ? STATE_TAX[resolvedState] : null;
-      return (
-        <div style={{marginBottom:16}}>
-          <label style={{display:"block",fontSize:11,color:"var(--ice)",letterSpacing:1,marginBottom:6,fontFamily:"var(--ff)"}}>ZIP CODE</label>
-          <div style={{display:"flex",gap:12,alignItems:"center"}}>
-            <div style={{flex:"0 0 130px",background:"var(--input)",...px("var(--border)")}}>
-              <input type="text" inputMode="numeric" maxLength={5} value={zip} placeholder="17013"
-                onChange={(e)=>onZipChange(e.target.value.replace(/\D/g,"").slice(0,5))}
-                style={{width:"100%",border:"none",background:"transparent",color:"var(--snow)",padding:10,fontSize:18,fontFamily:"var(--ff)",outline:"none",letterSpacing:4,textAlign:"center",boxSizing:"border-box"}}/>
-            </div>
-            <div style={{flex:1}}>
-              {resolvedState ? (
-                <div style={{fontFamily:"var(--ff)",lineHeight:2}}>
-                  <div style={{fontSize:12,color:"var(--pine)"}}>✓ {STATE_NAMES[resolvedState]}</div>
-                  <div style={{fontSize:11,color:"var(--rune)"}}>TAX {(rate*100).toFixed(2)}%{TRADE_CREDIT.has(resolvedState)?<span style={{color:"var(--pine)",marginLeft:8}}>+TRADE CREDIT</span>:null}</div>
-                </div>
-              ) : (
-                <span style={{fontSize:10,color:"var(--dim)",fontFamily:"var(--ff)"}}>
-                  {zip.length>0&&zip.length<3?"typing...":zip.length>=3?"unknown zip":"enter zip"}
-                </span>
-              )}
-            </div>
-          </div>
+        {/* Trade + Down */}
+        <div className="card">
+          <div className="hdr">ᛏ TRADE & EQUITY</div>
+          <F label="Trade In Offer" value={trOff} onChange={setTrOff}/>
+          <F label="Loan Payoff" value={trPay} onChange={setTrPay}/>
+          <R l="Net Equity" v={c.te} b c={c.te<0?"var(--bl)":"var(--pn)"}/>
+          {c.te<0&&<div style={{fontSize:10,color:"var(--bl)",marginTop:3}}>⚠ {fmt(Math.abs(c.te))} negative equity rolled in</div>}
+          <div style={{marginTop:6}}/>
+          <F label="Cash Down" value={down} onChange={setDown}/>
         </div>
-      );
-    }
 
-    // --- Import Panel ---
-    function ImportPanel({ onImport }) {
-      const [pasteText, setPasteText] = useState("");
-      const [status, setStatus] = useState("idle");
-      const [preview, setPreview] = useState(null);
-      const [urlHints, setUrlHints] = useState({});
-      const [errorMsg, setErrorMsg] = useState("");
-      const [expanded, setExpanded] = useState(false);
-      const [apiKey, setApiKey] = useState(localStorage.getItem("skald_api_key") || "");
-
-      const saveKey = (k) => { setApiKey(k); try { localStorage.setItem("skald_api_key", k); } catch {} };
-
-      const handlePaste = useCallback(async (text) => {
-        setPasteText(text);
-        if (!text.trim()) { setStatus("idle"); return; }
-        const urlMatch = text.trim().match(/^https?:\/\/\S+$/);
-        if (urlMatch) { setUrlHints(parseUrlHints(urlMatch[0])); setStatus("idle"); return; }
-        if (text.trim().length > 30 && apiKey) {
-          setStatus("parsing"); setErrorMsg("");
-          try { setPreview(await extractWithAI(text, urlHints, apiKey)); setStatus("preview"); }
-          catch { setErrorMsg("The runes could not be read. Check API key or paste more text."); setStatus("error"); }
-        }
-      }, [urlHints, apiKey]);
-
-      const applyPreview = () => {
-        if (!preview) return;
-        onImport({
-          msrp: preview.msrp, dealerPrice: preview.dealer_price,
-          discountPct: preview.msrp && preview.dealer_discount ? Math.round((preview.dealer_discount / preview.msrp) * 100) : null,
-          rebate1: preview.rebates?.[0]?.amount || null, rebate2: preview.rebates?.[1]?.amount || null, rebate3: preview.rebates?.[2]?.amount || null,
-          docFee: preview.doc_fee, freight: preview.freight,
-          addOn1: (preview.other_fees?.reduce((s,f)=>s+f.amount,0)||0)+(preview.bloat_addons?.reduce((s,f)=>s+f.amount,0)||0)||null,
-          vehicle: [preview.year, preview.make, preview.model, preview.trim].filter(Boolean).join(" "),
-        });
-        setExpanded(false); setStatus("idle");
-      };
-
-      const btn = (bg, fg) => ({padding:"10px 16px",background:bg,color:fg,border:"none",fontSize:11,fontFamily:"var(--ff)",cursor:"pointer",letterSpacing:1,...px(fg,2)});
-
-      return (
-        <Card accent="var(--fjord-light)">
-          <div onClick={()=>setExpanded(!expanded)} style={{display:"flex",justifyContent:"space-between",alignItems:"center",cursor:"pointer",userSelect:"none"}}>
-            <span style={{fontSize:12,color:"var(--rune)",fontFamily:"var(--ff)",letterSpacing:2}}>ᛊ IMPORT LISTING</span>
-            <span style={{fontSize:16,color:"var(--dim)",fontFamily:"monospace",transform:expanded?"rotate(180deg)":"",transition:"transform 0.2s"}}>▼</span>
+        {/* Tax + Fees */}
+        <div className="card">
+          <div className="hdr">ᚠ TAX & FEES</div>
+          <div className="field">
+            <label className="lbl">ZIP CODE</label>
+            <div style={{display:"flex",gap:10,alignItems:"center"}}>
+              <div className="inp-wrap" style={{flex:"0 0 110px"}}><input type="text" inputMode="numeric" maxLength={5} value={zip} placeholder="17013"
+                onChange={e=>setZip(e.target.value.replace(/\D/g,"").slice(0,5))} style={{textAlign:"center",letterSpacing:3,fontSize:16}}/></div>
+              <div>{st?<><div style={{fontSize:12,color:"var(--pn)"}}>✓ {NAMES[st]}</div><div style={{fontSize:11,color:"var(--ru)"}}>{(TAX[st]*100).toFixed(2)}%{TC.has(st)?<span style={{color:"var(--pn)",marginLeft:6}}>+trade credit</span>:null}</div></>
+                :<span style={{fontSize:10,color:"var(--dm)"}}>{zip.length>0&&zip.length<3?"...":zip.length>=3?"unknown":"enter zip"}</span>}</div>
+            </div>
           </div>
-          {expanded && (
-            <div style={{marginTop:14}}>
-              <div style={{fontSize:10,color:"var(--dim)",marginBottom:10,fontFamily:"var(--ff)",lineHeight:2}}>
-                Paste URL, then pricing text. AI extracts MSRP, fees, flags bloat.
-              </div>
-              <div style={{marginBottom:12}}>
-                <label style={{display:"block",fontSize:9,color:"var(--dim)",letterSpacing:1,marginBottom:4,fontFamily:"var(--ff)"}}>ANTHROPIC API KEY <span style={{color:"var(--blood)"}}>(optional, stored locally)</span></label>
-                <input type="password" value={apiKey} onChange={(e)=>saveKey(e.target.value)} placeholder="sk-ant-..."
-                  style={{width:"100%",background:"var(--input)",color:"var(--snow)",padding:8,fontSize:11,fontFamily:"var(--ff)",border:"none",outline:"none",boxSizing:"border-box",...px("var(--border)")}}/>
-              </div>
-              {urlHints.source && (
-                <div style={{fontSize:10,color:"var(--pine)",marginBottom:10,padding:"8px 10px",background:"var(--pine-bg)",fontFamily:"var(--ff)",...px("var(--pine)",1)}}>
-                  ✓ {urlHints.source} {urlHints.make && `· ${urlHints.condition||""} ${urlHints.make} ${urlHints.model||""}`}
-                </div>
-              )}
-              <textarea value={pasteText} onChange={(e)=>handlePaste(e.target.value)}
-                placeholder={"Paste URL or listing text...\nCopy pricing section from dealer page."}
-                style={{width:"100%",minHeight:90,background:"var(--input)",color:"var(--snow)",padding:10,fontSize:12,fontFamily:"var(--ff)",resize:"vertical",outline:"none",border:"none",boxSizing:"border-box",lineHeight:1.8,...px("var(--border)")}}/>
-              {status==="parsing" && <div style={{fontSize:11,color:"var(--rune)",marginTop:10,fontFamily:"var(--ff)"}}>◆ Reading the runes...</div>}
-              {status==="error" && <div style={{fontSize:11,color:"var(--blood)",marginTop:10,fontFamily:"var(--ff)"}}>{errorMsg}</div>}
-              {status==="preview" && preview && (
-                <div style={{marginTop:14}}>
-                  <div style={{fontSize:11,color:"var(--pine)",fontFamily:"var(--ff)",letterSpacing:1,marginBottom:10}}>FOUND · REVIEW</div>
-                  <div style={{background:"var(--input)",padding:12,...px("var(--pine)",1)}}>
-                    {preview.year && preview.make && <div style={{fontSize:13,color:"var(--snow)",fontFamily:"var(--ff)",marginBottom:10}}>{[preview.year,preview.make,preview.model,preview.trim].filter(Boolean).join(" ")}</div>}
-                    {preview.msrp && <Row label="MSRP" value={preview.msrp} bold/>}
-                    {preview.dealer_price && <Row label="Dealer Price" value={preview.dealer_price}/>}
-                    {preview.dealer_discount && <Row label="Discount" value={preview.dealer_discount} color="var(--pine)"/>}
-                    {preview.rebates?.map((r,i)=><Row key={i} label={r.name||`Rebate ${i+1}`} value={r.amount} color="var(--pine)"/>)}
-                    {preview.doc_fee && <Row label="Doc Fee" value={preview.doc_fee}/>}
-                    {preview.freight && <Row label="Freight" value={preview.freight} tag="BLOAT" color="var(--rune)"/>}
-                    {preview.bloat_addons?.length>0 && <>
-                      <div style={{fontSize:10,color:"var(--rune)",marginTop:10,marginBottom:6,fontFamily:"var(--ff)",letterSpacing:1}}>⚠ BLOAT DETECTED</div>
-                      {preview.bloat_addons.map((b,i)=><Row key={i} label={b.name} value={b.amount} tag="BLOAT" color="var(--rune)"/>)}
-                    </>}
-                  </div>
-                  <div style={{display:"flex",gap:10,marginTop:12}}>
-                    <button onClick={applyPreview} style={btn("var(--pine)","var(--deep)")}>APPLY</button>
-                    <button onClick={()=>{setStatus("idle");setPreview(null);setPasteText("");}} style={btn("transparent","var(--dim)")}>CLEAR</button>
-                  </div>
-                </div>
-              )}
-              {status==="idle" && pasteText.trim().length>30 && apiKey && (
-                <button onClick={()=>handlePaste(pasteText)} style={{...btn("var(--rune)","var(--deep)"),marginTop:10}}>EXTRACT</button>
-              )}
-              {status==="idle" && pasteText.trim().length>30 && !apiKey && (
-                <div style={{fontSize:10,color:"var(--dim)",marginTop:10,fontFamily:"var(--ff)"}}>Enter API key above to enable AI extraction</div>
-              )}
-            </div>
-          )}
-        </Card>
-      );
-    }
-
-    // --- Main ---
-    function App() {
-      const [msrp, setMsrp] = useState(55000);
-      const [discountPct, setDiscountPct] = useState(10);
-      const [rebate1, setRebate1] = useState(0);
-      const [rebate2, setRebate2] = useState(0);
-      const [rebate3, setRebate3] = useState(0);
-      const [tradeOffer, setTradeOffer] = useState(0);
-      const [tradePayoff, setTradePayoff] = useState(0);
-      const [cashDown, setCashDown] = useState(0);
-      const [zip, setZip] = useState("17013");
-      const [tagTitle, setTagTitle] = useState(558);
-      const [docFee, setDocFee] = useState(500);
-      const [freight, setFreight] = useState(0);
-      const [addOn1, setAddOn1] = useState(0);
-      const [apr, setApr] = useState(5.5);
-      const [term, setTerm] = useState(84);
-      const [daysToFirst, setDaysToFirst] = useState(30);
-      const [vehicleName, setVehicleName] = useState("");
-      const [importedFields, setImportedFields] = useState(new Set());
-      const resolvedState = useMemo(() => zipToState(zip), [zip]);
-
-      const handleImport = useCallback((data) => {
-        const t = new Set();
-        if (data.msrp) { setMsrp(data.msrp); t.add("msrp"); }
-        if (data.discountPct) { setDiscountPct(data.discountPct); t.add("discountPct"); }
-        if (data.rebate1) { setRebate1(data.rebate1); t.add("rebate1"); }
-        if (data.rebate2) { setRebate2(data.rebate2); t.add("rebate2"); }
-        if (data.rebate3) { setRebate3(data.rebate3); t.add("rebate3"); }
-        if (data.docFee!=null) { setDocFee(data.docFee); t.add("docFee"); }
-        if (data.freight) { setFreight(data.freight); t.add("freight"); }
-        if (data.addOn1) { setAddOn1(data.addOn1); t.add("addOn1"); }
-        if (data.vehicle) setVehicleName(data.vehicle);
-        setImportedFields(t);
-        setTimeout(()=>setImportedFields(new Set()),3000);
-      }, []);
-
-      const calc = useMemo(() => {
-        const st = resolvedState || "PA";
-        const discount = msrp*(discountPct/100), dealerPrice = msrp-discount;
-        const totalRebates = (rebate1||0)+(rebate2||0)+(rebate3||0), finalPrice = dealerPrice-totalRebates;
-        const tradeEquity = (tradeOffer||0)-(tradePayoff||0);
-        const tradeTaxCredit = TRADE_CREDIT.has(st)?Math.max(tradeOffer||0,0):0;
-        const taxable = Math.max(finalPrice-tradeTaxCredit,0), taxRate = STATE_TAX[st]||0, tax = taxable*taxRate;
-        const dealerBloat = (freight||0)+(addOn1||0), govFees = tagTitle||0;
-        const otd = finalPrice-tradeEquity+tax+(docFee||0)+dealerBloat+govFees-(cashDown||0);
-        const r = (apr/100)/12; let monthly=0,totalInterest=0,totalLoan=0;
-        if (r>0&&term>0&&otd>0){monthly=otd*(r*Math.pow(1+r,term))/(Math.pow(1+r,term)-1);totalLoan=monthly*term;totalInterest=totalLoan-otd;}
-        else if (term>0&&otd>0){monthly=otd/term;totalLoan=otd;}
-        const dailyRate=(apr/100)/365, initialInterest=otd*dailyRate*(daysToFirst||30);
-        const discountFromMsrp = msrp>0?((msrp-finalPrice)/msrp)*100:0;
-        return {st,discount,dealerPrice,totalRebates,finalPrice,tradeEquity,tradeTaxCredit,taxable,taxRate,tax,docFee:docFee||0,dealerBloat,govFees,otd,monthly,totalInterest,totalLoan,dailyRate,initialInterest,discountFromMsrp,cashDown:cashDown||0};
-      }, [msrp,discountPct,rebate1,rebate2,rebate3,tradeOffer,tradePayoff,cashDown,resolvedState,tagTitle,docFee,freight,addOn1,apr,term,daysToFirst]);
-
-      const bloat = calc.dealerBloat;
-      const hi = (f) => importedFields.has(f);
-
-      return (
-        <div style={{maxWidth:540,margin:"0 auto"}}>
-
-          <div style={{textAlign:"center",marginBottom:30,padding:"24px 0"}}>
-            <div style={{fontSize:10,color:"var(--dim)",letterSpacing:4,marginBottom:16}}>◆ · · · · · · · · ◆</div>
-            <div style={{display:"flex",justifyContent:"center",marginBottom:14}}><BerserkerLogo/></div>
-            <h1 style={{fontSize:28,color:"var(--rune)",margin:0,letterSpacing:10,textShadow:"3px 3px 0 #000, 5px 5px 0 #1a1200"}}>SKALD</h1>
-            <div style={{fontSize:10,color:"var(--ice)",margin:"12px 0 0",letterSpacing:2,lineHeight:2}}>10% OFF MSRP · STACK INCENTIVES · SLAY BLOAT</div>
-            <div style={{fontSize:10,color:"var(--dim)",letterSpacing:4,marginTop:16}}>◆ · · · · · · · · ◆</div>
-          </div>
-
-          <ImportPanel onImport={handleImport}/>
-          {vehicleName && <div style={{marginBottom:18,padding:"10px 14px",background:"var(--pine-bg)",fontSize:12,color:"var(--pine)",fontFamily:"var(--ff)",display:"flex",justifyContent:"space-between",...px("var(--pine)",2)}}><span>⚔ {vehicleName}</span><span style={{color:"var(--dim)",fontSize:10}}>imported</span></div>}
-
-          <Card>
-            <Section title="VEHICLE PRICE" rune="ᚹ">
-              <InputField label="MSRP" value={msrp} onChange={setMsrp} highlight={hi("msrp")}/>
-              <InputField label="Discount" value={discountPct} onChange={setDiscountPct} prefix="" suffix="% off" hint={`= ${fmt(calc.discount)}`} highlight={hi("discountPct")}/>
-              <Row label="Dealer Price" value={calc.dealerPrice} bold/>
-            </Section>
-            <PixelDivider/>
-            <Section title="REBATES" rune="ᚱ">
-              <InputField label="Rebate 1" value={rebate1} onChange={setRebate1} hint="national" highlight={hi("rebate1")}/>
-              <InputField label="Rebate 2" value={rebate2} onChange={setRebate2} hint="inventory" highlight={hi("rebate2")}/>
-              <InputField label="Rebate 3" value={rebate3} onChange={setRebate3} hint="promo" highlight={hi("rebate3")}/>
-              {calc.totalRebates>0 && <Row label="Total Rebates" value={-calc.totalRebates} color="var(--pine)"/>}
-            </Section>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",padding:"10px 0",borderTop:"3px solid var(--rune)"}}>
-              <span style={{fontSize:12,color:"var(--rune)"}}>FINAL PRICE</span>
-              <span style={{fontSize:18,color:"var(--rune)",textShadow:"2px 2px 0 #000"}}>{fmt(calc.finalPrice)}</span>
-            </div>
-            {calc.discountFromMsrp>0 && <div style={{fontSize:10,color:"var(--pine)",textAlign:"right",marginTop:4}}>{calc.discountFromMsrp.toFixed(1)}% total off MSRP</div>}
-          </Card>
-
-          <Card>
-            <Section title="TRADE IN & EQUITY" rune="ᛏ">
-              <InputField label="Trade In Offer" value={tradeOffer} onChange={setTradeOffer}/>
-              <InputField label="Loan Payoff" value={tradePayoff} onChange={setTradePayoff}/>
-              <Row label="Net Trade Equity" value={calc.tradeEquity} bold color={calc.tradeEquity<0?"var(--blood)":"var(--pine)"}/>
-              {calc.tradeEquity<0 && <div style={{fontSize:10,color:"var(--blood)",marginTop:5}}>⚠ Negative equity: {fmt(Math.abs(calc.tradeEquity))} rolled in</div>}
-            </Section>
-            <InputField label="Cash Down" value={cashDown} onChange={setCashDown}/>
-          </Card>
-
-          <Card>
-            <Section title="TAXES & FEES" rune="ᚠ">
-              <ZipInput zip={zip} onZipChange={setZip} resolvedState={resolvedState}/>
-              {resolvedState && TRADE_CREDIT.has(resolvedState) && tradeOffer>0 && <div style={{fontSize:10,color:"var(--pine)",marginBottom:10,fontFamily:"var(--ff)"}}>✓ Trade in tax credit · taxed on {fmt(calc.taxable)}</div>}
-              <Row label="Taxable Amount" value={calc.taxable}/>
-              <Row label={`Sales Tax (${pct(calc.taxRate)})`} value={calc.tax} tag="GOV"/>
-              <InputField label="Tag / Title / Reg" value={tagTitle} onChange={setTagTitle} hint="gov"/>
-              <Row label="Gov Fees Total" value={calc.govFees+calc.tax} tag="GOV" bold/>
-            </Section>
-            <PixelDivider/>
-            <Section title="DEALER FEES · BLOAT" rune="⚠">
-              <InputField label="Doc / Processing" value={docFee} onChange={setDocFee} hint="legit fee" highlight={hi("docFee")}/>
-              <InputField label="Freight / Dest" value={freight} onChange={setFreight} warn={freight>0?"In MSRP already. Push back.":""} highlight={hi("freight")}/>
-              <InputField label="Other Add-On" value={addOn1} onChange={setAddOn1} warn={addOn1>0?"Nitrogen? Paint coat? Say no.":""} highlight={hi("addOn1")}/>
-              {bloat>0 && <Row label="Dealer Bloat" value={bloat} tag="BLOAT" color="var(--rune)" bold/>}
-            </Section>
-          </Card>
-
-          <Card accent="var(--rune)">
-            <Section title="OUT THE DOOR" rune="ᛟ">
-              <Row label="Final Vehicle Price" value={calc.finalPrice}/>
-              <Row label="Net Trade Equity" value={-calc.tradeEquity} color={calc.tradeEquity>0?"var(--pine)":calc.tradeEquity<0?"var(--blood)":"var(--dim)"}/>
-              <Row label="Sales Tax" value={calc.tax}/>
-              <Row label="Gov Fees" value={calc.govFees}/>
-              <Row label="Doc Fee" value={calc.docFee}/>
-              {bloat>0 && <Row label="Dealer Bloat" value={bloat} tag="BLOAT" color="var(--rune)"/>}
-              <Row label="Cash Down" value={-calc.cashDown} color={calc.cashDown>0?"var(--pine)":"var(--dim)"}/>
-            </Section>
-            <div style={{borderTop:"4px double var(--rune)",paddingTop:12,display:"flex",justifyContent:"space-between",alignItems:"baseline"}}>
-              <span style={{fontSize:12,color:"var(--rune)"}}>OTD · FINANCED</span>
-              <span style={{fontSize:22,color:"var(--rune)",textShadow:"3px 3px 0 #000"}}>{fmt(calc.otd)}</span>
-            </div>
-          </Card>
-
-          <Card>
-            <Section title="FINANCE" rune="ᚷ">
-              <InputField label="APR" value={apr} onChange={setApr} prefix="" suffix="%"/>
-              <InputField label="Loan Term" value={term} onChange={setTerm} prefix="" suffix="mo"/>
-              <InputField label="Days to 1st Pmt" value={daysToFirst} onChange={setDaysToFirst} prefix="" suffix="days"/>
-              <div style={{height:8}}/>
-              <Row label="Amount Financed" value={calc.otd}/>
-              <Row label="Total Interest" value={calc.totalInterest} color="var(--blood)"/>
-              <Row label="Total Loan Cost" value={calc.totalLoan} bold/>
-              <div style={{height:8}}/>
-              <Row label="Daily Rate" value={pct(calc.dailyRate)}/>
-              <Row label={`Accrued (${daysToFirst||30}d)`} value={calc.initialInterest} color="var(--rune)"/>
-            </Section>
-            <div style={{borderTop:"4px double var(--rune)",paddingTop:12,display:"flex",justifyContent:"space-between",alignItems:"baseline"}}>
-              <span style={{fontSize:12,color:"var(--rune)"}}>MONTHLY</span>
-              <span style={{fontSize:26,color:"var(--rune)",textShadow:"3px 3px 0 #000, 5px 5px 0 #1a1200"}}>{fmt(calc.monthly)}</span>
-            </div>
-          </Card>
-
-          <Card accent="var(--fjord-light)">
-            <Section title="THE WARRIOR'S CODE" rune="ᛉ">
-              <div style={{fontSize:10,color:"var(--ice)",lineHeight:2.4}}>
-                <p style={{margin:"0 0 12px"}}><span style={{color:"var(--rune)"}}>►</span> Walk in with your number. You know OTD. You know monthly. You're confirming, not negotiating.</p>
-                <p style={{margin:"0 0 12px"}}><span style={{color:"var(--rune)"}}>►</span> 10% off MSRP is the floor. Invoice is 6 to 8% under. Holdback adds 2 to 3%. 10% leaves them room.</p>
-                <p style={{margin:"0 0 12px"}}><span style={{color:"var(--rune)"}}>►</span> Stack every rebate. National + inventory + conquest + trade assist + military. Ask. Some aren't posted.</p>
-                <p style={{margin:"0 0 12px"}}><span style={{color:"var(--rune)"}}>►</span> Refuse add-ons. Freight is in MSRP. Nitrogen, paint coat, LoJack, "market adjustment" · all margin.</p>
-                <p style={{margin:"0 0 12px"}}><span style={{color:"var(--rune)"}}>►</span> Negotiate price first. APR second. Never on monthly. That's where margin hides.</p>
-                <p style={{margin:0}}><span style={{color:"var(--rune)"}}>►</span> Get pre-approved at a credit union first. Make the dealer beat it. No credit pull without a locked price.</p>
-              </div>
-            </Section>
-          </Card>
-
-          <div style={{textAlign:"center",fontSize:9,color:"var(--dim)",paddingBottom:36,letterSpacing:2,lineHeight:2.5}}>
-            ◆ · · ◆<br/>SKALD · Not financial advice · Do your own math<br/>◆ · · ◆
-          </div>
+          {st&&TC.has(st)&&trOff>0&&<div style={{fontSize:10,color:"var(--pn)",marginBottom:6}}>✓ Taxed on {fmt(c.txb)} (trade credit applied)</div>}
+          <R l={`Tax (${pct(c.tr)})`} v={c.tx} tag="GOV"/>
+          <F label="Tag / Title / Reg" value={tag} onChange={setTag} hint="gov"/>
+          <div style={{margin:"8px 0",borderTop:"1px dashed var(--gd)"}}/>
+          <div className="hdr">⚠ DEALER FEES</div>
+          <F label="Doc / Processing" value={doc} onChange={setDoc} hint="legit" hi={h("doc")}/>
+          <F label="Freight" value={frt} onChange={setFrt} warn={frt>0?"In MSRP already. Push back.":""} hi={h("frt")}/>
+          <F label="Other Add-On" value={adn} onChange={setAdn} warn={adn>0?"Nitrogen? Paint coat? Say no.":""} hi={h("adn")}/>
+          {c.bl>0&&<R l="Dealer Bloat" v={c.bl} tag="BLOAT" c="var(--ru)" b/>}
         </div>
-      );
+
+        {/* OTD */}
+        <div className="card gold">
+          <div className="hdr">ᛟ OUT THE DOOR</div>
+          <R l="Vehicle" v={c.fp}/><R l="Trade Equity" v={-c.te} c={c.te>0?"var(--pn)":c.te<0?"var(--bl)":"var(--dm)"}/>
+          <R l="Tax" v={c.tx}/><R l="Gov Fees" v={c.gv}/><R l="Doc Fee" v={c.doc}/>
+          {c.bl>0&&<R l="Bloat" v={c.bl} tag="BLOAT" c="var(--ru)"/>}
+          <R l="Cash Down" v={-c.dn} c={c.dn>0?"var(--pn)":"var(--dm)"}/>
+          <div className="big"><span className="l">OTD</span><span className="r">{fmt(c.otd)}</span></div>
+        </div>
+
+        {/* Finance */}
+        <div className="card">
+          <div className="hdr">ᚷ FINANCE</div>
+          <F label="APR" value={apr} onChange={setApr} pre="" suf="%"/>
+          <F label="Term" value={trm} onChange={setTrm} pre="" suf="mo"/>
+          <F label="Days to 1st Pmt" value={d2f} onChange={setD2f} pre="" suf="days"/>
+          <R l="Total Interest" v={c.ti} c="var(--bl)"/><R l="Total Cost" v={c.tl} b/>
+          <R l="Daily Rate" v={pct(c.dr)}/><R l={`Accrued (${d2f||30}d)`} v={c.ii} c="var(--ru)"/>
+          <div className="big"><span className="l">MONTHLY</span><span className="r" style={{fontSize:22}}>{fmt(c.mp)}</span></div>
+        </div>
+
+        {/* Tips */}
+        <div className="card" style={{boxShadow:"3px 0 0 0 var(--fj),-3px 0 0 0 var(--fj),0 3px 0 0 var(--fj),0 -3px 0 0 var(--fj)"}}>
+          <div className="collapse-btn" onClick={()=>setTipsOpen(!tipsOpen)}>
+            <span className="hdr" style={{marginBottom:0}}>ᛉ TIPS</span>
+            <span style={{color:"var(--dm)",fontSize:14,transform:tipsOpen?"rotate(180deg)":"",transition:"transform .2s",display:"inline-block"}}>▼</span>
+          </div>
+          {tipsOpen&&<div className="tips" style={{marginTop:10}}>
+            <p><b>►</b> Walk in with your number. OTD and monthly. You're confirming, not negotiating.</p>
+            <p><b>►</b> 10% off MSRP is the floor. Invoice is 6 to 8% under. Holdback adds 2 to 3%.</p>
+            <p><b>►</b> Stack every rebate. National + inventory + conquest + trade assist. Ask. Some aren't posted.</p>
+            <p><b>►</b> Refuse add-ons. Freight is in MSRP. Nitrogen, paint coat, LoJack · all margin.</p>
+            <p><b>►</b> Negotiate price first, APR second. Never on monthly. That's where margin hides.</p>
+            <p><b>►</b> Get pre-approved at a credit union. Make the dealer beat it. No credit pull without a locked price.</p>
+          </div>}
+        </div>
+
+        <div style={{textAlign:"center",fontSize:8,fontFamily:"var(--hd)",color:"var(--dm)",padding:"20px 0",letterSpacing:1}}>
+          SKALD · Not financial advice
+        </div>
+      </div>;
     }
 
     ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
