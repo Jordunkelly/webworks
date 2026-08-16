@@ -6,7 +6,8 @@
   if (
     path.includes('/event-planner/') ||
     path.includes('/pso-drop-charts/') ||
-    path.includes('/event-attendance/') ||
+    path.includes('/event-rsvp/') ||
+    path.includes('/last-epoch-planner/') ||
     path.includes('/skald/')
   ) {
     prefix = '../';
@@ -19,7 +20,8 @@
   // Determine active tab
   const isPlanner = path.includes('/event-planner/');
   const isCharts = path.includes('/pso-drop-charts/');
-  const isRsvp = path.includes('/event-attendance/');
+  const isRsvp = path.includes('/event-rsvp/');
+  const isLastEpoch = path.includes('/last-epoch-planner/');
   const isSkald = path.includes('/skald/');
 
   header.innerHTML = `
@@ -29,7 +31,8 @@
     <nav class="webworks-nav">
       <a href="${prefix}event-planner/index.html" class="webworks-nav-link ${isPlanner ? 'active' : ''}">Event Planner</a>
       <a href="${prefix}pso-drop-charts/index.html" class="webworks-nav-link ${isCharts ? 'active' : ''}">Drop Charts</a>
-      <a href="${prefix}event-attendance/index.html" class="webworks-nav-link ${isRsvp ? 'active' : ''}">Event RSVP</a>
+      <a href="${prefix}event-rsvp/index.html" class="webworks-nav-link ${isRsvp ? 'active' : ''}">Event RSVP</a>
+      <a href="${prefix}last-epoch-planner/index.html" class="webworks-nav-link ${isLastEpoch ? 'active' : ''}">Build Planner</a>
       <a href="${prefix}skald/index.html" class="webworks-nav-link ${isSkald ? 'active' : ''}">Skald</a>
     </nav>
   `;

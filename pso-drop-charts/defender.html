@@ -295,14 +295,14 @@
             .then(data => {
                 const holder = document.getElementById('nav-placeholder');
                 if(holder) holder.innerHTML = data;
-                const link = document.querySelector('a[href="booma.html"]');
+                const link = document.querySelector('a[href="defender.html"]');
                 if (link) link.classList.add('active');
             }).catch(e => console.log("Nav not found"));
         // Preload map background image and cropping coordinates for each area.  This
         // composite image contains four quadrants representing Forest, Caves,
         // Mines and Ruins. Each quadrant is 768x512 pixels in the 1536x1024 image.
         const areaBackgroundImg = new Image();
-        areaBackgroundImg.src = 'areas_background.png';
+        areaBackgroundImg.src = 'assets/areas-background.png';
         // Source coordinates for cropping each area from the composite image.
         const areaCoords = {
             forest: { sx: 0,   sy: 0   },
@@ -320,10 +320,10 @@
             volopt: new Image(),
             falz: new Image()
         };
-        bossBackgrounds.dragon.src = 'boss_background_dragon.png';
-        bossBackgrounds.derolle.src = 'boss_background_derolle.png';
-        bossBackgrounds.volopt.src = 'boss_background_volopt.png';
-        bossBackgrounds.falz.src = 'boss_background_falz.png';
+        bossBackgrounds.dragon.src = 'assets/boss-dragon.png';
+        bossBackgrounds.derolle.src = 'assets/boss-derolle.png';
+        bossBackgrounds.volopt.src = 'assets/boss-volopt.png';
+        bossBackgrounds.falz.src = 'assets/boss-falz.png';
 
         // Preload character sprites for each class.  These images should
         // reside in the same directory as this HTML file.  If an image
@@ -335,9 +335,9 @@
             ranger: new Image(),
             force:  new Image()
         };
-        spriteImages.hunter.src = 'sprite-hunter.png';
-        spriteImages.ranger.src = 'sprite-ranger.png';
-        spriteImages.force.src  = 'sprite-mage.png';
+        spriteImages.hunter.src = 'assets/sprite-hunter.png';
+        spriteImages.ranger.src = 'assets/sprite-ranger.png';
+        spriteImages.force.src  = 'assets/sprite-mage.png';
 
         /*
          * Define stats for each enemy type, including new area‑specific and

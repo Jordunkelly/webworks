@@ -8,7 +8,7 @@
  * encounters. It also overrides certain methods on the Game prototype to
  * implement complex firing patterns, bullet motion, rendering and damage
  * handling. The spawn logic for enemies is provided separately in
- * photon_defender_enemies.js; this file focuses solely on the player’s
+ * defender-enemies.js; this file focuses solely on the player’s
  * arsenal and on-screen effects.
  */
 

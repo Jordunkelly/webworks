@@ -133,6 +133,7 @@
     .card:nth-child(2)::before { background: linear-gradient(90deg, var(--blue), transparent); }
     .card:nth-child(3)::before { background: linear-gradient(90deg, var(--purple), transparent); }
     .card:nth-child(4)::before { background: linear-gradient(90deg, var(--accent), transparent); }
+    .card:nth-child(5)::before { background: linear-gradient(90deg, var(--orange), transparent); }
 
     .card-status {
       font-family: var(--mono);
@@ -150,6 +151,7 @@
     .card:nth-child(2) .card-status { color: var(--blue); background: rgba(88, 166, 255, 0.1); }
     .card:nth-child(3) .card-status { color: var(--purple); background: rgba(188, 140, 255, 0.1); }
     .card:nth-child(4) .card-status { color: var(--accent); background: rgba(212, 160, 74, 0.1); }
+    .card:nth-child(5) .card-status { color: var(--orange); background: rgba(240, 138, 36, 0.1); }
 
     .card h2 {
       font-size: 1.1rem;
@@ -236,7 +238,7 @@
 
   <section class="projects">
 
-    <a class="card" href="event-planner/index.html">
+    <a class="card" href="event-planner/">
       <span class="card-status">Full Stack</span>
       <h2>Event Planner</h2>
       <p class="card-desc">Collaborative scheduling app with authentication, calendar UI, and persistent shared state across sessions. ~Current state is mini interactive experience</p>
@@ -259,7 +261,7 @@
       </div>
     </a>
 
-    <a class="card" href="event-attendance/">
+    <a class="card" href="event-rsvp/">
       <span class="card-status">API Integration</span>
       <h2>Event RSVP</h2>
       <p class="card-desc">Lightweight RSVP app using Excel API as a serverless backend — spreadsheet-as-database for zero-cost persistence.</p>
@@ -270,7 +272,7 @@
       </div>
     </a>
 
-    <a class="card" href="skald/index.html">
+    <a class="card" href="skald/">
       <span class="card-status">Nordic Tool</span>
       <h2>Skald</h2>
       <p class="card-desc">8-bit Nordic Deal Calculator to calculate discounts, incentives, tax trade credits, and slay dealer fee bloat.</p>
@@ -278,6 +280,17 @@
         <span class="tag">React</span>
         <span class="tag">Calculator</span>
         <span class="tag">Nordic Vibe</span>
+      </div>
+    </a>
+
+    <a class="card" href="last-epoch-planner/">
+      <span class="card-status">Build Planner</span>
+      <h2>Build Planner</h2>
+      <p class="card-desc">Fire Aura Spellblade planner for Last Epoch S4 — skill trees, gear, and stat breakdowns in a single page.</p>
+      <div class="card-meta">
+        <span class="tag">JavaScript</span>
+        <span class="tag">Theorycraft</span>
+        <span class="tag">Single Page</span>
       </div>
     </a>
 

@@ -402,7 +402,7 @@ export default function VehicleCalculator() {
         {/* HEADER + BERSERKER */}
         <div style={{ textAlign: "center", marginBottom: 30, padding: "24px 0" }}>
           <div style={{ fontSize: 10, color: "var(--dim)", letterSpacing: 4, marginBottom: 16 }}>◆ · · · · · · · · ◆</div>
-          <div style={{ display: "flex", justifycontent: "center", marginBottom: 14 }}>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 14 }}>
             <BerserkerLogo />
           </div>
           <h1 style={{ fontSize: 28, color: "var(--rune)", margin: 0, letterSpacing: 10, textShadow: "3px 3px 0 #000, 5px 5px 0 #1a1200" }}>SKALD</h1>
