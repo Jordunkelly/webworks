@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v8.2 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
+  <title>v8.3 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -1473,6 +1473,54 @@
     .lego-picker-empty { grid-column: 1 / -1; text-align: center; font-size: 2.4rem; padding: 20px; opacity: 0.6; letter-spacing: 6px; }
 
     /* =========================================================================
+       v8.3: 🦄 KIKI RIDES
+       ========================================================================= */
+    .w-rides { grid-column: 1 / -1; background: linear-gradient(90deg, #ff80ab, #b388ff, #40c4ff); flex-direction: row !important; justify-content: center; gap: 8px; }
+    .w-rides .w-icon { font-size: 1.5rem; }
+    .rides-overlay { position: fixed; inset: 0; z-index: 950; display: none; overflow: hidden; background: #e1f5fe; touch-action: none; }
+    .rides-overlay.open { display: block; }
+    .rides-canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: pointer; }
+    .rides-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; align-items: center; gap: 8px; z-index: 6; pointer-events: none; }
+    .rides-top > * { pointer-events: auto; }
+    .rides-overlay.in-menu .rides-progress, .rides-overlay.in-menu #rides-count { visibility: hidden; }
+    .rides-progress { position: relative; flex: 1; height: 18px; border-radius: 99px; background: rgba(255, 255, 255, 0.6); border: 3px solid #ffffff; overflow: visible; }
+    .rides-progress-fill { height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, #ff80ab, #b388ff); }
+    .rides-progress-kiki { position: absolute; right: -6px; top: 50%; transform: translateY(-50%); font-size: 1.3rem; }
+    .rides-menu, .rides-wardrobe {
+      position: absolute; inset: 0; z-index: 5; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+      background: linear-gradient(180deg, #f8bbd0, #e1bee7 60%, #b3e5fc); padding: 70px 14px 20px;
+    }
+    .rides-menu.open, .rides-wardrobe.open { display: flex; }
+    .rides-kiki { width: min(320px, 80vw); animation: dollIdle 3s ease-in-out infinite; }
+    .rides-kiki svg { width: 100%; height: auto; filter: drop-shadow(0 8px 0 rgba(74, 20, 140, 0.15)); }
+    .rides-done { font-size: 3rem; animation: songBop 0.6s cubic-bezier(.2, 1.8, .4, 1); }
+    .rides-places { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; width: min(560px, 100%); }
+    .rides-place {
+      aspect-ratio: 1; border-radius: 22px; border: 4px solid #ffffff; font-size: clamp(2rem, 9vw, 3rem); cursor: pointer;
+      box-shadow: 0 6px 0 rgba(74, 20, 140, 0.4); animation: nodeBounce 2s ease-in-out infinite;
+    }
+    .rides-place:nth-child(2) { animation-delay: -0.4s; } .rides-place:nth-child(3) { animation-delay: -0.8s; }
+    .rides-place:nth-child(4) { animation-delay: -1.2s; } .rides-place:nth-child(5) { animation-delay: -1.6s; }
+    .rides-dress {
+      width: 84px; height: 84px; border-radius: 50%; border: 4px solid var(--bluey-dark); background: #fff59d; font-size: 2.6rem;
+      cursor: pointer; box-shadow: 0 6px 0 var(--bluey-dark);
+    }
+    .rides-wardrobe { justify-content: space-between; padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); }
+    .kw-top { align-self: stretch; display: flex; justify-content: flex-end; gap: 8px; }
+    .kw-btn { width: 56px; height: 56px; border-radius: 18px; border: 3px solid var(--bluey-dark); background: #fff; font-size: 1.6rem; cursor: pointer; box-shadow: 0 4px 0 var(--bluey-dark); }
+    .kw-stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; width: 100%; }
+    .kw-stage svg { width: min(380px, 88vw); max-height: 100%; animation: dollIdle 3s ease-in-out infinite; }
+    .kw-dock { align-self: stretch; background: #ffffff; border: 4px solid var(--bluey-dark); border-radius: 24px; padding: 8px; }
+    .kw-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 6px; }
+    .kw-options { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 4px 2px 6px; }
+    .kw-options .glam-tile svg { width: 100%; height: 100%; }
+    @media (orientation: landscape) and (min-width: 760px) {
+      .rides-menu { flex-direction: row; flex-wrap: wrap; align-content: center; }
+      .rides-kiki { width: min(300px, 32vw); }
+      .rides-places { width: min(520px, 50vw); }
+    }
+
+    /* =========================================================================
        MINI GAME 3: 🧱 5-YEAR-OLD PICTURE-ONLY LEGO UNICORN BUILDER (v5.0)
        ========================================================================= */
     .lego-fs-overlay {
@@ -1922,7 +1970,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v8.2</small></span>
+      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v8.3</small></span>
     </div>
 
     <div class="header-controls">
@@ -1979,6 +2027,9 @@
     </button>
     <button class="world-btn w-color" onclick="setWorld('color')" id="wbtn-color">
       <span class="w-icon">🖍️</span><span>Coloring</span>
+    </button>
+    <button class="world-btn w-rides" onclick="setWorld('rides')" id="wbtn-rides">
+      <span class="w-icon">🦄</span><span>Ride Kiki!</span>
     </button>
   </nav>
 
@@ -2171,6 +2222,18 @@
     </div>
   </div>
 
+  <!-- 🦄 KIKI RIDES (v8.3) -->
+  <div class="rides-overlay" id="rides-overlay">
+    <canvas class="rides-canvas" id="rides-canvas"></canvas>
+    <div class="rides-top">
+      <button class="lego-icon-btn" onclick="exitRides()" title="Home">🏠</button>
+      <div class="rides-progress"><div class="rides-progress-fill" id="rides-progress-fill"></div><span class="rides-progress-kiki">🦄</span></div>
+      <div class="lego-hud-pill" id="rides-count">⭐0</div>
+    </div>
+    <div class="rides-menu" id="rides-menu"></div>
+    <div class="rides-wardrobe" id="rides-wardrobe"></div>
+  </div>
+
   <!-- 🎈 FULL SCREEN KEEPY UPPY (v6.0) -->
   <div class="kup-overlay" id="kup-overlay">
     <div class="kup-room" id="kup-room"></div>
@@ -2238,7 +2301,8 @@
       candy:   "Duck Cake Crush!",
       closet:  "Kiki's Glam Room!",
       chat:    "Text Kiki!",
-      color:   "Coloring Book!"
+      color:   "Coloring Book!",
+      rides:   "Kiki Rides!"
     };
 
     // One cute word only. A five year old does not wait for a sentence.
@@ -3269,6 +3333,7 @@
       if (world !== 'closet') document.getElementById('glam-overlay').classList.remove('open');
       if (world !== 'chat') document.getElementById('chat-overlay').classList.remove('open');
       if (world !== 'color') document.getElementById('cb-overlay').classList.remove('open');
+      if (world !== 'rides') { stopRideLoop(); ride = null; document.getElementById('rides-overlay').classList.remove('open'); }
       document.querySelectorAll('.world-btn').forEach(b => b.classList.remove('active'));
       const wBtn = document.getElementById('wbtn-' + world);
       if (wBtn) wBtn.classList.add('active');
@@ -3325,6 +3390,8 @@
           legoMusicOn = true;
         }
         startLegoWorld();
+      } else if (world === 'rides') {
+        startRidesWorld();
       } else if (world === 'chat') {
         startChatWorld();
       } else if (world === 'color') {
@@ -9842,6 +9909,395 @@
     function startColoringWorld() {
       document.getElementById('speech-text').textContent = '🖍️ Coloring!';
       openColoringBook();
+    }
+
+    /*************************************************************************
+     * WORLD 13: 🦄 KIKI RIDES (full screen)
+     * Pick a place, then fly Kiki there: hold anywhere to fly up, let go to
+     * float down. Nothing can go wrong; she collects goodies on the way and
+     * after a little journey Kiki lands somewhere special. 👗 dresses Kiki
+     * (body, mane, horn, wings, hats, glasses, capes, hooves); her look is saved.
+     *************************************************************************/
+    const KIKI_BODY = ['#ffffff', '#fce4ec', '#f3e5f5', '#e1f5fe', '#e8f5e9', '#fffde7', '#fff3e0', '#ede7f6', '#ffd6e8', '#d1c4e9'];
+    const KIKI_MANES = [
+      ['#ab47bc', '#ec407a', '#ff80ab'], ['#ff5252', '#ffd740', '#40c4ff'], ['#1e88e5', '#4fc3f7', '#b3e5fc'],
+      ['#ffb300', '#ffd54f', '#fff59d'], ['#00bfa5', '#64ffda', '#b9f6ca'], ['#f48fb1', '#ce93d8', '#80deea'],
+      ['#311b92', '#7c4dff', '#b388ff'], ['#e91e63', '#f06292', '#f8bbd0'], ['#ff7043', '#ffab40', '#ffe082'], ['#5d4037', '#8d6e63', '#d7ccc8']
+    ];
+    const KIKI_HORNS = [
+      ['#ffff8d', '#ffd740', '#ff6f00'], ['#ffffff', '#e0e0e0', '#9e9e9e'], ['#ffe4f0', '#ff80ab', '#d81b60'],
+      ['#e1f5fe', '#80deea', '#00acc1'], ['#f3e5f5', '#ce93d8', '#7b1fa2'], ['#ff5252', '#ffee58', '#40c4ff']
+    ];
+    const KIKI_WINGS = ['none', 'angel', 'fairy', 'butterfly', 'rainbow', 'star'];
+    const KIKI_HEADWEAR = ['none', 'crown', 'flowers', 'bow', 'party', 'tiara', 'headphones', 'witch'];
+    const KIKI_FACEWEAR = ['none', 'hearts', 'stars', 'sunnies'];
+    const KIKI_BODYWEAR = ['none', 'saddle', 'cape', 'scarf', 'tutu', 'blanket'];
+    const KIKI_HOOVES = ['#ffd54f', '#ff80ab', '#e0e0e0', '#7e57c2', '#4fc3f7'];
+    const KIKI_LOOK_DEFAULT = { body: 0, mane: 0, horn: 0, wings: 'angel', head: 'crown', face: 'none', wear: 'none', hoof: 0 };
+
+    let kikiLook = (() => {
+      try { return Object.assign({}, KIKI_LOOK_DEFAULT, JSON.parse(localStorage.getItem('kiki_unicorn_look') || '{}')); }
+      catch (e) { return Object.assign({}, KIKI_LOOK_DEFAULT); }
+    })();
+
+    // Full-body Kiki facing right. part: 'body' | 'wings' | 'all'
+    function kikiSVG(look, part = 'all', uid = 'k') {
+      const ink = '#4a148c';
+      const L = `stroke="${ink}" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"`;
+      const body = KIKI_BODY[look.body] || KIKI_BODY[0];
+      const shade = glamShade(body, 0.08);
+      const [m1, m2, m3] = KIKI_MANES[look.mane] || KIKI_MANES[0];
+      const [h1, h2, h3] = KIKI_HORNS[look.horn] || KIKI_HORNS[0];
+      const hoof = KIKI_HOOVES[look.hoof] || KIKI_HOOVES[0];
+      const defs = `<defs><linearGradient id="${uid}-horn" x1="0" y1="1" x2="0.4" y2="0"><stop offset="0" stop-color="${h3}"/><stop offset=".5" stop-color="${h2}"/><stop offset="1" stop-color="${h1}"/></linearGradient>
+        <linearGradient id="${uid}-rb" x1="0" y1="0" x2="1" y2="0">${['#ff5252', '#ffab40', '#ffee58', '#69f0ae', '#40c4ff', '#b388ff'].map((c, i) => `<stop offset="${i / 5}" stop-color="${c}"/>`).join('')}</linearGradient></defs>`;
+
+      const wings = (() => {
+        const w = look.wings;
+        if (w === 'angel') return `<g ${L} fill="#ffffff">${[0, 1, 2, 3].map(i => `<ellipse cx="${92 - i * 9}" cy="${48 - i * 9}" rx="${30 - i * 3}" ry="11" transform="rotate(${-28 - i * 6} ${92 - i * 9} ${48 - i * 9})"/>`).join('')}</g>`;
+        if (w === 'fairy') return `<g ${L} fill="#b3e5fc" fill-opacity=".7"><ellipse cx="80" cy="38" rx="36" ry="18" transform="rotate(-35 80 38)"/><ellipse cx="74" cy="62" rx="24" ry="12" transform="rotate(15 74 62)"/></g>`;
+        if (w === 'butterfly') return `<g ${L}><path d="M98 64 Q56 4 44 46 Q44 70 98 70 Z" fill="#ff80ab"/><path d="M98 70 Q58 74 62 100 Q80 104 98 76 Z" fill="#ce93d8"/><circle cx="64" cy="44" r="7" fill="#fff59d" stroke="none"/></g>`;
+        if (w === 'rainbow') return `<g fill="none" stroke-width="7" stroke-linecap="round">${['#ff5252', '#ffab40', '#ffee58', '#69f0ae', '#40c4ff'].map((c, i) => `<path d="M98 66 Q${70 - i * 6} ${10 + i * 4} ${44 - i * 3} ${54 - i * 2}" stroke="${c}"/>`).join('')}</g>`;
+        if (w === 'star') return `<g ${L} fill="#fff59d">${[[70, 30, 16], [52, 52, 12], [84, 14, 10]].map(([x, y, r]) => { let d = ''; for (let k = 0; k < 10; k++) { const a = -Math.PI / 2 + k * Math.PI / 5; const rr = k % 2 ? r * 0.45 : r; d += `${k ? 'L' : 'M'}${(x + Math.cos(a) * rr).toFixed(1)} ${(y + Math.sin(a) * rr).toFixed(1)} `; } return `<path d="${d}Z"/>`; }).join('')}</g>`;
+        return '';
+      })();
+      if (part === 'wings') return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -14 220 174">${defs}${wings}</svg>`;
+
+      const cape = look.wear === 'cape' ? `<path d="M132 66 Q90 70 34 100 Q60 112 92 104 L120 92 Z" fill="#8e24aa" ${L}/>` : '';
+      const tail = `<g fill="none" stroke-linecap="round"><path d="M52 82 C24 74 14 104 30 126" stroke="${m1}" stroke-width="12"/><path d="M54 86 C34 86 28 108 40 124" stroke="${m2}" stroke-width="9"/><path d="M56 90 C44 96 42 110 50 120" stroke="${m3}" stroke-width="6"/></g>`;
+      const leg = (x, dark) => `<rect x="${x}" y="100" width="14" height="40" rx="7" fill="${dark ? shade : body}" ${L}/><rect x="${x - 1}" y="134" width="16" height="10" rx="4" fill="${hoof}" ${L}/>`;
+      const torso = `<ellipse cx="100" cy="90" rx="52" ry="30" fill="${body}" ${L}/>`;
+      const wear = (() => {
+        if (look.wear === 'saddle') return `<path d="M80 63 Q100 54 120 63 L118 86 Q100 93 82 86 Z" fill="#ec407a" ${L}/><circle cx="100" cy="74" r="5" fill="#fff59d"/>`;
+        if (look.wear === 'scarf') return `<path d="M124 64 Q138 56 150 66 L146 78 Q134 70 128 76 Z" fill="#ffab40" ${L}/><path d="M130 74 L122 98 L132 100 L138 76 Z" fill="#ffab40" ${L}/>`;
+        if (look.wear === 'tutu') { let d = 'M58 100'; for (let i = 0; i <= 14; i++) d += ` L${58 + i * 6.3} ${i % 2 ? 118 : 104}`; return `<path d="${d} L150 100 Q100 110 58 100 Z" fill="#f8bbd0" ${L}/>`; }
+        if (look.wear === 'blanket') return `<path d="M76 62 Q100 54 124 62 L122 96 Q100 104 78 96 Z" fill="url(#${uid}-rb)" ${L}/>`;
+        return '';
+      })();
+      const neck = `<path d="M118 80 Q126 50 140 36 L164 50 Q152 70 146 96 Z" fill="${body}" ${L}/>`;
+      const mane = `<g fill="none" stroke-linecap="round"><path d="M146 18 C126 28 138 48 120 64" stroke="${m1}" stroke-width="11"/><path d="M140 22 C122 36 132 56 116 72" stroke="${m2}" stroke-width="8"/><path d="M136 30 C122 46 128 62 114 80" stroke="${m3}" stroke-width="6"/><path d="M152 18 C162 8 172 16 168 26" stroke="${m1}" stroke-width="8"/></g>`;
+      const head = `<ellipse cx="158" cy="40" rx="25" ry="21" fill="${body}" ${L}/><ellipse cx="178" cy="49" rx="15" ry="12" fill="#fce4ec" ${L}/>
+        <polygon points="142,26 136,4 154,20" fill="${body}" ${L}/><polygon points="143,22 140,10 150,19" fill="#ffb3d9"/>
+        <circle cx="185" cy="46" r="1.8" fill="${ink}"/><path d="M172 56 Q178 60 185 55" fill="none" stroke="${ink}" stroke-width="2.5" stroke-linecap="round"/>
+        <ellipse cx="166" cy="48" rx="6" ry="3.5" fill="#ff4081" opacity=".5"/>
+        <circle cx="156" cy="36" r="6.5" fill="${ink}"/><circle cx="154" cy="33.5" r="2.4" fill="#fff"/><circle cx="158.5" cy="38.5" r="1.1" fill="#fff"/>
+        <path d="M150 31 l-4 -4 M153 29 l-2 -5 M157 28.5 l0 -5" stroke="${ink}" stroke-width="2" stroke-linecap="round"/>`;
+      const horn = `<polygon points="148,22 164,-8 160,24" fill="url(#${uid}-horn)" ${L}/><path d="M152 14 l9 -3 M154 5 l8 -3" stroke="${h3}" stroke-width="2" stroke-linecap="round"/>`;
+      const headwear = (() => {
+        switch (look.head) {
+          case 'crown': return `<path d="M164 18 L166 2 L172 12 L178 0 L182 12 L188 4 L186 20 Z" fill="#ffd54f" ${L}/><circle cx="177" cy="12" r="2.5" fill="#ff4081"/>`;
+          case 'flowers': return [[140, 20, '#ff80ab'], [152, 14, '#fff59d'], [166, 16, '#ce93d8'], [176, 24, '#80deea']].map(([x, y, c]) =>
+            [0, 72, 144, 216, 288].map(a => `<circle cx="${x + Math.cos(a * Math.PI / 180) * 4.5}" cy="${y + Math.sin(a * Math.PI / 180) * 4.5}" r="4" fill="${c}"/>`).join('') + `<circle cx="${x}" cy="${y}" r="2.6" fill="#ffb300"/>`).join('');
+          case 'bow': return `<g transform="translate(138 18) rotate(-20)"><path d="M0 0 L-14 -9 Q-18 0 -14 9 Z" fill="#ff4081" ${L}/><path d="M0 0 L14 -9 Q18 0 14 9 Z" fill="#ff4081" ${L}/><circle r="4" fill="#f8bbd0" ${L}/></g>`;
+          case 'party': return `<path d="M166 20 L178 -10 L188 22 Z" fill="#40c4ff" ${L}/><circle cx="178" cy="-10" r="4.5" fill="#fff59d" ${L}/><path d="M170 12 L184 14 M173 4 L182 6" stroke="#ff4081" stroke-width="3"/>`;
+          case 'tiara': return `<path d="M144 22 Q160 4 178 22 Q160 14 144 22 Z" fill="#e1f5fe" ${L}/><path d="M160 6 L163 13 L160 18 L157 13 Z" fill="#ff80ab"/>`;
+          case 'headphones': return `<path d="M140 30 Q158 -2 180 28" fill="none" stroke="#7e57c2" stroke-width="6" stroke-linecap="round"/><ellipse cx="141" cy="34" rx="6" ry="9" fill="#ff80ab" ${L}/>`;
+          case 'witch': return `<path d="M150 22 L168 -12 L178 20 Z" fill="#7b1fa2" ${L}/><ellipse cx="164" cy="21" rx="22" ry="5" fill="#7b1fa2" ${L}/><text x="160" y="12" font-size="10" fill="#fff59d">★</text>`;
+          default: return '';
+        }
+      })();
+      const facewear = (() => {
+        if (look.face === 'hearts') return `<path d="M156 46 l-10 -10 a6 6 0 0 1 10 -7 a6 6 0 0 1 10 7 z" fill="#ff80ab" fill-opacity=".55" stroke="#d81b60" stroke-width="2.5"/>`;
+        if (look.face === 'stars') return `<path d="M156 25 L159 33 L167 33 L161 38 L163 46 L156 41 L149 46 L151 38 L145 33 L153 33 Z" fill="#fff59d" fill-opacity=".7" stroke="#f9a825" stroke-width="2.5"/>`;
+        if (look.face === 'sunnies') return `<rect x="145" y="29" width="22" height="14" rx="6" fill="#311b92" fill-opacity=".85" stroke="${ink}" stroke-width="2.5"/><path d="M167 34 L176 36" stroke="${ink}" stroke-width="2.5"/>`;
+        return '';
+      })();
+      const bodyParts = `${cape}${tail}${leg(66, true)}${leg(120, true)}${torso}${leg(82, false)}${leg(134, false)}${wear}${neck}${mane}${head}${horn}${headwear}${facewear}`;
+      if (part === 'body') return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -14 220 174">${defs}${bodyParts}</svg>`;
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -14 220 174">${defs}${wings}${bodyParts}</svg>`;
+    }
+
+    function svgToImage(svg) {
+      const img = new Image();
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+      return img;
+    }
+
+    const RIDE_PLACES = [
+      { id: 'fields', icon: '🌻', say: 'Sunny fields!', sky: ['#81d4fa', '#e1f5fe', '#fff9c4'], goodies: ['🌻', '💖', '🦋'], passers: ['🦋', '🐝', '☁️', '🌈'],
+        ground: ['#9ccc65', '#7cb342'], home: '🏡', homeSay: 'We made it to the farm!' },
+      { id: 'space', icon: '🌌', say: 'To outer space!', sky: ['#0d0221', '#1a0b3d', '#311b92'], goodies: ['⭐', '🌟', '✨'], passers: ['🪐', '☄️', '🛸', '🌍', '🛰️'],
+        ground: null, stars: true, home: '🌙', homeSay: 'We landed on the moon!' },
+      { id: 'planets', icon: '🪐', say: 'Planet tour!', sky: ['#1a0533', '#4a148c', '#6a1b9a'], goodies: ['💎', '⭐', '💜'], passers: [], planets: true, stars: true,
+        ground: null, home: '🪐', homeSay: 'We made it to Saturn!' },
+      { id: 'rainbow', icon: '🌈', say: 'Rainbow road!', sky: ['#f8bbd0', '#e1bee7', '#ffffff'], goodies: ['🍬', '⭐', '🧁'], passers: ['☁️', '🌈', '🦄', '☁️'],
+        ground: ['#ffffff', '#f3e5f5'], clouds: true, home: '🏰', homeSay: 'The cloud castle!' },
+      { id: 'ocean', icon: '🌊', say: 'Over the ocean!', sky: ['#4fc3f7', '#b3e5fc', '#fff9c4'], goodies: ['🐚', '💎', '⭐'], passers: ['🐬', '⛵', '🐳', '🦀'],
+        ground: ['#29b6f6', '#0288d1'], waves: true, home: '🏝️', homeSay: 'A secret island!' }
+    ];
+    const RIDE_SECONDS = 45;
+
+    let ride = null;
+    let ridesLoopId = null;
+
+    function startRidesWorld() {
+      document.getElementById('speech-text').textContent = '🦄 Ride!';
+      document.getElementById('rides-overlay').classList.add('open');
+      showRidesMenu();
+    }
+
+    function exitRides() {
+      stopRideLoop();
+      ride = null;
+      document.getElementById('rides-overlay').classList.remove('open');
+      setWorld('abc');
+    }
+
+    function stopRideLoop() {
+      if (ridesLoopId) cancelAnimationFrame(ridesLoopId);
+      ridesLoopId = null;
+    }
+
+    function showRidesMenu(finishedPlace) {
+      stopRideLoop();
+      const menu = document.getElementById('rides-menu');
+      menu.classList.add('open');
+      document.getElementById('rides-overlay').classList.add('in-menu');
+      document.getElementById('rides-wardrobe').classList.remove('open');
+      menu.innerHTML = `
+        <div class="rides-kiki">${kikiSVG(kikiLook, 'all', 'menu')}</div>
+        ${finishedPlace ? `<div class="rides-done">${finishedPlace.home} 🎉</div>` : ''}
+        <div class="rides-places">${RIDE_PLACES.map((p, i) => `<button class="rides-place" style="background:linear-gradient(180deg, ${p.sky[0]}, ${p.sky[2]})" onclick="startRide(${i})">${p.icon}</button>`).join('')}</div>
+        <button class="rides-dress" onclick="openKikiWardrobe()">👗</button>`;
+      if (!finishedPlace) unicornSpeak('Where should we go?', { updateBubble: false });
+    }
+
+    /* ---------- 👗 Wardrobe ---------- */
+    const KIKI_WARDROBE_TABS = [
+      { icon: '🎨', key: 'body', list: KIKI_BODY.map((c, i) => ({ id: i, color: c })) },
+      { icon: '💇', key: 'mane', list: KIKI_MANES.map((m, i) => ({ id: i, grad: m })) },
+      { icon: '🦄', key: 'horn', list: KIKI_HORNS.map((h, i) => ({ id: i, grad: h })) },
+      { icon: '🪽', key: 'wings', list: KIKI_WINGS.map(id => ({ id, preview: true })) },
+      { icon: '👑', key: 'head', list: KIKI_HEADWEAR.map(id => ({ id, preview: true })) },
+      { icon: '🕶️', key: 'face', list: KIKI_FACEWEAR.map(id => ({ id, preview: true })) },
+      { icon: '🧣', key: 'wear', list: KIKI_BODYWEAR.map(id => ({ id, preview: true })) },
+      { icon: '👟', key: 'hoof', list: KIKI_HOOVES.map((c, i) => ({ id: i, color: c })) }
+    ];
+    let kikiWardrobeTab = 0;
+
+    function openKikiWardrobe() {
+      document.getElementById('rides-menu').classList.remove('open');
+      document.getElementById('rides-wardrobe').classList.add('open');
+      playMagicSound('pop');
+      renderKikiWardrobe();
+    }
+
+    function renderKikiWardrobe() {
+      const tab = KIKI_WARDROBE_TABS[kikiWardrobeTab];
+      const el = document.getElementById('rides-wardrobe');
+      el.innerHTML = `
+        <div class="kw-top"><button class="kw-btn" onclick="showRidesMenu()">✔️</button><button class="kw-btn" onclick="kikiRandomLook()">🎲</button></div>
+        <div class="kw-stage">${kikiSVG(kikiLook, 'all', 'kw')}</div>
+        <div class="kw-dock">
+          <div class="kw-tabs">${KIKI_WARDROBE_TABS.map((t, i) => `<button class="glam-tab ${i === kikiWardrobeTab ? 'active' : ''}" onclick="kikiWardrobeTab=${i}; playMagicSound('pop'); renderKikiWardrobe()">${t.icon}</button>`).join('')}</div>
+          <div class="kw-options">${tab.list.map((o, i) => {
+            const sel = kikiLook[tab.key] === o.id ? 'sel' : '';
+            let inner;
+            if (o.color) inner = `<span class="glam-swatch" style="background:${o.color}"></span>`;
+            else if (o.grad) inner = `<span class="glam-swatch" style="background:linear-gradient(135deg, ${o.grad.join(', ')})"></span>`;
+            else if (o.id === 'none') inner = '<span class="glam-none">🚫</span>';
+            else inner = kikiSVG(Object.assign({}, kikiLook, { [tab.key]: o.id }), 'all', `kwt${i}`);
+            return `<button class="glam-tile ${sel}" onclick="setKikiLook('${tab.key}', ${JSON.stringify(o.id).replace(/"/g, "'")})">${inner}</button>`;
+          }).join('')}</div>
+        </div>`;
+      enableDragScroll(el.querySelector('.kw-options'));
+    }
+
+    function setKikiLook(key, val) {
+      kikiLook[key] = val;
+      try { localStorage.setItem('kiki_unicorn_look', JSON.stringify(kikiLook)); } catch (e) {}
+      playMagicSound('sparkle');
+      const stage = document.querySelector('.kw-stage');
+      if (stage) { const r = stage.getBoundingClientRect(); burstSparkles(r.left + r.width / 2, r.top + r.height / 2, 24); }
+      renderKikiWardrobe();
+      if (Math.random() < 0.5) unicornSpeak(['Pretty!', 'I love it!', 'So fancy!', 'Ooh!'][Math.floor(Math.random() * 4)], { updateBubble: false });
+    }
+
+    function kikiRandomLook() {
+      const pick = a => a[Math.floor(Math.random() * a.length)];
+      kikiLook = {
+        body: Math.floor(Math.random() * KIKI_BODY.length), mane: Math.floor(Math.random() * KIKI_MANES.length),
+        horn: Math.floor(Math.random() * KIKI_HORNS.length), wings: pick(KIKI_WINGS), head: pick(KIKI_HEADWEAR),
+        face: Math.random() < 0.4 ? pick(KIKI_FACEWEAR) : 'none', wear: pick(KIKI_BODYWEAR), hoof: Math.floor(Math.random() * KIKI_HOOVES.length)
+      };
+      try { localStorage.setItem('kiki_unicorn_look', JSON.stringify(kikiLook)); } catch (e) {}
+      playMagicSound('success');
+      renderKikiWardrobe();
+    }
+
+    /* ---------- ✈️ The ride ---------- */
+    function startRide(placeIdx) {
+      const place = RIDE_PLACES[placeIdx];
+      const cv = document.getElementById('rides-canvas');
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const W = cv.clientWidth, H = cv.clientHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      const g = cv.getContext('2d');
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      document.getElementById('rides-menu').classList.remove('open');
+      document.getElementById('rides-overlay').classList.remove('in-menu');
+      ride = {
+        place, W, H, g, t0: performance.now(), last: 0, holding: false,
+        y: H * 0.45, vy: 0, goodies: [], passers: [], got: 0, landing: 0, done: false,
+        bodyImg: svgToImage(kikiSVG(kikiLook, 'body', 'rb')), wingImg: svgToImage(kikiSVG(kikiLook, 'wings', 'rw')),
+        stars: Array.from({ length: 70 }, () => ({ x: Math.random() * W, y: Math.random() * H, s: Math.random() * 2 + 0.5, p: Math.random() * 6 })),
+        nextGoody: 0, nextPasser: 0, scroll: 0
+      };
+      cv.onpointerdown = (e) => { if (!ride || ride.done) return; e.preventDefault(); ride.holding = true; ride.vy = Math.min(ride.vy, -4); playMagicSound('pop'); };
+      const up = () => { if (ride) ride.holding = false; };
+      cv.onpointerup = up; cv.onpointercancel = up; cv.onpointerleave = up;
+      document.getElementById('rides-count').textContent = `${place.goodies[0]}0`;
+      unicornSpeak(place.say, { updateBubble: false });
+      ridesLoopId = requestAnimationFrame(stepRide);
+    }
+
+    function stepRide(ts) {
+      if (!ride || currentWorld !== 'rides') return;
+      const r = ride;
+      const { W, H, g, place } = r;
+      const dt = r.last ? Math.min(2.5, (ts - r.last) / 16.67) : 1;
+      r.last = ts;
+      const elapsed = (ts - r.t0) / 1000;
+      const progress = Math.min(1, elapsed / RIDE_SECONDS);
+      document.getElementById('rides-progress-fill').style.width = `${progress * 100}%`;
+      const groundY = place.ground ? H * 0.82 : H + 40;
+      const speed = (W / 260) * dt * (r.landing ? Math.max(0.15, 1 - r.landing / 90) : 1);
+      r.scroll += speed;
+
+      // Flying: hold to rise, let go to float down gently. Never crashes.
+      if (!r.done) {
+        if (r.holding) r.vy = Math.max(-5.5, r.vy - 0.42 * dt);
+        else r.vy = Math.min(3, r.vy + 0.18 * dt);
+        r.y += r.vy * dt;
+        const top = 90, bottom = (place.ground ? groundY : H) - 70;
+        if (r.y < top) { r.y = top; r.vy = 0; }
+        if (r.y > bottom) { r.y = bottom; r.vy = 0; }
+      }
+
+      // Sky
+      const sky = g.createLinearGradient(0, 0, 0, H);
+      sky.addColorStop(0, place.sky[0]); sky.addColorStop(0.6, place.sky[1]); sky.addColorStop(1, place.sky[2]);
+      g.fillStyle = sky; g.fillRect(0, 0, W, H);
+      if (place.stars) r.stars.forEach(st => {
+        st.x -= st.s * 0.25 * dt; if (st.x < 0) st.x = W;
+        g.globalAlpha = 0.4 + 0.6 * Math.abs(Math.sin(ts * 0.002 + st.p));
+        g.fillStyle = '#fff'; g.fillRect(st.x, st.y, st.s, st.s);
+      });
+      g.globalAlpha = 1;
+      if (place.id === 'fields' || place.id === 'ocean') {
+        g.fillStyle = '#fff59d'; g.beginPath(); g.arc(W * 0.82, H * 0.16, 38, 0, Math.PI * 2); g.fill();
+      }
+      if (place.planets) {
+        const pl = [['#ef5350', 34, 0.15], ['#ffb74d', 56, 0.55], ['#4fc3f7', 26, 0.85]];
+        pl.forEach(([c, rad, f], i) => {
+          const x = ((W * (i * 0.6 + 0.3) - r.scroll * 0.3) % (W * 1.8) + W * 1.8) % (W * 1.8) - rad;
+          const y = H * f;
+          g.fillStyle = c; g.beginPath(); g.arc(x, y, rad, 0, Math.PI * 2); g.fill();
+          if (i === 1) { g.strokeStyle = '#ffe082'; g.lineWidth = 6; g.beginPath(); g.ellipse(x, y, rad * 1.7, rad * 0.4, -0.3, 0, Math.PI * 2); g.stroke(); }
+          g.fillStyle = 'rgba(255,255,255,0.25)'; g.beginPath(); g.arc(x - rad * 0.35, y - rad * 0.35, rad * 0.3, 0, Math.PI * 2); g.fill();
+        });
+      }
+      // Far hills / waves / clouds
+      if (place.ground) {
+        g.fillStyle = place.ground[1];
+        g.beginPath(); g.moveTo(0, groundY);
+        for (let x = 0; x <= W + 20; x += 20) g.lineTo(x, groundY - 30 - Math.sin((x + r.scroll * 0.5) * 0.012) * 22);
+        g.lineTo(W, H); g.lineTo(0, H); g.fill();
+        g.fillStyle = place.ground[0];
+        g.beginPath(); g.moveTo(0, groundY);
+        for (let x = 0; x <= W + 20; x += 20) g.lineTo(x, groundY - Math.sin((x + r.scroll) * (place.waves ? 0.03 : 0.008)) * (place.waves ? 8 : 14));
+        g.lineTo(W, H); g.lineTo(0, H); g.fill();
+        if (place.id === 'fields') {
+          g.font = '26px sans-serif'; g.textAlign = 'center';
+          for (let i = 0; i < 12; i++) { const x = ((i * 97 - r.scroll) % (W + 100) + W + 100) % (W + 100) - 50; g.fillText(['🌷', '🌼', '🌻'][i % 3], x, groundY + 30 + (i % 3) * 14); }
+        }
+      }
+
+      // Things passing by in the background
+      if (place.passers.length && elapsed > r.nextPasser) {
+        r.nextPasser = elapsed + 2.5 + Math.random() * 2;
+        r.passers.push({ x: W + 60, y: H * (0.15 + Math.random() * 0.5), e: place.passers[Math.floor(Math.random() * place.passers.length)], s: 0.5 + Math.random() * 0.4, size: 40 + Math.random() * 30 });
+      }
+      g.textAlign = 'center'; g.textBaseline = 'middle';
+      r.passers = r.passers.filter(p => {
+        p.x -= speed * p.s;
+        g.font = `${p.size}px sans-serif`; g.globalAlpha = 0.85; g.fillText(p.e, p.x, p.y + Math.sin(ts * 0.002 + p.x * 0.01) * 6);
+        return p.x > -80;
+      });
+      g.globalAlpha = 1;
+
+      // Goodies to collect (none once we're landing)
+      const kx = W * 0.24;
+      if (!r.landing && elapsed > r.nextGoody) {
+        r.nextGoody = elapsed + 0.55 + Math.random() * 0.5;
+        const top = 110, bottom = (place.ground ? groundY : H) - 90;
+        r.goodies.push({ x: W + 40, y: top + Math.random() * (bottom - top), e: place.goodies[Math.floor(Math.random() * place.goodies.length)], bob: Math.random() * 6 });
+      }
+      g.font = '38px sans-serif';
+      r.goodies = r.goodies.filter(gd => {
+        gd.x -= speed * 1.4;
+        const gy = gd.y + Math.sin(ts * 0.004 + gd.bob) * 6;
+        if (!r.done && Math.hypot(gd.x - (kx + 40), gy - r.y) < 54) {
+          r.got++;
+          playCountNote((r.got % 12) + 1);
+          const rect = document.getElementById('rides-canvas').getBoundingClientRect();
+          burstSparkles(rect.left + gd.x, rect.top + gy, 14);
+          document.getElementById('rides-count').textContent = `${place.goodies[0]}${r.got}`;
+          if (r.got % 10 === 0) {
+            addStar();
+            playMagicSound('success');
+            const pr = BLUEY_PRAISES[Math.floor(Math.random() * BLUEY_PRAISES.length)];
+            showPraisePop(pr);
+            unicornSpeak(pr.word, { updateBubble: false });
+          }
+          return false;
+        }
+        g.fillText(gd.e, gd.x, gy);
+        return gd.x > -40;
+      });
+
+      // Arriving: the destination slides in and Kiki glides down to it
+      if (progress >= 1) {
+        r.landing += dt;
+        const homeX = W + 140 - Math.min(r.landing * 4, W * 0.62);
+        const homeY = (place.ground ? groundY : H * 0.78) - 30;
+        g.font = '120px sans-serif';
+        g.fillText(place.home, homeX, homeY);
+        if (!r.done) r.y += ((homeY - 90) - r.y) * 0.04 * dt;
+        if (r.landing > 120 && !r.done) {
+          r.done = true;
+          addStar(); addStar();
+          playMagicSound('success');
+          burstSparkles(window.innerWidth / 2, window.innerHeight / 2, 120);
+          showPraisePop({ word: 'We made it!', emoji: place.home });
+          unicornSpeak(place.homeSay, { updateBubble: false });
+          setTimeout(() => { if (ride === r) showRidesMenu(place); }, 2600);
+        }
+      }
+
+      // Kiki, flapping and tilting with her flight
+      const bw = Math.min(170, W * 0.36), bh = bw * (174 / 220);
+      const tilt = Math.max(-0.25, Math.min(0.25, r.vy * 0.05));
+      const flap = 0.75 + 0.25 * Math.sin(ts * 0.02);
+      g.save();
+      g.translate(kx + bw / 2, r.y);
+      g.rotate(tilt);
+      if (r.wingImg.complete) {
+        g.save();
+        g.translate(-bw * 0.05, -bh * 0.05);
+        g.scale(1, flap);
+        g.drawImage(r.wingImg, -bw / 2 + bw * 0.05, -bh / 2 + bh * 0.05, bw, bh);
+        g.restore();
+      }
+      if (r.bodyImg.complete) g.drawImage(r.bodyImg, -bw / 2, -bh / 2, bw, bh);
+      g.restore();
+      // sparkle trail
+      if (Math.random() < 0.5) {
+        g.fillStyle = ['#ff80ab', '#fff59d', '#b388ff', '#80deea'][Math.floor(Math.random() * 4)];
+        g.beginPath(); g.arc(kx + 10 - Math.random() * 30, r.y + 20 + (Math.random() - 0.5) * 20, 3 + Math.random() * 3, 0, Math.PI * 2); g.fill();
+      }
+
+      ridesLoopId = requestAnimationFrame(stepRide);
     }
 
     /*************************************************************************
