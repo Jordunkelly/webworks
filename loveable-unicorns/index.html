@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v8.0 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
+  <title>v8.1 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -1280,20 +1280,23 @@
        v6.2: SING-ALONG, SEASON SCENERY, TRACING
        ========================================================================= */
     .song-stage { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-    .song-big { min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 3.4rem; }
-    .song-big.bop { animation: songBop 0.5s cubic-bezier(.2, 1.8, .4, 1); }
     @keyframes songBop { 0% { transform: scale(0.6) rotate(-6deg); } 100% { transform: scale(1); } }
-    .song-emoji { font-size: 3.6rem; line-height: 1.1; font-family: var(--font-print); font-weight: 700; color: var(--bluey-dark); }
-    .song-word { font-family: var(--font-print); font-size: 2.2rem; font-weight: 700; color: var(--bluey-dark); text-shadow: 2px 2px 0 #fff; text-align: center; }
-    .song-row { display: flex; gap: 6px; overflow-x: auto; max-width: 100%; padding: 6px 2px; scrollbar-width: none; }
-    .song-row::-webkit-scrollbar { display: none; }
+    .song-turn { font-size: 2.6rem; line-height: 1; min-height: 1.1em; }
+    .song-turn.bop { animation: songBop 0.5s cubic-bezier(.2, 1.8, .4, 1); }
+    .song-line { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; min-height: 70px; align-items: center; padding: 6px 0; }
     .song-chip {
-      flex-shrink: 0; min-width: 40px; height: 40px; padding: 0 6px; border-radius: 14px; border: 3px solid var(--c);
-      background: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 700;
-      font-family: var(--font-print); color: var(--bluey-dark); opacity: 0.55; transition: transform 0.2s, opacity 0.2s;
+      --c: #ec407a;
+      min-width: 46px; height: 54px; padding: 0 10px; border-radius: 16px; border: 3px solid var(--c);
+      background: #ffffff; display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 1.6rem; font-weight: 700;
+      font-family: var(--font-print); color: var(--bluey-dark); transition: transform 0.15s, background 0.15s;
     }
-    .song-chip.sung { opacity: 1; }
-    .song-chip.now { background: var(--c); color: #fff; transform: translateY(-6px) scale(1.2); box-shadow: 0 4px 0 var(--bluey-dark); }
+    .song-chip i { font-style: normal; font-size: 1.3rem; }
+    .song-line.kiki-turn .song-chip { border-style: dashed; background: #fff8e1; }
+    .song-chip.now { background: var(--c); color: #fff; transform: translateY(-10px) scale(1.18); box-shadow: 0 6px 0 var(--bluey-dark); }
+    .song-dots { display: flex; gap: 6px; }
+    .song-dots span { width: 12px; height: 12px; border-radius: 50%; background: #f3e5f5; border: 2px solid #ce93d8; }
+    .song-dots span.done { background: #ce93d8; }
+    .song-dots span.now { background: #ffd54f; border-color: #f9a825; transform: scale(1.25); }
     .song-picks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; }
     .song-pick {
       height: 84px; border-radius: 24px; border: 4px solid var(--bluey-dark); background: linear-gradient(180deg, #ffffff, #fce4ec);
@@ -1846,7 +1849,6 @@
       .big-prompt-display { font-size: 2.2rem; }
       .choice-btn { min-height: 84px; padding: 8px; font-size: 2rem; }
       .season-scene { height: 150px; }
-      .song-big { min-height: 90px; }
       .candy-board { max-width: min(440px, 47vh); gap: 6px; padding: 8px; }
       .candy-cell { font-size: 1.9rem; }
       .explore-grid { grid-template-columns: repeat(13, 1fr); gap: 6px; }
@@ -1918,7 +1920,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v8.0</small></span>
+      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v8.1</small></span>
     </div>
 
     <div class="header-controls">
@@ -4385,47 +4387,101 @@
     }
 
     /*************************************************************************
-     * 🎶 SING-ALONGS (inside 7 Days): a bouncing karaoke card per word,
-     * a little marimba tune underneath, Kiki sings each word on the beat.
-     * Tunes are our own, except the ABC song (traditional Twinkle tune).
+     * 🎶 SING-ALONGS (inside 7 Days), "my turn, your turn"
+     * A phone voice can't sing in time, so each line goes in two steps:
+     *   1. Kiki SAYS the line (one spoken sentence, nothing cut off)
+     *   2. the TUNE plays the line on the audio clock at a slow, steady kid
+     *      tempo, with a soft tick on every beat and the words lighting up
+     *      exactly on their notes, while she sings it
+     * Then the whole song plays once straight through, all together.
+     * The ABC song uses the real Twinkle rhythm (L-M-N-O quick, G P S V Z held).
+     * Note lengths are in beats.
      *************************************************************************/
-    const N = { C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.0, A4: 440.0, B4: 493.88, C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99, A5: 880.0 };
-    const SONGS = [
-      { id: 'days', icon: '🗓️', beat: 820, outro: 'Seven days! Yay!',
-        words: DAYS_OF_WEEK.map((d, i) => ({ w: d.name, e: d.emoji, color: d.color, notes: [[N.C5, N.E5], [N.D5, N.F5], [N.E5, N.G5], [N.F5, N.A5], [N.G5, N.E5], [N.A5, N.F5], [N.G5, N.C5]][i] })) },
-      { id: 'abc', icon: '🔤', beat: 560, outro: 'Now I know my A B Cs!',
-        words: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((l, i) => ({ w: l, e: l, color: ['#ec407a', '#ab47bc', '#7e57c2', '#42a5f5', '#26a69a', '#ffb300'][i % 6],
-          notes: [[[N.C4, N.C4, N.G4, N.G4, N.A4, N.A4, N.G4], [N.F4, N.F4, N.E4, N.E4, N.D4, N.D4, N.D4, N.D4, N.C4], [N.G4, N.G4, N.F4], [N.E4, N.E4, N.D4], [N.G4, N.G4, N.F4, N.E4]].flat()[i] * 2] })) },
-      { id: 'count', icon: '🔢', beat: 650, outro: 'Ten! Hooray!',
-        words: ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'].map((w, i) => ({ w, e: String(i + 1), color: ['#ff5252', '#ffab40', '#fdd835', '#66bb6a', '#29b6f6', '#7e57c2', '#ec407a', '#26a69a', '#8d6e63', '#ab47bc'][i],
-          notes: [[N.C5, N.D5, N.E5, N.F5, N.G5, N.A5, N.G5, N.F5, N.E5, N.C5][i]] })) },
-      { id: 'rainbow', icon: '🌈', beat: 760, outro: 'I can sing a rainbow!',
-        words: [['Red', '#ff5252', '🍓'], ['Orange', '#ffab40', '🍊'], ['Yellow', '#fdd835', '🌻'], ['Green', '#66bb6a', '🐸'], ['Blue', '#42a5f5', '🐳'], ['Purple', '#8e24aa', '🍇'], ['Pink', '#ff80ab', '🦄']]
-          .map(([w, color, e], i) => ({ w, e, color, notes: [[N.E5, N.G5], [N.D5, N.F5], [N.C5, N.E5], [N.D5, N.G5], [N.E5, N.A5], [N.F5, N.D5], [N.G5, N.C5]][i] })) }
-    ];
-    let songTimers = [];
+    const NOTE_HZ = { C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.0, A4: 440.0, B4: 493.88,
+      C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99, A5: 880.0, B5: 987.77, C6: 1046.5 };
+    const N = NOTE_HZ;
+    const it = (t, notes, extra = {}) => Object.assign({ t, notes }, extra);
 
-    function playMarimba(freq, when = 0, vol = 0.18) {
-      if (soundMuted) return;
-      try {
-        const ctx = getAudioCtx();
-        const t = ctx.currentTime + when;
-        [1, 4].forEach((h, k) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq * h, t);
-          gain.gain.setValueAtTime(k ? vol * 0.12 : vol, t);
-          gain.gain.exponentialRampToValueAtTime(0.001, t + (k ? 0.12 : 0.45));
-          osc.connect(gain); gain.connect(ctx.destination);
-          osc.start(t); osc.stop(t + 0.5);
-        });
-      } catch (e) {}
+    const SONGS = [
+      { id: 'abc', icon: '🔤', bpm: 92, outro: 'Yay! A B C!', phrases: [
+        { say: 'A, B, C, D, E, F, G', items: [it('A', [['C5', 1]]), it('B', [['C5', 1]]), it('C', [['G5', 1]]), it('D', [['G5', 1]]), it('E', [['A5', 1]]), it('F', [['A5', 1]]), it('G', [['G5', 2]])] },
+        { say: 'H, I, J, K, L M N O P', items: [it('H', [['F5', 1]]), it('I', [['F5', 1]]), it('J', [['E5', 1]]), it('K', [['E5', 1]]), it('L', [['D5', 0.5]]), it('M', [['D5', 0.5]]), it('N', [['D5', 0.5]]), it('O', [['D5', 0.5]]), it('P', [['C5', 2]])] },
+        { say: 'Q, R, S, T, U, V', items: [it('Q', [['G5', 1]]), it('R', [['G5', 1]]), it('S', [['F5', 2]]), it('T', [['E5', 1]]), it('U', [['E5', 1]]), it('V', [['D5', 2]])] },
+        { say: 'W, X, Y and Z', items: [it('W', [['G5', 1], ['G5', 1], ['F5', 1]]), it('X', [['F5', 1]]), it('Y', [['E5', 1]]), it('and', [['E5', 1]]), it('Z', [['D5', 2]])] },
+        { say: 'Now I know my A B Cs', items: [it('Now', [['C5', 1]]), it('I', [['C5', 1]]), it('know', [['G5', 1]]), it('my', [['G5', 1]]), it('A', [['A5', 1]]), it('B', [['A5', 1]]), it('Cs', [['G5', 2]])] },
+        { say: 'Next time, won’t you sing with me!', items: [it('Next', [['F5', 1]]), it('time', [['F5', 1]]), it('won’t', [['E5', 1]]), it('you', [['E5', 1]]), it('sing', [['D5', 1]]), it('with', [['D5', 1]]), it('me', [['C5', 2]])] }
+      ] },
+      { id: 'days', icon: '🗓️', bpm: 96, outro: 'Seven days! Hooray!', phrases: [
+        { say: 'Sunday, Monday, Tuesday', items: [it('Sunday', [['C5', 1], ['E5', 1]], { e: '☀️' }), it('Monday', [['D5', 1], ['F5', 1]], { e: '🌙' }), it('Tuesday', [['E5', 1], ['G5', 2]], { e: '🌮' })] },
+        { say: 'Wednesday, Thursday', items: [it('Wednesday', [['A5', 1], ['G5', 1]], { e: '🐸' }), it('Thursday', [['F5', 1], ['E5', 2]], { e: '⚡' })] },
+        { say: 'Friday, Saturday', items: [it('Friday', [['D5', 1], ['E5', 1]], { e: '🎉' }), it('Saturday', [['F5', 0.5], ['E5', 0.5], ['D5', 2]], { e: '🎠' })] },
+        { say: 'Seven days, hooray!', items: [it('Seven', [['G5', 1], ['G5', 1]], { e: '7️⃣' }), it('days', [['E5', 2]]), it('hooray!', [['C5', 1], ['C6', 3]], { e: '🥳' })] }
+      ] },
+      { id: 'count', icon: '🔢', bpm: 100, outro: 'Ten! Hooray!', phrases: [
+        { say: 'One, two, three, four, five', items: ['One', 'Two', 'Three', 'Four', 'Five'].map((w, i) => it(w, [[['C5', 'D5', 'E5', 'F5', 'G5'][i], i === 4 ? 2 : 1]], { e: String(i + 1) })) },
+        { say: 'Six, seven, eight, nine, ten', items: ['Six', 'Seven', 'Eight', 'Nine', 'Ten'].map((w, i) => it(w, [[['A5', 'G5', 'F5', 'E5', 'D5'][i], i === 4 ? 2 : 1]], { e: String(i + 6) })) },
+        { say: 'I can count to ten!', items: [it('I', [['C5', 1]]), it('can', [['E5', 1]]), it('count', [['G5', 1]]), it('to', [['E5', 1]]), it('ten!', [['C6', 3]], { e: '🔟' })] }
+      ] },
+      { id: 'rainbow', icon: '🌈', bpm: 92, outro: 'I can sing a rainbow!', phrases: [
+        { say: 'Red, orange, yellow', items: [it('Red', [['E5', 2]], { e: '🍓', c: '#ff5252' }), it('Orange', [['G5', 1], ['G5', 1]], { e: '🍊', c: '#ffab40' }), it('Yellow', [['A5', 1], ['G5', 2]], { e: '🌻', c: '#fdd835' })] },
+        { say: 'Green and blue', items: [it('Green', [['E5', 2]], { e: '🐸', c: '#66bb6a' }), it('and', [['D5', 1]]), it('blue', [['C5', 3]], { e: '🐳', c: '#42a5f5' })] },
+        { say: 'Purple and pink', items: [it('Purple', [['D5', 1], ['E5', 1]], { e: '🍇', c: '#8e24aa' }), it('and', [['F5', 1]]), it('pink', [['G5', 3]], { e: '🦄', c: '#ff80ab' })] },
+        { say: 'I can sing a rainbow!', items: [it('I', [['G5', 1]]), it('can', [['A5', 1]]), it('sing', [['G5', 1]]), it('a', [['F5', 1]]), it('rainbow!', [['E5', 1], ['C5', 3]], { e: '🌈' })] }
+      ] }
+    ];
+
+    let song = null;          // { idx, token, nodes: [] } while a song is playing
+    let songTimers = [];
+    let songToken = 0;
+
+    // A soft music-box note at an exact audio-clock time
+    function songNote(ctx, freq, t, dur, vol = 0.16) {
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(vol, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(vol * 0.55, t + 0.18);
+      g.gain.setValueAtTime(vol * 0.55, t + Math.max(0.2, dur * 0.85));
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur * 0.85 + 0.25);
+      g.connect(ctx.destination);
+      [[freq, 'triangle', 1], [freq * 2, 'sine', 0.25]].forEach(([f, type, v]) => {
+        const o = ctx.createOscillator();
+        const og = ctx.createGain();
+        o.type = type;
+        o.frequency.setValueAtTime(f, t);
+        og.gain.value = v;
+        o.connect(og); og.connect(g);
+        o.start(t); o.stop(t + dur + 0.3);
+        if (song) song.nodes.push(o);
+      });
+    }
+
+    // A gentle wood-block tick on each beat, a little louder on the first of four
+    function songTick(ctx, t, accent) {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(accent ? 1500 : 1150, t);
+      g.gain.setValueAtTime(accent ? 0.07 : 0.045, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(t); o.stop(t + 0.06);
+      if (song) song.nodes.push(o);
+    }
+
+    function marimbaChime(ctx, notes) {
+      notes.forEach((n, k) => songNote(ctx, NOTE_HZ[n], ctx.currentTime + 0.05 + k * 0.13, 0.3, 0.18));
     }
 
     function stopSong() {
+      songToken++;
       songTimers.forEach(clearTimeout);
       songTimers = [];
+      if (song) {
+        song.nodes.forEach(o => { try { o.stop(); } catch (e) {} });
+        phonicsToken++;
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      }
+      song = null;
       const ub = document.getElementById('unicorn-box');
       if (ub) ub.classList.remove('dancing');
     }
@@ -4434,46 +4490,111 @@
       stopSong();
       const showcase = document.getElementById('showcase-card');
       const area = document.getElementById('interactive-area');
-      showcase.innerHTML = `<div class="song-stage" id="song-stage"><div class="song-big" id="song-big">🎤</div><div class="song-row" id="song-row"></div></div>`;
+      showcase.innerHTML = `
+        <div class="song-stage">
+          <div class="song-turn" id="song-turn">🎤</div>
+          <div class="song-line" id="song-line"></div>
+          <div class="song-dots" id="song-dots"></div>
+        </div>`;
       area.innerHTML = `<div class="song-picks">${SONGS.map((sg, i) => `<button class="song-pick" onclick="playSong(${i})">${sg.icon}<span>▶</span></button>`).join('')}</div>`;
       currentSoundOutCallback = () => playSong(0);
       lastSpokenPrompt = 'Sing with Kiki!';
       document.getElementById('speech-text').textContent = '🎤 Sing!';
-      unicornSpeak('Sing with Kiki!', { updateBubble: false });
+      unicornSpeak('Pick a song!', { updateBubble: false });
+    }
+
+    function renderSongLine(sg, pi, mode) {
+      const line = document.getElementById('song-line');
+      const dots = document.getElementById('song-dots');
+      const turn = document.getElementById('song-turn');
+      if (!line) return;
+      const ph = sg.phrases[pi];
+      line.innerHTML = ph.items.map((x, i) =>
+        `<span class="song-chip" id="song-chip-${i}" style="${x.c ? `--c:${x.c}` : ''}">${x.e ? `<i>${x.e}</i>` : ''}${x.t}</span>`).join('');
+      line.classList.toggle('kiki-turn', mode === 'kiki');
+      dots.innerHTML = sg.phrases.map((_, i) => `<span class="${i < pi ? 'done' : i === pi ? 'now' : ''}"></span>`).join('');
+      turn.textContent = mode === 'kiki' ? '🦄🗣️' : mode === 'all' ? '🎶🦄👧🎶' : '👧🎤';
+      turn.classList.remove('bop'); void turn.offsetWidth; turn.classList.add('bop');
+    }
+
+    // Plays one line of the tune on the audio clock and lights each word on its first note.
+    // Calls done() one beat after the line ends.
+    function playSongLine(sg, pi, startAt, done) {
+      const ctx = getAudioCtx();
+      const beat = 60 / sg.bpm;
+      const tok = songToken;
+      let t = startAt;
+      let beatCount = 0;
+      sg.phrases[pi].items.forEach((x, i) => {
+        const wordStart = t;
+        songTimers.push(setTimeout(() => {
+          if (tok !== songToken) return;
+          document.querySelectorAll('#song-line .song-chip').forEach(c => c.classList.remove('now'));
+          const chip = document.getElementById(`song-chip-${i}`);
+          if (chip) chip.classList.add('now', 'sung');
+        }, Math.max(0, (wordStart - ctx.currentTime) * 1000)));
+        x.notes.forEach(([n, beats]) => {
+          if (!soundMuted) songNote(ctx, NOTE_HZ[n], t, beats * beat);
+          t += beats * beat;
+        });
+      });
+      // Ticks on every beat of the line
+      const totalBeats = Math.round((t - startAt) / beat);
+      for (let b = 0; b < totalBeats; b++) if (!soundMuted) songTick(ctx, startAt + b * beat, beatCount++ % 4 === 0);
+      songTimers.push(setTimeout(() => {
+        if (tok !== songToken) return;
+        document.querySelectorAll('#song-line .song-chip').forEach(c => c.classList.remove('now'));
+        done(t + beat);
+      }, Math.max(0, (t + beat * 0.6 - ctx.currentTime) * 1000)));
     }
 
     function playSong(idx) {
       stopSong();
-      const song = SONGS[idx];
-      const row = document.getElementById('song-row');
-      const big = document.getElementById('song-big');
-      if (!row || !big) return;
+      const sg = SONGS[idx];
+      song = { idx, nodes: [] };
+      const tok = songToken;
       document.querySelectorAll('.song-pick').forEach((b, i) => b.classList.toggle('active', i === idx));
-      row.innerHTML = song.words.map((wd, i) => `<span class="song-chip" id="song-chip-${i}" style="--c:${wd.color}">${wd.e}</span>`).join('');
-      const start = 600;
-      song.words.forEach((wd, i) => {
-        songTimers.push(setTimeout(() => {
-          if (currentWorld !== 'days') return stopSong();
-          document.querySelectorAll('.song-chip').forEach(ch => ch.classList.remove('now'));
-          const chip = document.getElementById(`song-chip-${i}`);
-          if (chip) { chip.classList.add('now', 'sung'); chip.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' }); }
-          big.innerHTML = `<span class="song-emoji">${wd.e}</span><span class="song-word" style="color:${wd.color}">${wd.w}</span>`;
-          big.classList.remove('bop'); void big.offsetWidth; big.classList.add('bop');
-          wd.notes.forEach((f, k) => playMarimba(f, k * (song.beat / 1000 / wd.notes.length)));
-          unicornSpeak(wd.w, { updateBubble: false, customRate: 1.05 });
-          const ub = document.getElementById('unicorn-box');
-          ub.classList.add('dancing');
-        }, start + i * song.beat));
-      });
-      songTimers.push(setTimeout(() => {
-        if (currentWorld !== 'days') return;
+      document.getElementById('unicorn-box').classList.add('dancing');
+
+      // Step 1 + 2 for each line, then all lines straight through
+      const echo = (pi) => {
+        if (tok !== songToken) return;
+        if (pi >= sg.phrases.length) return together();
+        renderSongLine(sg, pi, 'kiki');
+        speakSteps([{ speak: sg.phrases[pi].say }], () => {
+          if (tok !== songToken) return;
+          renderSongLine(sg, pi, 'you');
+          const ctx = getAudioCtx();
+          playSongLine(sg, pi, ctx.currentTime + 0.35, () => echo(pi + 1));
+        });
+      };
+      const together = () => {
+        renderSongLine(sg, 0, 'all');
+        speakSteps([{ speak: 'All together!' }], () => {
+          if (tok !== songToken) return;
+          const ctx = getAudioCtx();
+          let pi = 0;
+          const next = (at) => {
+            if (tok !== songToken) return;
+            if (pi >= sg.phrases.length) return finish();
+            renderSongLine(sg, pi, 'all');
+            playSongLine(sg, pi, at, (nextAt) => { pi++; next(nextAt); });
+          };
+          next(ctx.currentTime + 0.35);
+        });
+      };
+      const finish = () => {
+        if (tok !== songToken) return;
         document.getElementById('unicorn-box').classList.remove('dancing');
-        big.innerHTML = `<span class="song-emoji">🎉</span><span class="song-word">${song.outro}</span>`;
-        [N.C5, N.E5, N.G5, N.C5 * 2].forEach((f, k) => playMarimba(f, k * 0.12, 0.2));
-        unicornSpeak(song.outro, { updateBubble: false });
+        const line = document.getElementById('song-line');
+        if (line) line.innerHTML = `<span class="song-chip now">🎉 ${sg.outro}</span>`;
+        if (!soundMuted) marimbaChime(getAudioCtx(), ['C5', 'E5', 'G5', 'C6']);
+        unicornSpeak(sg.outro, { updateBubble: false });
         burstSparkles(window.innerWidth / 2, window.innerHeight / 2, 80);
         addStar();
-      }, start + song.words.length * song.beat + 300));
+        song = null;
+      };
+      echo(0);
     }
 
     /*************************************************************************
