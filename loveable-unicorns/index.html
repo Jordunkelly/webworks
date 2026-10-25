@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v7.4 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
+  <title>v7.5 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -1384,6 +1384,45 @@
     @media (min-width: 700px) { .book-grid { grid-template-columns: repeat(4, 1fr); } }
 
     /* =========================================================================
+       v7.5: 🎙️ VOICE STUDIO
+       ========================================================================= */
+    .studio-gate { position: relative; overflow: hidden; touch-action: none; }
+    .studio-gate::after { content: ''; position: absolute; left: 0; bottom: 0; height: 4px; width: 0; background: #ec407a; }
+    .studio-gate.holding::after { width: 100%; transition: width 1.2s linear; }
+    .studio-overlay { position: fixed; inset: 0; z-index: 995; display: none; align-items: center; justify-content: center;
+      background: rgba(49, 27, 146, 0.55); padding: 12px; font-family: var(--font-ui); }
+    .studio-overlay.open { display: flex; }
+    .studio-panel { width: min(560px, 100%); max-height: 100%; overflow-y: auto; background: #ffffff; border-radius: 26px;
+      border: 4px solid var(--bluey-dark); box-shadow: 0 8px 0 var(--bluey-dark); padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+    .studio-head { display: flex; align-items: center; gap: 10px; }
+    .studio-title { flex: 1; font-size: 1.25rem; font-weight: 700; color: var(--bluey-dark); }
+    .studio-title small { font-size: 0.75rem; color: #8e24aa; font-weight: 600; margin-left: 4px; }
+    .studio-count { background: #f3e5f5; border-radius: 99px; padding: 3px 12px; font-weight: 700; color: #6a1b9a; }
+    .studio-tip { font-size: 0.85rem; line-height: 1.35; color: #4a3a5a; background: #fff8e1; border-radius: 14px; padding: 8px 12px; }
+    .studio-card { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 6px 0; }
+    .studio-letter { font-family: var(--font-print); font-size: 4rem; font-weight: 700; color: var(--bluey-dark); line-height: 1; }
+    .studio-letter span { font-size: 2.6rem; }
+    .studio-say { font-size: 1.05rem; color: #4a3a5a; text-align: center; }
+    .studio-msg { min-height: 1.4em; font-weight: 700; color: #2e7d32; text-align: center; }
+    .studio-msg.bad { color: #c62828; }
+    .studio-msg.empty { color: #9e9e9e; font-weight: 600; }
+    .studio-actions { display: flex; align-items: center; justify-content: center; gap: 14px; }
+    .studio-actions.small { gap: 8px; }
+    .studio-btn { min-width: 52px; height: 52px; border-radius: 16px; border: 3px solid #ce93d8; background: #fce4ec;
+      font-size: 1.3rem; font-weight: 700; color: var(--bluey-dark); cursor: pointer; padding: 0 10px; }
+    .studio-btn.wide { min-width: 96px; font-size: 1rem; }
+    .studio-btn:disabled { opacity: 0.4; cursor: default; }
+    .studio-rec { width: 92px; height: 92px; border-radius: 50%; border: 5px solid #ffffff; background: #e53935; color: #fff;
+      font-size: 2.4rem; cursor: pointer; box-shadow: 0 0 0 4px #e53935, 0 6px 0 #8e0000; }
+    .studio-rec.on { animation: recPulse 0.9s ease-in-out infinite; background: #b71c1c; }
+    @keyframes recPulse { 50% { box-shadow: 0 0 0 14px rgba(229, 57, 53, 0.25), 0 6px 0 #8e0000; } }
+    .studio-strip { display: grid; grid-template-columns: repeat(13, 1fr); gap: 4px; }
+    .studio-chip { aspect-ratio: 1; border-radius: 10px; border: 2px solid #e1bee7; background: #fff; font-weight: 700;
+      color: #9e9e9e; cursor: pointer; font-size: 0.9rem; padding: 0; }
+    .studio-chip.done { background: #c8e6c9; border-color: #43a047; color: #1b5e20; }
+    .studio-chip.now { border-color: var(--bluey-dark); box-shadow: 0 0 0 2px #ffd54f; color: var(--bluey-dark); }
+
+    /* =========================================================================
        MINI GAME 3: 🧱 5-YEAR-OLD PICTURE-ONLY LEGO UNICORN BUILDER (v5.0)
        ========================================================================= */
     .lego-fs-overlay {
@@ -1834,7 +1873,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.4</small></span>
+      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.5</small></span>
     </div>
 
     <div class="header-controls">
@@ -1850,6 +1889,9 @@
       </button>
       <button class="ctrl-btn" id="mute-btn" onclick="toggleMute()">
         🔊
+      </button>
+      <button class="ctrl-btn studio-gate" id="studio-btn" title="Grown-ups: press and hold to record letter sounds">
+        🎙️
       </button>
     </div>
   </div>
@@ -2058,6 +2100,21 @@
     <div class="cb-dock">
       <div class="cb-tools" id="cb-tools"></div>
       <div class="cb-palette" id="cb-palette"></div>
+    </div>
+  </div>
+
+  <!-- 🎙️ VOICE STUDIO for grown-ups (v7.5) -->
+  <div class="studio-overlay" id="studio-overlay">
+    <div class="studio-panel">
+      <div class="studio-head">
+        <button class="studio-btn" onclick="closeVoiceStudio()" title="Done">✖</button>
+        <div class="studio-title">🎙️ Voice Studio <small>for grown-ups</small></div>
+        <span class="studio-count" id="studio-count">0 / 26</span>
+      </div>
+      <div class="studio-tip">Record each letter <b>sound</b> once, short and clear, phone close to your mouth.
+        For b, d, g, k, p, t keep the "uh" tiny. Your voice is saved on this device only and plays everywhere Kiki says a letter sound.</div>
+      <div class="studio-card" id="studio-card"></div>
+      <div class="studio-strip" id="studio-strip"></div>
     </div>
   </div>
 
@@ -2532,6 +2589,7 @@
 
     // Plays one letter sound (or renders it into an offline context). Returns its length in seconds.
     function playPhoneme(letter, offlineCtx, level) {
+      if (!offlineCtx && VOICE_CLIPS[letter]) return playVoiceClip(letter);
       const segs = PHONEMES[letter];
       if (!segs || (soundMuted && !offlineCtx)) return 0.4;
       try {
@@ -2636,6 +2694,240 @@
       }
     }
     setTimeout(levelLetterSounds, 300);
+
+    /*************************************************************************
+     * 🎙️ VOICE STUDIO (for grown-ups)
+     * Record each letter sound once in your own voice. Recordings are trimmed,
+     * levelled to the same loudness as the built-in sounds and kept on this
+     * device only (IndexedDB). Any letter with a recording plays it everywhere
+     * a letter sound plays; the rest keep Kiki's built-in sound.
+     *************************************************************************/
+    const VOICE_CLIPS = {};          // letter -> AudioBuffer ready to play
+    const VOICE_DB = 'kiki-voice';
+    const STUDIO_HINTS = {
+      A: ['a', 'apple'], B: ['b', 'ball'], C: ['k', 'cat'], D: ['d', 'dog'], E: ['e', 'egg'], F: ['fff', 'fish'],
+      G: ['g', 'goat'], H: ['h', 'hat'], I: ['i', 'igloo'], J: ['j', 'jam'], K: ['k', 'kite'], L: ['lll', 'lion'],
+      M: ['mmm', 'moon'], N: ['nnn', 'nest'], O: ['o', 'octopus'], P: ['p', 'pig'], Q: ['kw', 'queen'], R: ['rrr', 'rainbow'],
+      S: ['sss', 'sun'], T: ['t', 'top'], U: ['u', 'up'], V: ['vvv', 'van'], W: ['w', 'wand'], X: ['ks', 'fox'],
+      Y: ['y', 'yo-yo'], Z: ['zzz', 'zebra']
+    };
+    const STUDIO_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    let studio = null;
+
+    function voiceDB() {
+      return new Promise((resolve, reject) => {
+        if (!window.indexedDB) return reject(new Error('no indexedDB'));
+        const req = indexedDB.open(VOICE_DB, 1);
+        req.onupgradeneeded = () => req.result.createObjectStore('sounds');
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+    async function voiceDBDo(mode, fn) {
+      const db = await voiceDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('sounds', mode);
+        const req = fn(tx.objectStore('sounds'));
+        tx.oncomplete = () => resolve(req && req.result);
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    function clipFromSamples(sr, data) {
+      const buf = new AudioBuffer({ length: data.length, numberOfChannels: 1, sampleRate: sr });
+      buf.copyToChannel(data, 0);
+      return buf;
+    }
+
+    async function loadVoiceClips() {
+      try {
+        const db = await voiceDB();
+        const tx = db.transaction('sounds', 'readonly');
+        const store = tx.objectStore('sounds');
+        const req = store.openCursor();
+        req.onsuccess = () => {
+          const cur = req.result;
+          if (!cur) return;
+          try { VOICE_CLIPS[cur.key] = clipFromSamples(cur.value.sr, cur.value.data); } catch (e) {}
+          cur.continue();
+        };
+      } catch (e) {}
+    }
+    setTimeout(loadVoiceClips, 200);
+
+    // Plays a grown-up's recording if there is one. Returns its length, or 0 if none.
+    function playVoiceClip(letter) {
+      const clip = VOICE_CLIPS[letter];
+      if (!clip) return 0;
+      if (soundMuted) return clip.duration;
+      try {
+        const ctx = getAudioCtx();
+        const src = ctx.createBufferSource();
+        src.buffer = clip;
+        src.connect(ctx.destination);
+        src.start();
+      } catch (e) {}
+      return clip.duration;
+    }
+
+    // Trim the silence around the sound, fade the edges and level it like the built-in sounds
+    function cleanRecording(data, sr) {
+      const frame = Math.round(sr * 0.01);
+      const rmsOf = (i) => { let s = 0; for (let k = i; k < i + frame && k < data.length; k++) s += data[k] * data[k]; return Math.sqrt(s / frame); };
+      const frames = [];
+      for (let i = 0; i < data.length; i += frame) frames.push(rmsOf(i));
+      const loudest = Math.max(...frames, 0);
+      if (loudest < 0.01) return null;                       // nothing heard
+      const gate = Math.max(0.008, loudest * 0.12);
+      let a = frames.findIndex(r => r > gate);
+      let b = frames.length - 1 - [...frames].reverse().findIndex(r => r > gate);
+      a = Math.max(0, a * frame - Math.round(sr * 0.03));
+      b = Math.min(data.length, (b + 1) * frame + Math.round(sr * 0.06));
+      const out = data.slice(a, b);
+      if (out.length < sr * 0.05) return null;                // too short to be a sound
+      const fade = Math.min(Math.round(sr * 0.012), Math.floor(out.length / 4));
+      for (let i = 0; i < fade; i++) { out[i] *= i / fade; out[out.length - 1 - i] *= i / fade; }
+      let sum = 0, n = 0, peak = 0;
+      for (const v of out) { const x = Math.abs(v); if (x > gate) { sum += v * v; n++; } if (x > peak) peak = x; }
+      const rms = Math.sqrt(sum / Math.max(n, 1));
+      const gain = Math.min(0.19 / Math.max(rms, 0.001), 0.85 / Math.max(peak, 0.001));
+      for (let i = 0; i < out.length; i++) out[i] *= gain;
+      return out;
+    }
+
+    function openVoiceStudio() {
+      studio = { idx: studio ? studio.idx : 0, stream: null, rec: null, recording: false, timer: null };
+      document.getElementById('studio-overlay').classList.add('open');
+      renderStudio();
+    }
+
+    function closeVoiceStudio() {
+      stopStudioRecording(true);
+      if (studio && studio.stream) studio.stream.getTracks().forEach(t => t.stop());
+      studio = null;
+      document.getElementById('studio-overlay').classList.remove('open');
+    }
+
+    function renderStudio(msg) {
+      if (!studio) return;
+      const L = STUDIO_LETTERS[studio.idx];
+      const [sound, word] = STUDIO_HINTS[L];
+      const item = ALPHABET.find(a => a.letter === L);
+      const count = STUDIO_LETTERS.filter(l => VOICE_CLIPS[l]).length;
+      document.getElementById('studio-count').textContent = `${count} / 26`;
+      document.getElementById('studio-card').innerHTML = `
+        <div class="studio-letter">${L}${L.toLowerCase()} <span>${item ? item.emoji : ''}</span></div>
+        <div class="studio-say">Say just the sound: <b>"${sound}"</b> as in <b>${word}</b></div>
+        <div class="studio-msg ${msg && msg.bad ? 'bad' : ''} ${!msg && !VOICE_CLIPS[L] ? 'empty' : ''}">${msg ? msg.text : (VOICE_CLIPS[L] ? '✅ Recorded' : 'Not recorded yet')}</div>
+        <div class="studio-actions">
+          <button class="studio-btn" onclick="studioStep(-1)">◀</button>
+          <button class="studio-rec ${studio.recording ? 'on' : ''}" onclick="toggleStudioRecording()">${studio.recording ? '■' : '●'}</button>
+          <button class="studio-btn" onclick="studioStep(1)">▶</button>
+        </div>
+        <div class="studio-actions small">
+          <button class="studio-btn wide" ${VOICE_CLIPS[L] ? '' : 'disabled'} onclick="playStudioMine()">▶ Mine</button>
+          <button class="studio-btn wide" onclick="playStudioKiki()">🦄 Kiki's</button>
+          <button class="studio-btn wide" ${VOICE_CLIPS[L] ? '' : 'disabled'} onclick="deleteStudioClip()">🗑️</button>
+        </div>`;
+      document.getElementById('studio-strip').innerHTML = STUDIO_LETTERS.map((l, i) =>
+        `<button class="studio-chip ${VOICE_CLIPS[l] ? 'done' : ''} ${i === studio.idx ? 'now' : ''}" onclick="studioJump(${i})">${l}</button>`).join('');
+    }
+
+    function studioStep(d) {
+      if (!studio || studio.recording) return;
+      studio.idx = (studio.idx + d + 26) % 26;
+      renderStudio();
+    }
+    function studioJump(i) {
+      if (!studio || studio.recording) return;
+      studio.idx = i;
+      renderStudio();
+    }
+    function playStudioMine() { playVoiceClip(STUDIO_LETTERS[studio.idx]); }
+    function playStudioKiki() {
+      const L = STUDIO_LETTERS[studio.idx];
+      const saved = VOICE_CLIPS[L];
+      delete VOICE_CLIPS[L];           // hear the built-in one even if a recording exists
+      playPhoneme(L);
+      if (saved) VOICE_CLIPS[L] = saved;
+    }
+    async function deleteStudioClip() {
+      const L = STUDIO_LETTERS[studio.idx];
+      delete VOICE_CLIPS[L];
+      try { await voiceDBDo('readwrite', st => st.delete(L)); } catch (e) {}
+      renderStudio({ text: 'Deleted. Kiki will use her own sound.' });
+    }
+
+    async function toggleStudioRecording() {
+      if (!studio) return;
+      if (studio.recording) return stopStudioRecording();
+      if (!navigator.mediaDevices || !window.MediaRecorder) {
+        return renderStudio({ text: 'This browser can’t record. Try Chrome or Safari.', bad: true });
+      }
+      try {
+        if (!studio.stream) {
+          studio.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+        }
+      } catch (e) {
+        return renderStudio({ text: 'Microphone is blocked. Allow it in the browser to record.', bad: true });
+      }
+      const chunks = [];
+      studio.discard = false;
+      const rec = new MediaRecorder(studio.stream);
+      studio.rec = rec;
+      studio.recording = true;
+      rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+      rec.onstop = () => finishStudioRecording(chunks, rec.mimeType);
+      rec.start();
+      // Letter sounds are short; stop on its own after 2.5 seconds
+      studio.timer = setTimeout(() => stopStudioRecording(), 2500);
+      renderStudio({ text: '🔴 Listening… say the sound, then tap ■' });
+    }
+
+    function stopStudioRecording(discard) {
+      if (!studio || !studio.recording) return;
+      clearTimeout(studio.timer);
+      studio.recording = false;
+      studio.discard = !!discard;
+      try { studio.rec.stop(); } catch (e) {}
+    }
+
+    async function finishStudioRecording(chunks, type) {
+      if (!studio || studio.discard) return;
+      const L = STUDIO_LETTERS[studio.idx];
+      try {
+        const blob = new Blob(chunks, { type: type || 'audio/webm' });
+        const decoded = await getAudioCtx().decodeAudioData(await blob.arrayBuffer());
+        const cleaned = cleanRecording(decoded.getChannelData(0).slice(), decoded.sampleRate);
+        if (!cleaned) return renderStudio({ text: 'Didn’t hear a sound. Try again a little closer.', bad: true });
+        VOICE_CLIPS[L] = clipFromSamples(decoded.sampleRate, cleaned);
+        await voiceDBDo('readwrite', st => st.put({ sr: decoded.sampleRate, data: cleaned }, L));
+        playVoiceClip(L);
+        renderStudio({ text: '✅ Saved! Listen, then ▶ for the next letter.' });
+      } catch (e) {
+        renderStudio({ text: 'Couldn’t save that one. Try again.', bad: true });
+      }
+    }
+
+    // Grown-up gate: the 🎙️ button only opens if held for a moment
+    function wireStudioGate() {
+      const btn = document.getElementById('studio-btn');
+      if (!btn) return;
+      let t = null;
+      const cancel = () => { clearTimeout(t); t = null; btn.classList.remove('holding'); };
+      btn.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        btn.classList.add('holding');
+        t = setTimeout(() => { cancel(); playMagicSound('sparkle'); openVoiceStudio(); }, 1200);
+      });
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => btn.addEventListener(ev, () => {
+        if (t) {
+          cancel();
+          document.getElementById('speech-text').textContent = '🎙️ Grown-ups: press and hold';
+        }
+      }));
+    }
+    window.addEventListener('DOMContentLoaded', wireStudioGate);
 
     function phonicsUtterance(text) {
       if (!preferredVoice) selectBestGirlyVoice();
