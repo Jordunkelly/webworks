@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v6.2 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
+  <title>v6.3 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -1679,6 +1679,62 @@
       .explore-grid { grid-template-columns: repeat(8, 1fr); }
       .closet-grid { grid-template-columns: repeat(5, 1fr); }
     }
+
+    /* =========================================================================
+       4. SHORT & WIDE SCREENS (laptops): everything fits without scrolling
+       ========================================================================= */
+    @media (min-width: 900px) and (max-height: 820px) {
+      body { padding: 6px 16px 10px; }
+      .game-header { padding-bottom: 4px; }
+      .world-nav { grid-template-columns: repeat(12, 1fr); gap: 6px; margin-bottom: 6px; max-width: 1280px; }
+      .world-btn { flex-direction: column; font-size: 0.72rem; padding: 5px 4px; gap: 1px; border-radius: 14px; }
+      .world-btn .w-icon { font-size: 1.25rem; }
+      main { padding: 10px 18px 12px; max-width: 1100px; }
+      .unicorn-header-stage { margin-bottom: 4px; }
+      .unicorn-avatar-box { width: 84px; height: 84px; }
+      .unicorn-avatar-box svg { width: 70px; height: 70px; }
+      .speech-text { font-size: 1.1rem; }
+      .submode-bar { margin-bottom: 6px; }
+      .showcase-card { min-height: 0; padding: 8px 14px; margin-bottom: 8px; }
+      .big-prompt-display { font-size: 2.2rem; }
+      .choice-btn { min-height: 84px; padding: 8px; font-size: 2rem; }
+      .season-scene { height: 150px; }
+      .song-big { min-height: 90px; }
+      .trace-canvas { max-height: 46vh; max-width: 46vh; }
+      .candy-board { max-width: min(440px, 62vh); }
+    }
+
+    /* Full-screen games on a landscape screen: picture on the left, choices on the right */
+    @media (orientation: landscape) and (min-width: 760px) {
+      .glam-overlay.open { display: grid; grid-template-columns: 1fr min(440px, 38vw); grid-template-rows: auto 1fr; }
+      .glam-top { grid-column: 1 / -1; }
+      .glam-stage { grid-row: 2; grid-column: 1; }
+      .glam-dock {
+        grid-row: 2; grid-column: 2; margin-top: 0; min-height: 0; display: flex; flex-direction: column;
+        border-top: none; border-left: 4px solid var(--bluey-dark); border-radius: 0;
+      }
+      .glam-tabs { flex-wrap: wrap; overflow: visible; }
+      .glam-options {
+        flex: 1; flex-wrap: wrap; overflow-x: hidden; overflow-y: auto; align-content: flex-start;
+        scroll-snap-type: none; cursor: default;
+      }
+      .glam-model { inset: 10px 0 0; }
+
+      .cb-overlay.open {
+        display: grid; grid-template-columns: 1fr min(380px, 34vw); grid-template-rows: auto auto 1fr;
+        grid-template-areas: "top top" "pages dock" "stage dock";
+      }
+      .cb-top { grid-area: top; }
+      .cb-pages { grid-area: pages; }
+      .cb-stage { grid-area: stage; padding-bottom: 10px; }
+      .cb-dock { grid-area: dock; margin: 0; border-top: none; border-left: 4px solid var(--bluey-dark); border-radius: 0; overflow-y: auto; }
+      .cb-tools { flex-wrap: wrap; }
+      .cb-palette { grid-template-columns: repeat(5, 1fr); gap: 10px; }
+
+      .chat-head, .chat-list, .chat-compose, .chat-tray { padding-left: max(10px, calc((100vw - 760px) / 2)); padding-right: max(10px, calc((100vw - 760px) / 2)); }
+      .chat-tray { grid-template-columns: repeat(9, 1fr); max-height: 34vh; }
+      .chat-sticker { font-size: 4.2rem; }
+    }
   </style>
 </head>
 <body>
@@ -1696,7 +1752,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span>Loveable Unicorns <small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v6.2</small></span>
+      <span>Loveable Unicorns <small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v6.3</small></span>
     </div>
 
     <div class="header-controls">
@@ -3966,7 +4022,7 @@
     const KUP_ROOMS = [
       { id: 'living', icon: '🛋️', svg: `
         <rect width="400" height="700" fill="#f8bbd0"/>
-        ${[0,1,2,3,4,5,6,7].map(i => `<rect x="${i*52}" y="0" width="26" height="600" fill="#fcd5e3"/>`).join('')}
+        ${Array.from({ length: 40 }, (_, k) => k - 16).map(i => `<rect x="${i*52}" y="0" width="26" height="600" fill="#fcd5e3"/>`).join('')}
         <rect x="40" y="90" width="130" height="150" rx="18" fill="#fff" stroke="#8e24aa" stroke-width="6"/>
         <rect x="50" y="100" width="110" height="130" rx="12" fill="#b3e5fc"/>
         <circle cx="130" cy="135" r="18" fill="#fff59d"/>
@@ -3975,7 +4031,7 @@
         <rect x="240" y="120" width="90" height="70" rx="10" fill="#fff" stroke="#8e24aa" stroke-width="5"/>
         <path d="M285 165 l-14 -14 a9 9 0 0 1 14 -10 a9 9 0 0 1 14 10 z" fill="#ec407a"/>
         <rect x="0" y="600" width="400" height="100" fill="#ce93d8"/>
-        ${[0,1,2,3,4].map(i => `<line x1="${i*90+20}" y1="600" x2="${i*90-10}" y2="700" stroke="#ba68c8" stroke-width="4"/>`).join('')}
+        ${Array.from({ length: 24 }, (_, k) => k - 10).map(i => `<line x1="${i*90+20}" y1="600" x2="${i*90-10}" y2="700" stroke="#ba68c8" stroke-width="4"/>`).join('')}
         <ellipse cx="200" cy="640" rx="150" ry="26" fill="#f48fb1"/>
         <ellipse cx="200" cy="640" rx="110" ry="16" fill="#f8bbd0"/>
         <rect x="70" y="480" width="260" height="110" rx="34" fill="#7e57c2" stroke="#4a148c" stroke-width="6"/>
@@ -4010,7 +4066,7 @@
         <circle cx="320" cy="100" r="46" fill="#fff59d"/>
         <ellipse cx="90" cy="120" rx="55" ry="22" fill="#fff"/><ellipse cx="120" cy="105" rx="35" ry="22" fill="#fff"/>
         <ellipse cx="240" cy="210" rx="45" ry="18" fill="#fff" opacity="0.9"/>
-        ${[0,1,2,3,4,5,6,7,8,9].map(i => `<rect x="${i*42+4}" y="430" width="30" height="175" rx="12" fill="#e1bee7" stroke="#8e24aa" stroke-width="4"/>`).join('')}
+        ${Array.from({ length: 44 }, (_, k) => k - 17).map(i => `<rect x="${i*42+4}" y="430" width="30" height="175" rx="12" fill="#e1bee7" stroke="#8e24aa" stroke-width="4"/>`).join('')}
         <rect x="0" y="470" width="400" height="14" fill="#ce93d8"/>
         <rect x="270" y="330" width="34" height="280" rx="12" fill="#a1887f" stroke="#4e342e" stroke-width="5"/>
         <circle cx="287" cy="300" r="80" fill="#81c784" stroke="#2e7d32" stroke-width="6"/>
@@ -4026,7 +4082,7 @@
       ` },
       { id: 'kitchen', icon: '🧁', svg: `
         <rect width="400" height="700" fill="#fce4ec"/>
-        ${[0,1,2,3,4,5,6,7].map(r => [0,1,2,3,4,5,6,7].map(c => `<rect x="${c*50+3}" y="${r*30+330}" width="44" height="24" rx="5" fill="${(r+c)%2 ? '#f8bbd0' : '#fff'}"/>`).join('')).join('')}
+        ${[0,1,2,3,4,5,6,7].map(r => Array.from({ length: 32 }, (_, k) => k - 12).map(c => `<rect x="${c*50+3}" y="${r*30+330}" width="44" height="24" rx="5" fill="${(r+c)%2 ? '#f8bbd0' : '#fff'}"/>`).join('')).join('')}
         <rect x="30" y="60" width="140" height="110" rx="14" fill="#fff" stroke="#8e24aa" stroke-width="6"/>
         <rect x="40" y="70" width="120" height="90" rx="10" fill="#b3e5fc"/>
         <path d="M40 70 Q100 110 160 70" fill="#f48fb1"/>
@@ -4051,7 +4107,7 @@
         <rect x="60" y="200" width="280" height="80" rx="30" fill="#fff" stroke="#8e24aa" stroke-width="6"/>
         <text x="200" y="256" font-size="44" text-anchor="middle">🎈 🦄 🎈</text>
         <rect x="0" y="600" width="400" height="100" fill="#f48fb1"/>
-        ${[0,1,2,3,4,5,6,7].map(i => `<rect x="${i*50}" y="600" width="25" height="100" fill="#f8bbd0"/>`).join('')}
+        ${Array.from({ length: 40 }, (_, k) => k - 16).map(i => `<rect x="${i*50}" y="600" width="25" height="100" fill="#f8bbd0"/>`).join('')}
         <rect x="30" y="520" width="70" height="70" rx="12" fill="#80d8ff" stroke="#4a148c" stroke-width="5"/>
         <rect x="65" y="450" width="70" height="70" rx="12" fill="#ffd54f" stroke="#4a148c" stroke-width="5"/>
         <rect x="100" y="520" width="70" height="70" rx="12" fill="#ff80ab" stroke="#4a148c" stroke-width="5"/>
@@ -4064,8 +4120,16 @@
 
     let kup = null;
 
+    // Rooms are drawn 400 x 700. Instead of zooming and cropping them on wide or short
+    // screens, show the whole picture and stretch full-width walls and floors far sideways.
+    function widenScene(svg) {
+      return svg
+        .replace(/<rect([^>]*?)\swidth="400"/g, (m, attrs) => `<rect${attrs.replace(/\sx="0"/, '')} x="-1200" width="2800"`)
+        .replace(/<rect x="-1200"([^>]*?)\sheight="700"/g, (m, attrs) => `<rect x="-1200"${attrs} y="-1400" height="2100"`);
+    }
+
     function kupRoomSVG(room) {
-      return `<svg viewBox="0 0 400 700" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">${room.svg}</svg>`;
+      return `<svg viewBox="0 0 400 700" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">${widenScene(room.svg)}</svg>`;
     }
 
     function setKupRoom(idx) {
@@ -4088,7 +4152,7 @@
       c.height = kup.H * dpr;
       kup.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       // Match the room picture's floor line (y=600 of 700, bottom-anchored "slice" scaling)
-      const scale = Math.max(kup.W / 400, kup.H / 700);
+      const scale = Math.min(kup.W / 400, kup.H / 700);
       kup.floorY = kup.H - 100 * scale + 14 * scale;
       kup.R = Math.max(44, Math.min(80, Math.min(kup.W, kup.H) * 0.13));
     }
@@ -6829,7 +6893,7 @@
 
     /* ---------- Stage backdrops ---------- */
     function glamSceneSVG(id) {
-      const S = (inner, bg) => `<svg viewBox="0 0 400 700" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="700" fill="${bg}"/>${inner}</svg>`;
+      const S = (inner, bg) => `<svg viewBox="0 0 400 700" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">${widenScene(`<rect width="400" height="700" fill="${bg}"/>${inner}`)}</svg>`;
       switch (id) {
         case 'castle': return S(`
           <circle cx="330" cy="110" r="40" fill="#fff59d"/>
@@ -6868,7 +6932,7 @@
           <ellipse cx="40" cy="590" rx="80" ry="40" fill="#fff"/><ellipse cx="360" cy="590" rx="80" ry="40" fill="#fff"/>
           <rect y="610" width="400" height="90" fill="#fce4ec"/>`, '#e1f5fe');
         default: return S(`
-          ${[0,1,2,3,4,5,6,7].map(i => `<rect x="${i * 52}" width="26" height="600" fill="#fcd5e3"/>`).join('')}
+          ${Array.from({ length: 40 }, (_, k) => k - 16).map(i => `<rect x="${i * 52}" width="26" height="600" fill="#fcd5e3"/>`).join('')}
           <path d="M70 600 L70 200 Q200 60 330 200 L330 600 Z" fill="#e1f5fe" stroke="#8e24aa" stroke-width="10"/>
           ${Array.from({ length: 11 }, (_, i) => { const a = Math.PI + i * Math.PI / 10; return `<circle cx="${200 + Math.cos(a) * 150}" cy="${230 + Math.sin(a) * 150}" r="11" fill="#fff59d" stroke="#f9a825" stroke-width="3"/>`; }).join('')}
           <rect y="600" width="400" height="100" fill="#ce93d8"/>
