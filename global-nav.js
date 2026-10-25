@@ -8,7 +8,8 @@
     path.includes('/pso-drop-charts/') ||
     path.includes('/event-rsvp/') ||
     path.includes('/last-epoch-planner/') ||
-    path.includes('/skald/')
+    path.includes('/skald/') ||
+    path.includes('/loveable-unicorns/')
   ) {
     prefix = '../';
   }
@@ -23,6 +24,7 @@
   const isRsvp = path.includes('/event-rsvp/');
   const isLastEpoch = path.includes('/last-epoch-planner/');
   const isSkald = path.includes('/skald/');
+  const isUnicorns = path.includes('/loveable-unicorns/');
 
   header.innerHTML = `
     <a href="${prefix}index.html" class="webworks-brand">
@@ -34,6 +36,7 @@
       <a href="${prefix}event-rsvp/index.html" class="webworks-nav-link ${isRsvp ? 'active' : ''}">Event RSVP</a>
       <a href="${prefix}last-epoch-planner/index.html" class="webworks-nav-link ${isLastEpoch ? 'active' : ''}">Build Planner</a>
       <a href="${prefix}skald/index.html" class="webworks-nav-link ${isSkald ? 'active' : ''}">Skald</a>
+      <a href="${prefix}loveable-unicorns/index.html" class="webworks-nav-link ${isUnicorns ? 'active' : ''}">Loveable Unicorns</a>
     </nav>
   `;
 

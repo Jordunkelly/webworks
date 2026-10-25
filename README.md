@@ -15,6 +15,7 @@ Each project lives in its own top-level folder and is entered through its `index
 | `pso-drop-charts/` | Drop Rate Dashboard | Filterable, sortable drop tables with probability calculations, plus a mag timer and the Photon Defender mini-game. |
 | `last-epoch-planner/` | Build Planner | Fire Aura Spellblade build planner for Last Epoch S4. |
 | `skald/` | Skald | 8-bit Nordic deal calculator — discounts, incentives, and state tax trade credits. |
+| `loveable-unicorns/` | Loveable Unicorns | Kindergarten game across 9 learning modes covering 26 phoneme sounds, CVC word blending, counting, calendar days, and seasons with Web Speech API voice synthesis. |
 
 Shared across all projects: `index.html` (hub), `global-nav.css`, `global-nav.js`.
 

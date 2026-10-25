@@ -25,6 +25,7 @@
       --blue: #58a6ff;
       --purple: #bc8cff;
       --orange: #f08a24;
+      --pink: #ff66b3;
       --mono: 'JetBrains Mono', monospace;
       --sans: 'DM Sans', system-ui, sans-serif;
     }
@@ -133,6 +134,7 @@
     .card:nth-child(3)::before { background: linear-gradient(90deg, var(--purple), transparent); }
     .card:nth-child(4)::before { background: linear-gradient(90deg, var(--accent), transparent); }
     .card:nth-child(5)::before { background: linear-gradient(90deg, var(--orange), transparent); }
+    .card:nth-child(6)::before { background: linear-gradient(90deg, var(--pink), transparent); }
 
     .card-status {
       font-family: var(--mono);
@@ -151,6 +153,7 @@
     .card:nth-child(3) .card-status { color: var(--purple); background: rgba(188, 140, 255, 0.1); }
     .card:nth-child(4) .card-status { color: var(--accent); background: rgba(212, 160, 74, 0.1); }
     .card:nth-child(5) .card-status { color: var(--orange); background: rgba(240, 138, 36, 0.1); }
+    .card:nth-child(6) .card-status { color: var(--pink); background: rgba(255, 102, 179, 0.12); }
 
     .card h2 {
       font-size: 1.1rem;
@@ -289,6 +292,17 @@
         <span class="tag">JavaScript</span>
         <span class="tag">Theorycraft</span>
         <span class="tag">Single Page</span>
+      </div>
+    </a>
+
+    <a class="card" href="loveable-unicorns/">
+      <span class="card-status">Kindergarten App</span>
+      <h2>Loveable Unicorns</h2>
+      <p class="card-desc">Kindergarten game across 9 learning modes covering 26 phoneme sounds, CVC word blending, counting, calendar days, and seasons with Web Speech API voice synthesis.</p>
+      <div class="card-meta">
+        <span class="tag">Web Speech API</span>
+        <span class="tag">Web Audio</span>
+        <span class="tag">Kindergarten</span>
       </div>
     </a>
 

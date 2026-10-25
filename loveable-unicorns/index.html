@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Loveable Unicorns 🦄 Kindergarten Kingdom</title>
+  <link rel="stylesheet" href="../global-nav.css" />
+  <script src="../global-nav.js" defer></script>
+  <style>
+    :root {
+      --pink-hot: #ff1493;
+      --pink-main: #ff4da6;
+      --pink-soft: #ffb3d9;
+      --purple-main: #9c27b0;
+      --purple-dark: #4a148c;
+      --gold: #ffd700;
+      --mint: #00e676;
+      --sky-1: #ffd1f0;
+      --sky-2: #e8d1ff;
+      --sky-3: #ccf2ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Fredoka', 'Rounded Mplus 1c', cursive, sans-serif;
+      background: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 50%, var(--sky-3) 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--purple-dark);
+      padding-bottom: 40px;
+    }
+
+    /* Animated Magical Background */
+    .rainbow-bg {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95vw;
+      max-width: 860px;
+      height: 420px;
+      border-radius: 450px 450px 0 0;
+      box-shadow:
+        0 -16px 0 0 rgba(255, 94, 158, 0.25),
+        0 -32px 0 0 rgba(255, 165, 82, 0.25),
+        0 -48px 0 0 rgba(255, 235, 102, 0.25),
+        0 -64px 0 0 rgba(114, 239, 157, 0.25),
+        0 -80px 0 0 rgba(107, 203, 255, 0.25),
+        0 -96px 0 0 rgba(190, 133, 255, 0.25);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-decor {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .cloud {
+      position: absolute;
+      font-size: 4rem;
+      opacity: 0.55;
+      animation: floatCloud linear infinite;
+    }
+
+    @keyframes floatCloud {
+      from { transform: translateX(-160px); }
+      to { transform: translateX(calc(100vw + 160px)); }
+    }
+
+    /* Game Top Bar */
+    .game-header {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: 1040px;
+      padding: 12px 16px 6px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-pill {
+      background: linear-gradient(135deg, #ffffff, #fff0f8);
+      border: 4px solid #ff66b3;
+      border-radius: 999px;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 6px 0 #ff66b3;
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #c2185b;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .star-pill {
+      background: linear-gradient(135deg, #fff9c4, #ffd54f);
+      border: 4px solid #ffa000;
+      border-radius: 999px;
+      padding: 6px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #8d4e00;
+      box-shadow: 0 6px 0 #ffa000;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .star-pill.pop {
+      transform: scale(1.28) rotate(5deg);
+    }
+
+    .ctrl-btn {
+      background: #ffffff;
+      border: 4px solid #ab47bc;
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 1rem;
+      font-weight: 900;
+      font-family: inherit;
+      color: #6a1b9a;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #ab47bc;
+      transition: transform 0.1s;
+    }
+
+    .ctrl-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #ab47bc;
+    }
+
+    /* World / Subject Navigation Grid */
+    .world-nav {
+      position: relative;
+      z-index: 5;
+      width: 96%;
+      max-width: 1040px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin: 8px 0 12px;
+    }
+
+    .world-btn {
+      border: 3.5px solid #ffffff;
+      border-radius: 20px;
+      padding: 9px 14px;
+      font-size: 1.02rem;
+      font-weight: 900;
+      font-family: inherit;
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
+      transition: transform 0.15s, filter 0.15s;
+    }
+
+    .world-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+    }
+
+    .world-btn.active {
+      transform: scale(1.07) translateY(-2px);
+      outline: 4px solid #ffd700;
+      box-shadow: 0 7px 0 rgba(0, 0, 0, 0.25), 0 0 16px rgba(255, 215, 0, 0.8);
+    }
+
+    .w-abc     { background: linear-gradient(135deg, #ff4081, #c51162); }
+    .w-blend   { background: linear-gradient(135deg, #ff7043, #d84315); }
+    .w-math    { background: linear-gradient(135deg, #ab47bc, #6a1b9a); }
+    .w-days    { background: linear-gradient(135deg, #29b6f6, #0277bd); }
+    .w-seasons { background: linear-gradient(135deg, #66bb6a, #2e7d32); }
+    .w-shapes  { background: linear-gradient(135deg, #ffa726, #ef6c00); }
+    .w-rhyme   { background: linear-gradient(135deg, #ec407a, #880e4f); }
+    .w-explore { background: linear-gradient(135deg, #26c6da, #00838f); }
+    .w-closet  { background: linear-gradient(135deg, #ffd54f, #f57f17); color: #5d2900; }
+
+    /* Main Stage Card */
+    main {
+      position: relative;
+      z-index: 5;
+      width: 96%;
+      max-width: 1000px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      border: 6px solid #ffffff;
+      border-radius: 36px;
+      box-shadow: 0 16px 40px rgba(156, 39, 176, 0.22);
+      padding: 18px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Princess Sparkle Interactive Stage */
+    .unicorn-header-stage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      width: 100%;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .unicorn-avatar-box {
+      position: relative;
+      width: 155px;
+      height: 155px;
+      background: radial-gradient(circle, #ffffff 35%, #ffd1f0 100%);
+      border: 5px solid #ff66b3;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(255, 20, 147, 0.28);
+      cursor: pointer;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .unicorn-avatar-box:hover {
+      transform: scale(1.05);
+    }
+
+    .unicorn-avatar-box.dancing {
+      animation: sparkleDance 0.55s ease infinite alternate;
+    }
+
+    @keyframes sparkleDance {
+      0% { transform: translateY(0) rotate(-6deg) scale(1.04); }
+      100% { transform: translateY(-16px) rotate(7deg) scale(1.1); }
+    }
+
+    /* Animated mouth & horn glow when speaking */
+    #unicorn-mouth-open {
+      opacity: 0;
+      transition: opacity 0.08s;
+    }
+    .speaking #unicorn-mouth-open {
+      opacity: 1;
+      animation: talkMouth 0.22s infinite alternate;
+    }
+    .speaking #unicorn-horn {
+      filter: drop-shadow(0 0 8px #ffd700);
+    }
+
+    @keyframes talkMouth {
+      0% { transform: scaleY(0.4); transform-origin: 85px 65px; }
+      100% { transform: scaleY(1.15); transform-origin: 85px 65px; }
+    }
+
+    .acc-badge {
+      position: absolute;
+      font-size: 2.3rem;
+      pointer-events: none;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+    .acc-crown { top: -20px; left: 50%; transform: translateX(-50%); }
+    .acc-wand  { bottom: 2px; right: -12px; transform: rotate(15deg); }
+    .acc-pet   { bottom: -8px; left: -12px; }
+    .acc-wings { top: 28px; left: -18px; font-size: 2.1rem; }
+
+    /* Speech Bubble */
+    .speech-card {
+      flex: 1;
+      min-width: 260px;
+      background: linear-gradient(135deg, #ffffff, #fff5fb);
+      border: 4px solid #ff66b3;
+      border-radius: 28px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 8px 0 #ffb3d9;
+    }
+
+    .speech-content {
+      flex: 1;
+    }
+
+    .unicorn-tag {
+      display: inline-block;
+      background: #ff4081;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 900;
+      padding: 2px 10px;
+      border-radius: 99px;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .speech-text {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #880e4f;
+      line-height: 1.3;
+    }
+
+    .speech-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .action-circle-btn {
+      background: linear-gradient(135deg, #ff4081, #c51162);
+      color: #fff;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      font-size: 1.6rem;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #880e4f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s;
+    }
+
+    .action-circle-btn.phonics-btn {
+      background: linear-gradient(135deg, #ab47bc, #6a1b9a);
+      box-shadow: 0 5px 0 #4a148c;
+      width: auto;
+      border-radius: 99px;
+      padding: 0 14px;
+      font-size: 1rem;
+      font-weight: 900;
+      font-family: inherit;
+      gap: 6px;
+    }
+
+    .action-circle-btn:active {
+      transform: translateY(4px);
+    }
+
+    /* Sub-mode pill bar */
+    .submode-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      width: 100%;
+    }
+
+    .submode-pill {
+      background: #fce4ec;
+      border: 3px solid #f48fb1;
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 1rem;
+      font-weight: 900;
+      font-family: inherit;
+      color: #880e4f;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .submode-pill.active {
+      background: #ff4081;
+      border-color: #c51162;
+      color: #ffffff;
+      box-shadow: 0 4px 0 #880e4f;
+    }
+
+    /* Showcase Stage */
+    .showcase-card {
+      background: linear-gradient(180deg, #fff8fc 0%, #fce4ec 100%);
+      border: 4px dashed #ff66b3;
+      border-radius: 28px;
+      padding: 18px 20px;
+      margin-bottom: 18px;
+      width: 100%;
+      min-height: 135px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .big-prompt-display {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #c2185b;
+      text-shadow: 2px 2px 0 #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .phonics-pill {
+      background: #fff9c4;
+      border: 3px solid #fbc02d;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 1.3rem;
+      color: #8d4e00;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #fbc02d;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Sound-It-Out Word Blender Tiles */
+    .blender-row {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 6px 0;
+    }
+
+    .letter-tile {
+      width: 86px;
+      height: 96px;
+      background: linear-gradient(180deg, #ffffff, #f3e5f5);
+      border: 5px solid #ab47bc;
+      border-radius: 22px;
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: #4a148c;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 0 #7b1fa2;
+      transition: transform 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .letter-tile.sounded {
+      background: linear-gradient(180deg, #fff9c4, #ffe082);
+      border-color: #ffa000;
+      box-shadow: 0 8px 0 #ff6f00;
+      transform: translateY(-6px) scale(1.06);
+    }
+
+    .tile-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ce93d8;
+      margin-top: 4px;
+    }
+
+    .letter-tile.sounded .tile-dot {
+      background: #ff4081;
+      box-shadow: 0 0 8px #ff4081;
+    }
+
+    .blend-arrow-btn {
+      background: linear-gradient(135deg, #ff4081, #f50057);
+      color: #fff;
+      border: 4px solid #fff;
+      border-radius: 99px;
+      padding: 10px 22px;
+      font-size: 1.3rem;
+      font-weight: 900;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #ad1457;
+    }
+
+    /* Answer Choices Grid */
+    .choices-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 860px;
+    }
+
+    .choice-btn {
+      background: linear-gradient(180deg, #ffffff 0%, #fff0f7 100%);
+      border: 5px solid #ff80ab;
+      border-radius: 26px;
+      padding: 16px 12px;
+      font-size: 2.6rem;
+      font-weight: 900;
+      font-family: inherit;
+      color: #ad1457;
+      cursor: pointer;
+      box-shadow: 0 8px 0 #f06292, 0 12px 20px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 0.15s, background 0.2s;
+    }
+
+    .choice-btn .choice-label {
+      font-size: 1.25rem;
+      color: #6a1b9a;
+      font-weight: 900;
+    }
+
+    .choice-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .choice-btn:active {
+      transform: translateY(5px);
+      box-shadow: 0 3px 0 #f06292;
+    }
+
+    .choice-btn.correct {
+      background: linear-gradient(180deg, #b9f6ca, #69f0ae);
+      border-color: #00c853;
+      color: #1b5e20;
+      box-shadow: 0 8px 0 #00c853;
+      animation: correctPop 0.6s ease;
+    }
+
+    .choice-btn.wrong {
+      background: #fce4ec;
+      opacity: 0.6;
+      animation: gentleShake 0.4s ease;
+    }
+
+    @keyframes correctPop {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15) rotate(3deg); }
+    }
+
+    @keyframes gentleShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+
+    /* Counting & Math Objects */
+    .counting-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      padding: 6px;
+    }
+
+    .count-card {
+      font-size: 3.1rem;
+      width: 78px;
+      height: 78px;
+      background: #fff;
+      border: 4px solid #f48fb1;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 5px 0 #f48fb1;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .count-card.counted {
+      background: #fff9c4;
+      border-color: #ffa000;
+      box-shadow: 0 5px 0 #ffa000;
+      transform: scale(1.12);
+    }
+
+    .count-num-badge {
+      position: absolute;
+      bottom: -9px;
+      right: -9px;
+      background: #ff1493;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 900;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Days of the Week Rainbow Train */
+    .days-train {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .day-car {
+      padding: 10px 14px;
+      border-radius: 18px;
+      border: 3.5px solid #fff;
+      color: #fff;
+      font-weight: 900;
+      font-size: 1.05rem;
+      cursor: pointer;
+      box-shadow: 0 5px 0 rgba(0,0,0,0.18);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 105px;
+      transition: transform 0.15s;
+    }
+
+    .day-car:hover { transform: scale(1.06); }
+    .day-car.mystery {
+      background: #ffffff !important;
+      color: #d81b60 !important;
+      border: 4px dashed #ff4081;
+      animation: pulseMystery 1s infinite alternate;
+    }
+
+    @keyframes pulseMystery {
+      from { transform: scale(1); }
+      to { transform: scale(1.08); }
+    }
+
+    /* Explore / Soundboard Grid */
+    .explore-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+      gap: 10px;
+      width: 100%;
+    }
+
+    .explore-key {
+      background: #fff;
+      border: 4px solid #ce93d8;
+      border-radius: 20px;
+      padding: 10px 6px;
+      font-size: 1.7rem;
+      font-weight: 900;
+      font-family: inherit;
+      color: #6a1b9a;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #ab47bc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      transition: transform 0.1s;
+    }
+
+    .explore-key:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #ab47bc;
+    }
+
+    /* Royal Closet Grid */
+    .closet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 14px;
+      width: 100%;
+    }
+
+    .closet-card {
+      background: #fff;
+      border: 4px solid #f48fb1;
+      border-radius: 22px;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #f48fb1;
+    }
+
+    .closet-card.equipped {
+      background: #fff9c4;
+      border-color: #ffa000;
+      box-shadow: 0 6px 0 #ffa000;
+    }
+
+    .closet-card.locked {
+      opacity: 0.65;
+      background: #f5f5f5;
+      border-color: #bdbdbd;
+      box-shadow: 0 6px 0 #9e9e9e;
+    }
+
+    #fx-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    @media (max-width: 640px) {
+      .speech-text { font-size: 1.18rem; }
+      .big-prompt-display { font-size: 2.2rem; }
+      .choice-btn { font-size: 2.1rem; padding: 12px 8px; }
+      .letter-tile { width: 70px; height: 80px; font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="rainbow-bg"></div>
+  <div class="bg-decor">
+    <div class="cloud" style="top: 10%; animation-duration: 42s;">☁️</div>
+    <div class="cloud" style="top: 26%; animation-duration: 55s; animation-delay: -22s;">☁️</div>
+    <div class="cloud" style="top: 68%; animation-duration: 48s; animation-delay: -12s;">☁️</div>
+  </div>
+
+  <canvas id="fx-canvas"></canvas>
+
+  <!-- Game Top Bar -->
+  <div class="game-header">
+    <div class="brand-pill">
+      <span>🦄</span>
+      <span>Loveable Unicorns</span>
+    </div>
+
+    <div class="header-controls">
+      <div class="star-pill" id="star-box">
+        <span>⭐</span>
+        <span id="star-count">0</span>
+      </div>
+      <button class="ctrl-btn" id="voice-style-btn" onclick="cycleVoiceEnergy()">
+        🎀 Voice: Super Girly!
+      </button>
+      <button class="ctrl-btn" id="mute-btn" onclick="toggleMute()">
+        🔊 Sound: ON
+      </button>
+    </div>
+  </div>
+
+  <!-- 9 Kindergarten Learning Worlds -->
+  <nav class="world-nav">
+    <button class="world-btn w-abc active" onclick="setWorld('abc')" id="wbtn-abc">🔤 ABC & Phonics</button>
+    <button class="world-btn w-blend" onclick="setWorld('blend')" id="wbtn-blend">📖 Sound It Out!</button>
+    <button class="world-btn w-math" onclick="setWorld('math')" id="wbtn-math">🔢 123 & Math</button>
+    <button class="world-btn w-days" onclick="setWorld('days')" id="wbtn-days">📅 Days of Week</button>
+    <button class="world-btn w-seasons" onclick="setWorld('seasons')" id="wbtn-seasons">🍂 Seasons & Weather</button>
+    <button class="world-btn w-shapes" onclick="setWorld('shapes')" id="wbtn-shapes">🎨 Shapes & Colors</button>
+    <button class="world-btn w-rhyme" onclick="setWorld('rhyme')" id="wbtn-rhyme">🎵 Rhymes & Opposites</button>
+    <button class="world-btn w-explore" onclick="setWorld('explore')" id="wbtn-explore">🎹 Magic Board</button>
+    <button class="world-btn w-closet" onclick="setWorld('closet')" id="wbtn-closet">👑 Royal Closet</button>
+  </nav>
+
+  <!-- Main Interactive Stage -->
+  <main>
+    <div class="unicorn-header-stage">
+      <!-- Animated Talking Princess Unicorn SVG -->
+      <div class="unicorn-avatar-box" id="unicorn-box" onclick="petUnicorn()" title="Tap Princess Sparkle!">
+        <span class="acc-badge acc-wings" id="acc-wings" style="display:none;">🪽</span>
+        <svg viewBox="0 0 120 120" width="125" height="125">
+          <!-- Rainbow Flowing Mane -->
+          <path d="M32 45 Q14 55 24 72 Q12 82 28 96" fill="none" stroke="#ff4081" stroke-width="11" stroke-linecap="round"/>
+          <path d="M35 50 Q20 60 28 77" fill="none" stroke="#ffd740" stroke-width="8.5" stroke-linecap="round"/>
+          <path d="M38 56 Q25 68 32 85" fill="none" stroke="#40c4ff" stroke-width="7" stroke-linecap="round"/>
+          <!-- Ear -->
+          <polygon points="45,38 38,17 55,30" fill="#ffffff" stroke="#ff66b3" stroke-width="3"/>
+          <polygon points="45,35 41,22 52,30" fill="#ffb3d9"/>
+          <!-- Head & Neck -->
+          <path d="M35 98 L42 55 Q40 32 65 32 Q92 32 96 55 Q98 73 78 77 L68 98 Z" fill="#ffffff" stroke="#ff66b3" stroke-width="3.5"/>
+          <!-- Pink Snout -->
+          <ellipse cx="86" cy="59" rx="15" ry="13.5" fill="#ffd1ec"/>
+          <circle cx="83" cy="54" r="2.2" fill="#c2185b"/>
+          <circle cx="93" cy="54" r="2.2" fill="#c2185b"/>
+          <!-- Closed Smile -->
+          <path d="M78 63 Q85 71 93 63" fill="none" stroke="#c2185b" stroke-width="3" stroke-linecap="round"/>
+          <!-- Animated Talking Open Mouth -->
+          <ellipse id="unicorn-mouth-open" cx="85.5" cy="65" rx="6.5" ry="5" fill="#ff1493" stroke="#880e4f" stroke-width="2"/>
+          <!-- Sparkly Big Eye -->
+          <circle cx="62" cy="49" r="7" fill="#311b92"/>
+          <circle cx="60" cy="46.5" r="2.7" fill="#ffffff"/>
+          <circle cx="64.5" cy="51.5" r="1.3" fill="#ffffff"/>
+          <path d="M55 44 L50 39 M58 42 L55 36 M62 41 L61 36" stroke="#311b92" stroke-width="2.2" stroke-linecap="round"/>
+          <!-- Rosy Blush -->
+          <ellipse cx="66" cy="59" rx="6.5" ry="3.8" fill="#ff4081" opacity="0.55"/>
+          <!-- Magical Golden Horn -->
+          <polygon id="unicorn-horn" points="62,33 80,4 73,37" fill="url(#hornGrad)" stroke="#ffa000" stroke-width="2.2"/>
+          <defs>
+            <linearGradient id="hornGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ffff8d"/>
+              <stop offset="50%" stop-color="#ffd740"/>
+              <stop offset="100%" stop-color="#ff6f00"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="acc-badge acc-crown" id="acc-crown">👑</span>
+        <span class="acc-badge acc-wand" id="acc-wand" style="display:none;">🪄</span>
+        <span class="acc-badge acc-pet" id="acc-pet" style="display:none;">🧚‍♀️</span>
+      </div>
+
+      <!-- Speech Bubble + Sound Out Controls -->
+      <div class="speech-card">
+        <div class="speech-content" onclick="repeatCurrentPrompt()" style="cursor:pointer;">
+          <span class="unicorn-tag">✨ PRINCESS SPARKLE SAYS:</span>
+          <div class="speech-text" id="speech-text">
+            Hi bestie! Ready for Kindergarten magic?! Let's play! 🦄💖
+          </div>
+        </div>
+        <div class="speech-actions">
+          <button class="action-circle-btn phonics-btn" id="sound-out-btn" onclick="soundOutCurrent()" title="Sound It Out Slowly!">
+            🗣️ Sound It Out!
+          </button>
+          <button class="action-circle-btn" onclick="repeatCurrentPrompt()" title="Say it again!">
+            🔊
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional Sub-mode switcher -->
+    <div class="submode-bar" id="submode-bar" style="display:none;"></div>
+
+    <!-- Visual Showcase Area -->
+    <div class="showcase-card" id="showcase-card"></div>
+
+    <!-- Interactive Choices Area -->
+    <div id="interactive-area" style="width: 100%; display: flex; justify-content: center;"></div>
+  </main>
+
+  <script>
+    /*************************************************************************
+     * 1. PHONICS & KINDERGARTEN CURRICULUM DATABASE
+     *************************************************************************/
+    const ALPHABET = [
+      { letter: 'A', phonetic: 'aah', soundCue: 'aah, aah', word: 'Apple', emoji: '🍎' },
+      { letter: 'B', phonetic: 'buh', soundCue: 'buh, buh', word: 'Butterfly', emoji: '🦋' },
+      { letter: 'C', phonetic: 'kuh', soundCue: 'kuh, kuh', word: 'Castle', emoji: '🏰' },
+      { letter: 'D', phonetic: 'duh', soundCue: 'duh, duh', word: 'Dolphin', emoji: '🐬' },
+      { letter: 'E', phonetic: 'ehh', soundCue: 'ehh, ehh', word: 'Elephant', emoji: '🐘' },
+      { letter: 'F', phonetic: 'fff', soundCue: 'fff, fff', word: 'Fairy', emoji: '🧚‍♀️' },
+      { letter: 'G', phonetic: 'guh', soundCue: 'guh, guh', word: 'Gem', emoji: '💎' },
+      { letter: 'H', phonetic: 'huh', soundCue: 'huh, huh', word: 'Heart', emoji: '💖' },
+      { letter: 'I', phonetic: 'ihh', soundCue: 'ihh, ihh', word: 'Igloo', emoji: '🧊' },
+      { letter: 'J', phonetic: 'juh', soundCue: 'juh, juh', word: 'Jellyfish', emoji: '🪼' },
+      { letter: 'K', phonetic: 'kuh', soundCue: 'kuh, kuh', word: 'Kitten', emoji: '🐱' },
+      { letter: 'L', phonetic: 'lll', soundCue: 'lll, lll', word: 'Lion', emoji: '🦁' },
+      { letter: 'M', phonetic: 'mmm', soundCue: 'mmm, mmm', word: 'Moon', emoji: '🌙' },
+      { letter: 'N', phonetic: 'nnn', soundCue: 'nnn, nnn', word: 'Narwhal', emoji: '🐳' },
+      { letter: 'O', phonetic: 'aww', soundCue: 'aww, aww', word: 'Octopus', emoji: '🐙' },
+      { letter: 'P', phonetic: 'puh', soundCue: 'puh, puh', word: 'Princess', emoji: '👸' },
+      { letter: 'Q', phonetic: 'kwuh', soundCue: 'kwuh, kwuh', word: 'Queen', emoji: '👑' },
+      { letter: 'R', phonetic: 'rrr', soundCue: 'rrr, rrr', word: 'Rainbow', emoji: '🌈' },
+      { letter: 'S', phonetic: 'sss', soundCue: 'sss, sss', word: 'Star', emoji: '⭐' },
+      { letter: 'T', phonetic: 'tuh', soundCue: 'tuh, tuh', word: 'Turtle', emoji: '🐢' },
+      { letter: 'U', phonetic: 'uhh', soundCue: 'uhh, uhh', word: 'Umbrella', emoji: '☂️' },
+      { letter: 'V', phonetic: 'vvv', soundCue: 'vvv, vvv', word: 'Violin', emoji: '🎻' },
+      { letter: 'W', phonetic: 'wuh', soundCue: 'wuh, wuh', word: 'Wand', emoji: '🪄' },
+      { letter: 'X', phonetic: 'ksss', soundCue: 'ksss, ksss', word: 'Fox', emoji: '🦊' },
+      { letter: 'Y', phonetic: 'yuh', soundCue: 'yuh, yuh', word: 'Yo-yo', emoji: '🪀' },
+      { letter: 'Z', phonetic: 'zzz', soundCue: 'zzz, zzz', word: 'Zebra', emoji: '🦓' }
+    ];
+
+    const BLEND_WORDS = [
+      { word: 'CAT', emoji: '🐱', letters: ['C', 'A', 'T'], sounds: ['kuh', 'aah', 'tuh'] },
+      { word: 'DOG', emoji: '🐶', letters: ['D', 'O', 'G'], sounds: ['duh', 'aww', 'guh'] },
+      { word: 'SUN', emoji: '☀️', letters: ['S', 'U', 'N'], sounds: ['sss', 'uhh', 'nnn'] },
+      { word: 'HAT', emoji: '👒', letters: ['H', 'A', 'T'], sounds: ['huh', 'aah', 'tuh'] },
+      { word: 'PIG', emoji: '🐷', letters: ['P', 'I', 'G'], sounds: ['puh', 'ihh', 'guh'] },
+      { word: 'BUG', emoji: '🐞', letters: ['B', 'U', 'G'], sounds: ['buh', 'uhh', 'guh'] },
+      { word: 'CUP', emoji: '🥤', letters: ['C', 'U', 'P'], sounds: ['kuh', 'uhh', 'puh'] },
+      { word: 'BED', emoji: '🛏️', letters: ['B', 'E', 'D'], sounds: ['buh', 'ehh', 'duh'] },
+      { word: 'FOX', emoji: '🦊', letters: ['F', 'O', 'X'], sounds: ['fff', 'aww', 'ksss'] },
+      { word: 'HEN', emoji: '🐔', letters: ['H', 'E', 'N'], sounds: ['huh', 'ehh', 'nnn'] },
+      { word: 'BUS', emoji: '🚌', letters: ['B', 'U', 'S'], sounds: ['buh', 'uhh', 'sss'] },
+      { word: 'BAT', emoji: '🦇', letters: ['B', 'A', 'T'], sounds: ['buh', 'aah', 'tuh'] }
+    ];
+
+    const DAYS_OF_WEEK = [
+      { name: 'Sunday',    short: 'Sun', emoji: '☀️', color: '#ff5252', fun: 'Sunday is family fun day!' },
+      { name: 'Monday',    short: 'Mon', emoji: '🌙', color: '#ff9800', fun: 'Monday starts the school week!' },
+      { name: 'Tuesday',   short: 'Tue', emoji: '🌮', color: '#fbc02d', fun: 'Terrific Tuesday!' },
+      { name: 'Wednesday', short: 'Wed', emoji: '🐸', color: '#4caf50', fun: 'Wacky Wednesday in the middle!' },
+      { name: 'Thursday',  short: 'Thu', emoji: '⚡', color: '#29b6f6', fun: 'Thinking Thursday!' },
+      { name: 'Friday',    short: 'Fri', emoji: '🎉', color: '#7e57c2', fun: 'Yay! Fri-yay is party day!' },
+      { name: 'Saturday',  short: 'Sat', emoji: '🎠', color: '#ec407a', fun: 'Super Saturday weekend!' }
+    ];
+
+    const SEASONS_QUESTIONS = [
+      { season: 'Spring', emoji: '🌸', color: '#f06292', clue: 'Flowers bloom, baby birds hatch, and warm rain falls!', itemEmoji: '🌷🐣🌧️', soundOut: 'Sss, puh, rrr, ing! Spring!' },
+      { season: 'Summer', emoji: '☀️', color: '#ffb300', clue: 'The sun is super hot! We go swimming at the beach and eat ice cream!', itemEmoji: '🏖️🍦🕶️', soundOut: 'Sss, uhh, mmm, er! Summer!' },
+      { season: 'Fall',   emoji: '🍂', color: '#f57c00', clue: 'Leaves turn orange and red and fall down! We pick pumpkins!', itemEmoji: '🎃🍁🍎', soundOut: 'Fff, aww, lll! Fall!' },
+      { season: 'Winter', emoji: '❄️', color: '#29b6f6', clue: 'Brrr, it is freezing cold and snowing! We build a snowman and wear mittens!', itemEmoji: '⛄🧤🧣', soundOut: 'Wuh, ihh, nnn, ter! Winter!' }
+    ];
+
+    const WEATHER_QUESTIONS = [
+      { type: 'Rainy',   emoji: '🌧️', wear: 'Umbrella & Rainboots ☔👢', prompt: 'Water is falling from the clouds! What weather is it?' },
+      { type: 'Sunny',   emoji: '☀️', wear: 'Sunglasses & Sun Hat 🕶️👒', prompt: 'The golden sun is shining bright in the sky! What weather is it?' },
+      { type: 'Snowy',   emoji: '❄️', wear: 'Warm Coat & Mittens 🧥🧤', prompt: 'White snowflakes are falling and it is icy cold! What weather is it?' },
+      { type: 'Windy',   emoji: '💨', wear: 'Fly a Kite! 🪁🍃', prompt: 'Whoosh! The air is blowing the trees and kites high up! What weather is it?' },
+      { type: 'Rainbow', emoji: '🌈', wear: 'Unicorn Magic! 🦄✨', prompt: 'Sunlight and rain made colorful stripes across the sky! What is it?' }
+    ];
+
+    const SHAPES_DATA = [
+      { name: 'Circle',    emoji: '🟣', sides: 0, clue: 'Round and round with ZERO corners, like a ball or cookie!' },
+      { name: 'Triangle',  emoji: '🔺', sides: 3, clue: 'Has THREE sides and THREE pointy corners, like a slice of pizza!' },
+      { name: 'Square',    emoji: '🟦', sides: 4, clue: 'Has FOUR equal sides and FOUR corners, like a window!' },
+      { name: 'Star',      emoji: '⭐', sides: 5, clue: 'Twinkles in the night sky with FIVE shiny points!' },
+      { name: 'Heart',     emoji: '💖', sides: 2, clue: 'The shape of love and unicorn hugs!' },
+      { name: 'Diamond',   emoji: '💎', sides: 4, clue: 'Pointy on top and bottom like a sparkling royal jewel!' },
+      { name: 'Octagon',   emoji: '🛑', sides: 8, clue: 'Has EIGHT sides, just like a red STOP sign!' }
+    ];
+
+    const COLOR_MIX_DATA = [
+      { c1: 'Red 🔴', c2: 'Yellow 🟡', result: 'Orange', emoji: '🟠', clue: 'What magical color do we get when we mix RED and YELLOW?' },
+      { c1: 'Blue 🔵', c2: 'Yellow 🟡', result: 'Green', emoji: '🟢', clue: 'What magical color do we get when we mix BLUE and YELLOW?' },
+      { c1: 'Red 🔴', c2: 'Blue 🔵', result: 'Purple', emoji: '🟣', clue: 'What royal color do we get when we mix RED and BLUE?' },
+      { c1: 'Red 🔴', c2: 'White ⚪', result: 'Pink', emoji: '🩷', clue: 'What unicorn color do we get when we mix RED and WHITE?' }
+    ];
+
+    const RHYMES_DATA = [
+      { baseWord: 'CAT', baseEmoji: '🐱', answer: 'Hat', ansEmoji: '👒', wrong: [{w:'Dog',e:'🐶'},{w:'Sun',e:'☀️'},{w:'Pig',e:'🐷'}] },
+      { baseWord: 'STAR', baseEmoji: '⭐', answer: 'Car', ansEmoji: '🚗', wrong: [{w:'Moon',e:'🌙'},{w:'Fish',e:'🐟'},{w:'Cup',e:'🥤'}] },
+      { baseWord: 'BEE', baseEmoji: '🐝', answer: 'Tree', ansEmoji: '🌳', wrong: [{w:'Bug',e:'🐞'},{w:'Bed',e:'🛏️'},{w:'Fox',e:'🦊'}] },
+      { baseWord: 'CAKE', baseEmoji: '🎂', answer: 'Snake', ansEmoji: '🐍', wrong: [{w:'Pie',e:'🥧'},{w:'Frog',e:'🐸'},{w:'Milk',e:'🥛'}] },
+      { baseWord: 'MOUSE', baseEmoji: '🐭', answer: 'House', ansEmoji: '🏠', wrong: [{w:'Cheese',e:'🧀'},{w:'Lion',e:'🦁'},{w:'Boat',e:'⛵'}] },
+      { baseWord: 'BEAR', baseEmoji: '🐻', answer: 'Pear', ansEmoji: '🍐', wrong: [{w:'Duck',e:'🦆'},{w:'Shoe',e:'👟'},{w:'Ball',e:'⚽'}] }
+    ];
+
+    const OPPOSITES_DATA = [
+      { word: 'HOT 🔥', answer: 'Cold', emoji: '🧊', wrong: [{w:'Loud',e:'📢'},{w:'Fast',e:'🏎️'},{w:'Tall',e:'🦒'}] },
+      { word: 'BIG 🐘', answer: 'Small', emoji: '🐭', wrong: [{w:'Wet',e:'💧'},{w:'Dark',e:'🌑'},{w:'Sad',e:'😢'}] },
+      { word: 'DAY ☀️', answer: 'Night', emoji: '🌙', wrong: [{w:'Slow',e:'🐢'},{w:'Down',e:'⬇️'},{w:'Cold',e:'❄️'}] },
+      { word: 'FAST 🐆', answer: 'Slow', emoji: '🐢', wrong: [{w:'Happy',e:'😊'},{w:'Up',e:'⬆️'},{w:'Hot',e:'🔥'}] },
+      { word: 'HAPPY 😄', answer: 'Sad', emoji: '😢', wrong: [{w:'Big',e:'🐘'},{w:'Open',e:'📖'},{w:'Dry',e:'☀️'}] },
+      { word: 'UP ⬆️', answer: 'Down', emoji: '⬇️', wrong: [{w:'Soft',e:'🧸'},{w:'Hot',e:'🔥'},{w:'Fast',e:'🚀'}] }
+    ];
+
+    const ROYAL_CLOSET = [
+      { id: 'crown1', slot: 'acc-crown', emoji: '👑', name: 'Golden Crown', stars: 0, equipped: true },
+      { id: 'crown2', slot: 'acc-crown', emoji: '🎀', name: 'Sparkle Bow', stars: 2, equipped: false },
+      { id: 'crown3', slot: 'acc-crown', emoji: '🌸', name: 'Flower Tiara', stars: 5, equipped: false },
+      { id: 'wand1',  slot: 'acc-wand',  emoji: '🪄', name: 'Star Wand', stars: 3, equipped: false },
+      { id: 'wand2',  slot: 'acc-wand',  emoji: '🍭', name: 'Rainbow Wand', stars: 7, equipped: false },
+      { id: 'wings1', slot: 'acc-wings', emoji: '🪽', name: 'Pegasus Wings', stars: 6, equipped: false },
+      { id: 'wings2', slot: 'acc-wings', emoji: '🦋', name: 'Fairy Wings', stars: 10, equipped: false },
+      { id: 'pet1',   slot: 'acc-pet',   emoji: '🧚‍♀️', name: 'Pixie Bestie', stars: 8, equipped: false },
+      { id: 'pet2',   slot: 'acc-pet',   emoji: '🐱', name: 'Princess Kitty', stars: 12, equipped: false },
+      { id: 'pet3',   slot: 'acc-pet',   emoji: '🐉', name: 'Baby Dragon', stars: 16, equipped: false }
+    ];
+
+    const GIRLY_PRAISES = [
+      "OH EM GEE! You got it! Sparkle power!",
+      "YAAAY! Bestie, you are SO super smart!",
+      "WOOHOO! Magical princess genius!",
+      "TWINKLE STARS! You nailed it, cutie!",
+      "Yippee! My rainbow horn is glowing for you!"
+    ];
+
+    /*************************************************************************
+     * 2. GIRLY UNICORN VOICE ENGINE & SOUND-OUT SYNTHESIZER
+     *************************************************************************/
+    let stars = parseInt(localStorage.getItem('unicorn_k_stars') || '0', 10);
+    document.getElementById('star-count').textContent = stars;
+
+    let currentWorld = 'abc';
+    let currentSubMode = '';
+    let soundMuted = false;
+    let voiceEnergyMode = 0;
+    const VOICE_STYLES = [
+      { label: '🎀 Voice: Super Girly!', pitch: 1.42, rate: 1.02 },
+      { label: '🦄 Voice: Extra Bubbly!', pitch: 1.58, rate: 1.08 },
+      { label: '🌸 Voice: Sweet & Slow', pitch: 1.25, rate: 0.90 }
+    ];
+
+    let preferredVoice = null;
+    let lastSpokenPrompt = '';
+    let currentSoundOutCallback = null;
+    let roundLocked = false;
+
+    function selectBestGirlyVoice() {
+      if (!('speechSynthesis' in window)) return;
+      const voices = window.speechSynthesis.getVoices();
+      if (!voices.length) return;
+
+      const priorityNames = [
+        'Microsoft Ana',
+        'Microsoft Aria',
+        'Microsoft Jenny',
+        'Google US English',
+        'Samantha',
+        'Victoria',
+        'Karen',
+        'Moira',
+        'Tessa',
+        'Microsoft Zira'
+      ];
+
+      for (const name of priorityNames) {
+        const match = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
+        if (match) {
+          preferredVoice = match;
+          return;
+        }
+      }
+      preferredVoice = voices.find(v => v.lang.startsWith('en') && /female|girl|woman|zira|samantha/i.test(v.name))
+                    || voices.find(v => v.lang.startsWith('en'))
+                    || voices[0];
+    }
+
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = selectBestGirlyVoice;
+      selectBestGirlyVoice();
+    }
+
+    function cleanForSpeech(str) {
+      return str
+        .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function unicornSpeak(text, options = {}) {
+      const { updateBubble = true, isSoundOut = false, customRate = null, customPitch = null } = options;
+      if (updateBubble) {
+        lastSpokenPrompt = text;
+        document.getElementById('speech-text').textContent = text;
+      }
+      if (soundMuted || !('speechSynthesis' in window)) return;
+
+      window.speechSynthesis.cancel();
+      if (!preferredVoice) selectBestGirlyVoice();
+
+      const style = VOICE_STYLES[voiceEnergyMode];
+      const ubox = document.getElementById('unicorn-box');
+
+      const rawClean = cleanForSpeech(text);
+      const chunks = isSoundOut
+        ? rawClean.split('|').map(s => s.trim()).filter(Boolean)
+        : [rawClean];
+
+      chunks.forEach((chunk, idx) => {
+        const utter = new SpeechSynthesisUtterance(chunk);
+        if (preferredVoice) utter.voice = preferredVoice;
+
+        const isExclaim = chunk.includes('!');
+        utter.pitch = customPitch || (style.pitch + (isExclaim ? 0.08 : 0));
+        utter.rate = customRate || (isSoundOut ? 0.82 : style.rate);
+
+        utter.onstart = () => ubox.classList.add('speaking');
+        utter.onend = () => {
+          if (idx === chunks.length - 1) ubox.classList.remove('speaking');
+        };
+        utter.onerror = () => ubox.classList.remove('speaking');
+
+        window.speechSynthesis.speak(utter);
+      });
+    }
+
+    function repeatCurrentPrompt() {
+      playMagicSound('pop');
+      unicornSpeak(lastSpokenPrompt, { updateBubble: false });
+    }
+
+    function soundOutCurrent() {
+      playMagicSound('sparkle');
+      if (typeof currentSoundOutCallback === 'function') {
+        currentSoundOutCallback();
+      } else {
+        unicornSpeak(lastSpokenPrompt, { updateBubble: false, customRate: 0.8 });
+      }
+    }
+
+    function cycleVoiceEnergy() {
+      voiceEnergyMode = (voiceEnergyMode + 1) % VOICE_STYLES.length;
+      document.getElementById('voice-style-btn').textContent = VOICE_STYLES[voiceEnergyMode].label;
+      playMagicSound('sparkle');
+      unicornSpeak("Hi bestie! How do you like my unicorn voice now?! Sparkle power!", { updateBubble: false });
+    }
+
+    function toggleMute() {
+      soundMuted = !soundMuted;
+      document.getElementById('mute-btn').textContent = soundMuted ? '🔇 Sound: OFF' : '🔊 Sound: ON';
+      if (soundMuted && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      } else {
+        repeatCurrentPrompt();
+      }
+    }
+
+    function petUnicorn() {
+      playMagicSound('success');
+      burstSparkles(window.innerWidth / 2, 220, 35);
+      const box = document.getElementById('unicorn-box');
+      box.classList.add('dancing');
+      setTimeout(() => box.classList.remove('dancing'), 1200);
+      const giggles = [
+        "Hehehe! That tickles my rainbow mane! You're my best friend!",
+        "Yay! Unicorn hugs for you! Let's learn some more!",
+        "Ooh, my horn is extra sparkly when you tap me!"
+      ];
+      unicornSpeak(giggles[Math.floor(Math.random() * giggles.length)], { updateBubble: false });
+    }
+
+    function addStar() {
+      stars++;
+      localStorage.setItem('unicorn_k_stars', stars);
+      document.getElementById('star-count').textContent = stars;
+      const box = document.getElementById('star-box');
+      box.classList.add('pop');
+      setTimeout(() => box.classList.remove('pop'), 380);
+    }
+
+    /*************************************************************************
+     * 3. WEB AUDIO API MAGICAL SOUND EFFECTS
+     *************************************************************************/
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }
+
+    function playMagicSound(type = 'success') {
+      if (soundMuted) return;
+      try {
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
+        if (type === 'success') {
+          const notes = [523.25, 659.25, 783.99, 1046.5, 1318.5, 1567.98];
+          notes.forEach((f, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(f, now + i * 0.065);
+            gain.gain.setValueAtTime(0.2, now + i * 0.065);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.065 + 0.4);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + i * 0.065);
+            osc.stop(now + i * 0.065 + 0.4);
+          });
+        } else if (type === 'sparkle') {
+          const notes = [880, 1174.66, 1396.91, 1760];
+          notes.forEach((f, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(f, now + i * 0.05);
+            gain.gain.setValueAtTime(0.15, now + i * 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.05 + 0.25);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + i * 0.05);
+            osc.stop(now + i * 0.05 + 0.25);
+          });
+        } else if (type === 'pop') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(480, now);
+          osc.frequency.exponentialRampToValueAtTime(920, now + 0.12);
+          gain.gain.setValueAtTime(0.22, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.14);
+        } else if (type === 'oops') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(310, now);
+          osc.frequency.linearRampToValueAtTime(220, now + 0.22);
+          gain.gain.setValueAtTime(0.16, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.24);
+        }
+      } catch (e) {}
+    }
+
+    function celebrateWin(btn, spokenDetail, nextFn) {
+      roundLocked = true;
+      if (btn) {
+        btn.classList.add('correct');
+        const rect = btn.getBoundingClientRect();
+        burstSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 48);
+      } else {
+        burstSparkles(window.innerWidth / 2, window.innerHeight / 2, 55);
+      }
+      playMagicSound('success');
+      addStar();
+
+      const ubox = document.getElementById('unicorn-box');
+      ubox.classList.add('dancing');
+
+      const praise = GIRLY_PRAISES[Math.floor(Math.random() * GIRLY_PRAISES.length)];
+      unicornSpeak(`${praise} ${spokenDetail}`);
+
+      const savedWorld = currentWorld;
+      setTimeout(() => {
+        ubox.classList.remove('dancing');
+        if (currentWorld === savedWorld) nextFn();
+      }, 2600);
+    }
+
+    /*************************************************************************
+     * 4. WORLD NAVIGATION & SUB-MODES
+     *************************************************************************/
+    function setWorld(world) {
+      currentWorld = world;
+      roundLocked = false;
+      document.querySelectorAll('.world-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('wbtn-' + world).classList.add('active');
+      playMagicSound('pop');
+
+      const subBar = document.getElementById('submode-bar');
+      subBar.style.display = 'none';
+      subBar.innerHTML = '';
+
+      if (world === 'abc') {
+        setupSubModes([
+          { id: 'phonics', label: '🗣️ Letter Sounds (Phonics)' },
+          { id: 'matchCase', label: '🔤 Big & Little Letters (Aa)' }
+        ], 'phonics', startABCWorld);
+      } else if (world === 'blend') {
+        startBlendWorld();
+      } else if (world === 'math') {
+        setupSubModes([
+          { id: 'count', label: '🔢 Count Treats (1–15)' },
+          { id: 'add',   label: '➕ Picture Addition' }
+        ], 'count', startMathWorld);
+      } else if (world === 'days') {
+        startDaysWorld();
+      } else if (world === 'seasons') {
+        setupSubModes([
+          { id: 'fourSeasons', label: '🍂 4 Seasons' },
+          { id: 'weather',     label: '🌦️ Weather Watch' }
+        ], 'fourSeasons', startSeasonsWorld);
+      } else if (world === 'shapes') {
+        setupSubModes([
+          { id: 'shapesQuiz', label: '⭐ Shapes & Sides' },
+          { id: 'colorMix',   label: '🎨 Magic Color Mixing' }
+        ], 'shapesQuiz', startShapesWorld);
+      } else if (world === 'rhyme') {
+        setupSubModes([
+          { id: 'rhyming',   label: '🎵 Rhyming Words' },
+          { id: 'opposites', label: '🔄 Opposites' }
+        ], 'rhyming', startRhymeWorld);
+      } else if (world === 'explore') {
+        startExploreWorld();
+      } else if (world === 'closet') {
+        startClosetWorld();
+      }
+    }
+
+    function setupSubModes(modes, defaultId, launchFn) {
+      const subBar = document.getElementById('submode-bar');
+      subBar.style.display = 'flex';
+      currentSubMode = defaultId;
+      subBar.innerHTML = '';
+      modes.forEach(m => {
+        const btn = document.createElement('button');
+        btn.className = 'submode-pill' + (m.id === defaultId ? ' active' : '');
+        btn.textContent = m.label;
+        btn.onclick = () => {
+          currentSubMode = m.id;
+          subBar.querySelectorAll('.submode-pill').forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          playMagicSound('pop');
+          launchFn();
+        };
+        subBar.appendChild(btn);
+      });
+      launchFn();
+    }
+
+    /*************************************************************************
+     * WORLD 1: ABCs & PHONICS SOUNDS
+     *************************************************************************/
+    function startABCWorld() {
+      roundLocked = false;
+      const target = ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+      const distractors = ALPHABET.filter(x => x.letter !== target.letter).sort(() => Math.random() - 0.5).slice(0, 3);
+      const choices = [target, ...distractors].sort(() => Math.random() - 0.5);
+
+      currentSoundOutCallback = () => {
+        unicornSpeak(`Listen to my unicorn sound! | The letter ${target.letter} says ${target.phonetic}! | ${target.soundCue}! | ${target.word}!`, {
+          updateBubble: false,
+          isSoundOut: true
+        });
+      };
+
+      const showcase = document.getElementById('showcase-card');
+      const area = document.getElementById('interactive-area');
+
+      if (currentSubMode === 'phonics') {
+        showcase.innerHTML = `
+          <div class="big-prompt-display">
+            <span>${target.emoji}</span>
+            <span>${target.letter}${target.letter.toLowerCase()}</span>
+            <span style="font-size:2rem; color:#7b1fa2;">(${target.word})</span>
+          </div>
+          <div class="phonics-pill" onclick="soundOutCurrent()">
+            🔊 Tap to hear sound: <strong>"/${target.letter.toLowerCase()}/ — ${target.phonetic}!"</strong>
+          </div>
+        `;
+
+        area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
+        const grid = document.getElementById('choices-grid');
+        choices.forEach(item => {
+          const btn = document.createElement('button');
+          btn.className = 'choice-btn';
+          btn.innerHTML = `
+            <span>${item.letter}${item.letter.toLowerCase()}</span>
+            <span class="choice-label">${item.emoji} ${item.word}</span>
+          `;
+          btn.onclick = () => {
+            if (roundLocked) return;
+            if (item.letter === target.letter) {
+              celebrateWin(btn, `${target.letter} says ${target.phonetic}! ${target.phonetic} is for ${target.word}!`, startABCWorld);
+            } else {
+              btn.classList.add('wrong');
+              playMagicSound('oops');
+              unicornSpeak(`Oopsie! That's ${item.letter}, which says ${item.phonetic} for ${item.word}! Find ${target.letter} that says ${target.phonetic}!`, { updateBubble: false });
+            }
+          };
+          grid.appendChild(btn);
+        });
+
+        unicornSpeak(`Which letter makes the "${target.phonetic}" sound in ${target.word}? ${target.soundCue}, ${target.word}!`);
+      } else {
+        showcase.innerHTML = `
+          <div style="font-size:1.25rem; font-weight:bold; color:#7b1fa2;">Match the BIG letter to its baby lowercase letter!</div>
+          <div class="big-prompt-display">
+            <span>${target.emoji}</span>
+            <span>Big Letter: ${target.letter}</span>
+          </div>
+        `;
+        area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
+        const grid = document.getElementById('choices-grid');
+        choices.forEach(item => {
+          const btn = document.createElement('button');
+          btn.className = 'choice-btn';
+          btn.innerHTML = `<span>${item.letter.toLowerCase()}</span>`;
+          btn.onclick = () => {
+            if (roundLocked) return;
+            if (item.letter === target.letter) {
+              celebrateWin(btn, `Big ${target.letter} and little ${target.letter.toLowerCase()} make the "${target.phonetic}" sound in ${target.word}!`, startABCWorld);
+            } else {
+              btn.classList.add('wrong');
+              playMagicSound('oops');
+              unicornSpeak(`That's little ${item.letter.toLowerCase()}! Can you find little ${target.letter.toLowerCase()}?`, { updateBubble: false });
+            }
+          };
+          grid.appendChild(btn);
+        });
+        unicornSpeak(`Can you find the baby lowercase letter ${target.letter.toLowerCase()} that matches big ${target.letter}?`);
+      }
+    }
+
+    /*************************************************************************
+     * WORLD 2: SOUND IT OUT! (Word Blender / Early Reading)
+     *************************************************************************/
+    function startBlendWorld() {
+      roundLocked = false;
+      const target = BLEND_WORDS[Math.floor(Math.random() * BLEND_WORDS.length)];
+      const distractors = BLEND_WORDS.filter(w => w.word !== target.word).sort(() => Math.random() - 0.5).slice(0, 3);
+      const choices = [target, ...distractors].sort(() => Math.random() - 0.5);
+
+      currentSoundOutCallback = () => {
+        const tiles = document.querySelectorAll('.letter-tile');
+        target.sounds.forEach((s, idx) => {
+          setTimeout(() => {
+            if (tiles[idx]) tiles[idx].classList.add('sounded');
+            playMagicSound('pop');
+          }, idx * 650);
+        });
+        const seqText = `${target.sounds[0]}! | ${target.sounds[1]}! | ${target.sounds[2]}! | Blend it together: ${target.word}!`;
+        unicornSpeak(seqText, { updateBubble: false, isSoundOut: true });
+      };
+
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        <div style="font-size:1.15rem; font-weight:900; color:#6a1b9a;">
+          👇 Tap each crystal letter to sound it out, then blend the word!
+        </div>
+        <div class="blender-row" id="blender-row"></div>
+        <button class="blend-arrow-btn" onclick="soundOutCurrent()">
+          🦄 Blend It Together! ➡️
+        </button>
+      `;
+
+      const row = document.getElementById('blender-row');
+      target.letters.forEach((ltr, idx) => {
+        const tile = document.createElement('div');
+        tile.className = 'letter-tile';
+        tile.innerHTML = `<span>${ltr}</span><div class="tile-dot"></div>`;
+        tile.onclick = () => {
+          tile.classList.add('sounded');
+          playMagicSound('pop');
+          unicornSpeak(target.sounds[idx], { updateBubble: false, customRate: 0.85 });
+        };
+        row.appendChild(tile);
+      });
+
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
+      const grid = document.getElementById('choices-grid');
+
+      choices.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = `
+          <span>${item.emoji}</span>
+          <span class="choice-label">${item.word}</span>
+        `;
+        btn.onclick = () => {
+          if (roundLocked) return;
+          if (item.word === target.word) {
+            celebrateWin(btn, `${target.sounds.join('... ')}... makes ${target.word}! You read the word ${target.word}!`, startBlendWorld);
+          } else {
+            btn.classList.add('wrong');
+            playMagicSound('oops');
+            unicornSpeak(`That's a ${item.word}! Tap the letters to sound out ${target.sounds.join(', ')}!`, { updateBubble: false });
+          }
+        };
+        grid.appendChild(btn);
+      });
+
+      unicornSpeak(`Let's sound out this word together! ${target.sounds[0]}... ${target.sounds[1]}... ${target.sounds[2]}! Which picture matches?`);
+    }
+
+    /*************************************************************************
+     * WORLD 3: 123 COUNTING & KINDERGARTEN PICTURE ADDITION
+     *************************************************************************/
+    const MATH_THEMES = [
+      { name: 'magical cupcakes', emoji: '🧁' },
+      { name: 'baby unicorns', emoji: '🦄' },
+      { name: 'sparkly crowns', emoji: '👑' },
+      { name: 'sweet strawberries', emoji: '🍓' },
+      { name: 'shooting stars', emoji: '🌟' },
+      { name: 'pink butterflies', emoji: '🦋' }
+    ];
+
+    function startMathWorld() {
+      roundLocked = false;
+      const theme = MATH_THEMES[Math.floor(Math.random() * MATH_THEMES.length)];
+      const showcase = document.getElementById('showcase-card');
+      const area = document.getElementById('interactive-area');
+
+      if (currentSubMode === 'count') {
+        const count = Math.floor(Math.random() * 12) + 1;
+        let countedSoFar = 0;
+
+        currentSoundOutCallback = () => {
+          const seq = Array.from({ length: count }, (_, i) => i + 1).join(', ');
+          unicornSpeak(`Let's count together! ${seq}! How many is that?`, { updateBubble: false });
+        };
+
+        showcase.innerHTML = `
+          <div style="font-size:1.2rem; font-weight:900; color:#6a1b9a;">
+            Tap each ${theme.emoji} to count out loud with me!
+          </div>
+          <div class="counting-wrap" id="counting-wrap"></div>
+        `;
+
+        const wrap = document.getElementById('counting-wrap');
+        for (let i = 1; i <= count; i++) {
+          const card = document.createElement('div');
+          card.className = 'count-card';
+          card.innerHTML = `<span>${theme.emoji}</span>`;
+          card.onclick = () => {
+            playMagicSound('pop');
+            if (!card.classList.contains('counted')) {
+              countedSoFar++;
+              card.classList.add('counted');
+              const b = document.createElement('div');
+              b.className = 'count-num-badge';
+              b.textContent = countedSoFar;
+              card.appendChild(b);
+              unicornSpeak(String(countedSoFar), { updateBubble: false });
+            } else {
+              const num = card.querySelector('.count-num-badge').textContent;
+              unicornSpeak(String(num), { updateBubble: false });
+            }
+          };
+          wrap.appendChild(card);
+        }
+
+        const pool = Array.from({ length: 14 }, (_, i) => i + 1).filter(n => n !== count);
+        const distractors = pool.sort(() => Math.random() - 0.5).slice(0, 3);
+        const choices = [count, ...distractors].sort((a, b) => a - b);
+
+        area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
+        const grid = document.getElementById('choices-grid');
+        choices.forEach(num => {
+          const btn = document.createElement('button');
+          btn.className = 'choice-btn';
+          btn.innerHTML = `<span>${num}</span>`;
+          btn.onclick = () => {
+            if (roundLocked) return;
+            if (num === count) {
+              celebrateWin(btn, `There are ${count} ${theme.name}! You're a counting princess!`, startMathWorld);
+            } else {
+              btn.classList.add('wrong');
+              playMagicSound('oops');
+              unicornSpeak(`That's number ${num}! Tap each ${theme.name} to count them all!`, { updateBubble: false });
+            }
+          };
+          grid.appendChild(btn);
+        });
+
+        unicornSpeak(`How many ${theme.name} do you see? Tap each one to count!`);
+      } else {
+        const a = Math.floor(Math.random() * 5) + 1;
+        const b = Math.floor(Math.random() * 4) + 1;
+        const sum = a + b;
+        let countedSoFar = 0;
+
+        currentSoundOutCallback = () => {
+          unicornSpeak(`${a} ${theme.name}, plus ${b} more ${theme.name}! Tap every single one to count how many altogether!`, { updateBubble: false });
+        };
+
+        showcase.innerHTML = `
+          <div style="font-size:1.4rem; font-weight:900; color:#ad1457;">
+            ${a} + ${b} = ❓ (Tap to count them all!)
+          </div>
+          <div class="counting-wrap" id="add-wrap"></div>
+        `;
+
+        const wrap = document.getElementById('add-wrap');
+        const makeTouchableItem = () => {
+          const card = document.createElement('div');
+          card.className = 'count-card';
+          card.innerHTML = `<span>${theme.emoji}</span>`;
+          card.onclick = () => {
+            playMagicSound('pop');
+            if (!card.classList.contains('counted')) {
+              countedSoFar++;
+              card.classList.add('counted');
+              const badge = document.createElement('div');
+              badge.className = 'count-num-badge';
+              badge.textContent = countedSoFar;
+              card.appendChild(badge);
+              unicornSpeak(String(countedSoFar), { updateBubble: false });
+            }
+          };
+          return card;
+        };
+
+        for (let i = 0; i < a; i++) wrap.appendChild(makeTouchableItem());
+        const plus = document.createElement('div');
+        plus.style.fontSize = '2.8rem';
+        plus.style.fontWeight = '900';
+        plus.style.color = '#d81b60';
+        plus.textContent = '➕';
+        wrap.appendChild(plus);
+        for (let i = 0; i < b; i++) wrap.appendChild(makeTouchableItem());
+
+        const pool = [1,2,3,4,5,6,7,8,9,10].filter(n => n !== sum);
+        const choices = [sum, ...pool.sort(() => Math.random() - 0.5).slice(0, 3)].sort((x, y) => x - y);
+
+        area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
+        const grid = document.getElementById('choices-grid');
+        choices.forEach(num => {
+          const btn = document.createElement('button');
+          btn.className = 'choice-btn';
+          btn.innerHTML = `<span>${num}</span>`;
+          btn.onclick = () => {
+            if (roundLocked) return;
+            if (num === sum) {
+              celebrateWin(btn, `${a} plus ${b} equals ${sum}! You did Kindergarten addition!`, startMathWorld);
+            } else {
+              btn.classList.add('wrong');
+              playMagicSound('oops');
+              unicornSpeak(`Almost! Tap every ${theme.emoji} from left to right to count how many altogether!`, { updateBubble: false });
+            }
+          };
+          grid.appendChild(btn);
+        });
+
+        unicornSpeak(`Let's add! What is ${a} ${theme.name} plus ${b} more ${theme.name}?`);
+      }
+    }
+
+    /*************************************************************************
+     * WORLD 4: DAYS OF THE WEEK
+     *************************************************************************/
+    function startDaysWorld() {
+      roundLocked = false;
+      const missingIdx = Math.floor(Math.random() * 6) + 1;
+      const beforeDay = DAYS_OF_WEEK[missingIdx - 1];
+      const targetDay = DAYS_OF_WEEK[missingIdx];
+
+      currentSoundOutCallback = () => {
+        const allNames = DAYS_OF_WEEK.map(d => d.name).join(', ');
+        unicornSpeak(`Let's sing the 7 days of the week! | ${allNames}! | So right after ${beforeDay.name} comes... what day?`, {
+          updateBubble: false,
+          isSoundOut: true
+        });
+      };
+
+      const showcase = document.getElementById('showcase-card');
+      const trainHTML = DAYS_OF_WEEK.map((d, idx) => {
+        const isMystery = idx === missingIdx;
+        return `
+          <div class="day-car ${isMystery ? 'mystery' : ''}"
+               style="background:${d.color};"
+               onclick="unicornSpeak('${isMystery ? 'Mystery Day! What comes after ' + beforeDay.name + '?' : d.name + '! ' + d.fun}', {updateBubble:false})">
+            <span style="font-size:1.6rem;">${isMystery ? '❓' : d.emoji}</span>
+            <span>${isMystery ? '???' : d.name}</span>
+          </div>
+        `;
+      }).join('');
+
+      showcase.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:8px;">
+          <span style="font-weight:900; color:#880e4f; font-size:1.2rem;">🚂 The 7 Days of the Week Rainbow Train!</span>
+          <button class="phonics-pill" onclick="soundOutCurrent()" style="font-size:1rem; font-weight:900;">
+            🎶 Sing All 7 Days!
+          </button>
+        </div>
+        <div class="days-train">${trainHTML}</div>
+      `;
+
+      const distractors = DAYS_OF_WEEK.filter(d => d.name !== targetDay.name).sort(() => Math.random() - 0.5).slice(0, 3);
+      const choices = [targetDay, ...distractors].sort(() => Math.random() - 0.5);
+
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
+      const grid = document.getElementById('choices-grid');
+
+      choices.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = `
+          <span>${item.emoji}</span>
+          <span class="choice-label" style="font-size:1.45rem;">${item.name}</span>
+        `;
+        btn.onclick = () => {
+          if (roundLocked) return;
+          if (item.name === targetDay.name) {
+            celebrateWin(btn, `${targetDay.name} comes right after ${beforeDay.name}! ${targetDay.fun}`, startDaysWorld);
+          } else {
+            btn.classList.add('wrong');
+            playMagicSound('oops');
+            unicornSpeak(`That's ${item.name}! Listen to the order: ${beforeDay.name}, then what day comes next?`, { updateBubble: false });
+          }
+        };
+        grid.appendChild(btn);
+      });
+
+      unicornSpeak(`Look at the Rainbow Train! What day of the week comes right after ${beforeDay.name}?`);
+    }
+
+    /*************************************************************************
+     * WORLD 5: SEASONS & WEATHER
+     *************************************************************************/
+    function startSeasonsWorld() {
+      roundLocked = false;
+      const showcase = document.getElementById('showcase-card');
+      const area = document.getElementById('interactive-area');
+
+      if (currentSubMode === 'fourSeasons') {
+        const target = SEASONS_QUESTIONS[Math.floor(Math.random() * SEASONS_QUESTIONS.length)];
+        currentSoundOutCallback = () => {
+          unicornSpeak(`${target.soundOut} | ${target.clue}`, { updateBubble: false, isSoundOut: true });
+        };
+
+        showcase.innerHTML = `
+          <div class="big-prompt-display">${target.itemEmoji}</div>
+          <div style="font-size:1.35rem; font-weight:900; color:#4a148c; max-width:650px;">
+            "${target.clue}"
+          </div>
+        `;
+
+        area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
+        const grid = document.getElementById('choices-grid');
+        SEASONS_QUESTIONS.forEach(s => {
+          const btn = document.createElement('button');
+          btn.className = 'choice-btn';
+          btn.innerHTML = `
+            <span>${s.emoji}</span>
+            <span class="choice-label" style="font-size:1.5rem;">${s.season}</span>
+          `;
+          btn.onclick = () => {
+            if (roundLocked) return;
+            if (s.season === target.season) {
+              celebrateWin(btn, `It is ${target.season}! ${target.soundOut}`, startSeasonsWorld);
+            } else {
+              btn.classList.add('wrong');
+              playMagicSound('oops');
+              unicornSpeak(`That's ${s.season}! Listen to the clue: ${target.clue}`, { updateBubble: false });
+            }
+          };
+          grid.appendChild(btn);
+        });
+
+        unicornSpeak(`${target.clue} Which season is it?`);
+      } else {
+        const target = WEATHER_QUESTIONS[Math.floor(Math.random() * WEATHER_QUESTIONS.length)];
+        const choices = [...WEATHER_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 4);
+        if (!choices.some(c => c.type === target.type)) choices[0] = target;
+        choices.sort(() => Math.random() - 0.5);
+
+        currentSoundOutCallback = () => {
+          unicornSpeak(`${target.prompt} We use ${target.wear}!`, { updateBubble: false });
+        };
+
+        showcase.innerHTML = `
+          <div class="big-prompt-display">${target.emoji}</div>
+          <div style="font-size:1.3rem; font-weight:900; color:#0277bd;">
+            ${target.prompt}<br/>
+            <span style="color:#ad1457;">Helpful hint: ${target.wear}</span>
+          </div>
+        `;
+
+        area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
+        const grid = document.getElementById('choices-grid');
+        choices.forEach(w => {
+          const btn = document.createElement('button');
+          btn.className = 'choice-btn';
+          btn.innerHTML = `
+            <span>${w.emoji}</span>
+            <span class="choice-label" style="font-size:1.45rem;">${w.type}</span>
+          `;
+          btn.onclick = () => {
+            if (roundLocked) return;
+            if (w.type === target.type) {
+              celebrateWin(btn, `Yes! It is ${target.type} weather!`, startSeasonsWorld);
+            } else {
+              btn.classList.add('wrong');
+              playMagicSound('oops');
+              unicornSpeak(`That's ${w.type}! Try again, cutie!`, { updateBubble: false });
+            }
+          };
+          grid.appendChild(btn);
+        });
+
+        unicornSpeak(target.prompt);
+      }
+    }
+
+    /*************************************************************************
+     * WORLD 6: SHAPES & MAGIC COLOR MIXING
+     *************************************************************************/
+    function startShapesWorld() {
+      roundLocked = false;
+      const showcase = document.getElementById('showcase-card');
+      const area = document.getElementById('interactive-area');
+
+      if (currentSubMode === 'shapesQuiz') {
+        const target = SHAPES_DATA[Math.floor(Math.random() * SHAPES_DATA.length)];
+        const distractors = SHAPES_DATA.filter(s => s.name !== target.name).sort(() => Math.random() - 0.5).slice(0, 3);
+        const choices = [target, ...distractors].sort(() => Math.random() - 0.5);
+
+        currentSoundOutCallback = () => {
+          unicornSpeak(`${target.name}! | ${target.clue}`, { updateBubble: false, isSoundOut: true });
+        };
+
+        showcase.innerHTML = `
+          <div class="big-prompt-display">${target.emoji}</div>
+          <div style="font-size:1.35rem; font-weight:900; color:#6a1b9a;">
+            ${target.clue}
+          </div>
+        `;
+
+        area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
+        const grid = document.getElementById('choices-grid');
+        choices.forEach(s => {
+          const btn = document.createElement('button');
+          btn.className = 'choice-btn';
+          btn.innerHTML = `
+            <span>${s.emoji}</span>
+            <span class="choice-label" style="font-size:1.4rem;">${s.name}</span>
+          `;
+          btn.onclick = () => {
+            if (roundLocked) return;
+            if (s.name === target.name) {
+              celebrateWin(btn, `That's a ${target.name}! ${target.clue}`, startShapesWorld);
+            } else {
+              btn.classList.add('wrong');
+              playMagicSound('oops');
+              unicornSpeak(`That's a ${s.name}! Look for the ${target.name}!`, { updateBubble: false });
+            }
+          };
+          grid.appendChild(btn);
+        });
+
+        unicornSpeak(`Can you find the ${target.name}? ${target.clue}`);
+      } else {
+        const target = COLOR_MIX_DATA[Math.floor(Math.random() * COLOR_MIX_DATA.length)];
+        currentSoundOutCallback = () => {
+          unicornSpeak(`When we mix ${target.c1} and ${target.c2}, what new color does it make?`, { updateBubble: false });
+        };
+
+        showcase.innerHTML = `
+          <div class="big-prompt-display">
+            <span>${target.c1}</span>
+            <span>➕</span>
+            <span>${target.c2}</span>
+            <span>＝ ❓</span>
+          </div>
+          <div style="font-size:1.25rem; font-weight:900; color:#880e4f;">${target.clue}</div>
+        `;
+
+        area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
+        const grid = document.getElementById('choices-grid');
+        COLOR_MIX_DATA.forEach(c => {
+          const btn = document.createElement('button');
+          btn.className = 'choice-btn';
+          btn.innerHTML = `
+            <span>${c.emoji}</span>
+            <span class="choice-label" style="font-size:1.45rem;">${c.result}</span>
+          `;
+          btn.onclick = () => {
+            if (roundLocked) return;
+            if (c.result === target.result) {
+              celebrateWin(btn, `Mixing ${target.c1} and ${target.c2} makes ${target.result}! Rainbow magic!`, startShapesWorld);
+            } else {
+              btn.classList.add('wrong');
+              playMagicSound('oops');
+              unicornSpeak(`That's ${c.result}! Try another color, bestie!`, { updateBubble: false });
+            }
+          };
+          grid.appendChild(btn);
+        });
+
+        unicornSpeak(target.clue);
+      }
+    }
+
+    /*************************************************************************
+     * WORLD 7: RHYMING WORDS & OPPOSITES
+     *************************************************************************/
+    function startRhymeWorld() {
+      roundLocked = false;
+      const showcase = document.getElementById('showcase-card');
+      const area = document.getElementById('interactive-area');
+
+      if (currentSubMode === 'rhyming') {
+        const item = RHYMES_DATA[Math.floor(Math.random() * RHYMES_DATA.length)];
+        const choices = [
+          { w: item.answer, e: item.ansEmoji, isCorrect: true },
+          ...item.wrong.map(x => ({ ...x, isCorrect: false }))
+        ].sort(() => Math.random() - 0.5);
+
+        currentSoundOutCallback = () => {
+          unicornSpeak(`Listen to the ending sound! | ${item.baseWord}... | ${item.answer}! | They sound the same at the end!`, {
+            updateBubble: false,
+            isSoundOut: true
+          });
+        };
+
+        showcase.innerHTML = `
+          <div style="font-size:1.2rem; font-weight:900; color:#6a1b9a;">🎵 Rhyming words sound the same at the end!</div>
+          <div class="big-prompt-display">
+            <span>${item.baseEmoji}</span>
+            <span>What rhymes with <u>${item.baseWord}</u>?</span>
+          </div>
+        `;
+
+        area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
+        const grid = document.getElementById('choices-grid');
+        choices.forEach(ch => {
+          const btn = document.createElement('button');
+          btn.className = 'choice-btn';
+          btn.innerHTML = `
+            <span>${ch.e}</span>
+            <span class="choice-label" style="font-size:1.45rem;">${ch.w}</span>
+          `;
+          btn.onclick = () => {
+            if (roundLocked) return;
+            if (ch.isCorrect) {
+              celebrateWin(btn, `${item.baseWord} and ${item.answer} rhyme! ${item.baseWord}, ${item.answer}!`, startRhymeWorld);
+            } else {
+              btn.classList.add('wrong');
+              playMagicSound('oops');
+              unicornSpeak(`${item.baseWord} and ${ch.w} don't rhyme! Listen for a word that sounds like ${item.baseWord}!`, { updateBubble: false });
+            }
+          };
+          grid.appendChild(btn);
+        });
+
+        unicornSpeak(`Which word rhymes with ${item.baseWord}? Listen closely to the ending sound!`);
+      } else {
+        const item = OPPOSITES_DATA[Math.floor(Math.random() * OPPOSITES_DATA.length)];
+        const choices = [
+          { w: item.answer, e: item.emoji, isCorrect: true },
+          ...item.wrong.map(x => ({ ...x, isCorrect: false }))
+        ].sort(() => Math.random() - 0.5);
+
+        currentSoundOutCallback = () => {
+          unicornSpeak(`What is the opposite of ${item.word}?`, { updateBubble: false });
+        };
+
+        showcase.innerHTML = `
+          <div style="font-size:1.2rem; font-weight:900; color:#6a1b9a;">🔄 Opposites are totally different!</div>
+          <div class="big-prompt-display">
+            <span>Opposite of ${item.word} is...</span>
+          </div>
+        `;
+
+        area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
+        const grid = document.getElementById('choices-grid');
+        choices.forEach(ch => {
+          const btn = document.createElement('button');
+          btn.className = 'choice-btn';
+          btn.innerHTML = `
+            <span>${ch.e}</span>
+            <span class="choice-label" style="font-size:1.45rem;">${ch.w}</span>
+          `;
+          btn.onclick = () => {
+            if (roundLocked) return;
+            if (ch.isCorrect) {
+              celebrateWin(btn, `The opposite of ${item.word} is ${item.answer}!`, startRhymeWorld);
+            } else {
+              btn.classList.add('wrong');
+              playMagicSound('oops');
+              unicornSpeak(`Not ${ch.w}! What is the opposite of ${item.word}?`, { updateBubble: false });
+            }
+          };
+          grid.appendChild(btn);
+        });
+
+        unicornSpeak(`What is the opposite of ${item.word}?`);
+      }
+    }
+
+    /*************************************************************************
+     * WORLD 8: MAGIC SOUNDBOARD (Free Play Phonics, Days, Seasons, 1-20)
+     *************************************************************************/
+    function startExploreWorld() {
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        <div class="big-prompt-display" id="explore-banner">
+          <span>🦄</span>
+          <span>Tap anything to hear Princess Sparkle sound it out!</span>
+        </div>
+      `;
+
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `<div class="explore-grid" id="explore-grid"></div>`;
+      const grid = document.getElementById('explore-grid');
+
+      ALPHABET.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = 'explore-key';
+        btn.innerHTML = `<span>${item.letter}${item.letter.toLowerCase()}</span><small>${item.emoji}</small>`;
+        btn.onclick = () => {
+          playMagicSound('sparkle');
+          const r = btn.getBoundingClientRect();
+          burstSparkles(r.left + r.width / 2, r.top + r.height / 2, 22);
+          document.getElementById('explore-banner').innerHTML = `
+            <span>${item.emoji}</span>
+            <span>${item.letter}${item.letter.toLowerCase()} says "${item.phonetic}" — ${item.word}!</span>
+          `;
+          unicornSpeak(`${item.letter}! | ${item.letter} says ${item.phonetic}! | ${item.soundCue}, ${item.word}!`, { isSoundOut: true });
+        };
+        grid.appendChild(btn);
+      });
+
+      DAYS_OF_WEEK.forEach(d => {
+        const btn = document.createElement('button');
+        btn.className = 'explore-key';
+        btn.style.borderColor = d.color;
+        btn.innerHTML = `<span style="font-size:1.1rem;">${d.name}</span><small>${d.emoji}</small>`;
+        btn.onclick = () => {
+          playMagicSound('pop');
+          document.getElementById('explore-banner').innerHTML = `<span>${d.emoji}</span><span>${d.name}!</span>`;
+          unicornSpeak(`${d.name}! ${d.fun}`);
+        };
+        grid.appendChild(btn);
+      });
+
+      SEASONS_QUESTIONS.forEach(s => {
+        const btn = document.createElement('button');
+        btn.className = 'explore-key';
+        btn.style.borderColor = '#66bb6a';
+        btn.innerHTML = `<span style="font-size:1.15rem;">${s.season}</span><small>${s.emoji}</small>`;
+        btn.onclick = () => {
+          playMagicSound('sparkle');
+          document.getElementById('explore-banner').innerHTML = `<span>${s.emoji}</span><span>${s.season}! ${s.itemEmoji}</span>`;
+          unicornSpeak(`${s.soundOut} | ${s.clue}`, { isSoundOut: true });
+        };
+        grid.appendChild(btn);
+      });
+
+      unicornSpeak("Welcome to the Magic Board! Tap any letter, day of the week, or season to hear me sound it out!");
+    }
+
+    /*************************************************************************
+     * WORLD 9: ROYAL CLOSET (Dress Up Princess Sparkle!)
+     *************************************************************************/
+    function startClosetWorld() {
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        <div style="font-size:1.5rem; font-weight:900; color:#ad1457;">
+          👑 Princess Sparkle's Royal Closet — You have ⭐ ${stars} Stars!
+        </div>
+        <div style="font-size:1.05rem; color:#6a1b9a; font-weight:bold;">
+          Tap any unlocked accessory to dress me up!
+        </div>
+      `;
+
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `<div class="closet-grid" id="closet-grid"></div>`;
+      const grid = document.getElementById('closet-grid');
+
+      ROYAL_CLOSET.forEach(item => {
+        const unlocked = stars >= item.stars;
+        const card = document.createElement('div');
+        card.className = `closet-card ${item.equipped ? 'equipped' : ''} ${!unlocked ? 'locked' : ''}`;
+        card.innerHTML = `
+          <div style="font-size:3rem;">${item.emoji}</div>
+          <div style="font-weight:900; color:#880e4f;">${item.name}</div>
+          <div style="font-size:0.95rem; font-weight:bold; color:#d81b60; margin-top:4px;">
+            ${unlocked ? (item.equipped ? '✅ Wearing!' : '✨ Tap to Wear!') : `🔒 Need ⭐ ${item.stars}`}
+          </div>
+        `;
+        card.onclick = () => {
+          if (!unlocked) {
+            playMagicSound('oops');
+            unicornSpeak(`Ooh, you need ${item.stars} stars for the ${item.name}! Play some more games with me to unlock it!`);
+            return;
+          }
+          const wasEquipped = item.equipped;
+          ROYAL_CLOSET.filter(i => i.slot === item.slot).forEach(i => i.equipped = false);
+          item.equipped = !wasEquipped;
+
+          const slotEl = document.getElementById(item.slot);
+          if (item.equipped) {
+            slotEl.textContent = item.emoji;
+            slotEl.style.display = 'block';
+            playMagicSound('success');
+            burstSparkles(window.innerWidth / 2, 220, 35);
+            unicornSpeak(`YAAAY! Look at my ${item.name}! Do I look super cute?!`);
+          } else {
+            slotEl.style.display = 'none';
+            playMagicSound('pop');
+          }
+          startClosetWorld();
+        };
+        grid.appendChild(card);
+      });
+
+      unicornSpeak("Welcome to my Royal Closet! Let's play dress up!");
+    }
+
+    /*************************************************************************
+     * 5. SPARKLE & STAR PARTICLE ENGINE
+     *************************************************************************/
+    const canvas = document.getElementById('fx-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function burstSparkles(x, y, count = 40) {
+      const colors = ['#ff1493', '#ffd700', '#00e5ff', '#d500f9', '#00e676', '#ff80ab'];
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8.5 + 2;
+        particles.push({
+          x, y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 2.5,
+          size: Math.random() * 11 + 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1,
+          rotation: Math.random() * 360
+        });
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.22;
+        p.alpha -= 0.018;
+        p.rotation += 6;
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        for (let s = 0; s < 4; s++) {
+          ctx.lineTo(0, -p.size);
+          ctx.rotate(Math.PI / 4);
+          ctx.lineTo(0, -p.size * 0.4);
+          ctx.rotate(Math.PI / 4);
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    window.addEventListener('DOMContentLoaded', () => {
+      setWorld('abc');
+    });
+  </script>
+</body>
+</html>
