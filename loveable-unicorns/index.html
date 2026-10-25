@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v6.3 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
+  <title>v7.0 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -1330,6 +1330,60 @@
     .trace-canvas { background: #ffffff; border-radius: 22px; border: 4px solid var(--bluey-dark); box-shadow: 0 6px 0 var(--bluey-dark); touch-action: none; cursor: crosshair; }
 
     /* =========================================================================
+       v6.4: STORY LIBRARY + READING PATH
+       ========================================================================= */
+    .shelf-tabs { display: flex; gap: 10px; justify-content: center; }
+    .shelf-tab { width: 64px; height: 56px; border-radius: 18px; border: 3px solid #ce93d8; background: #fff; font-size: 1.9rem; cursor: pointer; box-shadow: 0 4px 0 #ce93d8; }
+    .shelf-tab.active { border-color: var(--bluey-dark); background: #fff59d; box-shadow: 0 4px 0 var(--bluey-dark); transform: translateY(-2px); }
+    .book-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; width: 100%; }
+    .book-cover {
+      position: relative; aspect-ratio: 3 / 4; max-height: 200px; border-radius: 10px 22px 22px 10px; border: 4px solid var(--bluey-dark);
+      border-left-width: 12px; cursor: pointer; box-shadow: 0 6px 0 var(--bluey-dark); display: flex; align-items: center; justify-content: center;
+    }
+    .book-cover:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--bluey-dark); }
+    .book-emoji { font-size: 4rem; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.15)); animation: sunBob 3s ease-in-out infinite; }
+    .book-star { position: absolute; top: 6px; right: 8px; font-size: 1.6rem; }
+    .story-page { width: 100%; border-radius: 20px; padding: 12px 12px 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; border: 3px solid var(--bluey-dark); }
+    .story-dots { display: flex; gap: 6px; }
+    .story-dots span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); }
+    .story-dots span.on { background: #ffd54f; }
+    .story-scene { display: flex; gap: 6px; justify-content: center; font-size: clamp(3.2rem, 15vw, 5rem); min-height: 1.3em; }
+    .story-scene span { display: inline-block; animation: sceneFloat 3s ease-in-out infinite; }
+    @keyframes sceneFloat { 50% { transform: translateY(-8px) rotate(3deg); } }
+    .story-page .story-line { color: inherit; }
+    .story-page .story-word.lit { color: var(--bluey-dark); }
+    .story-quiz-q { font-family: var(--font-print); font-size: 1.6rem; font-weight: 700; color: var(--bluey-dark); text-align: center; }
+
+    .path-hud { display: flex; gap: 10px; justify-content: center; }
+    .path-pill { background: #fff; border: 3px solid #ce93d8; border-radius: 99px; padding: 3px 14px; font-weight: 700; font-size: 1.15rem; color: var(--bluey-dark); }
+    .path-pill.fire { border-color: #ff9800; background: #fff3e0; color: #e65100; }
+    .path-scroll { width: 100%; max-height: 52vh; overflow-y: auto; overflow-x: hidden; padding: 10px 0 20px; scrollbar-width: thin; }
+    .path-stop { position: relative; display: flex; justify-content: center; margin: 6px 0; }
+    .path-stop > .path-node, .path-stop > .path-trophy { position: relative; left: calc(var(--x) * min(1px, 0.28vw)); }
+    .path-node {
+      width: 72px; height: 66px; border-radius: 50%; border: none; font-size: 2rem; cursor: pointer;
+      background: #e0e0e0; color: #9e9e9e; box-shadow: 0 7px 0 #bdbdbd;
+    }
+    .path-node.done { background: linear-gradient(180deg, #ffe082, #ffb300); color: #fff; box-shadow: 0 7px 0 #e65100; font-weight: 700; }
+    .path-node.now { background: linear-gradient(180deg, #ff80ab, #ec407a); color: #fff; box-shadow: 0 7px 0 #ad1457, 0 0 0 8px rgba(236, 64, 122, 0.2); animation: nodeBounce 1.4s ease-in-out infinite; }
+    .path-node.locked { filter: grayscale(1); opacity: 0.6; }
+    .path-node.story.now, .path-node.chest.now { background: linear-gradient(180deg, #b388ff, #7c4dff); box-shadow: 0 7px 0 #4527a0, 0 0 0 8px rgba(124, 77, 255, 0.2); }
+    .path-node.nope { animation: gentleShake 0.4s ease; }
+    @keyframes nodeBounce { 50% { transform: translateY(-6px); } }
+    .path-kiki { position: absolute; left: calc(50% - 74px + var(--x) * min(1px, 0.28vw)); top: 8px; font-size: 2.2rem; animation: sunBob 2s ease-in-out infinite; }
+    .path-trophy { font-size: 3rem; opacity: 0.5; }
+    .lesson-bar { display: flex; align-items: center; gap: 10px; width: 100%; }
+    .lesson-quit { width: 40px; height: 40px; border-radius: 50%; border: none; background: #f3e5f5; color: #8e24aa; font-size: 1.2rem; cursor: pointer; }
+    .lesson-track { flex: 1; height: 18px; border-radius: 99px; background: #f3e5f5; overflow: hidden; }
+    .lesson-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #69f0ae, #00c853); transition: width 0.6s cubic-bezier(.3, 1.4, .5, 1); box-shadow: inset 0 -4px 0 rgba(0,0,0,0.12), inset 0 4px 0 rgba(255,255,255,0.4); }
+    .lesson-done { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 10px; }
+    .lesson-done-big { font-size: 5rem; animation: songBop 0.7s cubic-bezier(.2, 1.8, .4, 1); }
+    .lesson-done-row { display: flex; gap: 10px; }
+    .chest { font-size: 6rem; background: none; border: none; cursor: pointer; animation: nodeBounce 1.2s ease-in-out infinite; }
+    .chest.open { animation: songBop 0.6s ease; }
+    @media (min-width: 700px) { .book-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    /* =========================================================================
        MINI GAME 3: 🧱 5-YEAR-OLD PICTURE-ONLY LEGO UNICORN BUILDER (v5.0)
        ========================================================================= */
     .lego-fs-overlay {
@@ -1525,7 +1579,8 @@
     }
 
     .lego-big-magic-btn {
-      flex: 1;
+      flex: 0 0 auto;
+      width: 72px;
       height: 48px;
       border-radius: 16px;
       border: 3px solid #ffffff;
@@ -1680,6 +1735,14 @@
       .closet-grid { grid-template-columns: repeat(5, 1fr); }
     }
 
+    /* Phones: the title shrinks to the unicorn so the sound buttons always fit */
+    @media (max-width: 520px) {
+      .brand-name { display: none; }
+      .brand-pill { padding: 4px 8px; }
+      .header-controls { gap: 4px; }
+      .ctrl-btn { padding: 5px 8px; min-width: 0; }
+    }
+
     /* =========================================================================
        4. SHORT & WIDE SCREENS (laptops): everything fits without scrolling
        ========================================================================= */
@@ -1700,8 +1763,27 @@
       .choice-btn { min-height: 84px; padding: 8px; font-size: 2rem; }
       .season-scene { height: 150px; }
       .song-big { min-height: 90px; }
-      .trace-canvas { max-height: 46vh; max-width: 46vh; }
-      .candy-board { max-width: min(440px, 62vh); }
+      .candy-board { max-width: min(440px, 47vh); gap: 6px; padding: 8px; }
+      .candy-cell { font-size: 1.9rem; }
+      .explore-grid { grid-template-columns: repeat(13, 1fr); gap: 6px; }
+      .explore-key { padding: 4px 2px; min-height: 0; }
+      .path-scroll { max-height: 38vh; }
+      .read-reveal { font-size: 3.2rem; min-height: 56px; }
+      .read-big-btn { height: 62px; min-width: 80px; font-size: 2rem; }
+      .letter-tile { height: 64px; width: 58px; font-size: 1.9rem; }
+      .blender-wrap { padding-bottom: 26px; }
+    }
+
+    @media (min-width: 900px) and (max-height: 640px) {
+      .world-btn { padding: 3px 2px; font-size: 0.66rem; }
+      .world-btn .w-icon { font-size: 1.05rem; }
+      .unicorn-avatar-box { width: 64px; height: 64px; }
+      .unicorn-avatar-box svg { width: 54px; height: 54px; }
+      .speech-card { padding: 6px 12px; }
+      .speech-text { font-size: 0.98rem; }
+      .submode-pill { padding: 2px 9px; }
+      main { padding: 8px 14px 8px; }
+      .candy-board { max-width: min(440px, 44vh); }
     }
 
     /* Full-screen games on a landscape screen: picture on the left, choices on the right */
@@ -1752,12 +1834,12 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span>Loveable Unicorns <small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v6.3</small></span>
+      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.0</small></span>
     </div>
 
     <div class="header-controls">
       <div class="star-pill" id="star-box" title="Dollarbucks & Rainbow Stars!">
-        <span>💵⭐</span>
+        <span>⭐</span>
         <span id="star-count">0</span>
       </div>
       <button class="ctrl-btn" id="music-btn" onclick="toggleBgMusic()" title="Toggle Background Music!">
@@ -2010,6 +2092,26 @@
   </div>
 
   <script>
+    // Private windows or blocked cookies make localStorage throw, and a full disk makes
+    // setItem throw. Fall back to memory and swallow write errors so the game always runs.
+    (function safeStorage() {
+      try {
+        localStorage.setItem('__kiki', '1');
+        localStorage.removeItem('__kiki');
+      } catch (e) {
+        const mem = {};
+        try {
+          Object.defineProperty(window, 'localStorage', { configurable: true, value: {
+            getItem: k => (k in mem ? mem[k] : null), setItem: (k, v) => { mem[k] = String(v); }, removeItem: k => { delete mem[k]; }
+          } });
+        } catch (e2) {}
+      }
+      try {
+        const origSet = Storage.prototype.setItem;
+        Storage.prototype.setItem = function (k, v) { try { origSet.call(this, k, v); } catch (e) {} };
+      } catch (e) {}
+    })();
+
     /*************************************************************************
      * 1. PHONICS, BLUEY SAYINGS & KINDERGARTEN CURRICULUM DATABASE
      *************************************************************************/
@@ -2203,6 +2305,10 @@
     let lastSpokenPrompt = '';
     let currentSoundOutCallback = null;
     let roundLocked = false;
+    // Bumped whenever the child changes world, mode or round. Delayed callbacks remember
+    // the value they started with and quietly do nothing if it has moved on.
+    let roundEpoch = 0;
+    let legoMusicOn = false;
     let balloonLoopId = null;
     let legoLoopId = null;
     let bgMusicPlaying = false;
@@ -2659,7 +2765,8 @@
       }
     }
 
-    function celebrateWin(btn, spokenDetail, nextFn) {
+    function celebrateWin(btn, spokenDetail, nextFn, epoch = roundEpoch) {
+      if (epoch !== roundEpoch) return;
       roundLocked = true;
       if (btn) {
         btn.classList.add('correct');
@@ -2679,10 +2786,9 @@
       showPraisePop(praise);
       unicornSpeak(`${praise.word} ${praise.emoji}`);
 
-      const savedWorld = currentWorld;
       setTimeout(() => {
         ubox.classList.remove('dancing');
-        if (currentWorld === savedWorld) nextFn();
+        if (epoch === roundEpoch) nextFn();
       }, 1700);
     }
 
@@ -2691,6 +2797,13 @@
      *************************************************************************/
     function setWorld(world) {
       stopSong();
+      roundEpoch++;
+      lesson = null;
+      currentSoundOutCallback = null;
+      if (world !== 'lego' && legoMusicOn) {
+        legoMusicOn = false;
+        toggleBgMusic(false);
+      }
       currentWorld = world;
       roundLocked = false;
       if (balloonLoopId) {
@@ -2762,6 +2875,7 @@
       } else if (world === 'lego') {
         if (!bgMusicPlaying && !soundMuted) {
           toggleBgMusic(true);
+          legoMusicOn = true;
         }
         startLegoWorld();
       } else if (world === 'chat') {
@@ -2783,6 +2897,9 @@
         btn.className = 'submode-pill' + (m.id === defaultId ? ' active' : '');
         btn.textContent = m.label;
         btn.onclick = () => {
+          roundEpoch++;
+          roundLocked = false;
+          stopSong();
           currentSubMode = m.id;
           subBar.querySelectorAll('.submode-pill').forEach(p => p.classList.remove('active'));
           btn.classList.add('active');
@@ -2937,8 +3054,15 @@
     let readLevel = parseInt(localStorage.getItem('kiki_read_level') || '0', 10);
     let readStreak = parseInt(localStorage.getItem('kiki_read_streak') || '0', 10);
     let readLastWord = '';
+    let lesson = null;   // set while a Path lesson is running (see KIKI'S READING PATH)
 
     function pickReadWord() {
+      if (lesson) {
+        const lp = READ_WORDS.filter(w => w.fi === lesson.fi && w.word !== readLastWord);
+        const lw = lp[Math.floor(Math.random() * lp.length)];
+        readLastWord = lw.word;
+        return lw;
+      }
       // Mostly the current family, sometimes an older one to keep it fresh
       let pool = READ_WORDS.filter(w => w.fi === Math.min(readLevel, WORD_FAMILIES.length - 1));
       if (readLevel > 0 && Math.random() < 0.3) pool = READ_WORDS.filter(w => w.fi < readLevel);
@@ -2950,6 +3074,7 @@
     }
 
     function readLadderProgress() {
+      if (lesson) return;
       readStreak++;
       if (readStreak >= 5) {
         readStreak = 0;
@@ -2989,6 +3114,7 @@
 
     // Light each tile in turn, slide Kiki under them, then say the whole word
     function blendWordAnimated(target, rowId, done) {
+      const ep = roundEpoch;
       const tiles = document.querySelectorAll(`#${rowId} .letter-tile`);
       const slider = document.getElementById(rowId + '-slider');
       tiles.forEach(t => t.classList.remove('sounded'));
@@ -2998,13 +3124,14 @@
       // One tile lights per letter sound, then the whole word pops
       const STEP = 800;
       tiles.forEach((tile, i) => setTimeout(() => {
+        if (ep !== roundEpoch) return;
         tile.classList.add('sounded');
         slideTo(i);
       }, i * STEP));
       const wordAt = tiles.length * STEP;
-      setTimeout(() => { tiles.forEach(t => t.classList.add('pop-word')); playCountNote(5); }, wordAt);
+      setTimeout(() => { if (ep !== roundEpoch) return; tiles.forEach(t => t.classList.add('pop-word')); playCountNote(5); }, wordAt);
       unicornSpeak(onsetRimeSpeech(target.word), { updateBubble: false, isSoundOut: true });
-      setTimeout(() => { tiles.forEach(t => t.classList.remove('pop-word')); if (done) done(); }, wordAt + 1000);
+      setTimeout(() => { if (ep !== roundEpoch) return; tiles.forEach(t => t.classList.remove('pop-word')); if (done) done(); }, wordAt + 1000);
     }
 
     function letterTilesHTML(letters, rowId, tapToSound = true) {
@@ -3028,26 +3155,32 @@
     }
 
     function startBlendWorld() {
+      const modes = ['path', 'books', 'listen', 'build', 'read', 'sight'];
       setupSubModes([
-        { id: 'listen', label: '🔊 Listen' },
-        { id: 'build',  label: '🧩 Build' },
-        { id: 'read',   label: '👀 Read' },
-        { id: 'sight',  label: '⭐ Sight' },
-        { id: 'story',  label: '📚 Story' }
-      ], currentSubMode && ['listen', 'build', 'read', 'sight', 'story'].includes(currentSubMode) ? currentSubMode : 'listen', runReadMode);
+        { id: 'path',   label: '🗺️ Path' },
+        { id: 'books',  label: '📚 Stories' },
+        { id: 'listen', label: '🔊' },
+        { id: 'build',  label: '🧩' },
+        { id: 'read',   label: '👀' },
+        { id: 'sight',  label: '⭐' }
+      ], modes.includes(currentSubMode) ? currentSubMode : 'path', runReadMode);
     }
 
     function runReadMode() {
       roundLocked = false;
+      if (currentSubMode !== 'path') lesson = null;
+      if (currentSubMode === 'path') return lesson ? lessonNext() : startReadingPath();
+      if (currentSubMode === 'books') return startStoryLibrary();
       if (currentSubMode === 'build') return startBuildWord();
       if (currentSubMode === 'read') return startReadWord();
       if (currentSubMode === 'sight') return startSightWord();
-      if (currentSubMode === 'story') return startStoryRead();
       return startListenWord();
     }
 
     // 🔊 LISTEN: watch Kiki sound out and blend, then the picture pops out
     function startListenWord() {
+      roundEpoch++;
+      let heard = false;
       const target = pickReadWord();
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
@@ -3070,21 +3203,23 @@
         rev.textContent = target.emoji;
         rev.classList.add('shown');
         playMagicSound('sparkle');
+        heard = true;
       });
       currentSoundOutCallback = play;
       document.getElementById('listen-again').onclick = () => { playMagicSound('pop'); play(); };
       document.getElementById('listen-next').onclick = () => {
         playMagicSound('pop');
-        addStar();
-        startListenWord();
+        if (heard) addStar();
+        runReadMode();
       };
       lastSpokenPrompt = 'Listen!';
       document.getElementById('speech-text').textContent = '👂 Listen!';
-      setTimeout(() => { if (currentSubMode === 'listen' && currentWorld === 'blend') play(); }, 350);
+      setTimeout(() => { if ((currentSubMode === 'listen' || lesson) && currentWorld === 'blend') play(); }, 350);
     }
 
     // 🧩 BUILD: picture + empty slots, tap the letters in order
     function startBuildWord() {
+      const ep = roundEpoch;
       const target = pickReadWord();
       const extras = 'ABCDEFGHIJKLMNOPRSTUVWZ'.split('').filter(l => !target.letters.includes(l))
         .sort(() => Math.random() - 0.5).slice(0, 3);
@@ -3129,7 +3264,7 @@
             if (filled === target.letters.length) {
               roundLocked = true;
               readLadderProgress();
-              setTimeout(() => blendWordAnimated(target, 'build-row', () => celebrateWin(null, target.word, runReadMode)), 500);
+              setTimeout(() => blendWordAnimated(target, 'build-row', () => celebrateWin(null, target.word, runReadMode, ep)), 500);
             }
           } else {
             b.classList.add('nope');
@@ -3227,7 +3362,8 @@
 
       lastSpokenPrompt = target.toLowerCase();
       document.getElementById('speech-text').textContent = '⭐ 👂';
-      setTimeout(say, 300);
+      const sayEp = roundEpoch;
+      setTimeout(() => { if (sayEp === roundEpoch) say(); }, 300);
     }
 
     // 📚 STORY: read a sentence word by word, then pick its picture
@@ -3290,6 +3426,360 @@
       lastSpokenPrompt = 'Read it!';
       document.getElementById('speech-text').textContent = '📚 Read it!';
       unicornSpeak('Read it!', { updateBubble: false });
+    }
+
+    /*************************************************************************
+     * 📚 KIKI'S STORY LIBRARY
+     * Short picture books with one easy sentence per page. Every word can be
+     * tapped to hear it, 🔊 reads the page with the words lighting up, and
+     * each book ends with a picture question. Halloween stories stay cute.
+     *************************************************************************/
+    const STORY_SHELVES = [
+      { id: 'bed',    icon: '🌙', bg: 'linear-gradient(180deg, #311b92, #5e35b1 60%, #7e57c2)', ink: '#ffffff' },
+      { id: 'spooky', icon: '🎃', bg: 'linear-gradient(180deg, #4a148c, #7b1fa2 55%, #ff9800)', ink: '#ffffff' },
+      { id: 'adv',    icon: '🦄', bg: 'linear-gradient(180deg, #81d4fa, #e1f5fe 60%, #f8bbd0)', ink: '#4a148c' },
+      { id: 'pets',   icon: '🐾', bg: 'linear-gradient(180deg, #c5e1a5, #f1f8e9 60%, #fff9c4)', ink: '#33691e' }
+    ];
+
+    // pages: [scene emojis, sentence]. quiz: [question, answer emoji, two wrong emojis]
+    const STORIES = [
+      { id: 'kikibed', shelf: 'bed', cover: '🦄', pages: [
+        ['🦄🌙', 'It is night.'], ['🦄🛁🫧', 'Kiki has a bath.'], ['🦄🪥✨', 'Kiki brushes her teeth.'],
+        ['🦄📖', 'Mom reads a book.'], ['🦄🛏️🧸', 'Kiki hugs her bear.'], ['😴🌙⭐', 'Good night, Kiki.']],
+        quiz: ['What did Kiki hug?', '🧸', ['🐸', '🚗']] },
+      { id: 'moon', shelf: 'bed', cover: '🌙', pages: [
+        ['🌙', 'The moon is up.'], ['🌙🦉', 'Hi, owl!'], ['🌙🐱💤', 'Hi, sleepy cat!'],
+        ['🌙⭐⭐⭐', 'The stars say hi.'], ['🌙🏠🪟', 'The moon looks in.'], ['🌙😊💤', 'The moon says, sleep tight.']],
+        quiz: ['Who said hi first?', '🦉', ['🐶', '🐟']] },
+      { id: 'teddy', shelf: 'bed', cover: '🧸', pages: [
+        ['🧸', 'Ted is a bear.'], ['🧸🔍', 'Ted can not find his hat.'], ['🧸🛏️', 'Is it on the bed? No.'],
+        ['🧸📦', 'Is it in the box? No.'], ['🧸🐶🎩', 'The dog has it!'], ['🧸🎩😴', 'Ted naps in his hat.']],
+        quiz: ['Who had the hat?', '🐶', ['🐱', '🐸']] },
+      { id: 'sheep', shelf: 'bed', cover: '🐑', pages: [
+        ['🐑', 'One sheep hops.'], ['🐑🐑', 'Two sheep hop.'], ['🐑🐑🐑', 'Three sheep hop.'],
+        ['🐑🐑🐑🌙', 'The sheep are sleepy.'], ['🐑💤🐑💤', 'They nap in a pile.'], ['😴💤', 'Now you nap too!']],
+        quiz: ['What hopped?', '🐑', ['🐰', '🐸']] },
+
+      { id: 'ghost', shelf: 'spooky', cover: '👻', pages: [
+        ['👻', 'Boo is a little ghost.'], ['👻😢', 'Boo is sad.'], ['👻🙈', 'Boo says boo. Kids run.'],
+        ['👻🦄', 'Kiki is not scared.'], ['👻🦄💖', 'Kiki says, be my pal!'], ['👻🦄🎉', 'Boo is glad!']],
+        quiz: ['Who was a pal to Boo?', '🦄', ['🐻', '🦖']] },
+      { id: 'pumpkin', shelf: 'spooky', cover: '🎃', pages: [
+        ['🎃', 'Pip is a big pumpkin.'], ['🎃🔪✂️', 'Dad cuts a face.'], ['🎃😁', 'Pip has a big grin.'],
+        ['🎃🕯️✨', 'A candle makes him glow.'], ['🎃🌙🏠', 'Pip sits by the door.'], ['🎃👋🍬', 'Hi! Get a treat!']],
+        quiz: ['What made Pip glow?', '🕯️', ['🍕', '🧦']] },
+      { id: 'costume', shelf: 'spooky', cover: '🧙‍♀️', pages: [
+        ['🧙‍♀️', 'Mia is a witch.'], ['🦇', 'Sam is a bat.'], ['🦄👑', 'Kiki is a queen.'],
+        ['🚪🔔', 'Ding dong!'], ['🍭🍫🍬', 'Trick or treat!'], ['🧙‍♀️🦇🦄🎉', 'What a fun night!']],
+        quiz: ['What was Kiki?', '👑', ['🦇', '🧙‍♀️']] },
+      { id: 'bat', shelf: 'spooky', cover: '🦇', pages: [
+        ['🦇', 'Bat is up at night.'], ['🦇🌙', 'Bat flaps to the moon.'], ['🦇🕸️🕷️', 'Hi, spider! Nice web!'],
+        ['🦇🍎', 'Bat has a red apple.'], ['🦇☀️😴', 'The sun is up. Bat naps.'], ['🦇💤', 'Upside down! Ha ha!']],
+        quiz: ['What did Bat eat?', '🍎', ['🍕', '🥕']] },
+
+      { id: 'rainbow', shelf: 'adv', cover: '🌈', pages: [
+        ['🦄☁️', 'Kiki sees a cloud.'], ['🦄☁️🌧️', 'Rain! Drip, drop!'], ['🦄☀️', 'The sun is back.'],
+        ['🦄🌈', 'Look! A rainbow!'], ['🦄🌈🏃‍♀️', 'Kiki runs up the rainbow.'], ['🦄🌈🎉', 'Wheee! Down she goes!']],
+        quiz: ['What did Kiki run up?', '🌈', ['🌳', '🏠']] },
+      { id: 'rocket', shelf: 'adv', cover: '🚀', pages: [
+        ['🚀', 'Zip is a red rocket.'], ['🚀🦄', 'Kiki gets in.'], ['🚀🔥', '3, 2, 1, go!'],
+        ['🚀⭐⭐', 'Up, up past the stars.'], ['🚀🌙', 'They land on the moon.'], ['🦄🌙🏳️', 'Hop, hop! Moon fun!']],
+        quiz: ['Where did they land?', '🌙', ['🏖️', '🏰']] },
+      { id: 'sea', shelf: 'adv', cover: '🐠', pages: [
+        ['🌊', 'The sea is big and blue.'], ['🐠', 'A fish can swim.'], ['🐙', 'An octopus has eight legs.'],
+        ['🐢', 'A turtle is slow.'], ['🧜‍♀️🐚', 'A mermaid has a shell.'], ['🧜‍♀️🎁🦄', 'She gives it to Kiki!']],
+        quiz: ['Who has eight legs?', '🐙', ['🐠', '🐢']] },
+      { id: 'castle', shelf: 'adv', cover: '🏰', pages: [
+        ['🏰', 'This is a pink castle.'], ['🏰👸', 'A princess lives in it.'], ['👸🔍👑', 'She lost her crown!'],
+        ['🦄🔍', 'Kiki helps her look.'], ['🦄👑🌷', 'It is in the tulips!'], ['👸👑🦄💖', 'Thank you, Kiki!']],
+        quiz: ['Where was the crown?', '🌷', ['🛁', '🚗']] },
+
+      { id: 'pup', shelf: 'pets', cover: '🐶', pages: [
+        ['🐶', 'This is my pup.'], ['🐶🎾', 'He can get the ball.'], ['🐶💦', 'He jumps in the mud!'],
+        ['🐶🛁🫧', 'Bath time, pup!'], ['🐶😊', 'Now he is clean.'], ['🐶💤', 'Good dog. Nap time.']],
+        quiz: ['What did the pup get?', '🎾', ['🍕', '🎈']] },
+      { id: 'kitten', shelf: 'pets', cover: '🐱', pages: [
+        ['🐱', 'Kit is a kitten.'], ['🐱🧶', 'Kit plays with yarn.'], ['🐱🥛', 'Kit sips milk.'],
+        ['🐱📦', 'Kit hides in a box.'], ['🐱👀', 'Peek-a-boo!'], ['🐱💤', 'Kit naps in the sun.']],
+        quiz: ['Where did Kit hide?', '📦', ['🌳', '🚗']] },
+      { id: 'duck', shelf: 'pets', cover: '🦆', pages: [
+        ['🦆', 'Duck is at the pond.'], ['🦆🐥🐥', 'Here come the ducklings.'], ['🦆🐥🐥💦', 'Splash, splash!'],
+        ['🦆🐸', 'A frog says ribbit.'], ['🦆🍞', 'We give them bread.'], ['🦆🐥🐥👋', 'Bye, ducks!']],
+        quiz: ['Who said ribbit?', '🐸', ['🦆', '🐶']] },
+      { id: 'farm', shelf: 'pets', cover: '🐮', pages: [
+        ['🐮', 'The cow says moo.'], ['🐷', 'The pig says oink.'], ['🐔', 'The hen says cluck.'],
+        ['🐑', 'The sheep says baa.'], ['🐴', 'The horse says neigh.'], ['🦄', 'And Kiki says... I love you!']],
+        quiz: ['Who says moo?', '🐮', ['🐷', '🐔']] }
+    ];
+
+    // One span per picture, so each can float on its own (keeps 👨‍👩‍👧 style emoji whole)
+    function splitEmoji(str) {
+      if (window.Intl && Intl.Segmenter) return Array.from(new Intl.Segmenter().segment(str), g => g.segment);
+      return Array.from(str);
+    }
+
+    let storyShelf = 'bed';
+    let storyState = null;
+
+    function storiesRead() {
+      try { return JSON.parse(localStorage.getItem('kiki_stories_done') || '{}'); } catch (e) { return {}; }
+    }
+
+    function startStoryLibrary() {
+      storyState = null;
+      const done = storiesRead();
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `<div class="shelf-tabs">${STORY_SHELVES.map(s =>
+        `<button class="shelf-tab ${s.id === storyShelf ? 'active' : ''}" data-s="${s.id}">${s.icon}</button>`).join('')}</div>`;
+      showcase.querySelectorAll('.shelf-tab').forEach(b => { b.onclick = () => { storyShelf = b.dataset.s; playMagicSound('pop'); startStoryLibrary(); }; });
+      const shelf = STORY_SHELVES.find(s => s.id === storyShelf);
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `<div class="book-grid">${STORIES.filter(st => st.shelf === storyShelf).map(st =>
+        `<button class="book-cover" data-id="${st.id}" style="background:${shelf.bg}">
+          <span class="book-emoji">${st.cover}</span>${done[st.id] ? '<span class="book-star">⭐</span>' : ''}
+        </button>`).join('')}</div>`;
+      area.querySelectorAll('.book-cover').forEach(b => { b.onclick = () => { playMagicSound('sparkle'); openStory(b.dataset.id); }; });
+      currentSoundOutCallback = null;
+      lastSpokenPrompt = 'Pick a book!';
+      document.getElementById('speech-text').textContent = '📚 Pick a book!';
+      unicornSpeak('Pick a book!', { updateBubble: false });
+    }
+
+    function openStory(id, onDone) {
+      const story = STORIES.find(s => s.id === id);
+      storyState = { story, page: 0, onDone };
+      renderStoryPage();
+    }
+
+    function renderStoryPage() {
+      const { story, page } = storyState;
+      const shelf = STORY_SHELVES.find(s => s.id === story.shelf);
+      const [scene, text] = story.pages[page];
+      const words = text.split(' ');
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        <div class="story-page" style="background:${shelf.bg}; color:${shelf.ink}">
+          <div class="story-dots">${story.pages.map((_, i) => `<span class="${i <= page ? 'on' : ''}"></span>`).join('')}</div>
+          <div class="story-scene">${splitEmoji(scene).map((g, i) => `<span style="animation-delay:${i * -0.7}s">${g}</span>`).join('')}</div>
+          <div class="story-line" id="story-line">${words.map((w, i) => `<span class="story-word" data-i="${i}">${w}</span>`).join(' ')}</div>
+        </div>`;
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `<div class="read-btn-row">
+          <button class="read-big-btn" id="sp-back">${page ? '⬅️' : '📚'}</button>
+          <button class="read-big-btn" id="sp-read">🔊</button>
+          <button class="read-big-btn go" id="sp-next">➡️</button>
+        </div>`;
+      const readPage = () => {
+        const els = document.querySelectorAll('#story-line .story-word');
+        unicornSpeak(text, { updateBubble: false, customRate: 0.75 });
+        els.forEach((el, i) => setTimeout(() => {
+          els.forEach(e => e.classList.remove('lit'));
+          el.classList.add('lit');
+        }, i * 480));
+        setTimeout(() => els.forEach(e => e.classList.remove('lit')), els.length * 480 + 500);
+      };
+      currentSoundOutCallback = readPage;
+      document.querySelectorAll('#story-line .story-word').forEach(el => {
+        el.onclick = () => {
+          el.classList.add('lit');
+          playMagicSound('pop');
+          unicornSpeak(el.textContent.replace(/[.,!?]/g, '').toLowerCase(), { updateBubble: false, customRate: 0.85 });
+          setTimeout(() => el.classList.remove('lit'), 700);
+        };
+      });
+      document.getElementById('sp-read').onclick = () => { playMagicSound('pop'); readPage(); };
+      document.getElementById('sp-back').onclick = () => {
+        playMagicSound('pop');
+        if (storyState.page > 0) { storyState.page--; renderStoryPage(); }
+        else if (storyState.onDone) storyState.onDone(false);
+        else startStoryLibrary();
+      };
+      document.getElementById('sp-next').onclick = () => {
+        playMagicSound('legoSnap');
+        if (storyState.page < story.pages.length - 1) { storyState.page++; renderStoryPage(); }
+        else storyQuiz();
+      };
+      lastSpokenPrompt = text;
+      document.getElementById('speech-text').textContent = '📖';
+      roundEpoch++;
+      const pageEp = roundEpoch;
+      setTimeout(() => { if (pageEp === roundEpoch) readPage(); }, 350);
+    }
+
+    function storyQuiz() {
+      const { story } = storyState;
+      const [q, answer, wrong] = story.quiz;
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `<div class="story-quiz-q">🤔 ${q}</div>`;
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `<div class="choices-grid three" id="choices-grid"></div>`;
+      const grid = document.getElementById('choices-grid');
+      roundLocked = false;
+      [answer, ...wrong].sort(() => Math.random() - 0.5).forEach(e => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = `<span style="font-size:3rem;">${e}</span>`;
+        btn.onclick = () => {
+          if (roundLocked) return;
+          if (e === answer) {
+            const done = storiesRead();
+            done[story.id] = true;
+            try { localStorage.setItem('kiki_stories_done', JSON.stringify(done)); } catch (er) {}
+            celebrateWin(btn, story.id, () => {
+              if (storyState && storyState.onDone) storyState.onDone(true);
+              else startStoryLibrary();
+            });
+          } else {
+            btn.classList.add('wrong');
+            playMagicSound('oops');
+          }
+        };
+        grid.appendChild(btn);
+      });
+      currentSoundOutCallback = () => unicornSpeak(q, { updateBubble: false });
+      lastSpokenPrompt = q;
+      unicornSpeak(q, { updateBubble: false });
+    }
+
+    /*************************************************************************
+     * 🗺️ KIKI'S READING PATH (Duolingo style)
+     * A winding path of stops. Lessons are 5 quick questions from one word
+     * family; every third stop is a story or a treasure chest. A daily
+     * 🔥 streak and ⭐ XP keep her coming back.
+     *************************************************************************/
+    const PATH_NODES = (() => {
+      const nodes = [];
+      const storyOrder = ['kikibed', 'pup', 'rainbow', 'ghost', 'kitten', 'moon', 'rocket', 'pumpkin', 'duck', 'teddy', 'sea', 'costume', 'farm', 'castle', 'bat', 'sheep'];
+      let si = 0;
+      WORD_FAMILIES.forEach((f, fi) => {
+        nodes.push({ type: 'lesson', fi, icon: f.emoji });
+        nodes.push({ type: 'lesson', fi, icon: '⭐' });
+        nodes.push(fi % 3 === 2 ? { type: 'chest', icon: '🎁' } : { type: 'story', id: storyOrder[si++ % storyOrder.length], icon: '📖' });
+      });
+      return nodes;
+    })();
+
+    function pathDone() { return parseInt(localStorage.getItem('kiki_path_done') || '0', 10); }
+
+    function pathStreak() {
+      try { return JSON.parse(localStorage.getItem('kiki_streak') || '{"days":0,"last":""}'); } catch (e) { return { days: 0, last: '' }; }
+    }
+    function bumpStreak() {
+      const st = pathStreak();
+      const today = new Date().toDateString();
+      if (st.last === today) return st;
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      st.days = st.last === yesterday ? st.days + 1 : 1;
+      st.last = today;
+      try { localStorage.setItem('kiki_streak', JSON.stringify(st)); } catch (e) {}
+      return st;
+    }
+    function pathXP() { return parseInt(localStorage.getItem('kiki_xp') || '0', 10); }
+
+    function startReadingPath() {
+      lesson = null;
+      const done = pathDone();
+      const streak = pathStreak();
+      const lit = streak.last === new Date().toDateString();
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        <div class="path-hud">
+          <span class="path-pill ${lit ? 'fire' : ''}">🔥 ${streak.days}</span>
+          <span class="path-pill">⭐ ${pathXP()}</span>
+        </div>
+        <div class="path-scroll" id="path-scroll">
+          ${PATH_NODES.map((n, i) => {
+            const state = i < done ? 'done' : i === done ? 'now' : 'locked';
+            const x = Math.round(Math.sin(i * 0.9) * 80);
+            return `<div class="path-stop" style="--x:${x}">
+              ${state === 'now' ? '<span class="path-kiki">🦄</span>' : ''}
+              <button class="path-node ${state} ${n.type}" data-i="${i}">${state === 'done' ? '✓' : state === 'locked' ? n.icon : n.icon}</button>
+            </div>`;
+          }).join('')}
+          <div class="path-stop" style="--x:0"><span class="path-trophy">🏆</span></div>
+        </div>`;
+      document.getElementById('interactive-area').innerHTML = '';
+      showcase.querySelectorAll('.path-node').forEach(b => {
+        b.onclick = () => {
+          const i = parseInt(b.dataset.i, 10);
+          if (i > done) { playMagicSound('oops'); b.classList.add('nope'); setTimeout(() => b.classList.remove('nope'), 420); return; }
+          playMagicSound('sparkle');
+          startPathNode(i);
+        };
+      });
+      const now = showcase.querySelector('.path-node.now');
+      if (now) setTimeout(() => now.scrollIntoView({ block: 'center', behavior: 'smooth' }), 60);
+      currentSoundOutCallback = null;
+      lastSpokenPrompt = "Let's go!";
+      document.getElementById('speech-text').textContent = '🗺️ Tap the bouncing stop!';
+      unicornSpeak("Let's go!", { updateBubble: false });
+    }
+
+    function startPathNode(i) {
+      const node = PATH_NODES[i];
+      if (node.type === 'story') {
+        openStory(node.id, (finished) => finished ? finishPathNode(i, 15) : startReadingPath());
+      } else if (node.type === 'chest') {
+        const showcase = document.getElementById('showcase-card');
+        showcase.innerHTML = `<button class="chest" id="chest">🎁</button>`;
+        document.getElementById('interactive-area').innerHTML = '';
+        unicornSpeak('Tap the present!', { updateBubble: false });
+        document.getElementById('chest').onclick = (ev) => {
+          ev.currentTarget.onclick = null;
+          ev.currentTarget.textContent = '💎';
+          ev.currentTarget.classList.add('open');
+          playMagicSound('success');
+          burstSparkles(window.innerWidth / 2, window.innerHeight / 2, 100);
+          addStar(); addStar(); addStar();
+          setTimeout(() => finishPathNode(i, 20), 1300);
+        };
+      } else {
+        lesson = { node: i, fi: node.fi, q: 0, total: 5, plan: ['listen', 'build', 'read', 'build', 'read'] };
+        lessonNext();
+      }
+    }
+
+    function lessonNext() {
+      if (!lesson) return startReadingPath();
+      if (lesson.q >= lesson.total) return finishPathNode(lesson.node, 10);
+      const kind = lesson.plan[lesson.q++];
+      if (kind === 'listen') startListenWord();
+      else if (kind === 'build') startBuildWord();
+      else startReadWord();
+      // Progress bar + quit button on top of the question
+      const showcase = document.getElementById('showcase-card');
+      const bar = document.createElement('div');
+      bar.className = 'lesson-bar';
+      bar.innerHTML = `<button class="lesson-quit">✖</button><div class="lesson-track"><div class="lesson-fill" style="width:${(lesson.q - 1) / lesson.total * 100}%"></div></div>`;
+      showcase.prepend(bar);
+      const pct = lesson.q / lesson.total * 100;
+      requestAnimationFrame(() => { const f = bar.querySelector('.lesson-fill'); if (f) f.style.width = `${pct}%`; });
+      bar.querySelector('.lesson-quit').onclick = () => { playMagicSound('pop'); startReadingPath(); };
+      const ladder = showcase.querySelector('.read-ladder');
+      if (ladder) ladder.remove();
+    }
+
+    function finishPathNode(i, xp) {
+      const done = pathDone();
+      if (i >= done) try { localStorage.setItem('kiki_path_done', String(i + 1)); } catch (e) {}
+      try { localStorage.setItem('kiki_xp', String(pathXP() + xp)); } catch (e) {}
+      const streak = bumpStreak();
+      lesson = null;
+      currentSoundOutCallback = null;
+      if (currentWorld !== 'blend') return;
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        <div class="lesson-done">
+          <div class="lesson-done-big">🏆</div>
+          <div class="lesson-done-row"><span class="path-pill">⭐ +${xp}</span><span class="path-pill fire">🔥 ${streak.days}</span></div>
+        </div>`;
+      document.getElementById('interactive-area').innerHTML = `<div class="read-btn-row"><button class="read-big-btn go" id="path-continue">➡️</button></div>`;
+      document.getElementById('path-continue').onclick = () => { playMagicSound('pop'); startReadingPath(); };
+      playMagicSound('success');
+      burstSparkles(window.innerWidth / 2, window.innerHeight / 3, 120);
+      showPraisePop({ word: 'Great job!', emoji: '🏆' });
+      unicornSpeak('Great job!', { updateBubble: false });
+      addStar();
     }
 
     /*************************************************************************
@@ -3487,6 +3977,8 @@
     function stopSong() {
       songTimers.forEach(clearTimeout);
       songTimers = [];
+      const ub = document.getElementById('unicorn-box');
+      if (ub) ub.classList.remove('dancing');
     }
 
     function startSongWorld() {
@@ -3580,6 +4072,8 @@
     let traceState = null;
 
     function startTraceWorld(kind) {
+      roundEpoch++;
+      const ep = roundEpoch;
       roundLocked = false;
       const pool = kind === 'num' ? '0123456789'.split('')
         : (Math.random() < 0.5 ? ALPHABET.map(a => a.letter) : ALPHABET.map(a => a.letter.toLowerCase()));
@@ -3594,7 +4088,7 @@
           <button class="read-big-btn go" id="trace-next">➡️</button>
         </div>`;
       const cv = document.getElementById('trace-canvas');
-      const size = Math.min(showcase.clientWidth - 24, 340);
+      const size = Math.max(180, Math.min(showcase.clientWidth - 24, 340, Math.round(window.innerHeight * 0.36)));
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       cv.style.width = cv.style.height = size + 'px';
       cv.width = cv.height = size * dpr;
@@ -3651,12 +4145,13 @@
         const rad = size * 0.06;
         st.targets.forEach(([tx, ty], i) => { if (!st.hit.has(i) && Math.hypot(tx - x, ty - y) < rad) st.hit.add(i); });
       };
-      cv.onpointerdown = ev => { if (traceState.done) return; traceState.drawing = true; traceState.last = null; cv.setPointerCapture(ev.pointerId); paint(pos(ev)); };
+      cv.onpointerdown = ev => { if (traceState.done || roundLocked) return; traceState.drawing = true; traceState.last = null; cv.setPointerCapture(ev.pointerId); paint(pos(ev)); };
       cv.onpointermove = ev => { if (traceState.drawing) paint(pos(ev)); };
       cv.onpointerup = cv.onpointercancel = () => {
         const st = traceState;
         if (!st.drawing) return;
         st.drawing = false;
+        if (roundLocked) return;
         const pct = st.hit.size / Math.max(1, st.targets.length);
         if (pct > 0.72 && !st.done) {
           st.done = true;
@@ -3670,13 +4165,13 @@
         }
       };
       document.getElementById('trace-say').onclick = () => { playMagicSound('pop'); say(); };
-      document.getElementById('trace-clear').onclick = () => { playMagicSound('pop'); traceState.hit.clear(); traceState.done = false; drawGuide(); };
-      document.getElementById('trace-next').onclick = () => { playMagicSound('pop'); startTraceWorld(kind); };
+      document.getElementById('trace-clear').onclick = () => { if (roundLocked) return; playMagicSound('pop'); traceState.hit.clear(); traceState.done = false; drawGuide(); };
+      document.getElementById('trace-next').onclick = () => { if (roundLocked) return; playMagicSound('pop'); startTraceWorld(kind); };
 
       lastSpokenPrompt = 'Trace it!';
       document.getElementById('speech-text').textContent = `✍️ ${ch}`;
       unicornSpeak('Trace it!', { updateBubble: false });
-      setTimeout(say, 900);
+      setTimeout(() => { if (ep === roundEpoch) say(); }, 900);
     }
 
     /*************************************************************************
@@ -4542,6 +5037,7 @@
         }
 
         setTimeout(() => {
+          if (currentWorld !== 'candy') { crushBusy = false; return; }
           const dropFrom = {};
           for (let c = 0; c < COLS; c++) {
             let emptyRow = ROWS - 1;
@@ -4560,6 +5056,7 @@
           renderCandyBoard(dropFrom);
           // Cascade: new candy can line up by itself. That's a combo!
           setTimeout(() => {
+            if (currentWorld !== 'candy') { crushBusy = false; return; }
             const more = findAllMatches3OrMore();
             if (more.length >= 3) crushCoordinates(more, combo + 1);
             else crushBusy = false;
@@ -4638,6 +5135,7 @@
      * FREE PLAY SOUNDBOARD (Inside ABCs -> Soundboard)
      *************************************************************************/
     function startExploreWorld() {
+      currentSoundOutCallback = () => unicornSpeak('Tap a letter!', { updateBubble: false });
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
         <div class="big-prompt-display" id="explore-banner" style="font-size:1.6rem;">
@@ -5539,7 +6037,11 @@
         }
       }
       syncCanvasSize();
-      window.addEventListener('resize', syncCanvasSize);
+      window.legoSyncCanvasSize = syncCanvasSize;
+      if (!window.legoResizeBound) {
+        window.legoResizeBound = true;
+        window.addEventListener('resize', () => window.legoSyncCanvasSize && window.legoSyncCanvasSize());
+      }
 
       const floorY = Math.floor((fCanvas.height - 128) / LEGO_BRICK_H) * LEGO_BRICK_H;
 
@@ -7425,8 +7927,16 @@
           playMagicSound('bubble');
           if (++spins > 10) clearInterval(hum);
         }, 300);
+        const atWasher = () => glamStation === 'laundry' && document.getElementById('glam-overlay').classList.contains('open');
         setTimeout(() => {
           if (!laundry || laundry !== L) return;
+          if (!atWasher()) {
+            // She wandered off: finish the wash quietly
+            L.line.push(...L.drum.splice(0));
+            L.soap = false;
+            L.phase = 'done';
+            return;
+          }
           L.phase = 'hang';
           L.soap = false;
           const items = L.drum.splice(0);
@@ -7434,6 +7944,7 @@
           // Clean clothes hop onto the line one by one
           items.forEach((it, i) => setTimeout(() => {
             if (laundry !== L) return;
+            if (!atWasher()) { L.line.push(it); if (i === items.length - 1) L.phase = 'done'; return; }
             L.line.push(it);
             playCountNote(i + 3);
             if (glamStation === 'laundry') { renderGlamStage(); }
@@ -7737,7 +8248,7 @@
       kikiReplyTimer = setTimeout(() => {
         pushChat({ from: 'kiki', text });
         playMagicSound('sparkle');
-        unicornSpeak(text, { updateBubble: false });
+        if (!kikiCall) unicornSpeak(text, { updateBubble: false });
         if (sticker) setTimeout(() => { pushChat({ from: 'kiki', sticker }); playMagicSound('pop'); }, 650);
         if (after) after();
       }, delay + Math.min(1400, text.length * 25));
@@ -7810,7 +8321,7 @@
     function maybeAskQuestion() {
       if (kikiChat.pendingQ != null || Math.random() > 0.3) return;
       setTimeout(() => {
-        if (!document.getElementById('chat-overlay').classList.contains('open')) return;
+        if (!document.getElementById('chat-overlay').classList.contains('open') || kikiCall) return;
         const qi = Math.floor(Math.random() * KIKI_QUESTIONS.length);
         kikiSays(KIKI_QUESTIONS[qi].q, null, 400, () => { kikiChat.pendingQ = qi; saveKikiChat(); renderChatMessages(); });
       }, 3600);
@@ -7898,7 +8409,8 @@
       const ov = document.getElementById('call-overlay');
       ov.classList.add('open', 'ringing');
       document.getElementById('call-status').textContent = 'Calling…';
-      kikiCall = { started: 0, line: 0, timers: [], ring: null, tick: null };
+      clearTimeout(kikiReplyTimer);
+      kikiCall = { started: 0, line: 0, timers: [], ring: null, tick: null, speakId: 0 };
       playRing();
       kikiCall.ring = setInterval(playRing, 1500);
       kikiCall.timers.push(setTimeout(() => {
@@ -7935,8 +8447,17 @@
     function callSpeak(text, onDone) {
       const av = document.getElementById('call-avatar');
       av.classList.add('talking');
-      const done = () => { av.classList.remove('talking'); if (onDone) onDone(); };
-      if (soundMuted || !('speechSynthesis' in window)) { setTimeout(done, 1800 + text.length * 40); return; }
+      // Cancelling speech fires end/error on the old line; only the newest line may continue
+      const call = kikiCall;
+      const id = call ? ++call.speakId : 0;
+      let finished = false;
+      const done = () => {
+        if (finished || !kikiCall || kikiCall !== call || call.speakId !== id) return;
+        finished = true;
+        av.classList.remove('talking');
+        if (onDone) onDone();
+      };
+      if (soundMuted || !('speechSynthesis' in window)) { const t = setTimeout(done, 1800 + text.length * 40); if (call) call.timers.push(t); return; }
       window.speechSynthesis.cancel();
       // Speak "..." beats as small pauses
       const parts = text.split('...').map(p => p.trim()).filter(Boolean);
@@ -8170,6 +8691,7 @@
       try { return JSON.parse(localStorage.getItem('kiki_coloring') || '{}'); } catch (e) { return {}; }
     }
     function cbSave() {
+      if (cb.doodles.length > 200) cb.doodles = cb.doodles.slice(-200);
       const all = cbSaved();
       all[cb.pageId] = { fills: cb.fills, doodles: cb.doodles };
       try { localStorage.setItem('kiki_coloring', JSON.stringify(all)); } catch (e) {}
