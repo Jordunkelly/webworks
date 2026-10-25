@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v6.0 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
+  <title>v6.1 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -173,7 +173,7 @@
       width: 100%;
       max-width: 980px;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 5px;
       margin-bottom: 6px;
     }
@@ -216,6 +216,8 @@
     .w-balloon { background: linear-gradient(135deg, #f48fb1, #ad1457); }
     .w-candy   { background: linear-gradient(135deg, #ea80fc, #6a1b9a); }
     .w-closet  { background: linear-gradient(135deg, #ffd54f, #ec407a); color: #4a148c; }
+    .w-chat    { background: linear-gradient(135deg, #69f0ae, #8e24aa); }
+    .w-color   { background: linear-gradient(135deg, #40c4ff, #ec407a); }
 
     /* Royal Pink & Purple Episode Banner ("This episode is called...") */
     .episode-banner {
@@ -768,6 +770,10 @@
       animation: candyCrushAnim 0.35s ease forwards;
     }
 
+    .candy-cell.drop { animation: candyDrop 0.38s cubic-bezier(.3, 1.5, .5, 1) both; }
+    @keyframes candyDrop { from { transform: translateY(-120%) scale(0.8); opacity: 0.2; } }
+    .candy-board.shake { animation: boardShake 0.45s ease; }
+    @keyframes boardShake { 20% { transform: translate(-5px, 2px) rotate(-1deg); } 40% { transform: translate(5px, -2px) rotate(1deg); } 60% { transform: translate(-3px, 1px); } 80% { transform: translate(3px, 0); } }
     @keyframes candyCrushAnim {
       0% { transform: scale(1.25) rotate(12deg); opacity: 1; background: #fff59d; }
       100% { transform: scale(0.1) rotate(-25deg); opacity: 0; }
@@ -862,6 +868,7 @@
     }
     .letter-tile { transition: transform 0.2s, background 0.2s; }
     .letter-tile.empty { background: #f3e5f5; border-style: dashed; color: #ce93d8; }
+    .letter-tile.pop-word { animation: correctPop 0.5s ease; background: linear-gradient(180deg, #b9f6ca, #69f0ae); border-color: #00c853; }
 
     .read-reveal {
       font-size: 4.4rem; line-height: 1; min-height: 76px;
@@ -994,8 +1001,9 @@
       border: 3px solid #ce93d8; background: #fce4ec; font-size: 1.35rem; cursor: pointer;
     }
     .glam-tab.active { border-color: var(--bluey-dark); background: #fff59d; box-shadow: 0 3px 0 var(--bluey-dark); }
+    .glam-options.dragging, .glam-tabs.dragging { cursor: grabbing; scroll-snap-type: none; }
     .glam-options {
-      display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+      display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; cursor: grab;
       padding: 4px 2px 6px; scroll-snap-type: x proximity; min-height: 84px; align-items: center;
     }
     .glam-tile {
@@ -1085,6 +1093,188 @@
     .kb-acc-wand { bottom: 6%; right: 0; }
     .kb-acc-wings { top: 28%; left: -4%; }
     .kb-acc-pet { bottom: 2%; left: 2%; }
+
+    /* =========================================================================
+       v6.1: 💬 TEXT KIKI (messenger layout) + 📞 CALL SCREEN
+       ========================================================================= */
+    .chat-overlay {
+      position: fixed; inset: 0; width: 100vw; height: 100dvh; z-index: 950;
+      display: none; flex-direction: column; background: #ffffff; font-family: 'Fredoka', system-ui, sans-serif;
+    }
+    .chat-overlay.open { display: flex; }
+    .chat-head {
+      display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+      padding: max(10px, env(safe-area-inset-top)) 10px 10px;
+      background: #ffffff; border-bottom: 1px solid #f0e4f5;
+    }
+    .chat-back { background: none; border: none; font-size: 2rem; color: #6a1b9a; width: 40px; height: 44px; cursor: pointer; }
+    .chat-avatar {
+      width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, #f8bbd0, #ce93d8); display: flex; align-items: center; justify-content: center; font-size: 1.7rem;
+    }
+    .chat-name { flex: 1; min-width: 0; }
+    .chat-name b { display: block; font-size: 1.15rem; color: #2b1a3a; }
+    .chat-name small { color: #8e24aa; font-size: 0.8rem; }
+    .chat-icon {
+      width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer;
+      background: #f3e5f5; font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
+    }
+    .chat-icon.call { background: linear-gradient(135deg, #69f0ae, #00c853); animation: pulseMystery 2.4s ease-in-out infinite; }
+    .chat-list {
+      flex: 1; min-height: 0; overflow-y: auto; padding: 12px 10px 16px;
+      display: flex; flex-direction: column; gap: 3px; background: #fdf7fb;
+      -webkit-overflow-scrolling: touch;
+    }
+    .chat-day, .chat-sys {
+      align-self: center; font-size: 0.78rem; color: #7b6a88; background: #f3e5f5;
+      padding: 3px 12px; border-radius: 99px; margin: 10px 0 6px;
+    }
+    .chat-sys { font-size: 0.95rem; color: #4a148c; }
+    .chat-row { display: flex; }
+    .chat-row.me { justify-content: flex-end; }
+    .chat-bubble {
+      max-width: 78%; padding: 8px 12px 6px; border-radius: 18px; font-size: 1.15rem; line-height: 1.3;
+      position: relative; cursor: pointer; animation: bubbleIn 0.25s ease-out;
+    }
+    .chat-row.kiki .chat-bubble { background: #ece4f1; color: #2b1a3a; }
+    .chat-row.me .chat-bubble { background: linear-gradient(135deg, #ec407a, #8e24aa); color: #ffffff; }
+    .chat-row.kiki .chat-bubble.tail { border-bottom-left-radius: 6px; }
+    .chat-row.me .chat-bubble.tail { border-bottom-right-radius: 6px; }
+    .chat-meta { display: block; text-align: right; font-size: 0.68rem; opacity: 0.7; margin-top: 2px; }
+    .chat-check { letter-spacing: -3px; }
+    .chat-sticker {
+      font-size: 5.2rem; line-height: 1.1; padding: 2px 6px; cursor: pointer;
+      filter: drop-shadow(0 0 0 #fff) drop-shadow(2px 2px 0 #fff) drop-shadow(-2px -2px 0 #fff) drop-shadow(0 6px 8px rgba(74, 20, 140, 0.25));
+      animation: stickerIn 0.4s cubic-bezier(.2, 1.7, .4, 1);
+    }
+    .chat-sticker.boing { animation: correctPop 0.45s ease; }
+    @keyframes bubbleIn { from { transform: translateY(8px) scale(0.96); opacity: 0; } }
+    @keyframes stickerIn { from { transform: scale(0.2) rotate(-20deg); } }
+    .chat-bubble.typing { display: flex; gap: 5px; padding: 14px 16px; }
+    .chat-bubble.typing span { width: 9px; height: 9px; border-radius: 50%; background: #8e7a9c; animation: typingDot 1s infinite; }
+    .chat-bubble.typing span:nth-child(2) { animation-delay: 0.15s; }
+    .chat-bubble.typing span:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes typingDot { 0%, 60%, 100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-6px); opacity: 1; } }
+    .chat-chips { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 8px 0; }
+    .chat-chip {
+      width: 64px; height: 64px; border-radius: 50%; border: 3px solid #ce93d8; background: #ffffff;
+      font-size: 2.2rem; cursor: pointer; box-shadow: 0 4px 0 #ce93d8; animation: stickerIn 0.4s ease;
+    }
+    .chat-compose {
+      flex-shrink: 0; display: flex; align-items: center; gap: 8px;
+      padding: 8px 10px calc(10px + env(safe-area-inset-bottom)); background: #ffffff; border-top: 1px solid #f0e4f5;
+    }
+    .chat-sticker-btn {
+      width: 58px; height: 58px; border-radius: 50%; border: none; flex-shrink: 0; cursor: pointer;
+      background: linear-gradient(135deg, #fff59d, #ffd54f); font-size: 2rem; box-shadow: 0 4px 0 #f9a825;
+    }
+    .chat-input {
+      flex: 1; min-width: 0; height: 48px; border-radius: 24px; border: none; background: #f3e5f5;
+      padding: 0 16px; font-size: 1.1rem; font-family: inherit; color: #2b1a3a; outline: none;
+      user-select: text; -webkit-user-select: text;
+    }
+    .chat-send {
+      width: 50px; height: 50px; border-radius: 50%; border: none; flex-shrink: 0; cursor: pointer;
+      background: #e1bee7; color: #fff; font-size: 1.4rem; transition: background 0.2s, transform 0.2s;
+    }
+    .chat-send.ready { background: linear-gradient(135deg, #ec407a, #8e24aa); transform: scale(1.05); }
+    .chat-tray {
+      flex-shrink: 0; display: none; grid-template-columns: repeat(5, 1fr); gap: 6px;
+      max-height: 42vh; overflow-y: auto; padding: 10px; background: #fff5fa; border-top: 1px solid #f0e4f5;
+    }
+    .chat-overlay.tray-open .chat-tray { display: grid; }
+    .sticker-pick {
+      aspect-ratio: 1; border: none; border-radius: 18px; background: #ffffff; font-size: 2.6rem; cursor: pointer;
+      box-shadow: 0 3px 0 #f8bbd0;
+    }
+    .sticker-pick:active { transform: scale(0.9); }
+
+    .call-overlay {
+      position: fixed; inset: 0; z-index: 990; display: none; flex-direction: column; align-items: center;
+      justify-content: space-between; padding: max(40px, env(safe-area-inset-top)) 20px calc(30px + env(safe-area-inset-bottom));
+      background: radial-gradient(circle at 50% 30%, #8e24aa, #4a148c 55%, #1a0533); color: #fff; font-family: 'Fredoka', system-ui, sans-serif;
+    }
+    .call-overlay.open { display: flex; }
+    .call-top { text-align: center; }
+    .call-avatar {
+      width: 170px; height: 170px; border-radius: 50%; margin: 0 auto 16px;
+      background: linear-gradient(135deg, #f8bbd0, #ce93d8); display: flex; align-items: center; justify-content: center;
+      font-size: 6.5rem; box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.08), 0 0 0 22px rgba(255, 255, 255, 0.05);
+    }
+    .call-overlay.ringing .call-avatar { animation: ringPulse 1.2s ease-in-out infinite; }
+    .call-avatar.talking { animation: callTalk 0.35s ease-in-out infinite alternate; }
+    @keyframes ringPulse { 50% { box-shadow: 0 0 0 18px rgba(255, 255, 255, 0.15), 0 0 0 40px rgba(255, 255, 255, 0.06); } }
+    @keyframes callTalk { to { transform: scale(1.06) rotate(2deg); } }
+    .call-name { font-size: 2rem; font-weight: 700; }
+    .call-status { font-size: 1.1rem; opacity: 0.8; margin-top: 4px; }
+    .call-caption { min-height: 3em; max-width: 340px; text-align: center; font-size: 1.15rem; opacity: 0.95; margin-top: 14px; }
+    .call-funs { display: flex; gap: 14px; }
+    .call-fun {
+      width: 66px; height: 66px; border-radius: 50%; border: none; cursor: pointer;
+      background: rgba(255, 255, 255, 0.16); font-size: 2.2rem;
+    }
+    .call-fun:active { transform: scale(0.9); }
+    .call-hang {
+      width: 84px; height: 84px; border-radius: 50%; border: none; cursor: pointer; margin-top: 22px;
+      background: #ff1744; font-size: 2.4rem; box-shadow: 0 6px 18px rgba(255, 23, 68, 0.5);
+    }
+    .call-hang span { display: inline-block; transform: rotate(135deg); }
+
+    /* =========================================================================
+       v6.1: 🖍️ COLORING BOOK
+       ========================================================================= */
+    .cb-overlay {
+      position: fixed; inset: 0; width: 100vw; height: 100dvh; z-index: 950;
+      display: none; flex-direction: column; background: #f3e5f5; overflow: hidden;
+    }
+    .cb-overlay.open { display: flex; }
+    .cb-top {
+      display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+      padding: max(8px, env(safe-area-inset-top)) 8px 8px;
+      background: linear-gradient(90deg, #ec407a, #8e24aa); border-bottom: 4px solid var(--bluey-dark);
+    }
+    .cb-books { display: flex; gap: 6px; flex: 1; justify-content: center; }
+    .cb-book, .cb-home {
+      flex: 1 1 0; max-width: 64px; height: 54px; border-radius: 18px; border: 3px solid var(--bluey-dark);
+      background: #ffffff; font-size: 1.9rem; cursor: pointer; box-shadow: 0 4px 0 var(--bluey-dark); padding: 0;
+    }
+    .cb-home { flex: 0 0 54px; }
+    .cb-book.active { background: #fff59d; transform: translateY(-2px) scale(1.06); }
+    .cb-pages { display: flex; gap: 8px; justify-content: center; padding: 8px; flex-shrink: 0; }
+    .cb-thumb {
+      width: 64px; height: 64px; padding: 0; border-radius: 14px; overflow: hidden; cursor: pointer;
+      border: 3px solid #ce93d8; background: #fff; box-shadow: 0 3px 0 #ce93d8;
+    }
+    .cb-thumb.active { border-color: var(--pink-hot); box-shadow: 0 3px 0 var(--bluey-dark); transform: scale(1.08); }
+    .cb-mini { width: 100%; height: 100%; display: block; pointer-events: none; }
+    .cb-stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 0 8px; container-type: size; }
+    .cb-page {
+      width: min(100cqw, 100cqh); height: min(100cqw, 100cqh);
+      background: #ffffff; border-radius: 22px; border: 4px solid var(--bluey-dark); box-shadow: 0 6px 0 var(--bluey-dark);
+      touch-action: none;
+    }
+    .cb-r { fill: #ffffff; stroke: #2b1a3a; stroke-width: 4; stroke-linejoin: round; cursor: pointer; transition: fill 0.15s; }
+    .cb-ink { fill: #2b1a3a; pointer-events: none; }
+    .cb-ln { fill: none; stroke: #2b1a3a; stroke-width: 4; stroke-linecap: round; pointer-events: none; }
+    .cb-doodles { pointer-events: none; }
+    .cb-pop { animation: cbPop 0.3s ease; transform-box: fill-box; transform-origin: center; }
+    @keyframes cbPop { 50% { transform: scale(1.04); } }
+    .cb-dock {
+      flex-shrink: 0; background: #ffffff; border-top: 4px solid var(--bluey-dark); border-radius: 24px 24px 0 0;
+      padding: 8px 8px calc(10px + env(safe-area-inset-bottom)); margin-top: 8px;
+    }
+    .cb-tools { display: flex; gap: 6px; justify-content: center; margin-bottom: 8px; }
+    .cb-tool {
+      flex: 1 1 0; max-width: 64px; height: 52px; border-radius: 16px; border: 3px solid #ce93d8; background: #fce4ec;
+      font-size: 1.7rem; cursor: pointer; box-shadow: 0 3px 0 #ce93d8; padding: 0;
+    }
+    .cb-tool.active { border-color: var(--bluey-dark); background: #fff59d; box-shadow: 0 3px 0 var(--bluey-dark); }
+    .cb-palette { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+    .cb-swatch {
+      aspect-ratio: 1; border-radius: 50%; border: 3px solid var(--bluey-dark); cursor: pointer; padding: 0;
+      box-shadow: inset -4px -5px 0 rgba(0, 0, 0, 0.15);
+    }
+    .cb-swatch.active { transform: scale(1.18); box-shadow: 0 0 0 3px #ffffff, 0 0 0 6px var(--pink-hot); }
 
     /* =========================================================================
        MINI GAME 3: 🧱 5-YEAR-OLD PICTURE-ONLY LEGO UNICORN BUILDER (v5.0)
@@ -1341,7 +1531,7 @@
       .ctrl-btn { font-size: 0.95rem; padding: 7px 14px; }
 
       .world-nav {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         gap: 8px;
         margin-bottom: 10px;
       }
@@ -1441,7 +1631,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span>Loveable Unicorns <small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v6.0</small></span>
+      <span>Loveable Unicorns <small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v6.1</small></span>
     </div>
 
     <div class="header-controls">
@@ -1492,6 +1682,12 @@
     </button>
     <button class="world-btn w-closet" onclick="setWorld('closet')" id="wbtn-closet">
       <span class="w-icon">💄</span><span>Glam Room</span>
+    </button>
+    <button class="world-btn w-chat" onclick="setWorld('chat')" id="wbtn-chat">
+      <span class="w-icon">💬</span><span>Text Kiki</span>
+    </button>
+    <button class="world-btn w-color" onclick="setWorld('color')" id="wbtn-color">
+      <span class="w-icon">🖍️</span><span>Coloring</span>
     </button>
   </nav>
 
@@ -1611,6 +1807,57 @@
     </div>
   </div>
 
+  <!-- 💬 TEXT KIKI (v6.1) -->
+  <div class="chat-overlay" id="chat-overlay">
+    <div class="chat-head">
+      <button class="chat-back" onclick="exitKikiChat()" title="Home">‹</button>
+      <div class="chat-avatar">🦄</div>
+      <div class="chat-name"><b>Kiki</b><small>● online</small></div>
+      <button class="chat-icon call" onclick="startKikiCall()" title="Call Kiki">📞</button>
+    </div>
+    <div class="chat-list" id="chat-list" onclick="closeStickerTray()"></div>
+    <div class="chat-compose">
+      <button class="chat-sticker-btn" onclick="toggleStickerTray()" title="Stickers">😊</button>
+      <input class="chat-input" id="chat-input" type="text" placeholder="Message" autocomplete="off" enterkeyhint="send"
+        oninput="updateChatSendBtn()" onkeydown="if (event.key === 'Enter') sendKikiText()" onfocus="closeStickerTray()" />
+      <button class="chat-send" id="chat-send" onclick="sendKikiText()" title="Send">➤</button>
+    </div>
+    <div class="chat-tray" id="chat-stickers"></div>
+  </div>
+
+  <!-- 📞 KIKI CALL SCREEN (v6.1) -->
+  <div class="call-overlay" id="call-overlay">
+    <div class="call-top">
+      <div class="call-avatar" id="call-avatar">🦄</div>
+      <div class="call-name">Kiki</div>
+      <div class="call-status" id="call-status">Calling…</div>
+      <div class="call-caption" id="call-caption"></div>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center;">
+      <div class="call-funs">
+        <button class="call-fun" data-e="😂" onclick="callTap('😂')">😂</button>
+        <button class="call-fun" data-e="❤️" onclick="callTap('❤️')">❤️</button>
+        <button class="call-fun" data-e="🎵" onclick="callTap('🎵')">🎵</button>
+        <button class="call-fun" data-e="🦖" onclick="callTap('🦖')">🦖</button>
+      </div>
+      <button class="call-hang" onclick="endKikiCall()" title="Hang up"><span>📞</span></button>
+    </div>
+  </div>
+
+  <!-- 🖍️ COLORING BOOK (v6.1) -->
+  <div class="cb-overlay" id="cb-overlay">
+    <div class="cb-top">
+      <button class="cb-home" onclick="exitColoringBook()" title="Home">🏠</button>
+      <div class="cb-books" id="cb-books"></div>
+    </div>
+    <div class="cb-pages" id="cb-pages"></div>
+    <div class="cb-stage" id="cb-stage"></div>
+    <div class="cb-dock">
+      <div class="cb-tools" id="cb-tools"></div>
+      <div class="cb-palette" id="cb-palette"></div>
+    </div>
+  </div>
+
   <!-- 🎈 FULL SCREEN KEEPY UPPY (v6.0) -->
   <div class="kup-overlay" id="kup-overlay">
     <div class="kup-room" id="kup-room"></div>
@@ -1655,7 +1902,9 @@
       lego:    "LEGO Unicorn Side Scroller!",
       balloon: "Keepy Uppy!",
       candy:   "Duck Cake Crush!",
-      closet:  "Kiki's Glam Room!"
+      closet:  "Kiki's Glam Room!",
+      chat:    "Text Kiki!",
+      color:   "Coloring Book!"
     };
 
     // One cute word only. A five year old does not wait for a sentence.
@@ -1694,9 +1943,9 @@
     ];
 
     const ALPHABET = [
-      { letter: 'A', phonetic: 'aa',  soundCue: 'aa, aa',  word: 'Apple',         emoji: '🍎' },
+      { letter: 'A', phonetic: 'ah',  soundCue: 'ah, ah',  word: 'Apple',         emoji: '🍎' },
       { letter: 'B', phonetic: 'buh', soundCue: 'buh, buh', word: 'Bluey Balloon', emoji: '🎈' },
-      { letter: 'C', phonetic: 'cuh', soundCue: 'cuh, cuh', word: 'Cat',           emoji: '🐱' },
+      { letter: 'C', phonetic: 'kuh', soundCue: 'kuh, kuh', word: 'Cat',           emoji: '🐱' },
       { letter: 'D', phonetic: 'duh', soundCue: 'duh, duh', word: 'Duck Cake',     emoji: '🎂' },
       { letter: 'E', phonetic: 'eh',  soundCue: 'eh, eh',   word: 'Elephant',      emoji: '🐘' },
       { letter: 'F', phonetic: 'fuh', soundCue: 'fuh, fuh', word: 'Featherwand',   emoji: '🪶' },
@@ -1704,22 +1953,22 @@
       { letter: 'H', phonetic: 'huh', soundCue: 'huh, huh', word: 'Heart',         emoji: '💖' },
       { letter: 'I', phonetic: 'ih',  soundCue: 'ih, ih',   word: 'Igloo',         emoji: '🧊' },
       { letter: 'J', phonetic: 'juh', soundCue: 'juh, juh', word: 'Jellyfish',     emoji: '🪼' },
-      { letter: 'K', phonetic: 'cuh', soundCue: 'cuh, cuh', word: 'Keepy Uppy',    emoji: '🎈' },
+      { letter: 'K', phonetic: 'kuh', soundCue: 'kuh, kuh', word: 'Keepy Uppy',    emoji: '🎈' },
       { letter: 'L', phonetic: 'luh', soundCue: 'luh, luh', word: 'Lion',          emoji: '🦁' },
       { letter: 'M', phonetic: 'muh', soundCue: 'muh, muh', word: 'Moon',          emoji: '🌙' },
-      { letter: 'N', phonetic: 'nn',  soundCue: 'nn, nn',   word: 'Narwhal',       emoji: '🐳' },
-      { letter: 'O', phonetic: 'aw',  soundCue: 'aw, aw',   word: 'Octopus',       emoji: '🐙' },
+      { letter: 'N', phonetic: 'nuh', soundCue: 'nuh, nuh',   word: 'Narwhal',       emoji: '🐳' },
+      { letter: 'O', phonetic: 'ah',  soundCue: 'ah, ah',   word: 'Octopus',       emoji: '🐙' },
       { letter: 'P', phonetic: 'puh', soundCue: 'puh, puh', word: 'Princess',      emoji: '👸' },
       { letter: 'Q', phonetic: 'kwuh',soundCue: 'kwuh, kwuh',word: 'Queen',        emoji: '👑' },
       { letter: 'R', phonetic: 'ruh', soundCue: 'ruh, ruh', word: 'Rainbow',       emoji: '🌈' },
-      { letter: 'S', phonetic: 'ss',  soundCue: 'ss, ss',   word: 'Sun',           emoji: '☀️' },
+      { letter: 'S', phonetic: 'suh', soundCue: 'suh, suh',   word: 'Sun',           emoji: '☀️' },
       { letter: 'T', phonetic: 'tuh', soundCue: 'tuh, tuh', word: 'Turtleboy',     emoji: '🐢' },
       { letter: 'U', phonetic: 'uh',  soundCue: 'uh, uh',   word: 'Umbrella',      emoji: '☔' },
       { letter: 'V', phonetic: 'vuh', soundCue: 'vuh, vuh', word: 'Violin',        emoji: '🎻' },
       { letter: 'W', phonetic: 'wuh', soundCue: 'wuh, wuh', word: 'Wand',          emoji: '🪄' },
-      { letter: 'X', phonetic: 'ks',  soundCue: 'ks, ks',   word: 'Xylophone',     emoji: '🎶' },
+      { letter: 'X', phonetic: 'ecks', soundCue: 'ecks, ecks',   word: 'Xylophone',     emoji: '🎶' },
       { letter: 'Y', phonetic: 'yuh', soundCue: 'yuh, yuh', word: 'Yo-yo',         emoji: '🪀' },
-      { letter: 'Z', phonetic: 'zz',  soundCue: 'zz, zz',   word: 'Zebra',         emoji: '🦓' }
+      { letter: 'Z', phonetic: 'zuh', soundCue: 'zuh, zuh',   word: 'Zebra',         emoji: '🦓' }
     ];
 
     const BLEND_WORDS = [
@@ -2336,6 +2585,8 @@
       }
       if (world !== 'balloon') document.getElementById('kup-overlay').classList.remove('open');
       if (world !== 'closet') document.getElementById('glam-overlay').classList.remove('open');
+      if (world !== 'chat') document.getElementById('chat-overlay').classList.remove('open');
+      if (world !== 'color') document.getElementById('cb-overlay').classList.remove('open');
       document.querySelectorAll('.world-btn').forEach(b => b.classList.remove('active'));
       const wBtn = document.getElementById('wbtn-' + world);
       if (wBtn) wBtn.classList.add('active');
@@ -2389,6 +2640,10 @@
           toggleBgMusic(true);
         }
         startLegoWorld();
+      } else if (world === 'chat') {
+        startChatWorld();
+      } else if (world === 'color') {
+        startColoringWorld();
       } else if (world === 'closet') {
         startClosetWorld();
       }
@@ -2588,8 +2843,23 @@
       return `<div class="read-ladder"><div class="read-steps">${steps}</div><div class="read-dots">-${fam.fam} ${dots}</div></div>`;
     }
 
+    // A short vowel alone comes out wrong in every browser voice, so vowels
+    // are anchored to a word that starts with that sound.
+    const VOWEL_WORD = { A: 'apple', E: 'egg', I: 'igloo', O: 'octopus', U: 'up' };
+    // Word endings, spelled so the voice reads them as one little word
+    const RIME_SAY = { ig: 'igg', ug: 'ugg', op: 'opp', eb: 'ebb', ix: 'icks', us: 'uss', ut: 'utt', ib: 'ibb', ub: 'ubb', id: 'idd' };
+
     function speakSound(letter) {
-      unicornSpeak(PHONICS_SOUND[letter] || letter, { updateBubble: false, customRate: 0.85 });
+      const v = VOWEL_WORD[letter];
+      const text = v ? `${PHONICS_SOUND[letter]}... ${v}` : (PHONICS_SOUND[letter] || letter);
+      unicornSpeak(text, { updateBubble: false, customRate: 0.85 });
+    }
+
+    // "kuh ... at ... cat!": first sound, then the ending, then the word
+    function onsetRimeSpeech(word) {
+      const w = word.toLowerCase();
+      const rime = w.slice(1);
+      return `${PHONICS_SOUND[word[0]]} | ${RIME_SAY[rime] || rime} | ${w}!`;
     }
 
     // Light each tile in turn, slide Kiki under them, then say the whole word
@@ -2597,17 +2867,21 @@
       const tiles = document.querySelectorAll(`#${rowId} .letter-tile`);
       const slider = document.getElementById(rowId + '-slider');
       tiles.forEach(t => t.classList.remove('sounded'));
-      target.letters.forEach((l, idx) => {
-        setTimeout(() => {
-          if (tiles[idx]) tiles[idx].classList.add('sounded');
-          if (slider && tiles[idx]) {
-            slider.style.left = (tiles[idx].offsetLeft + tiles[idx].offsetWidth / 2 - 16) + 'px';
-          }
-          playCountNote(idx + 1);
-        }, idx * 650);
-      });
-      unicornSpeak(target.sounds.join(', ') + ', ' + target.word.toLowerCase() + '!', { updateBubble: false, customRate: 0.78 });
-      setTimeout(() => { if (done) done(); }, target.letters.length * 650 + 900);
+      const slideTo = (idx) => {
+        if (slider && tiles[idx]) slider.style.left = (tiles[idx].offsetLeft + tiles[idx].offsetWidth / 2 - 16) + 'px';
+      };
+      // First letter, then the rest light up together as one chunk
+      if (tiles[0]) tiles[0].classList.add('sounded');
+      slideTo(0);
+      playCountNote(1);
+      setTimeout(() => {
+        for (let i = 1; i < tiles.length; i++) tiles[i].classList.add('sounded');
+        slideTo(tiles.length - 1);
+        playCountNote(3);
+      }, 900);
+      setTimeout(() => { tiles.forEach(t => t.classList.add('pop-word')); playCountNote(5); }, 1900);
+      unicornSpeak(onsetRimeSpeech(target.word), { updateBubble: false, isSoundOut: true, customRate: 0.8 });
+      setTimeout(() => { tiles.forEach(t => t.classList.remove('pop-word')); if (done) done(); }, 2900);
     }
 
     function letterTilesHTML(letters, rowId, tapToSound = true) {
@@ -2710,7 +2984,7 @@
       area.innerHTML = `<div class="letter-bank" id="letter-bank"></div>`;
       const bankEl = document.getElementById('letter-bank');
 
-      const sayTarget = () => unicornSpeak(`${target.word.toLowerCase()}! | ${target.sounds.join(' | ')}`, { updateBubble: false, isSoundOut: true });
+      const sayTarget = () => unicornSpeak(`${target.word.toLowerCase()}! | ${onsetRimeSpeech(target.word)}`, { updateBubble: false, isSoundOut: true, customRate: 0.85 });
       currentSoundOutCallback = sayTarget;
 
       bank.forEach(l => {
@@ -3528,6 +3802,45 @@
       kup.R = Math.max(44, Math.min(80, Math.min(kup.W, kup.H) * 0.13));
     }
 
+    // Rubbery "boop" when a balloon is tapped, squeaky "eep" when it bumps the floor.
+    // Each balloon has its own pitch so several sound like a little choir.
+    function kupBalloonSound(kind, pitch = 1) {
+      if (soundMuted) return;
+      try {
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const lp = ctx.createBiquadFilter();
+        lp.type = 'lowpass';
+        lp.frequency.value = 1800;
+        osc.type = 'triangle';
+        if (kind === 'boop') {
+          osc.frequency.setValueAtTime(260 * pitch, now);
+          osc.frequency.exponentialRampToValueAtTime(620 * pitch, now + 0.07);
+          osc.frequency.exponentialRampToValueAtTime(420 * pitch, now + 0.16);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+        } else if (kind === 'squeak') {
+          // Little wobble like rubbing a balloon
+          osc.frequency.setValueAtTime(900 * pitch, now);
+          osc.frequency.linearRampToValueAtTime(1300 * pitch, now + 0.05);
+          osc.frequency.linearRampToValueAtTime(800 * pitch, now + 0.11);
+          osc.frequency.linearRampToValueAtTime(1150 * pitch, now + 0.17);
+          gain.gain.setValueAtTime(0.14, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+        } else {
+          // 'hello': a new balloon floats in with a rising whistle
+          osc.frequency.setValueAtTime(500 * pitch, now);
+          osc.frequency.exponentialRampToValueAtTime(1100 * pitch, now + 0.35);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+        }
+        osc.connect(lp); lp.connect(gain); gain.connect(ctx.destination);
+        osc.start(now); osc.stop(now + 0.42);
+      } catch (e) {}
+    }
+
     function kupAddBalloon() {
       const [light, dark] = KUP_BALLOON_COLORS[kup.balloons.length % KUP_BALLOON_COLORS.length];
       kup.balloons.push({
@@ -3539,9 +3852,10 @@
         squash: 0,
         face: 'happy',
         faceTimer: 0,
+        pitch: [1, 1.25, 0.85, 1.5, 1.12, 0.95][kup.balloons.length % 6],
         wob: Math.random() * Math.PI * 2
       });
-      playMagicSound('sparkle');
+      kupBalloonSound('hello', kup.balloons[kup.balloons.length - 1].pitch);
     }
 
     function kupUpdateHud() {
@@ -3572,7 +3886,7 @@
         try { localStorage.setItem('kiki_kup_best', kup.best); } catch (e) {}
       }
       kupUpdateHud();
-      playCountNote((kup.streak % 12) + 1);
+      kupBalloonSound('boop', hit.pitch || 1);
       burstSparkles(ev.clientX, ev.clientY, 14);
       if (kup.streak % 10 === 0) {
         addStar();
@@ -3686,7 +4000,7 @@
             kup.streak = 0;
             kupUpdateHud();
           }
-          playMagicSound('oops');
+          kupBalloonSound('squeak', b.pitch || 1);
         }
 
         kupDrawBalloon(g, b, R);
@@ -3746,16 +4060,13 @@
         unicornSpeak("Tap matching treats or swap two treats!", { updateBubble: false });
       };
 
-      document.getElementById('speech-text').textContent = "🎂 Tap matching treats next to each other, or swap 2 treats to crush them!";
+      document.getElementById('speech-text').textContent = "🎂 Crush!";
 
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
         <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:6px;">
-          <div style="font-size:1rem; font-weight:700; color:#2b4c7e;">
-            🎂 Tap matching treats or swap 2 treats!
-          </div>
-          <div class="phonics-pill">
-            🎂 Crushed: <strong id="candy-crush-score">0</strong> (Every 10 = ⭐!)
+          <div class="phonics-pill" style="font-size:1.3rem; margin:0 auto;">
+            🍬 <strong id="candy-crush-score">0</strong>
           </div>
         </div>
       `;
@@ -3829,9 +4140,24 @@
         return Array.from(matched).map(s => s.split(',').map(Number));
       }
 
-      function crushCoordinates(coords) {
+      // Combo words get bigger as the chain grows
+      const COMBO_WORDS = [null, null, { word: 'Combo!', emoji: '🍬' }, { word: 'YUMMY!', emoji: '😋' },
+        { word: 'SWEET!', emoji: '🍭' }, { word: 'SUGAR RUSH!', emoji: '🌈' }];
+
+      function crushCoordinates(coords, combo = 1) {
         if (!coords.length) return;
         crushBusy = true;
+        boardEl.classList.remove('shake');
+        void boardEl.offsetWidth;
+        if (combo >= 2 || coords.length >= 5) boardEl.classList.add('shake');
+        const cheer = COMBO_WORDS[Math.min(combo, COMBO_WORDS.length - 1)] || (coords.length >= 5 ? { word: 'WOW!', emoji: '🤩' } : null);
+        if (cheer) {
+          showPraisePop({ word: combo >= 2 ? `${cheer.word} x${combo}` : cheer.word, emoji: cheer.emoji });
+          unicornSpeak(cheer.word, { updateBubble: false });
+          const br = boardEl.getBoundingClientRect();
+          burstSparkles(br.left + br.width / 2, br.top + br.height / 2, 40 + combo * 20);
+          for (let k = 0; k < combo; k++) setTimeout(() => playCountNote(3 + combo * 2 + k), k * 90);
+        }
 
         coords.forEach(([r, c]) => {
           const cellEl = document.getElementById(`candy-${r}-${c}`);
@@ -3861,21 +4187,28 @@
         }
 
         setTimeout(() => {
+          const dropFrom = {};
           for (let c = 0; c < COLS; c++) {
             let emptyRow = ROWS - 1;
             for (let r = ROWS - 1; r >= 0; r--) {
               if (board[r][c] !== null) {
                 board[emptyRow][c] = board[r][c];
-                if (emptyRow !== r) board[r][c] = null;
+                if (emptyRow !== r) { board[r][c] = null; dropFrom[c] = Math.max(dropFrom[c] ?? -1, emptyRow); }
                 emptyRow--;
               }
             }
             for (let r = emptyRow; r >= 0; r--) {
               board[r][c] = randomCandy();
+              dropFrom[c] = Math.max(dropFrom[c] ?? -1, r);
             }
           }
-          renderCandyBoard();
-          crushBusy = false;
+          renderCandyBoard(dropFrom);
+          // Cascade: new candy can line up by itself. That's a combo!
+          setTimeout(() => {
+            const more = findAllMatches3OrMore();
+            if (more.length >= 3) crushCoordinates(more, combo + 1);
+            else crushBusy = false;
+          }, 420);
         }, 340);
       }
 
@@ -3922,7 +4255,7 @@
         }
       }
 
-      function renderCandyBoard() {
+      function renderCandyBoard(dropFrom = {}) {
         boardEl.innerHTML = '';
         for (let r = 0; r < ROWS; r++) {
           for (let c = 0; c < COLS; c++) {
@@ -3930,6 +4263,10 @@
             cell.id = `candy-${r}-${c}`;
             const isSel = selectedCell && selectedCell.r === r && selectedCell.c === c;
             cell.className = 'candy-cell' + (isSel ? ' selected' : '');
+            if (dropFrom[c] != null && r <= dropFrom[c]) {
+              cell.classList.add('drop');
+              cell.style.animationDelay = `${(dropFrom[c] - r) * 40}ms`;
+            }
             cell.textContent = board[r][c];
             cell.onclick = () => handleCandyTap(r, c);
             boardEl.appendChild(cell);
@@ -6117,7 +6454,38 @@
       return item.stars && stars < item.stars;
     }
 
+    // Sideways rows: touch swipes natively; on a PC let the mouse drag them and the wheel scroll them
+    function enableDragScroll(el) {
+      if (!el || el.dataset.dragScroll) return;
+      el.dataset.dragScroll = '1';
+      let startX = 0, startLeft = 0, down = false, moved = false;
+      el.addEventListener('pointerdown', ev => {
+        if (ev.pointerType !== 'mouse') return;
+        down = true; moved = false; startX = ev.clientX; startLeft = el.scrollLeft;
+      });
+      window.addEventListener('pointermove', ev => {
+        if (!down) return;
+        const dx = ev.clientX - startX;
+        if (Math.abs(dx) > 5) { moved = true; el.classList.add('dragging'); }
+        if (moved) el.scrollLeft = startLeft - dx;
+      });
+      window.addEventListener('pointerup', () => {
+        if (!down) return;
+        down = false;
+        el.classList.remove('dragging');
+      });
+      // A drag should not also count as tapping the tile under the mouse
+      el.addEventListener('click', ev => { if (moved) { ev.stopPropagation(); ev.preventDefault(); moved = false; } }, true);
+      el.addEventListener('wheel', ev => {
+        if (el.scrollWidth <= el.clientWidth || Math.abs(ev.deltaX) > Math.abs(ev.deltaY)) return;
+        el.scrollLeft += ev.deltaY;
+        ev.preventDefault();
+      }, { passive: false });
+    }
+
     function openGlamRoom() {
+      enableDragScroll(document.getElementById('glam-options'));
+      enableDragScroll(document.getElementById('glam-tabs'));
       document.getElementById('glam-overlay').classList.add('open');
       const bar = document.getElementById('glam-stations');
       bar.innerHTML = Object.entries(GLAM_STATIONS).map(([id, st]) =>
@@ -6632,6 +7000,812 @@
     function startClosetWorld() {
       document.getElementById('speech-text').textContent = '💄 Glam Room!';
       openGlamRoom();
+    }
+
+    /*************************************************************************
+     * WORLD 11: 💬 TEXT KIKI (Signal-style messenger + 📞 silly phone calls)
+     * The child can't read yet, so: big stickers to send, every Kiki message
+     * is read aloud, and Kiki asks questions with picture answer chips.
+     * Kiki remembers what the child sends (counts, favourites, last visit)
+     * and brings it up later. All offline, all scripted, nothing leaves the device.
+     *************************************************************************/
+    const KIKI_STICKERS = [
+      { id: 'wave',    e: '👋',     cat: 'hello' }, { id: 'heart',  e: '💖',   cat: 'love' },
+      { id: 'hug',     e: '🤗',     cat: 'love' },  { id: 'kiss',   e: '😘',   cat: 'love' },
+      { id: 'unicorn', e: '🦄',     cat: 'unicorn' }, { id: 'rainbow', e: '🌈', cat: 'unicorn' },
+      { id: 'laugh',   e: '😂',     cat: 'silly' }, { id: 'silly',  e: '🤪',   cat: 'silly' },
+      { id: 'poop',    e: '💩',     cat: 'silly' }, { id: 'monkey', e: '🙈',   cat: 'silly' },
+      { id: 'sad',     e: '😢',     cat: 'sad' },   { id: 'mad',    e: '😠',   cat: 'mad' },
+      { id: 'sleepy',  e: '😴',     cat: 'sleepy' }, { id: 'moon',  e: '🌙',   cat: 'sleepy' },
+      { id: 'party',   e: '🥳',     cat: 'party' }, { id: 'cake',   e: '🎂',   cat: 'party' },
+      { id: 'dog',     e: '🐶',     cat: 'animal', say: 'Woof woof!' }, { id: 'cat', e: '🐱', cat: 'animal', say: 'Meow!' },
+      { id: 'bunny',   e: '🐰',     cat: 'animal', say: 'Hop hop!' }, { id: 'dino', e: '🦖', cat: 'animal', say: 'RAWR!' },
+      { id: 'pig',     e: '🐷',     cat: 'animal', say: 'Oink oink!' }, { id: 'frog', e: '🐸', cat: 'animal', say: 'Ribbit!' },
+      { id: 'pizza',   e: '🍕',     cat: 'food', say: 'Pizza!' }, { id: 'icecream', e: '🍦', cat: 'food', say: 'Ice cream!' },
+      { id: 'cookie',  e: '🍪',     cat: 'food', say: 'Cookie!' }, { id: 'apple', e: '🍎', cat: 'food', say: 'Apple!' },
+      { id: 'star',    e: '⭐',     cat: 'proud' }, { id: 'crown',  e: '👑',   cat: 'proud' },
+      { id: 'music',   e: '🎵',     cat: 'music' }, { id: 'dance',  e: '💃',   cat: 'music' },
+      { id: 'flower',  e: '🌸',     cat: 'nature' }, { id: 'sun',   e: '☀️',   cat: 'nature' },
+      { id: 'ball',    e: '🎈',     cat: 'play' }, { id: 'blocks',  e: '🧱',   cat: 'play' },
+      { id: 'boo',     e: '👻',     cat: 'silly' }, { id: 'sparkle', e: '✨',  cat: 'unicorn' }
+    ];
+
+    // Kiki's replies by mood. Short, sweet, read aloud. {s} = a sticker Kiki sends back.
+    const KIKI_REPLIES = {
+      hello:   [['Hi hi hi! 👋', '🦄'], ['Hello best friend!', '💖'], ['Yay! You texted me!', '🥳'], ['Hiii! I was waiting for you!', '🤗']],
+      love:    [['I love you too!', '💖'], ['Big unicorn hug!', '🤗'], ['You make my horn sparkle!', '✨'], ['Aww! Kiki loves you!', '😘'], ['Love you to the moon!', '🌙']],
+      unicorn: [['That is ME! Hehe!', '🦄'], ['Rainbow power!', '🌈'], ['Sparkle sparkle!', '✨'], ['Unicorns are the best!', '👑']],
+      silly:   [['HAHAHA! You are so silly!', '😂'], ['Hehe! Boop!', '🤪'], ['Blibber blabber! Hehe!', '🙈'], ['I laughed so hard I sneezed glitter!', '✨'], ['Silly goose! Honk honk!', '😂']],
+      sad:     [['Oh no! Here is a hug!', '🤗'], ['It is okay. Kiki is here.', '💖'], ['Want a cookie? It helps!', '🍪'], ['Sending you a rainbow!', '🌈']],
+      mad:     [['Big breath in... and out!', '🌬️'], ['Grumpy? Let us stomp like dinos!', '🦖'], ['Hug time fixes grumpies!', '🤗']],
+      sleepy:  [['Yawn! Me too!', '😴'], ['Night night! Sweet dreams!', '🌙'], ['Shh! Kiki is counting stars!', '⭐']],
+      party:   [['PARTY TIME!', '🥳'], ['Can I have cake too?', '🎂'], ['Let us dance!', '💃']],
+      animal:  [['I love animals!', '🐾'], ['So cute!', '😍'], ['Can we keep it? Please?', '🥺']],
+      food:    [['Yum yum yum!', '😋'], ['Can I have a bite?', '🦄'], ['My favorite! Nom nom!', '😋']],
+      proud:   [['You are a superstar!', '⭐'], ['Princess power!', '👑'], ['So proud of you!', '💖']],
+      music:   [['La la laaa!', '🎵'], ['Dance party!', '💃'], ['Kiki can sing! Neeeigh!', '🎤']],
+      nature:  [['So pretty!', '🌸'], ['Sunshine makes me happy!', '☀️'], ['Let us go outside!', '🌳']],
+      play:    [['Let us play!', '🎈'], ['Keepy uppy!', '🎈'], ['Wanna build a castle?', '🏰']],
+      gibberish: [['Hehe! Is that unicorn talk?', '🦄'], ['Blip blop to you too!', '🤪'], ['I think that means... I LOVE YOU!', '💖'], ['Ooh, secret code!', '🔐']],
+      question: [['Hmm... yes! No! Maybe! Hehe!', '🤔'], ['Great question! Ask your grown-up!', '🦄'], ['I think the answer is... rainbows!', '🌈']]
+    };
+
+    // Kiki sometimes asks something and gives picture answers
+    const KIKI_QUESTIONS = [
+      { q: 'What color do you like?', chips: ['💗', '💜', '💙', '💚', '💛'], reply: c => [`${c} is SO pretty!`, '🎨'] },
+      { q: 'What should we eat?', chips: ['🍕', '🍦', '🍪', '🍎', '🥞'], reply: c => [`${c} for everyone! Nom nom!`, '😋'] },
+      { q: 'Which pet do you want?', chips: ['🐶', '🐱', '🐰', '🐢', '🦄'], reply: c => [`A ${c}! I will name it Sparkles!`, '✨'] },
+      { q: 'How do you feel today?', chips: ['😀', '😢', '😴', '😠', '🤪'], reply: c => ({ '😀': ['Yay! Happy happy!', '🥳'], '😢': ['Aww, big hug!', '🤗'], '😴': ['Nap time? Shh!', '🌙'], '😠': ['Let us stomp it out! Stomp stomp!', '🦖'], '🤪': ['Hehe! Silly day!', '😂'] })[c] },
+      { q: 'Where should we go?', chips: ['🏖️', '🏰', '🚀', '🌳', '🎪'], reply: c => [`Let us go to the ${c}! Pack your bag!`, '🎒'] },
+      { q: 'Want to hear a joke?', chips: ['👍', '👎'], reply: c => c === '👍' ? ['Why did the unicorn cross the road? To get to the RAINBOW side! Hehe!', '😂'] : ['Okay! Maybe later!', '😊'] },
+      { q: 'What did you play today?', chips: ['🧱', '🎈', '🎨', '📖', '💃'], reply: c => [`Ooh ${c}! I want to play too!`, '🦄'] }
+    ];
+
+    const KIKI_CALL_LINES = [
+      'Hello?! Is this my best friend?!',
+      'Guess what! I ate rainbow spaghetti for lunch! Slurp!',
+      'Can you make a silly face? ... HAHAHA! So silly!',
+      'Knock knock! ... Unicorn! ... Unicorn who? Uni-CORN on the cob! Hehehe!',
+      'Let us sing! La la laaa! Now you sing!',
+      'Shh! I have a secret... I am a little bit ticklish! Hehe!',
+      'Can you roar like a dinosaur? ... RAWR! Scary!',
+      'My horn is glowing because I am so happy to talk to you!',
+      'Can you jump three times? One, two, three! Wow!',
+      'I just did a big unicorn sneeze! A-choo! Glitter everywhere!',
+      'What is your favorite animal? ... Ooh, me too!',
+      'Let us count to five! One, two, three, four, five! Yay!',
+      'I have to go eat my cloud cookies now. Bye bye! Love you!'
+    ];
+    const KIKI_CALL_TAPS = {
+      '😂': ['HAHAHA! You are so funny!', 'Hehehe! Stop it, I am giggling!'],
+      '❤️': ['Aww! I love you too!', 'Big hug through the phone!'],
+      '🎵': ['La la la, unicorn sparkle, la la la!', 'Neigh neigh neeeigh! That is my song!'],
+      '🦖': ['RAWR! Oh no, a dinosaur! Hehe!', 'Stomp stomp stomp!']
+    };
+
+    let kikiChat = null;   // persisted: { msgs: [...], counts: {}, lastVisit, pendingQ }
+    let kikiCall = null;
+    let kikiReplyTimer = null;
+
+    function loadKikiChat() {
+      try { kikiChat = JSON.parse(localStorage.getItem('kiki_chat') || 'null'); } catch (e) { kikiChat = null; }
+      if (!kikiChat || !Array.isArray(kikiChat.msgs)) kikiChat = { msgs: [], counts: {}, lastVisit: 0, pendingQ: null, used: [] };
+      kikiChat.used = kikiChat.used || [];
+    }
+    function saveKikiChat() {
+      kikiChat.msgs = kikiChat.msgs.slice(-150);
+      try { localStorage.setItem('kiki_chat', JSON.stringify(kikiChat)); } catch (e) {}
+    }
+
+    function chatTime(ts) {
+      const d = new Date(ts);
+      let h = d.getHours();
+      const m = String(d.getMinutes()).padStart(2, '0');
+      const ap = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      return `${h}:${m} ${ap}`;
+    }
+
+    function chatEscape(t) {
+      return String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+    }
+
+    function renderChatMessages() {
+      const list = document.getElementById('chat-list');
+      if (!list) return;
+      let html = '', lastDay = '';
+      kikiChat.msgs.forEach((m, i) => {
+        const day = new Date(m.t).toDateString();
+        if (day !== lastDay) {
+          const today = new Date().toDateString();
+          html += `<div class="chat-day">${day === today ? 'Today' : new Date(m.t).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}</div>`;
+          lastDay = day;
+        }
+        if (m.from === 'sys') {
+          html += `<div class="chat-sys">${chatEscape(m.text)}</div>`;
+          return;
+        }
+        const mine = m.from === 'me';
+        const next = kikiChat.msgs[i + 1];
+        const tail = !next || next.from !== m.from;
+        if (m.sticker) {
+          html += `<div class="chat-row ${mine ? 'me' : 'kiki'}"><div class="chat-sticker" data-i="${i}">${m.sticker}</div></div>`;
+        } else {
+          html += `<div class="chat-row ${mine ? 'me' : 'kiki'}">
+            <div class="chat-bubble ${tail ? 'tail' : ''}" data-i="${i}">
+              <span class="chat-text">${chatEscape(m.text)}</span>
+              <span class="chat-meta">${chatTime(m.t)}${mine ? ' <span class="chat-check">✓✓</span>' : ''}</span>
+            </div></div>`;
+        }
+      });
+      const pq = kikiChat.pendingQ != null ? KIKI_QUESTIONS[kikiChat.pendingQ] : null;
+      if (pq) {
+        html += `<div class="chat-chips">${pq.chips.map(c => `<button class="chat-chip" data-chip="${c}">${c}</button>`).join('')}</div>`;
+      }
+      html += `<div class="chat-row kiki" id="chat-typing" style="display:none;"><div class="chat-bubble typing"><span></span><span></span><span></span></div></div>`;
+      list.innerHTML = html;
+      list.querySelectorAll('[data-i]').forEach(el => {
+        el.onclick = () => {
+          const m = kikiChat.msgs[parseInt(el.dataset.i, 10)];
+          playMagicSound('pop');
+          if (m.sticker) {
+            el.classList.remove('boing'); void el.offsetWidth; el.classList.add('boing');
+            const st = KIKI_STICKERS.find(x => x.e === m.sticker);
+            if (st && st.say) unicornSpeak(st.say, { updateBubble: false });
+          } else {
+            unicornSpeak(m.text, { updateBubble: false });
+          }
+        };
+      });
+      list.querySelectorAll('.chat-chip').forEach(b => { b.onclick = () => answerKikiQuestion(b.dataset.chip); });
+      list.scrollTop = list.scrollHeight;
+    }
+
+    function pushChat(msg) {
+      kikiChat.msgs.push(Object.assign({ t: Date.now() }, msg));
+      saveKikiChat();
+      renderChatMessages();
+    }
+
+    function pickFresh(arr, key) {
+      // Avoid repeating any of the last few replies
+      const fresh = arr.filter(r => !kikiChat.used.includes(key + r[0]));
+      const pool = fresh.length ? fresh : arr;
+      const r = pool[Math.floor(Math.random() * pool.length)];
+      kikiChat.used.push(key + r[0]);
+      kikiChat.used = kikiChat.used.slice(-12);
+      return r;
+    }
+
+    function kikiSays(text, sticker, delay = 1100, after) {
+      clearTimeout(kikiReplyTimer);
+      const typing = document.getElementById('chat-typing');
+      if (typing) { typing.style.display = 'flex'; document.getElementById('chat-list').scrollTop = 1e6; }
+      kikiReplyTimer = setTimeout(() => {
+        pushChat({ from: 'kiki', text });
+        playMagicSound('sparkle');
+        unicornSpeak(text, { updateBubble: false });
+        if (sticker) setTimeout(() => { pushChat({ from: 'kiki', sticker }); playMagicSound('pop'); }, 650);
+        if (after) after();
+      }, delay + Math.min(1400, text.length * 25));
+    }
+
+    // Kiki remembers: sometimes she brings up what the child sends a lot
+    function memoryLine(st) {
+      const n = kikiChat.counts[st.id] || 0;
+      if (n === 3) return [`You love ${st.e}! I remember!`, st.e];
+      if (n === 10) return [`That is ${st.e} number TEN! You are the ${st.e} champion!`, '🏆'];
+      const fav = Object.entries(kikiChat.counts).sort((a, b) => b[1] - a[1])[0];
+      if (fav && fav[1] >= 5 && Math.random() < 0.15) {
+        const f = KIKI_STICKERS.find(x => x.id === fav[0]);
+        if (f) return [`Your favorite is ${f.e}! Kiki knows!`, f.e];
+      }
+      return null;
+    }
+
+    function sendKikiSticker(st) {
+      playMagicSound('pop');
+      if (st.say) unicornSpeak(st.say, { updateBubble: false });
+      kikiChat.counts[st.id] = (kikiChat.counts[st.id] || 0) + 1;
+      pushChat({ from: 'me', sticker: st.e });
+      closeStickerTray();
+      const mem = memoryLine(st);
+      const [text, sticker] = mem || pickFresh(KIKI_REPLIES[st.cat] || KIKI_REPLIES.love, st.cat);
+      kikiSays(text, sticker);
+      maybeAskQuestion();
+    }
+
+    function sendKikiText() {
+      const input = document.getElementById('chat-input');
+      const raw = input.value.trim();
+      if (!raw) return;
+      input.value = '';
+      updateChatSendBtn();
+      pushChat({ from: 'me', text: raw });
+      playMagicSound('pop');
+      const t = raw.toLowerCase();
+      let cat = null;
+      if (/\b(hi|hello|hey|hiya|yo)\b/.test(t)) cat = 'hello';
+      else if (/love|❤|💖|hug|kiss/.test(t)) cat = 'love';
+      else if (/sad|cry|hurt|owie/.test(t)) cat = 'sad';
+      else if (/mad|angry|grr/.test(t)) cat = 'mad';
+      else if (/sleep|tired|night|bed/.test(t)) cat = 'sleepy';
+      else if (/unicorn|kiki|rainbow|sparkle/.test(t)) cat = 'unicorn';
+      else if (/dog|cat|bunny|dino|pig|frog|horse|puppy|kitty/.test(t)) cat = 'animal';
+      else if (/pizza|cake|cookie|ice ?cream|eat|food|hungry|apple|candy/.test(t)) cat = 'food';
+      else if (/poop|fart|silly|haha|lol|hehe|butt/.test(t)) cat = 'silly';
+      else if (/sing|song|dance|music/.test(t)) cat = 'music';
+      else if (/play|game|toy|lego/.test(t)) cat = 'play';
+      else if (/\?$/.test(t)) cat = 'question';
+      else {
+        const nameMatch = raw.match(/(?:my name is|i am|i'm)\s+([a-z]+)/i);
+        if (nameMatch) {
+          const name = nameMatch[1][0].toUpperCase() + nameMatch[1].slice(1).toLowerCase();
+          kikiChat.name = name;
+          saveKikiChat();
+          kikiSays(`Hi ${name}! What a pretty name!`, '💖');
+          return;
+        }
+        // A five year old mostly types letter soup. That's fine!
+        cat = /[aeiou]{0,1}[^aeiou\s]{4,}/.test(t) || t.length < 3 ? 'gibberish' : 'love';
+      }
+      const [text, sticker] = pickFresh(KIKI_REPLIES[cat], cat);
+      kikiSays(text, sticker);
+      maybeAskQuestion();
+    }
+
+    function maybeAskQuestion() {
+      if (kikiChat.pendingQ != null || Math.random() > 0.3) return;
+      setTimeout(() => {
+        if (!document.getElementById('chat-overlay').classList.contains('open')) return;
+        const qi = Math.floor(Math.random() * KIKI_QUESTIONS.length);
+        kikiSays(KIKI_QUESTIONS[qi].q, null, 400, () => { kikiChat.pendingQ = qi; saveKikiChat(); renderChatMessages(); });
+      }, 3600);
+    }
+
+    function answerKikiQuestion(chip) {
+      const q = KIKI_QUESTIONS[kikiChat.pendingQ];
+      kikiChat.pendingQ = null;
+      pushChat({ from: 'me', sticker: chip });
+      playMagicSound('pop');
+      const [text, sticker] = q.reply(chip);
+      kikiSays(text, sticker);
+    }
+
+    function greetOnOpen() {
+      const now = Date.now();
+      const away = now - (kikiChat.lastVisit || 0);
+      kikiChat.lastVisit = now;
+      const h = new Date().getHours();
+      const name = kikiChat.name ? ` ${kikiChat.name}` : '';
+      let text;
+      if (!kikiChat.msgs.length) text = `Hi! It's me, Kiki! Send me a sticker!`;
+      else if (away > 20 * 3600 * 1000) text = `I missed you${name}! Where did you go?`;
+      else if (h < 11) text = `Good morning${name}! Did you eat breakfast?`;
+      else if (h >= 19) text = `Hi${name}! Is it almost bedtime?`;
+      else if (away > 15 * 60 * 1000) text = `Yay${name}! You came back!`;
+      else return;
+      kikiSays(text, kikiChat.msgs.length ? null : '👋', 500);
+    }
+
+    function openKikiChat() {
+      loadKikiChat();
+      document.getElementById('chat-overlay').classList.add('open');
+      renderChatMessages();
+      renderStickerTray();
+      greetOnOpen();
+      saveKikiChat();
+    }
+
+    function exitKikiChat() {
+      endKikiCall(true);
+      clearTimeout(kikiReplyTimer);
+      document.getElementById('chat-overlay').classList.remove('open');
+      setWorld('abc');
+    }
+
+    function renderStickerTray() {
+      const tray = document.getElementById('chat-stickers');
+      tray.innerHTML = KIKI_STICKERS.map((s, i) => `<button class="sticker-pick" data-i="${i}">${s.e}</button>`).join('');
+      tray.querySelectorAll('.sticker-pick').forEach(b => { b.onclick = () => sendKikiSticker(KIKI_STICKERS[parseInt(b.dataset.i, 10)]); });
+    }
+    function toggleStickerTray() {
+      document.getElementById('chat-overlay').classList.toggle('tray-open');
+      playMagicSound('pop');
+    }
+    function closeStickerTray() {
+      document.getElementById('chat-overlay').classList.remove('tray-open');
+    }
+    function updateChatSendBtn() {
+      const has = document.getElementById('chat-input').value.trim().length > 0;
+      document.getElementById('chat-send').classList.toggle('ready', has);
+    }
+
+    /* ---------- 📞 Silly phone call ---------- */
+    function playRing() {
+      if (soundMuted) return;
+      try {
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
+        [0, 0.18, 0.36].forEach((t, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime([880, 1046.5, 1318.5][i], now + t);
+          gain.gain.setValueAtTime(0.16, now + t);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + t + 0.16);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(now + t); osc.stop(now + t + 0.17);
+        });
+      } catch (e) {}
+    }
+
+    function startKikiCall() {
+      if (kikiCall) return;
+      const ov = document.getElementById('call-overlay');
+      ov.classList.add('open', 'ringing');
+      document.getElementById('call-status').textContent = 'Calling…';
+      kikiCall = { started: 0, line: 0, timers: [], ring: null, tick: null };
+      playRing();
+      kikiCall.ring = setInterval(playRing, 1500);
+      kikiCall.timers.push(setTimeout(() => {
+        if (!kikiCall) return;
+        clearInterval(kikiCall.ring);
+        ov.classList.remove('ringing');
+        kikiCall.started = Date.now();
+        kikiCall.tick = setInterval(() => {
+          const s = Math.floor((Date.now() - kikiCall.started) / 1000);
+          document.getElementById('call-status').textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+        }, 500);
+        nextCallLine();
+      }, 3200));
+    }
+
+    function nextCallLine() {
+      if (!kikiCall) return;
+      const lines = KIKI_CALL_LINES;
+      if (kikiCall.line >= lines.length) { endKikiCall(); return; }
+      // First line is always hello, the last is always goodbye; the middle is shuffled once
+      if (!kikiCall.order) {
+        const mid = lines.slice(1, -1).sort(() => Math.random() - 0.5).slice(0, 6);
+        kikiCall.order = [lines[0], ...mid, lines[lines.length - 1]];
+      }
+      if (kikiCall.line >= kikiCall.order.length) { endKikiCall(); return; }
+      const text = kikiCall.order[kikiCall.line++];
+      document.getElementById('call-caption').textContent = text;
+      callSpeak(text, () => {
+        // Leave a pause for the child to answer out loud
+        kikiCall && kikiCall.timers.push(setTimeout(nextCallLine, 2600));
+      });
+    }
+
+    function callSpeak(text, onDone) {
+      const av = document.getElementById('call-avatar');
+      av.classList.add('talking');
+      const done = () => { av.classList.remove('talking'); if (onDone) onDone(); };
+      if (soundMuted || !('speechSynthesis' in window)) { setTimeout(done, 1800 + text.length * 40); return; }
+      window.speechSynthesis.cancel();
+      // Speak "..." beats as small pauses
+      const parts = text.split('...').map(p => p.trim()).filter(Boolean);
+      parts.forEach((p, i) => {
+        const u = new SpeechSynthesisUtterance(cleanForSpeech(p));
+        if (preferredVoice) u.voice = preferredVoice;
+        u.pitch = VOICE_STYLES[voiceEnergyMode].pitch + 0.05;
+        u.rate = 1;
+        if (i === parts.length - 1) { u.onend = done; u.onerror = done; }
+        window.speechSynthesis.speak(u);
+        if (i < parts.length - 1) window.speechSynthesis.speak(Object.assign(new SpeechSynthesisUtterance(' '), { volume: 0, rate: 0.3 }));
+      });
+    }
+
+    function callTap(emoji) {
+      if (!kikiCall || !kikiCall.started) return;
+      playMagicSound('pop');
+      kikiCall.timers.forEach(clearTimeout);
+      kikiCall.timers = [];
+      const opts = KIKI_CALL_TAPS[emoji];
+      const text = opts[Math.floor(Math.random() * opts.length)];
+      document.getElementById('call-caption').textContent = text;
+      const b = document.querySelector(`.call-fun[data-e="${emoji}"]`);
+      if (b) { const r = b.getBoundingClientRect(); burstSparkles(r.left + r.width / 2, r.top, 20); }
+      callSpeak(text, () => { kikiCall && kikiCall.timers.push(setTimeout(nextCallLine, 1800)); });
+    }
+
+    function endKikiCall(silent) {
+      if (!kikiCall) return;
+      const secs = kikiCall.started ? Math.round((Date.now() - kikiCall.started) / 1000) : 0;
+      kikiCall.timers.forEach(clearTimeout);
+      clearInterval(kikiCall.ring);
+      clearInterval(kikiCall.tick);
+      kikiCall = null;
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      document.getElementById('call-overlay').classList.remove('open', 'ringing');
+      document.getElementById('call-avatar').classList.remove('talking');
+      if (silent) return;
+      playMagicSound('oops');
+      if (kikiChat) {
+        pushChat({ from: 'sys', text: `📞 ${secs ? `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}` : 'Missed call'}` });
+        if (secs > 5) kikiSays('That was fun! Call me again!', '📞', 700);
+      }
+    }
+
+    function startChatWorld() {
+      document.getElementById('speech-text').textContent = '💬 Kiki!';
+      openKikiChat();
+    }
+
+    /*************************************************************************
+     * WORLD 12: 🖍️ KIKI'S COLORING BOOK (full screen, picture only)
+     * Tap a shape to fill it, or switch to the crayon and scribble.
+     * Every page is our own line art: ice princess, pop-star hero girls,
+     * unicorns and dinosaurs. Each closed shape is its own tappable region.
+     *************************************************************************/
+    const CB_INK = '#2b1a3a';
+    const cbR = d => `<path class="cb-r" d="${d}"/>`;
+    const cbC = (cx, cy, r) => `<circle class="cb-r" cx="${cx}" cy="${cy}" r="${r}"/>`;
+    const cbE = (cx, cy, rx, ry, rot = 0) => `<ellipse class="cb-r" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"${rot ? ` transform="rotate(${rot} ${cx} ${cy})"` : ''}/>`;
+    const cbInk = d => `<path class="cb-ink" d="${d}"/>`;
+    const cbLn = d => `<path class="cb-ln" d="${d}"/>`;
+    const cbDot = (cx, cy, r) => `<circle class="cb-ink" cx="${cx}" cy="${cy}" r="${r}"/>`;
+    const cbStar = (cx, cy, R, r) => {
+      let d = '';
+      for (let i = 0; i < 10; i++) {
+        const a = -Math.PI / 2 + i * Math.PI / 5;
+        const rad = i % 2 ? r : R;
+        d += `${i ? 'L' : 'M'}${(cx + Math.cos(a) * rad).toFixed(1)} ${(cy + Math.sin(a) * rad).toFixed(1)} `;
+      }
+      return d + 'Z';
+    };
+    const cbFlake = (cx, cy, r) => cbLn([0, 60, 120].map(a => {
+      const x = Math.cos(a * Math.PI / 180) * r, y = Math.sin(a * Math.PI / 180) * r;
+      return `M${cx - x} ${cy - y} L${cx + x} ${cy + y}`;
+    }).join(' '));
+    const cbArcBand = (cx, cy, R, r) => `M${cx - R} ${cy} A${R} ${R} 0 0 1 ${cx + R} ${cy} L${cx + r} ${cy} A${r} ${r} 0 0 0 ${cx - r} ${cy} Z`;
+    const cbFace = (cx, cy, s = 1) => cbDot(cx - 11 * s, cy, 4 * s) + cbDot(cx + 11 * s, cy, 4 * s) + cbLn(`M${cx - 8 * s} ${cy + 12 * s} Q${cx} ${cy + 19 * s} ${cx + 8 * s} ${cy + 12 * s}`);
+
+    const CB_BOOKS = [
+      { id: 'ice', icon: '❄️', pages: [
+        { id: 'icequeen', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') + cbR('M0 330 Q100 300 200 330 T400 322 V400 H0 Z') +
+          cbR('M168 150 Q118 262 104 352 L160 344 Z') + cbR('M232 150 Q282 262 296 352 L240 344 Z') +
+          cbR('M152 204 L248 204 L300 352 Q200 374 100 352 Z') +
+          cbR('M166 150 L234 150 L250 208 L150 208 Z') +
+          cbR('M166 158 Q132 200 142 242 L154 238 Q150 206 176 172 Z') + cbR('M234 158 Q268 200 258 242 L246 238 Q250 206 224 172 Z') +
+          cbR('M190 128 H210 V152 H190 Z') + cbC(200, 104, 32) +
+          cbE(234, 142, 12, 14) + cbE(240, 168, 11, 13) + cbE(244, 192, 10, 12) + cbE(246, 214, 9, 11) +
+          cbR('M166 106 Q164 64 200 62 Q238 64 234 106 Q224 82 200 80 Q176 82 166 106 Z') +
+          cbR('M180 68 L186 44 L195 60 L200 36 L205 60 L214 44 L220 68 Z') +
+          cbFace(200, 104) + cbFlake(200, 280, 14) + cbFlake(160, 320, 9) + cbFlake(240, 320, 9) +
+          cbFlake(50, 60, 12) + cbFlake(350, 90, 14) + cbFlake(330, 200, 9) + cbFlake(60, 220, 9) },
+        { id: 'snowman', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') + cbR('M0 320 Q200 290 400 320 V400 H0 Z') +
+          cbC(200, 300, 72) + cbC(200, 204, 54) + cbC(200, 126, 40) +
+          cbR('M166 92 H234 V100 H166 Z') + cbR('M176 50 H224 V94 H176 Z') + cbR('M176 80 H224 V90 H176 Z') +
+          cbR('M162 158 Q200 176 238 158 L240 172 Q200 190 160 172 Z') + cbR('M216 170 L236 222 L218 226 L206 176 Z') +
+          cbR('M200 128 L236 136 L200 140 Z') +
+          cbC(200, 194, 7) + cbC(200, 218, 7) + cbC(200, 290, 8) + cbC(200, 316, 8) +
+          cbDot(186, 116, 5) + cbDot(214, 116, 5) + cbLn('M184 146 Q200 154 216 146') +
+          cbLn('M148 200 L96 166 M108 174 L94 186 M252 200 L304 166 M292 174 L306 186') +
+          cbFlake(60, 70, 12) + cbFlake(340, 60, 12) + cbFlake(320, 160, 8) + cbFlake(80, 180, 8) },
+        { id: 'icecastle', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') + cbR('M0 340 Q200 320 400 340 V400 H0 Z') +
+          cbR('M88 200 H142 V342 H88 Z') + cbR('M258 200 H312 V342 H258 Z') + cbR('M150 150 H250 V342 H150 Z') +
+          cbR('M80 202 L115 130 L150 202 Z') + cbR('M250 202 L285 130 L320 202 Z') + cbR('M142 152 L200 60 L258 152 Z') +
+          cbR('M178 342 V292 Q200 266 222 292 V342 Z') +
+          cbR('M104 240 H126 V270 H104 Z') + cbR('M274 240 H296 V270 H274 Z') + cbC(200, 200, 18) +
+          cbR('M200 60 V30 L230 40 L200 50 Z') +
+          cbR(cbStar(60, 70, 18, 8)) + cbR(cbStar(340, 80, 14, 6)) + cbFlake(40, 260, 10) + cbFlake(360, 260, 10) },
+        { id: 'deer', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') + cbR('M0 330 Q200 300 400 330 V400 H0 Z') +
+          cbE(220, 250, 92, 58) + cbR('M150 280 H172 V352 H150 Z') + cbR('M190 290 H212 V356 H190 Z') + cbR('M240 290 H262 V356 H240 Z') + cbR('M276 280 H298 V350 H276 Z') +
+          cbR('M134 238 L150 166 L182 170 L176 246 Z') + cbE(152, 142, 44, 40) +
+          cbR('M128 108 L112 60 L100 74 L108 40 L126 82 L134 50 L140 102 Z') + cbR('M176 108 L192 60 L204 74 L196 40 L178 82 L170 50 L164 102 Z') +
+          cbE(108, 132, 16, 9, -30) + cbE(196, 132, 16, 9, 30) + cbC(118, 160, 11) +
+          cbDot(140, 134, 5) + cbDot(166, 134, 5) + cbE(222, 238, 34, 24) + cbE(310, 228, 12, 18) +
+          cbFlake(60, 60, 10) + cbFlake(330, 70, 12) }
+      ] },
+      { id: 'heroes', icon: '🎤', pages: [
+        { id: 'popstar', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') + cbR('M140 0 H260 L340 400 H60 Z') + cbR('M0 350 H400 V400 H0 Z') +
+          cbR('M176 300 H196 V370 H176 Z') + cbR('M204 300 H224 V370 H204 Z') +
+          cbR('M168 360 H200 V378 H168 Z') + cbR('M200 360 H232 V378 H200 Z') +
+          cbR('M160 236 L240 236 L256 310 L144 310 Z') +
+          cbR('M162 150 L238 150 L242 240 L158 240 Z') + cbR('M200 150 L182 196 L200 240 L218 196 Z') +
+          cbR('M162 156 Q128 190 118 226 L132 232 Q146 200 172 178 Z') + cbR('M238 156 Q270 120 284 92 L270 86 Q256 112 228 140 Z') +
+          cbR('M190 128 H210 V152 H190 Z') + cbC(200, 106, 30) +
+          cbR('M168 104 Q166 66 200 64 Q234 66 232 104 Q222 84 200 82 Q178 84 168 104 Z') +
+          cbR('M226 72 Q290 50 300 120 Q306 180 278 214 Q284 150 236 96 Z') +
+          cbC(124, 236, 12) + cbR('M118 246 L130 246 L128 290 L120 290 Z') +
+          cbR(cbStar(286, 70, 24, 10)) + cbFace(200, 106) +
+          cbR(cbStar(60, 60, 16, 7)) + cbR(cbStar(345, 160, 14, 6)) + cbR('M50 250 l-14 -14 a9 9 0 0 1 14 -10 a9 9 0 0 1 14 10 z') +
+          cbLn('M330 260 v-30 l18 -6 v30 M330 260 a6 5 0 1 1 -0.1 0 M348 254 a6 5 0 1 1 -0.1 0') },
+        { id: 'ghost', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') + cbC(320, 80, 40) + cbR('M0 340 Q200 310 400 340 V400 H0 Z') +
+          cbR('M130 300 Q120 150 200 120 Q280 150 270 300 Q252 280 236 304 Q218 280 200 304 Q182 280 164 304 Q148 280 130 300 Z') +
+          cbE(176, 220, 12, 8) + cbE(224, 220, 12, 8) + cbDot(180, 196, 7) + cbDot(220, 196, 7) + cbLn('M188 226 Q200 236 212 226') +
+          cbR('M128 220 Q96 210 84 180 L96 172 Q110 196 132 200 Z') + cbR('M272 220 Q306 210 318 180 L306 172 Q290 196 268 200 Z') +
+          cbR('M300 300 L312 196 L322 196 L318 300 Z') + cbR('M296 296 H326 V308 H296 Z') + cbR(cbStar(317, 180, 22, 9)) +
+          cbR(cbStar(60, 60, 14, 6)) + cbR(cbStar(110, 110, 9, 4)) + cbR(cbStar(240, 50, 10, 4)) + cbR(cbStar(70, 250, 12, 5)) },
+        { id: 'stage', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') + cbR('M0 0 H90 Q60 200 90 400 H0 Z') + cbR('M400 0 H310 Q340 200 310 400 H400 Z') +
+          cbR('M0 0 H400 V40 Q200 80 0 40 Z') + cbR('M40 320 H360 L400 400 H0 Z') +
+          cbR(cbStar(200, 170, 90, 40)) + cbC(200, 170, 22) +
+          cbR('M196 260 H204 V330 H196 Z') + cbE(200, 250, 14, 18) + cbR('M176 330 H224 V340 H176 Z') +
+          cbR('M120 100 l-12 -12 a8 8 0 0 1 12 -9 a8 8 0 0 1 12 9 z') + cbR('M290 110 l-12 -12 a8 8 0 0 1 12 -9 a8 8 0 0 1 12 9 z') +
+          cbLn('M110 250 v-30 l18 -6 v30 M110 250 a6 5 0 1 1 -0.1 0 M128 244 a6 5 0 1 1 -0.1 0') +
+          cbLn('M280 270 v-26 M280 270 a6 5 0 1 1 -0.1 0 M280 244 q10 4 12 14') }
+      ] },
+      { id: 'unicorns', icon: '🦄', pages: [
+        { id: 'kikihead', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') +
+          cbR('M118 120 Q60 160 86 230 Q50 270 96 320 Q110 260 130 240 Z') +
+          cbR('M136 140 Q90 190 112 250 Q92 300 130 340 Q140 280 156 250 Z') +
+          cbR('M150 380 L170 220 Q160 120 240 110 Q330 110 340 200 Q346 260 290 270 L260 380 Z') +
+          cbE(300, 214, 46, 40) + cbDot(290, 200, 6) + cbDot(318, 200, 6) + cbLn('M282 232 Q300 248 320 232') +
+          cbC(226, 186, 22) + cbDot(230, 182, 9) + cbE(246, 226, 18, 11) +
+          cbR('M206 116 L190 54 L236 104 Z') + cbR('M232 112 L272 10 L262 120 Z') +
+          cbLn('M244 92 L264 84 M240 70 L268 62 M250 46 L270 40') +
+          cbC(60, 60, 14) + cbC(60, 40, 9) + cbC(42, 64, 9) + cbC(78, 64, 9) + cbC(350, 340, 16) + cbC(350, 316, 10) + cbC(328, 344, 10) + cbC(372, 344, 10) },
+        { id: 'rainbowcorn', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') +
+          cbR(cbArcBand(200, 260, 190, 170)) + cbR(cbArcBand(200, 260, 170, 150)) + cbR(cbArcBand(200, 260, 150, 130)) + cbR(cbArcBand(200, 260, 130, 110)) +
+          cbR('M20 300 Q20 250 70 256 Q90 220 130 246 Q170 236 170 290 Q170 330 120 330 H60 Q20 330 20 300 Z') +
+          cbR('M230 300 Q230 250 280 256 Q300 220 340 246 Q380 236 380 290 Q380 330 330 330 H270 Q230 330 230 300 Z') +
+          cbR('M140 330 H260 V400 H140 Z') +
+          cbE(200, 300, 52, 30) + cbR('M164 312 H176 V350 H164 Z') + cbR('M222 312 H234 V350 H222 Z') +
+          cbR('M236 288 L262 236 L282 244 L260 300 Z') + cbE(276, 232, 24, 20) +
+          cbR('M270 214 L284 180 L284 216 Z') + cbR('M258 220 Q240 230 246 260 Q236 250 236 230 Q244 212 258 220 Z') +
+          cbR('M150 290 Q120 300 122 330 Q136 312 152 306 Z') + cbDot(282, 228, 4) },
+        { id: 'cupcake', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') +
+          cbR('M120 240 H280 L260 370 H140 Z') + cbLn('M152 240 L162 370 M184 240 L188 370 M216 240 L212 370 M248 240 L238 370') +
+          cbR('M110 244 Q100 200 150 196 Q150 160 200 160 Q250 160 250 196 Q300 200 290 244 Z') +
+          cbR('M150 196 Q160 140 200 128 Q240 140 250 196 Q200 180 150 196 Z') +
+          cbR('M186 130 L200 60 L214 130 Z') + cbR('M160 150 L150 112 L180 136 Z') + cbR('M240 150 L250 112 L220 136 Z') +
+          cbC(176, 214, 6) + cbC(226, 214, 6) + cbLn('M190 226 Q200 234 210 226') + cbE(160, 226, 9, 5) + cbE(240, 226, 9, 5) +
+          cbR('M130 206 h10 v4 h-10 z') + cbR('M262 206 h10 v4 h-10 z') + cbR('M200 186 h10 v4 h-10 z') +
+          cbR(cbStar(70, 80, 22, 9)) + cbR(cbStar(330, 90, 18, 8)) + cbR('M60 320 l-14 -14 a9 9 0 0 1 14 -10 a9 9 0 0 1 14 10 z') }
+      ] },
+      { id: 'dinos', icon: '🦖', pages: [
+        { id: 'trex', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') + cbC(340, 60, 30) + cbR('M260 330 L320 200 L380 330 Z') + cbR('M300 210 Q320 180 340 210 Z') +
+          cbR('M0 330 Q200 310 400 330 V400 H0 Z') +
+          cbR('M80 320 Q60 250 120 200 Q170 160 220 180 Q250 200 240 260 Q230 300 200 320 Z') +
+          cbR('M110 300 Q40 300 20 250 Q60 280 100 270 Z') +
+          cbR('M200 190 Q190 120 240 100 Q300 90 310 130 Q312 160 280 166 L240 170 Q230 200 210 200 Z') +
+          cbR('M246 150 L290 152 L288 160 L246 160 Z') +
+          cbR('M130 300 H160 V350 H130 Z') + cbR('M180 300 H210 V350 H180 Z') +
+          cbR('M214 210 Q240 214 244 228 L236 232 Q230 222 212 222 Z') +
+          cbR('M130 230 Q170 220 200 250 Q190 300 140 296 Q120 260 130 230 Z') +
+          cbR('M150 182 L160 160 L172 176 Z') + cbR('M176 172 L190 148 L198 170 Z') + cbR('M110 204 L114 180 L130 192 Z') +
+          cbDot(270, 120, 6) + cbLn('M256 146 l4 -6 l4 6 l4 -6 l4 6 l4 -6') },
+        { id: 'stego', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') + cbR('M0 330 Q200 300 400 330 V400 H0 Z') +
+          cbR('M120 170 L140 120 L160 168 Z') + cbR('M160 160 L186 100 L206 158 Z') + cbR('M206 160 L230 104 L250 164 Z') + cbR('M250 170 L272 126 L288 178 Z') +
+          cbR('M80 260 Q90 170 200 160 Q300 166 310 250 Q250 280 160 280 Z') +
+          cbR('M300 240 Q340 240 360 210 Q370 240 340 260 Q320 270 300 260 Z') +
+          cbR('M90 250 Q60 250 40 228 Q30 212 50 210 Q70 214 96 228 Z') +
+          cbR('M120 270 H146 V330 H120 Z') + cbR('M170 276 H196 V336 H170 Z') + cbR('M222 276 H248 V336 H222 Z') + cbR('M266 266 H290 V326 H266 Z') +
+          cbR('M352 216 L370 196 L366 220 Z') + cbR('M340 226 L362 216 L350 236 Z') +
+          cbDot(56, 220, 4) + cbC(330, 60, 26) },
+        { id: 'longneck', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') + cbR('M0 340 Q200 320 400 340 V400 H0 Z') +
+          cbR('M320 340 L330 200 L344 200 L350 340 Z') + cbE(310, 196, 40, 12, -20) + cbE(360, 190, 40, 12, 25) + cbE(336, 172, 36, 12, -70) +
+          cbE(170, 270, 90, 50) + cbR('M220 250 Q250 160 220 80 L250 70 Q290 160 250 262 Z') + cbE(244, 70, 30, 20) +
+          cbR('M80 260 Q30 270 20 320 Q50 290 90 284 Z') +
+          cbR('M110 300 H136 V350 H110 Z') + cbR('M150 304 H176 V352 H150 Z') + cbR('M196 304 H222 V352 H196 Z') + cbR('M230 294 H254 V344 H230 Z') +
+          cbC(140, 250, 12) + cbC(180, 240, 9) + cbC(200, 276, 10) + cbC(120, 280, 8) + cbDot(252, 64, 4) + cbLn('M258 78 Q266 82 272 76') +
+          cbC(60, 60, 26) },
+        { id: 'egg', svg: () =>
+          cbR('M0 0 H400 V400 H0 Z') + cbR('M60 330 Q200 280 340 330 Q340 380 200 380 Q60 380 60 330 Z') +
+          cbR('M130 250 Q120 170 200 140 Q280 170 270 250 Z') +
+          cbE(200, 200, 44, 40) + cbDot(184, 192, 6) + cbDot(216, 192, 6) + cbLn('M186 214 Q200 224 214 214') + cbE(170, 210, 8, 5) + cbE(230, 210, 8, 5) +
+          cbR('M184 164 L192 146 L200 162 L208 146 L216 164 Z') +
+          cbR('M120 250 L280 250 Q290 330 200 340 Q110 330 120 250 L140 270 L160 250 L180 270 L200 250 L220 270 L240 250 L260 270 Z') +
+          cbC(170, 300, 10) + cbC(230, 296, 12) + cbC(200, 320, 8) +
+          cbR(cbStar(60, 70, 16, 7)) + cbR(cbStar(340, 70, 16, 7)) }
+      ] }
+    ];
+
+    const CB_COLORS = ['#ff1744', '#ff5252', '#ff80ab', '#f50057', '#f48fb1', '#e040fb', '#ce93d8', '#7c4dff', '#b39ddb', '#3d5afe',
+      '#448aff', '#40c4ff', '#80deea', '#1de9b6', '#69f0ae', '#00c853', '#b2ff59', '#eeff41', '#ffff00', '#ffd740',
+      '#ffab40', '#ff6d00', '#ffccbc', '#a1887f', '#6d4c41', '#ffffff', '#bdbdbd', '#212121', 'rainbow', 'glitter'];
+
+    let cb = null;
+
+    function cbSaved() {
+      try { return JSON.parse(localStorage.getItem('kiki_coloring') || '{}'); } catch (e) { return {}; }
+    }
+    function cbSave() {
+      const all = cbSaved();
+      all[cb.pageId] = { fills: cb.fills, doodles: cb.doodles };
+      try { localStorage.setItem('kiki_coloring', JSON.stringify(all)); } catch (e) {}
+    }
+
+    function cbPageSVG(page, fills, doodles, cls) {
+      const defs = `<defs>
+        <linearGradient id="cb-rainbow" x1="0" y1="0" x2="1" y2="1">${['#ff5252', '#ffab40', '#ffee58', '#69f0ae', '#40c4ff', '#b388ff'].map((c, i) => `<stop offset="${i / 5}" stop-color="${c}"/>`).join('')}</linearGradient>
+        <pattern id="cb-glitter" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#f8bbd0"/><circle cx="4" cy="4" r="1.8" fill="#fff"/><circle cx="12" cy="9" r="1.4" fill="#ffd700"/><circle cx="6" cy="13" r="1.2" fill="#ce93d8"/></pattern></defs>`;
+      let svg = `<svg class="${cls}" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">${defs}${page.svg()}`;
+      svg += `<g class="cb-doodles">${(doodles || []).map(d => `<path d="${d.d}" stroke="${d.c}" stroke-width="${d.w}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}</g></svg>`;
+      // Apply saved fills by region index
+      if (fills && Object.keys(fills).length) {
+        let i = -1;
+        svg = svg.replace(/class="cb-r"/g, () => { i++; return fills[i] ? `class="cb-r" style="fill:${cbFillValue(fills[i])}"` : 'class="cb-r"'; });
+      }
+      return svg;
+    }
+
+    function cbFillValue(c) {
+      return c === 'rainbow' ? 'url(#cb-rainbow)' : c === 'glitter' ? 'url(#cb-glitter)' : c;
+    }
+
+    function openColoringBook() {
+      document.getElementById('cb-overlay').classList.add('open');
+      if (!cb) cb = { book: 0, pageId: CB_BOOKS[0].pages[0].id, color: '#ff80ab', tool: 'fill', fills: {}, doodles: [], undo: [] };
+      cbRenderBooks();
+      cbOpenPage(cb.pageId);
+      cbRenderPalette();
+      unicornSpeak('Coloring time!', { updateBubble: false });
+    }
+
+    function exitColoringBook() {
+      document.getElementById('cb-overlay').classList.remove('open');
+      setWorld('abc');
+    }
+
+    function cbFindPage(id) {
+      for (const b of CB_BOOKS) for (const p of b.pages) if (p.id === id) return p;
+      return CB_BOOKS[0].pages[0];
+    }
+
+    function cbRenderBooks() {
+      const bar = document.getElementById('cb-books');
+      bar.innerHTML = CB_BOOKS.map((b, i) => `<button class="cb-book ${i === cb.book ? 'active' : ''}" onclick="cbPickBook(${i})">${b.icon}</button>`).join('');
+      const pages = document.getElementById('cb-pages');
+      const saved = cbSaved();
+      pages.innerHTML = CB_BOOKS[cb.book].pages.map(p => `<button class="cb-thumb ${p.id === cb.pageId ? 'active' : ''}" data-p="${p.id}">${cbPageSVG(p, (saved[p.id] || {}).fills, (saved[p.id] || {}).doodles, 'cb-mini')}</button>`).join('');
+      pages.querySelectorAll('.cb-thumb').forEach(b => { b.onclick = () => { playMagicSound('pop'); cbOpenPage(b.dataset.p); cbRenderBooks(); }; });
+    }
+
+    function cbPickBook(i) {
+      cb.book = i;
+      playMagicSound('pop');
+      cbOpenPage(CB_BOOKS[i].pages[0].id);
+      cbRenderBooks();
+    }
+
+    function cbOpenPage(id) {
+      cb.pageId = id;
+      const saved = cbSaved()[id] || {};
+      cb.fills = saved.fills || {};
+      cb.doodles = saved.doodles || [];
+      cb.undo = [];
+      const stage = document.getElementById('cb-stage');
+      stage.innerHTML = cbPageSVG(cbFindPage(id), cb.fills, cb.doodles, 'cb-page');
+      cbWirePage(stage.querySelector('svg'));
+    }
+
+    function cbWirePage(svg) {
+      const regions = [...svg.querySelectorAll('.cb-r')];
+      regions.forEach((el, idx) => {
+        el.addEventListener('pointerdown', (ev) => {
+          if (cb.tool !== 'fill') return;
+          ev.stopPropagation();
+          cb.undo.push({ type: 'fill', idx, prev: cb.fills[idx] || null });
+          cb.fills[idx] = cb.color;
+          el.style.fill = cbFillValue(cb.color);
+          el.classList.remove('cb-pop'); void el.getBoundingClientRect(); el.classList.add('cb-pop');
+          playCountNote(1 + (idx % 8));
+          burstSparkles(ev.clientX, ev.clientY, 10);
+          cbSave();
+          cbCheckDone(regions.length);
+        });
+      });
+      // Crayon: draw a path while the finger moves
+      let cur = null;
+      const toSvg = ev => {
+        const pt = svg.createSVGPoint();
+        pt.x = ev.clientX; pt.y = ev.clientY;
+        const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+        return `${p.x.toFixed(1)} ${p.y.toFixed(1)}`;
+      };
+      svg.addEventListener('pointerdown', ev => {
+        if (cb.tool !== 'crayon' && cb.tool !== 'eraser') return;
+        svg.setPointerCapture && svg.setPointerCapture(ev.pointerId);
+        const color = cb.tool === 'eraser' ? '#ffffff' : (cb.color === 'rainbow' || cb.color === 'glitter' ? '#ff80ab' : cb.color);
+        cur = { d: `M${toSvg(ev)}`, c: color, w: cb.tool === 'eraser' ? 22 : 10 };
+        cur.el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        Object.entries({ d: cur.d, stroke: cur.c, 'stroke-width': cur.w, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }).forEach(([k, v]) => cur.el.setAttribute(k, v));
+        svg.querySelector('.cb-doodles').appendChild(cur.el);
+      });
+      svg.addEventListener('pointermove', ev => {
+        if (!cur) return;
+        cur.d += ` L${toSvg(ev)}`;
+        cur.el.setAttribute('d', cur.d);
+      });
+      const end = () => {
+        if (!cur) return;
+        cb.doodles.push({ d: cur.d, c: cur.c, w: cur.w });
+        cb.undo.push({ type: 'doodle' });
+        cur = null;
+        cbSave();
+      };
+      svg.addEventListener('pointerup', end);
+      svg.addEventListener('pointercancel', end);
+    }
+
+    function cbCheckDone(total) {
+      const filled = Object.keys(cb.fills).length;
+      const doneKey = 'kiki_cb_done_' + cb.pageId;
+      if (filled >= total && !localStorage.getItem(doneKey)) {
+        try { localStorage.setItem(doneKey, '1'); } catch (e) {}
+        addStar();
+        playMagicSound('success');
+        burstSparkles(window.innerWidth / 2, window.innerHeight / 2, 90);
+        const p = BLUEY_PRAISES[Math.floor(Math.random() * BLUEY_PRAISES.length)];
+        showPraisePop(p);
+        unicornSpeak(p.word, { updateBubble: false });
+      }
+    }
+
+    function cbUndo() {
+      const last = cb.undo.pop();
+      if (!last) { playMagicSound('oops'); return; }
+      if (last.type === 'fill') {
+        if (last.prev) cb.fills[last.idx] = last.prev; else delete cb.fills[last.idx];
+      } else {
+        cb.doodles.pop();
+      }
+      playMagicSound('pop');
+      cbSave();
+      const stage = document.getElementById('cb-stage');
+      const undo = cb.undo;
+      stage.innerHTML = cbPageSVG(cbFindPage(cb.pageId), cb.fills, cb.doodles, 'cb-page');
+      cbWirePage(stage.querySelector('svg'));
+      cb.undo = undo;
+    }
+
+    function cbClear() {
+      cb.fills = {};
+      cb.doodles = [];
+      cb.undo = [];
+      cbSave();
+      playMagicSound('legoBreak');
+      cbOpenPage(cb.pageId);
+      cbRenderBooks();
+    }
+
+    function cbSetTool(t) {
+      cb.tool = t;
+      playMagicSound('pop');
+      cbRenderPalette();
+    }
+
+    function cbRenderPalette() {
+      const tools = document.getElementById('cb-tools');
+      tools.innerHTML = [['fill', '🪣'], ['crayon', '🖍️'], ['eraser', '🧽']].map(([t, i]) =>
+        `<button class="cb-tool ${cb.tool === t ? 'active' : ''}" onclick="cbSetTool('${t}')">${i}</button>`).join('') +
+        `<button class="cb-tool" onclick="cbUndo()">↩️</button><button class="cb-tool" onclick="cbClear()">🗑️</button>`;
+      const pal = document.getElementById('cb-palette');
+      pal.innerHTML = CB_COLORS.map(c => {
+        const bg = c === 'rainbow' ? 'linear-gradient(135deg,#ff5252,#ffee58,#69f0ae,#40c4ff,#b388ff)'
+          : c === 'glitter' ? 'radial-gradient(circle at 30% 30%,#fff 0 10%,transparent 11%),radial-gradient(circle at 70% 60%,#ffd700 0 10%,transparent 11%),#f8bbd0' : c;
+        return `<button class="cb-swatch ${cb.color === c ? 'active' : ''}" data-c="${c}" style="background:${bg}"></button>`;
+      }).join('');
+      pal.querySelectorAll('.cb-swatch').forEach(b => {
+        b.onclick = () => {
+          cb.color = b.dataset.c;
+          if (cb.tool === 'eraser') cb.tool = 'fill';
+          playMagicSound('pop');
+          cbRenderPalette();
+        };
+      });
+    }
+
+    function startColoringWorld() {
+      document.getElementById('speech-text').textContent = '🖍️ Coloring!';
+      openColoringBook();
     }
 
     /*************************************************************************
