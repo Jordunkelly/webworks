@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v4.0 | Loveable Unicorns 🦄💖 Royal Pink &amp; Purple Kindergarten!</title>
+  <title>v5.0 | Loveable Unicorns 🦄💖 Royal Pink &amp; Purple Kindergarten!</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -807,7 +807,7 @@
     }
 
     /* =========================================================================
-       MINI GAME 3: 🧱 AAA FULL-SCREEN LEGO WORLD BUILDER, UNICORN & PHYSICS (v4.0)
+       MINI GAME 3: 🧱 5-YEAR-OLD PICTURE-ONLY LEGO UNICORN BUILDER (v5.0)
        ========================================================================= */
     .lego-fs-overlay {
       position: fixed;
@@ -843,270 +843,181 @@
       height: 100%;
       display: block;
       touch-action: none;
-      cursor: crosshair;
+      cursor: pointer;
     }
 
-    /* Floating Glassmorphic Top HUD Inside the Map (Pink & Purple Royal Theme) */
+    /* Super Simple Picture-Only Top Bar for a 5-Year-Old (No Reading Needed!) */
     .lego-fs-topbar {
       position: absolute;
-      top: 8px;
-      left: 8px;
-      right: 8px;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 10px;
+      background: linear-gradient(90deg, rgba(136, 14, 79, 0.92), rgba(74, 20, 140, 0.92));
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 3px solid #ff80ab;
+      border-radius: 22px;
+      color: #ffffff;
+      z-index: 12;
+      box-shadow: 0 6px 20px rgba(74, 20, 140, 0.45);
+    }
+
+    .lego-icon-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 16px;
+      border: 3px solid #ffffff;
+      background: linear-gradient(180deg, #ff80ab, #d81b60);
+      font-size: 1.65rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #880e4f;
+      flex-shrink: 0;
+      transition: transform 0.1s;
+    }
+
+    .lego-icon-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #880e4f;
+    }
+
+    .lego-scene-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .lego-scene-btn {
+      width: 52px;
+      height: 50px;
+      border-radius: 16px;
+      border: 3px solid rgba(255, 255, 255, 0.7);
+      background: rgba(106, 27, 154, 0.85);
+      font-size: 1.65rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #311b92;
+      transition: transform 0.15s;
+    }
+
+    .lego-scene-btn.active {
+      background: linear-gradient(180deg, #ffee58, #fbc02d);
+      border-color: #ffffff;
+      transform: scale(1.12) translateY(-2px);
+      box-shadow: 0 5px 0 #c68400, 0 0 14px #ffee58;
+    }
+
+    /* Simple Picture-Only Bottom Tray (Big Visual LEGO Bricks + Magic Wand + Rocket + Boom) */
+    .lego-fs-dock {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+      background: linear-gradient(180deg, rgba(74, 20, 140, 0.94), rgba(49, 27, 146, 0.96));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 3px solid #ff80ab;
+      border-radius: 24px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 12;
+      box-shadow: 0 8px 26px rgba(49, 27, 146, 0.6);
+    }
+
+    .lego-picture-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 7px;
+      width: 100%;
+    }
+
+    .lego-pic-brick-btn {
+      height: 58px;
+      background: rgba(123, 31, 162, 0.9);
+      border: 3px solid #f48fb1;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #311b92;
+      padding: 4px;
+      transition: transform 0.12s;
+    }
+
+    .lego-pic-brick-btn.active {
+      background: linear-gradient(180deg, #fff9c4, #ffd54f);
+      border-color: #ffffff;
+      box-shadow: 0 5px 0 #c68400, 0 0 14px #ffee58;
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    .lego-bottom-controls {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 6px;
-      padding: 6px 10px;
-      background: linear-gradient(90deg, rgba(136, 14, 79, 0.9), rgba(74, 20, 140, 0.9));
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 2.5px solid #ff80ab;
-      border-radius: 16px;
-      color: #ffffff;
-      z-index: 12;
-      box-shadow: 0 6px 20px rgba(74, 20, 140, 0.45);
-      flex-wrap: wrap;
-    }
-
-    .lego-fs-title {
-      font-family: var(--font-ui);
-      font-size: 0.82rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: #fce4ec;
-    }
-
-    .lego-fs-btn {
-      background: linear-gradient(180deg, #ffffff, #f8bbd0);
-      border: 2px solid #ff4081;
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-family: var(--font-ui);
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #880e4f;
-      cursor: pointer;
-      box-shadow: 0 3px 0 rgba(74, 20, 140, 0.35);
-      white-space: nowrap;
-      transition: transform 0.1s;
-    }
-
-    .lego-fs-btn:active {
-      transform: translateY(2px);
-    }
-
-    /* Floating Zone & Spawner Pill Bar under Top HUD */
-    .lego-zone-bar {
-      position: absolute;
-      top: 54px;
-      left: 8px;
-      right: 8px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      z-index: 11;
-      padding-bottom: 2px;
-    }
-    .lego-zone-bar::-webkit-scrollbar {
-      display: none;
-    }
-
-    .lego-zone-pill {
-      background: rgba(74, 20, 140, 0.85);
-      backdrop-filter: blur(6px);
-      border: 2px solid #f48fb1;
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-family: var(--font-ui);
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #ffffff;
-      cursor: pointer;
-      white-space: nowrap;
-      flex-shrink: 0;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.28);
-    }
-
-    .lego-zone-pill.active {
-      background: linear-gradient(180deg, #ff4081, #c2185b);
-      border-color: #ffee58;
-      color: #ffffff;
-      transform: scale(1.05);
-    }
-
-    .lego-zone-pill.spawner {
-      background: linear-gradient(180deg, #ab47bc, #6a1b9a);
-      border-color: #ffd54f;
-    }
-
-    /* Floating On-Screen Thumb D-Pad Inside the Map (Bigger & Kid-Friendly!) */
-    .lego-floating-dpad {
-      position: absolute;
-      right: 12px;
-      bottom: 148px;
-      display: flex;
-      align-items: flex-end;
-      gap: 7px;
-      z-index: 12;
-      pointer-events: auto;
-    }
-
-    .lego-dpad-btn {
-      width: 54px;
-      height: 54px;
-      border-radius: 18px;
-      border: 3px solid #ffffff;
-      background: linear-gradient(180deg, rgba(171, 71, 188, 0.94), rgba(106, 27, 154, 0.96));
-      color: #ffffff;
-      font-family: var(--font-ui);
-      font-size: 1.25rem;
-      font-weight: 700;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 5px 0 rgba(49, 27, 146, 0.85), 0 6px 14px rgba(0,0,0,0.35);
-      backdrop-filter: blur(4px);
-    }
-
-    .lego-dpad-btn.jump {
-      width: 62px;
-      height: 60px;
-      background: linear-gradient(180deg, rgba(255, 64, 129, 0.96), rgba(194, 24, 91, 0.98));
-      border-color: #ffee58;
-      font-size: 0.82rem;
-    }
-
-    .lego-dpad-btn:active {
-      transform: translateY(3px);
-      box-shadow: 0 2px 0 rgba(49, 27, 146, 0.85);
-    }
-
-    /* Floating Glassmorphic Builder Tool & Visual Shape Dock at Bottom of Map */
-    .lego-fs-dock {
-      position: absolute;
-      left: 8px;
-      right: 8px;
-      bottom: calc(6px + env(safe-area-inset-bottom, 0px));
-      background: linear-gradient(180deg, rgba(74, 20, 140, 0.92), rgba(49, 27, 146, 0.95));
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 2.5px solid #ff80ab;
-      border-radius: 20px;
-      padding: 7px 9px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      z-index: 12;
-      box-shadow: 0 8px 26px rgba(49, 27, 146, 0.55);
-    }
-
-    .lego-dock-row {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 1px;
-    }
-    .lego-dock-row::-webkit-scrollbar {
-      display: none;
-    }
-
-    .lego-tool-btn {
-      background: rgba(123, 31, 162, 0.92);
-      border: 2px solid #f48fb1;
-      border-radius: 12px;
-      padding: 5px 10px;
-      font-family: var(--font-ui);
-      font-size: 0.76rem;
-      font-weight: 700;
-      color: #ffffff;
-      cursor: pointer;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex-shrink: 0;
-      box-shadow: 0 3px 0 #311b92;
-    }
-
-    .lego-tool-btn.active {
-      background: linear-gradient(180deg, #ff80ab, #ec407a);
-      color: #ffffff;
-      border-color: #ffee58;
-      box-shadow: 0 3px 0 #880e4f;
-      transform: translateY(-1px);
-    }
-
-    .lego-cat-btn {
-      background: rgba(255, 255, 255, 0.16);
-      border: 2px solid rgba(244, 143, 177, 0.65);
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-family: var(--font-ui);
-      font-size: 0.74rem;
-      font-weight: 700;
-      color: #fce4ec;
-      cursor: pointer;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .lego-cat-btn.active {
-      background: linear-gradient(180deg, #ffee58, #fbc02d);
-      color: #4a148c;
-      border-color: #ffffff;
-      box-shadow: 0 2px 0 #c68400;
-    }
-
-    .lego-shape-card {
-      background: rgba(106, 27, 154, 0.92);
-      border: 2px solid #f48fb1;
-      border-radius: 13px;
-      padding: 4px 9px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      cursor: pointer;
-      flex-shrink: 0;
-      color: #ffffff;
-      font-family: var(--font-ui);
-      font-size: 0.76rem;
-      font-weight: 700;
-      box-shadow: 0 3px 0 #311b92;
-    }
-
-    .lego-shape-card.active {
-      background: linear-gradient(180deg, #fff59d, #fbc02d);
-      color: #880e4f;
-      border-color: #ffffff;
-      box-shadow: 0 3px 0 #b26a00;
-      transform: translateY(-1px);
+      width: 100%;
     }
 
     .lego-swatch {
-      width: 26px;
-      height: 26px;
-      border: 2px solid #fff;
-      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
       cursor: pointer;
       flex-shrink: 0;
-      box-shadow: 0 2px 0 rgba(0,0,0,0.4);
+      box-shadow: 0 3px 0 rgba(0,0,0,0.35);
+      transition: transform 0.12s;
     }
 
     .lego-swatch.active {
-      outline: 3px solid #ffd700;
-      transform: scale(1.16);
+      outline: 3.5px solid #ffee58;
+      transform: scale(1.22);
+    }
+
+    .lego-big-magic-btn {
+      flex: 1;
+      height: 48px;
+      border-radius: 16px;
+      border: 3px solid #ffffff;
+      background: linear-gradient(180deg, #ffee58, #ff4081);
+      font-size: 1.65rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #880e4f;
+      animation: pulseMystery 0.9s infinite alternate;
+    }
+
+    .lego-big-action-btn {
+      width: 52px;
+      height: 48px;
+      border-radius: 16px;
+      border: 3px solid #ffffff;
+      background: linear-gradient(180deg, #ab47bc, #6a1b9a);
+      font-size: 1.55rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #311b92;
+      flex-shrink: 0;
     }
 
     .closet-card {
@@ -1250,7 +1161,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span>Loveable Unicorns <small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v4.0</small></span>
+      <span>Loveable Unicorns <small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v5.0</small></span>
     </div>
 
     <div class="header-controls">
@@ -1384,68 +1295,37 @@
     <div id="interactive-area" style="width: 100%; display: flex; justify-content: center;"></div>
   </main>
 
-  <!-- AAA FULL-SCREEN LEGO WORLD BUILDER, CUTE UNICORN BUILDER & LEGO PHYSICS ENGINE (v4.0) -->
+  <!-- 5-YEAR-OLD PICTURE-ONLY LEGO UNICORN BUILDER (v5.0 - ZERO READING OR SCROLLING!) -->
   <div class="lego-fs-overlay" id="lego-fs-overlay">
     <div class="lego-fs-canvas-wrap" id="lego-fs-canvas-wrap">
       <canvas class="lego-fs-canvas" id="lego-fs-canvas"></canvas>
 
-      <!-- Floating Glassmorphic Top HUD Bar Inside the Map -->
+      <!-- Simple Picture-Only Top Bar: Exit + 4 Picture Scenes + Sky Toggle + Stars -->
       <div class="lego-fs-topbar">
-        <div style="display:flex; align-items:center; gap:6px; min-width:0;">
-          <button class="lego-fs-btn" onclick="exitLegoWorld()">🚪 Exit</button>
-          <div class="lego-fs-title" id="lego-quest-banner">
-            🦄 LEGO Unicorn Builder v4.0: Tap Any Zone or Build!
-          </div>
+        <button class="lego-icon-btn" onclick="exitLegoWorld()" title="Home">🏠</button>
+
+        <div class="lego-scene-pills" id="lego-zone-bar">
+          <button class="lego-scene-btn active" data-zone="0" onclick="teleportLegoZone(0)">🏰</button>
+          <button class="lego-scene-btn" data-zone="1" onclick="teleportLegoZone(1)">🦄</button>
+          <button class="lego-scene-btn" data-zone="2" onclick="teleportLegoZone(2)">🚀</button>
+          <button class="lego-scene-btn" data-zone="3" onclick="teleportLegoZone(3)">🏎️</button>
         </div>
-        <div style="display:flex; align-items:center; gap:5px; flex-shrink:0;">
-          <button class="lego-fs-btn" id="lego-sky-btn" onclick="cycleLegoSkyMode()" title="Change Day, Sunset or Night!">🌸 Pink Sky</button>
-          <button class="lego-fs-btn" onclick="launchLegoRockets()" style="background:linear-gradient(180deg,#ff4081,#ad1457); color:#fff; border-color:#ffee58;">🚀 Launch!</button>
-          <span style="background:rgba(49,27,146,0.65); padding:3px 8px; border-radius:999px; font-family:var(--font-ui); font-size:0.78rem; font-weight:700; border:1.5px solid #ffd54f;">
-            💵⭐ <span id="lego-fs-stars">0</span>
-          </span>
-          <button class="lego-fs-btn" onclick="toggleBgMusic()">🎵</button>
+
+        <button class="lego-icon-btn" id="lego-sky-btn" onclick="cycleLegoSkyMode()" style="background:linear-gradient(180deg,#ab47bc,#6a1b9a);">🌸</button>
+        <div style="background:rgba(49,27,146,0.85); padding:6px 10px; border-radius:16px; font-family:var(--font-ui); font-size:1rem; font-weight:700; border:2.5px solid #ffd54f; display:flex; align-items:center; gap:3px;">
+          ⭐<span id="lego-fs-stars">0</span>
         </div>
       </div>
 
-      <!-- Kid-Friendly Big Zone Teleporters + 1-Tap Instant Toy Spawners (No Long Scrolling Needed!) -->
-      <div class="lego-zone-bar" id="lego-zone-bar">
-        <button class="lego-zone-pill active" data-zone="0" onclick="teleportLegoZone(0)">🌉 1. Bridge</button>
-        <button class="lego-zone-pill" data-zone="1" onclick="teleportLegoZone(1)">🏡 2. House</button>
-        <button class="lego-zone-pill" data-zone="2" onclick="teleportLegoZone(2)">🚀 3. Rockets</button>
-        <button class="lego-zone-pill" data-zone="3" onclick="teleportLegoZone(3)">🏰 4. Castle</button>
-        <button class="lego-zone-pill" data-zone="4" onclick="teleportLegoZone(4)">🎡 5. Park</button>
-        <button class="lego-zone-pill spawner" onclick="spawnLegoPrefab('castle')">🏰 +Castle</button>
-        <button class="lego-zone-pill spawner" onclick="spawnLegoPrefab('car')">🏎️ +Car</button>
-        <button class="lego-zone-pill spawner" onclick="spawnLegoPrefab('rocket')">🚀 +Rocket</button>
-        <button class="lego-zone-pill spawner" onclick="spawnLegoPrefab('unicorn')">🦄 +Unicorn</button>
-        <button class="lego-zone-pill spawner" onclick="spawnLegoPrefab('copter')">🚁 +Copter</button>
-      </div>
-
-      <!-- Floating On-Screen Thumb D-Pad Inside the Map -->
-      <div class="lego-floating-dpad">
-        <button class="lego-dpad-btn" id="lego-walk-left" title="Trot Left">⬅️</button>
-        <button class="lego-dpad-btn jump" id="lego-walk-jump" title="Unicorn Fly Jump!">🦄<span>JUMP</span></button>
-        <button class="lego-dpad-btn" id="lego-walk-right" title="Trot Right">➡️</button>
-      </div>
-
-      <!-- Floating Glassmorphic Builder Toolset & Category Tabs (Zero Horizontal Scroll Needed!) -->
+      <!-- Simple Picture-Only Bottom Tray: 6 Drawn LEGO Bricks + Colors + Magic Wand + Launch + Boom -->
       <div class="lego-fs-dock">
-        <!-- Row 1: Builder Toolset + 5 Category Tabs -->
-        <div class="lego-dock-row" id="lego-toolset-row">
-          <button class="lego-tool-btn active" data-tool="build" onclick="setLegoTool('build')">🧱 Build</button>
-          <button class="lego-tool-btn" data-tool="grab" onclick="setLegoTool('grab')">🖐️ Move</button>
-          <button class="lego-tool-btn" data-tool="pry" onclick="setLegoTool('pry')">🔨 Pry</button>
-          <button class="lego-tool-btn" data-tool="paint" onclick="setLegoTool('paint')">🎨 Paint</button>
-          <button class="lego-tool-btn" onclick="autoSolveCurrentLegoBlueprint()">✨ Magic Build</button>
-          <button class="lego-tool-btn" onclick="detonateLegoWorld()">💥 Boom</button>
-          <div style="width:2px; height:20px; background:rgba(255,255,255,0.28); flex-shrink:0; margin:0 2px;"></div>
-          <div id="lego-cat-tabs" style="display:flex; gap:4px; align-items:center;"></div>
-        </div>
+        <div class="lego-picture-row" id="lego-fs-shapes"></div>
 
-        <!-- Row 2: Glossy LEGO Colors + Active Category Shape Cards (Fits right on screen!) -->
-        <div class="lego-dock-row">
-          <div id="lego-fs-colors" style="display:flex; gap:4px; align-items:center; padding-right:6px; border-right:2px solid rgba(255,255,255,0.25);"></div>
-          <div id="lego-fs-shapes" style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;"></div>
+        <div class="lego-bottom-controls">
+          <div id="lego-fs-colors" style="display:flex; gap:6px; align-items:center;"></div>
+          <button class="lego-big-magic-btn" onclick="autoSolveCurrentLegoBlueprint()" title="Magic Snap Next Brick!">🪄✨</button>
+          <button class="lego-big-action-btn" onclick="launchLegoRockets()" title="Launch Rocket!">🚀</button>
+          <button class="lego-big-action-btn" onclick="detonateLegoWorld()" title="Reset & Boom!">💥</button>
         </div>
       </div>
     </div>
@@ -3590,15 +3470,37 @@
 
       if (isGhost) {
         c.save();
-        c.strokeStyle = ghostValid ? '#ffeb3b' : '#ff4081';
-        c.lineWidth = 2.5;
-        c.setLineDash([5, 4]);
-        c.strokeRect(x - 1, y - 1, w + 2, h + 2);
+        const pulse = 0.65 + 0.35 * Math.sin((ts || performance.now()) * 0.008);
+        c.strokeStyle = ghostValid ? `rgba(255, 255, 255, ${pulse})` : '#ff4081';
+        c.lineWidth = 3;
+        c.setLineDash([6, 4]);
+        c.strokeRect(x - 2, y - 2, w + 4, h + 4);
+
+        // Friendly pulsing "+" target icon inside placeholder bricks (Zero reading needed!)
+        if (br.isPlaceholder) {
+          const cx = x + w / 2;
+          const cy = y + h / 2;
+          const r = Math.min(11, Math.min(w, h) * 0.38);
+          c.setLineDash([]);
+          c.fillStyle = `rgba(255, 20, 147, ${0.75 * pulse})`;
+          c.beginPath();
+          c.arc(cx, cy, r, 0, Math.PI * 2);
+          c.fill();
+          c.strokeStyle = '#ffffff';
+          c.lineWidth = 2.2;
+          c.stroke();
+          c.beginPath();
+          c.moveTo(cx - r * 0.5, cy);
+          c.lineTo(cx + r * 0.5, cy);
+          c.moveTo(cx, cy - r * 0.5);
+          c.lineTo(cx, cy + r * 0.5);
+          c.stroke();
+        }
         c.restore();
       }
     }
 
-    // Persistent Full-Screen LEGO World State
+    // Persistent Full-Screen LEGO World State (v5.0 Zero-Text Picture-Only Kid Edition)
     let legoState = null;
 
     function exitLegoWorld() {
@@ -3614,147 +3516,200 @@
     function setLegoTool(toolName) {
       if (!legoState) return;
       legoState.tool = toolName;
-      document.querySelectorAll('#lego-toolset-row .lego-tool-btn[data-tool]').forEach(b => {
-        b.classList.toggle('active', b.getAttribute('data-tool') === toolName);
-      });
       playMagicSound('legoSnap');
     }
 
-    // 1-Tap Instant Biome Zone Teleporter (Zero tedious scrolling for a 5-year-old!)
-    function teleportLegoZone(zoneIdx) {
-      if (!legoState) return;
-      const idx = Math.max(0, Math.min(legoState.quests.length - 1, zoneIdx));
-      legoState.questIdx = idx;
-      const q = legoState.quests[idx];
-      legoState.person.x = q.spawnX;
-      legoState.person.y = legoState.floorY - 64;
-      legoState.person.vy = -4;
-      legoState.person.targetWalkX = null;
-      legoState.camX = Math.max(0, q.spawnX - 120);
+    // Build Single-Screen Centered Scene Data (Zero horizontal scrolling needed!)
+    function buildSingleScreenScene(sceneIdx, screenW, floorY) {
+      // Center stud column on the phone screen
+      const midCol = Math.max(4, Math.floor((screenW / 2) / LEGO_STUD_W));
+      const cx = midCol * LEGO_STUD_W;
 
-      const banner = document.getElementById('lego-quest-banner');
-      if (banner) banner.textContent = q.title;
+      const bricks = [];
+      const blueprints = [];
+      const trophies = [];
 
-      document.querySelectorAll('#lego-zone-bar .lego-zone-pill[data-zone]').forEach(btn => {
-        btn.classList.toggle('active', Number(btn.getAttribute('data-zone')) === idx);
-      });
-
-      legoState.spawnFlyingDebris(legoState.person.x + 24, legoState.person.y + 24, '#ff80ab', 16);
-      playMagicSound('sparkle');
-    }
-
-    function nextLegoQuest() {
-      if (!legoState) return;
-      teleportLegoZone((legoState.questIdx + 1) % legoState.quests.length);
-    }
-
-    // Day / Sunset / Starry Night Sky Mode Toggle
-    function cycleLegoSkyMode() {
-      if (!legoState) return;
-      legoState.skyMode = ((legoState.skyMode || 0) + 1) % 3;
-      const labels = ['🌸 Pink Sky', '🌅 Sunset', '🌙 Starry Night'];
-      const skyBtn = document.getElementById('lego-sky-btn');
-      if (skyBtn) skyBtn.textContent = labels[legoState.skyMode];
-      playMagicSound('sparkle');
-    }
-
-    // 1-Tap Rocket & Thruster Launch Physics!
-    function launchLegoRockets() {
-      if (!legoState) return;
-      let launched = 0;
-      legoState.bricks.forEach(b => {
-        if (b.shape === 'thruster' || b.shape === 'rotor' || b.isRocketPart) {
-          b.launching = true;
-          b.vy = -8.5;
-          launched++;
-        }
-      });
-      if (launched === 0) {
-        spawnLegoPrefab('rocket');
-        setTimeout(() => launchLegoRockets(), 120);
-        return;
-      }
-      playMagicSound('legoSpring');
-      setTimeout(() => playMagicSound('success'), 220);
-    }
-
-    // 1-Tap Instant Toy & Castle Prefab Spawner right in front of the Cute LEGO Unicorn!
-    function spawnLegoPrefab(type) {
-      if (!legoState) return;
-      const p = legoState.person;
-      const baseCol = Math.max(2, Math.min(LEGO_WORLD_COLS - 12, Math.round((p.x + (p.facing >= 0 ? 72 : -144)) / LEGO_STUD_W)));
-      const bx = baseCol * LEGO_STUD_W;
-      const fy = legoState.floorY;
-
-      const addPart = (dx, dy, shape, colorIdx, isRocketPart = false) => {
-        const sh = LEGO_BRICK_SHAPES.find(s => s.id === shape) || LEGO_BRICK_SHAPES[0];
-        legoState.bricks.push({
-          x: bx + dx,
-          y: fy - dy,
+      const addSolid = (colOffset, rowFromFloor, shapeId, colorIdx, isPermanent = true, isRocketPart = false) => {
+        const sh = LEGO_BRICK_SHAPES.find(s => s.id === shapeId) || LEGO_BRICK_SHAPES[0];
+        bricks.push({
+          x: cx + colOffset * LEGO_STUD_W,
+          y: floorY - rowFromFloor * LEGO_BRICK_H,
           w: sh.w,
           h: sh.h,
           shape: sh.id,
           colorObj: LEGO_COLORS[colorIdx % LEGO_COLORS.length],
-          isPermanent: false,
+          isPermanent,
           isRocketPart,
           vy: 0,
           falling: false
         });
       };
 
-      if (type === 'car') {
-        addPart(0,  28, 'wheel', 0);
-        addPart(96, 28, 'wheel', 0);
-        addPart(0,  56, '2x6',   1);
-        addPart(48, 84, 'window',2);
-        addPart(0,  84, 'thruster', 4);
-      } else if (type === 'copter') {
-        addPart(24, 28,  'arch',   1);
-        addPart(0,  56,  '2x6',    0);
-        addPart(48, 84,  'window', 5);
-        addPart(24, 112, 'rotor',  4, true);
-      } else if (type === 'rocket') {
-        addPart(24, 28,  'thruster', 0, true);
-        addPart(24, 56,  'round',    7, true);
-        addPart(24, 84,  'window',   1, true);
-        addPart(24, 112, 'horn',     4, true);
-      } else if (type === 'unicorn') {
-        addPart(0,  28,  '2x2',   0);
-        addPart(96, 28,  '2x2',   0);
-        addPart(0,  56,  '2x6',   7);
-        addPart(96, 84,  '2x2',   2);
-        addPart(96, 112, 'horn',  4);
-        addPart(0,  84,  'flower',3);
-      } else if (type === 'castle') {
-        addPart(0,  28,  '2x2',    1);
-        addPart(96, 28,  '2x2',    1);
-        addPart(48, 56,  'door',   0);
-        addPart(0,  56,  'window', 2);
-        addPart(96, 56,  'window', 2);
-        addPart(0,  84,  '2x6',    3);
-        addPart(24, 112, 'turret', 0);
-        addPart(48, 168, 'flag',   4);
+      const addPlaceholder = (colOffset, rowFromFloor, shapeId, colorIdx, isRocketPart = false) => {
+        const sh = LEGO_BRICK_SHAPES.find(s => s.id === shapeId) || LEGO_BRICK_SHAPES[0];
+        blueprints.push({
+          questId: sceneIdx,
+          x: cx + colOffset * LEGO_STUD_W,
+          y: floorY - rowFromFloor * LEGO_BRICK_H,
+          w: sh.w,
+          h: sh.h,
+          shape: sh.id,
+          colorObj: LEGO_COLORS[colorIdx % LEGO_COLORS.length],
+          isPlaceholder: true,
+          isRocketPart,
+          filled: false
+        });
+      };
+
+      if (sceneIdx === 0) {
+        // 🏰 SCENE 0: ROYAL UNICORN CASTLE (Centered on screen!)
+        addSolid(-4, 1, '2x2', 1, true);
+        addSolid(2,  1, '2x2', 1, true);
+        addSolid(-5, 1, 'flower', 2, true);
+        addSolid(4,  1, 'flower', 2, true);
+
+        // Big Glowing Placeholder Bricks to Tap & Snap!
+        addPlaceholder(-2, 1, '2x4',    0); // Pink Castle Step
+        addPlaceholder(-4, 2, 'window', 2); // Left Castle Window
+        addPlaceholder(-2, 2, 'arch',   4); // Golden Royal Archway
+        addPlaceholder(2,  2, 'window', 2); // Right Castle Window
+        addPlaceholder(-3, 3, '2x6',    3); // Lavender Upper Deck
+        addPlaceholder(-2, 4, 'turret', 0); // Hot Pink Battlement Turret
+        addPlaceholder(-2, 5, 'roof',   1); // Royal Purple Spire Roof
+        addPlaceholder(-1, 6, 'crown',  4); // Golden Crown Topper
+
+        trophies.push({ x: cx, y: floorY - 7 * LEGO_BRICK_H, collected: false });
+      } else if (sceneIdx === 1) {
+        // 🦄 SCENE 1: GIANT LEGO UNICORN (Centered on screen!)
+        addSolid(-3, 1, '2x2', 4, true); // Front Golden Hooves
+        addSolid(1,  1, '2x2', 4, true); // Back Golden Hooves
+        addSolid(-5, 1, 'flower', 0, true);
+
+        // Glowing Placeholder Bricks for the Giant Unicorn!
+        addPlaceholder(-3, 2, '2x2',     0); // Pink Front Legs
+        addPlaceholder(1,  2, '2x2',     0); // Pink Back Legs
+        addPlaceholder(-3, 3, '2x6',     7); // White Unicorn Body
+        addPlaceholder(-1, 4, '2x2',     1); // Purple Royal Saddle
+        addPlaceholder(3,  4, 'flower',  2); // Rainbow Tail
+        addPlaceholder(-3, 4, '2x2',     7); // Unicorn Neck
+        addPlaceholder(-4, 5, '2x4',     7); // Unicorn Head & Pink Snout
+        addPlaceholder(-3, 6, 'horn',    4); // Magical Golden Unicorn Horn!
+
+        trophies.push({ x: cx - 2 * LEGO_STUD_W, y: floorY - 7 * LEGO_BRICK_H, collected: false });
+      } else if (sceneIdx === 2) {
+        // 🚀 SCENE 2: SPACE ROCKET LAUNCHPAD (Centered on screen!)
+        addSolid(-4, 1, 'spring', 0, true); // Bouncy Jump Pad on left
+        addSolid(-2, 1, '2x4',    1, true); // Purple Launchpad Base
+
+        // Glowing Placeholder Rocket Parts (All marked isRocketPart = true!)
+        addPlaceholder(-1, 2, 'thruster', 0, true); // Rocket Booster Engine
+        addPlaceholder(-1, 3, 'round',    7, true); // Lower Fuel Tank
+        addPlaceholder(-1, 4, 'window',   1, true); // Astronaut Cabin Window
+        addPlaceholder(-1, 5, 'round',    2, true); // Upper Stage
+        addPlaceholder(-1, 6, 'horn',     4, true); // Golden Nosecone!
+
+        trophies.push({ x: cx, y: floorY - 7 * LEGO_BRICK_H, collected: false });
+      } else {
+        // 🏎️ SCENE 3: PRINCESS SUPER RACECAR (Centered on screen!)
+        addSolid(-3, 1, 'wheel', 0, true); // Front Spinning Wheel
+        addSolid(1,  1, 'wheel', 0, true); // Rear Spinning Wheel
+
+        // Glowing Placeholder Racecar Parts!
+        addPlaceholder(-3, 2, '2x6',      0); // Hot Pink Racecar Chassis
+        addPlaceholder(-1, 3, 'window',   5); // Aqua Racing Windshield
+        addPlaceholder(-3, 3, 'slopeL',   4); // Golden Front Hood
+        addPlaceholder(1,  3, 'thruster', 1, true); // Purple Turbo Jet
+        addPlaceholder(1,  4, 'flag',     0); // Racing Pennant Flag
+
+        trophies.push({ x: cx, y: floorY - 5 * LEGO_BRICK_H, collected: false });
       }
 
-      legoState.spawnFlyingDebris(bx + 48, fy - 56, '#ffd700', 18);
-      playMagicSound('legoSnap');
-      setTimeout(() => playMagicSound('legoStud'), 90);
-      runLegoStructuralPhysics();
+      return { bricks, blueprints, trophies, spawnX: Math.max(16, cx - 5 * LEGO_STUD_W) };
     }
 
+    // 1-Tap Picture Scene Switcher (Zero scrolling needed!)
+    function teleportLegoZone(zoneIdx) {
+      if (!legoState) return;
+      const idx = Math.max(0, Math.min(3, zoneIdx));
+      legoState.questIdx = idx;
+      legoState.camX = 0;
+
+      const fCanvas = document.getElementById('lego-fs-canvas');
+      const screenW = (fCanvas && fCanvas.width) ? fCanvas.width : window.innerWidth;
+      const scene = buildSingleScreenScene(idx, screenW, legoState.floorY);
+
+      legoState.bricks = scene.bricks;
+      legoState.blueprints = scene.blueprints;
+      legoState.trophies = scene.trophies;
+      legoState.quests[idx].rewarded = false;
+
+      legoState.person.x = scene.spawnX;
+      legoState.person.y = legoState.floorY - 64;
+      legoState.person.vy = -4;
+      legoState.person.facing = 1;
+      legoState.person.targetWalkX = null;
+
+      document.querySelectorAll('#lego-zone-bar .lego-scene-btn[data-zone]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.getAttribute('data-zone')) === idx);
+      });
+
+      legoState.spawnFlyingDebris(screenW / 2, legoState.floorY - 60, '#ff80ab', 16);
+      playMagicSound('sparkle');
+    }
+
+    function nextLegoQuest() {
+      if (!legoState) return;
+      teleportLegoZone((legoState.questIdx + 1) % 4);
+    }
+
+    // Day / Sunset / Starry Night Sky Mode Toggle (Icon-only button!)
+    function cycleLegoSkyMode() {
+      if (!legoState) return;
+      legoState.skyMode = ((legoState.skyMode || 0) + 1) % 3;
+      const icons = ['🌸', '🌅', '🌙'];
+      const skyBtn = document.getElementById('lego-sky-btn');
+      if (skyBtn) skyBtn.textContent = icons[legoState.skyMode];
+      playMagicSound('sparkle');
+    }
+
+    // 1-Tap Rocket & Creation Launch Physics!
+    function launchLegoRockets() {
+      if (!legoState) return;
+      // First fill any remaining placeholder bricks if in Rocket scene!
+      const unfilled = legoState.blueprints.filter(bp => !bp.filled);
+      if (unfilled.length > 0 && legoState.questIdx === 2) {
+        unfilled.forEach(bp => {
+          legoState.placeBrickAt(bp.x, bp.y, bp.shape, bp.colorObj, false, bp.isRocketPart);
+        });
+      }
+
+      let launched = 0;
+      legoState.bricks.forEach(b => {
+        if (!b.isPermanent || b.shape === 'thruster' || b.isRocketPart) {
+          b.launching = true;
+          b.vy = -8.5;
+          launched++;
+        }
+      });
+      if (launched === 0) {
+        teleportLegoZone(2);
+        return;
+      }
+      playMagicSound('legoSpring');
+      setTimeout(() => playMagicSound('success'), 220);
+    }
+
+    // Giant 🪄✨ Magic Wand Button: Snaps the next glowing placeholder brick automatically!
     function autoSolveCurrentLegoBlueprint() {
       if (!legoState) return;
-      const q = legoState.quests[legoState.questIdx];
-      const nextSlot = legoState.blueprints.find(bp => bp.questId === q.id && !bp.filled);
+      const nextSlot = legoState.blueprints.find(bp => !bp.filled);
       if (nextSlot) {
-        legoState.placeBrickAt(nextSlot.x, nextSlot.y, nextSlot.shape, nextSlot.colorObj, true);
+        legoState.person.targetWalkX = Math.max(12, nextSlot.x - 52);
+        legoState.placeBrickAt(nextSlot.x, nextSlot.y, nextSlot.shape, nextSlot.colorObj, true, nextSlot.isRocketPart);
       } else {
-        // Spawn a helpful rainbow stair brick right in front of the Cute LEGO Unicorn!
-        const dir = legoState.person.facing >= 0 ? 1 : -1;
-        const rawX = legoState.person.x + (dir > 0 ? 54 : -96);
-        const snapX = Math.round(rawX / LEGO_STUD_W) * LEGO_STUD_W;
-        const snapY = Math.round((legoState.person.y + 28) / LEGO_BRICK_H) * LEGO_BRICK_H;
-        legoState.placeBrickAt(snapX, snapY, legoState.selectedShape, legoState.selectedColor, true);
+        // All placeholders filled! Cycle to the next fun picture scene with fanfare!
+        playMagicSound('success');
+        nextLegoQuest();
       }
     }
 
@@ -3763,11 +3718,12 @@
       playMagicSound('legoBreak');
       legoState.bricks.forEach(b => {
         if (!b.isPermanent) {
-          legoState.spawnFlyingDebris(b.x + b.w / 2, b.y + b.h / 2, b.colorObj.hex, 5);
+          legoState.spawnFlyingDebris(b.x + b.w / 2, b.y + b.h / 2, b.colorObj.hex, 6);
         }
       });
       legoState.bricks = legoState.bricks.filter(b => b.isPermanent);
       legoState.blueprints.forEach(bp => { bp.filled = false; });
+      legoState.quests[legoState.questIdx].rewarded = false;
     }
 
     function startLegoWorld() {
@@ -3794,97 +3750,36 @@
 
       const floorY = Math.floor((fCanvas.height - 128) / LEGO_BRICK_H) * LEGO_BRICK_H;
 
-      // River gap columns (studs 10..17 -> x: 240..408) where there is sparkling river water
-      const isRiverStud = (colIdx) => colIdx >= 10 && colIdx < 18;
+      // Solid Royal Lavender LEGO ground across the entire single-screen view!
+      const isRiverStud = () => false;
 
       const quests = [
-        { id: 0, spawnX: 96,   title: '🌉 1. River Bridge: Tap Glowing Bricks or ✨ Magic Build!' },
-        { id: 1, spawnX: 696,  title: '🏡 2. Princess Cottage: Build the Roof, Windows & Door!' },
-        { id: 2, spawnX: 1344, title: '🚀 3. Rocket Pad: Build & Tap 🚀 Launch!' },
-        { id: 3, spawnX: 1992, title: '🏰 4. Royal Unicorn Castle: Build the Giant Unicorn!' },
-        { id: 4, spawnX: 2640, title: '🎡 5. Mega Park: Tap +Castle, +Car or +Rocket Above!' }
+        { id: 0, rewarded: false },
+        { id: 1, rewarded: false },
+        { id: 2, rewarded: false },
+        { id: 3, rewarded: false }
       ];
 
-      // Rich Initial LEGO World with pre-built structures across all 5 zones!
-      const initialBricks = [
-        // Zone 1: Bridge piers on both sides of the river
-        { x: 192, y: floorY - 28, w: 48, h: 28, shape: '2x2', colorObj: LEGO_COLORS[0], isPermanent: true, vy: 0, falling: false },
-        { x: 432, y: floorY - 28, w: 48, h: 28, shape: '2x2', colorObj: LEGO_COLORS[0], isPermanent: true, vy: 0, falling: false },
-        { x: 96,  y: floorY - 28, w: 48, h: 28, shape: 'flower', colorObj: LEGO_COLORS[2], isPermanent: true, vy: 0, falling: false },
-
-        // Zone 2: Princess Cottage foundation walls
-        { x: 768, y: floorY - 28, w: 96, h: 28, shape: '2x4', colorObj: LEGO_COLORS[2], isPermanent: false, vy: 0, falling: false },
-        { x: 912, y: floorY - 28, w: 96, h: 28, shape: '2x4', colorObj: LEGO_COLORS[2], isPermanent: false, vy: 0, falling: false },
-        { x: 768, y: floorY - 56, w: 96, h: 28, shape: '2x4', colorObj: LEGO_COLORS[3], isPermanent: false, vy: 0, falling: false },
-        { x: 912, y: floorY - 56, w: 96, h: 28, shape: '2x4', colorObj: LEGO_COLORS[3], isPermanent: false, vy: 0, falling: false },
-
-        // Zone 3: Rocket Pad + Bouncy Pad + Sky Island + Starter Rocket
-        { x: 1416, y: floorY - 28, w: 48, h: 28, shape: 'spring',   colorObj: LEGO_COLORS[0], isPermanent: false, vy: 0, falling: false },
-        { x: 1512, y: floorY - 28, w: 48, h: 28, shape: 'thruster', colorObj: LEGO_COLORS[1], isPermanent: false, isRocketPart: true, vy: 0, falling: false },
-        { x: 1512, y: floorY - 56, w: 48, h: 28, shape: 'round',    colorObj: LEGO_COLORS[7], isPermanent: false, isRocketPart: true, vy: 0, falling: false },
-        { x: 1512, y: floorY - 84, w: 48, h: 28, shape: 'horn',     colorObj: LEGO_COLORS[4], isPermanent: false, isRocketPart: true, vy: 0, falling: false },
-        { x: 1608, y: floorY - 140, w: 144, h: 28, shape: '2x6',    colorObj: LEGO_COLORS[2], isPermanent: true, vy: 0, falling: false },
-
-        // Zone 4: Royal Castle & Giant Unicorn Foundation
-        { x: 2112, y: floorY - 28, w: 48, h: 28, shape: '2x2', colorObj: LEGO_COLORS[0], isPermanent: false, vy: 0, falling: false },
-        { x: 2208, y: floorY - 28, w: 48, h: 28, shape: '2x2', colorObj: LEGO_COLORS[0], isPermanent: false, vy: 0, falling: false },
-        { x: 2112, y: floorY - 56, w: 48, h: 28, shape: '2x2', colorObj: LEGO_COLORS[7], isPermanent: false, vy: 0, falling: false },
-        { x: 2208, y: floorY - 56, w: 48, h: 28, shape: '2x2', colorObj: LEGO_COLORS[7], isPermanent: false, vy: 0, falling: false },
-
-        // Zone 5: Mega Park Starter Castle & Racecar
-        { x: 2760, y: floorY - 28, w: 48, h: 28, shape: 'wheel',  colorObj: LEGO_COLORS[0], isPermanent: false, vy: 0, falling: false },
-        { x: 2856, y: floorY - 28, w: 48, h: 28, shape: 'wheel',  colorObj: LEGO_COLORS[0], isPermanent: false, vy: 0, falling: false },
-        { x: 2760, y: floorY - 56, w: 144, h: 28, shape: '2x6',   colorObj: LEGO_COLORS[1], isPermanent: false, vy: 0, falling: false }
-      ];
-
-      const blueprints = [
-        // Zone 1 Bridge Blueprint
-        { questId: 0, x: 216, y: floorY - 56, w: 96, h: 28, shape: 'arch', colorObj: LEGO_COLORS[4], filled: false },
-        { questId: 0, x: 312, y: floorY - 56, w: 96, h: 28, shape: '2x4',  colorObj: LEGO_COLORS[0], filled: false },
-        { questId: 0, x: 408, y: floorY - 56, w: 48, h: 28, shape: '2x2',  colorObj: LEGO_COLORS[1], filled: false },
-
-        // Zone 2 Princess Cottage Blueprint
-        { questId: 1, x: 864, y: floorY - 56, w: 48, h: 56, shape: 'door',   colorObj: LEGO_COLORS[0], filled: false },
-        { questId: 1, x: 792, y: floorY - 84, w: 48, h: 28, shape: 'window', colorObj: LEGO_COLORS[1], filled: false },
-        { questId: 1, x: 936, y: floorY - 84, w: 48, h: 28, shape: 'window', colorObj: LEGO_COLORS[1], filled: false },
-        { questId: 1, x: 840, y: floorY - 84, w: 96, h: 28, shape: '2x4',    colorObj: LEGO_COLORS[2], filled: false },
-        { questId: 1, x: 840, y: floorY - 112,w: 96, h: 28, shape: 'roof',   colorObj: LEGO_COLORS[0], filled: false },
-
-        // Zone 4 Giant LEGO Unicorn Blueprint
-        { questId: 3, x: 2112, y: floorY - 84,  w: 144, h: 28, shape: '2x6',     colorObj: LEGO_COLORS[7], filled: false },
-        { questId: 3, x: 2160, y: floorY - 112, w: 96,  h: 28, shape: 'turret',  colorObj: LEGO_COLORS[0], filled: false },
-        { questId: 3, x: 2208, y: floorY - 140, w: 48,  h: 28, shape: 'crystal', colorObj: LEGO_COLORS[1], filled: false },
-        { questId: 3, x: 2208, y: floorY - 168, w: 48,  h: 28, shape: 'horn',    colorObj: LEGO_COLORS[4], filled: false }
-      ];
-
-      // Collectible Golden LEGO Crowns in each zone
-      const trophies = [
-        { x: 504,  y: floorY - 40,  collected: false, label: 'Bridge Crown 👑' },
-        { x: 888,  y: floorY - 148, collected: false, label: 'Cottage Crown 👑' },
-        { x: 1656, y: floorY - 180, collected: false, label: 'Sky Island Crown 👑' },
-        { x: 2232, y: floorY - 205, collected: false, label: 'Unicorn Crown 👑' },
-        { x: 2856, y: floorY - 110, collected: false, label: 'Mega Park Crown 👑' }
-      ];
+      const initialScene = buildSingleScreenScene(0, fCanvas.width || window.innerWidth, floorY);
 
       legoState = {
         floorY,
         skyMode: 0,
-        activeCategory: 'bricks',
         tool: 'build',
         selectedColor: LEGO_COLORS[0],
         selectedShape: '2x4',
         questIdx: 0,
         quests,
-        bricks: initialBricks,
-        blueprints,
-        trophies,
+        bricks: initialScene.bricks,
+        blueprints: initialScene.blueprints,
+        trophies: initialScene.trophies,
         debris: [],
         camX: 0,
         ghost: { active: false, x: 0, y: 0, w: 96, h: 28, valid: true },
         grabbedBrick: null,
         keys: { left: false, right: false },
         person: {
-          x: 96,
+          x: initialScene.spawnX,
           y: floorY - 54,
           w: 48,
           h: 54,
@@ -3909,59 +3804,119 @@
             });
           }
         },
-        placeBrickAt(snapX, snapY, shapeId, colorObj, fromTop = false) {
+        placeBrickAt(snapX, snapY, shapeId, colorObj, fromTop = false, isRocketPart = false) {
           const sh = LEGO_BRICK_SHAPES.find(s => s.id === shapeId) || LEGO_BRICK_SHAPES[0];
 
-          // Have the Cute LEGO Unicorn nod its horn & magic wand to snap the brick!
+          // Have the Cute LEGO Unicorn face & trot toward the brick!
           this.person.facing = snapX >= this.person.x ? 1 : -1;
           this.person.armSwing = 1.2;
 
-          // Check if this matches an unfilled blueprint slot
+          // Check if this matches an unfilled placeholder slot
           this.blueprints.forEach(bp => {
-            if (!bp.filled && Math.abs(bp.x - snapX) < 20 && Math.abs(bp.y - snapY) < 20) {
+            if (!bp.filled && Math.abs(bp.x - snapX) < 28 && Math.abs(bp.y - snapY) < 28) {
               bp.filled = true;
               snapX = bp.x;
               snapY = bp.y;
+              shapeId = bp.shape;
+              colorObj = bp.colorObj;
+              isRocketPart = bp.isRocketPart;
             }
           });
 
+          const finalSh = LEGO_BRICK_SHAPES.find(s => s.id === shapeId) || sh;
+
           // Prevent exact duplicate overlap
-          this.bricks = this.bricks.filter(b => !(b.x === snapX && b.y === snapY && b.w === sh.w && b.h === sh.h));
+          this.bricks = this.bricks.filter(b => !(b.x === snapX && b.y === snapY && b.w === finalSh.w && b.h === finalSh.h));
 
           const newBrick = {
             x: snapX,
             y: fromTop ? Math.min(snapY, snapY - 42) : snapY,
             targetY: snapY,
-            w: sh.w,
-            h: sh.h,
-            shape: sh.id,
+            w: finalSh.w,
+            h: finalSh.h,
+            shape: finalSh.id,
             colorObj,
             isPermanent: false,
+            isRocketPart: Boolean(isRocketPart),
             vy: 0,
             falling: false
           };
 
           this.bricks.push(newBrick);
           playMagicSound('legoSnap');
-          this.spawnFlyingDebris(snapX + sh.w / 2, snapY + sh.h / 2, colorObj.hex, 7);
+          this.spawnFlyingDebris(snapX + finalSh.w / 2, snapY + finalSh.h / 2, colorObj.hex, 9);
           runLegoStructuralPhysics();
 
-          // Check if a blueprint quest was just completed
+          // Check if all placeholder bricks in this scene are now filled!
           const q = this.quests[this.questIdx];
-          const qSlots = this.blueprints.filter(bp => bp.questId === q.id);
-          if (qSlots.length > 0 && qSlots.every(bp => bp.filled) && !q.rewarded) {
+          if (this.blueprints.length > 0 && this.blueprints.every(bp => bp.filled) && !q.rewarded) {
             q.rewarded = true;
             addStar();
+            this.trophies.forEach(tr => {
+              if (!tr.collected) {
+                tr.collected = true;
+                this.spawnFlyingDebris(tr.x, tr.y, '#ffd700', 22);
+              }
+            });
             setTimeout(() => playMagicSound('legoStud'), 80);
             setTimeout(() => playMagicSound('success'), 200);
+            if (this.questIdx === 2) {
+              setTimeout(() => launchLegoRockets(), 650);
+            }
           }
         }
       };
 
-      // Populate Glossy LEGO Color Swatches
+      // Highlight Scene 0 (🏰 Castle) button in top bar
+      document.querySelectorAll('#lego-zone-bar .lego-scene-btn[data-zone]').forEach(btn => {
+        btn.classList.toggle('active', Number(btn.getAttribute('data-zone')) === 0);
+      });
+
+      // 6 Picture-Only Mini-Canvas 3D LEGO Brick Buttons (Zero text for a 5-year-old!)
+      const PICTURE_TRAY_SHAPES = ['2x4', 'arch', 'roof', 'window', 'wheel', 'horn'];
+      const shapeContainer = document.getElementById('lego-fs-shapes');
+
+      function renderPictureBrickTray() {
+        if (!shapeContainer) return;
+        shapeContainer.innerHTML = '';
+        PICTURE_TRAY_SHAPES.forEach(shapeId => {
+          const btn = document.createElement('button');
+          btn.className = 'lego-pic-brick-btn' + (legoState.selectedShape === shapeId ? ' active' : '');
+          const miniCanvas = document.createElement('canvas');
+          miniCanvas.width = 56;
+          miniCanvas.height = 38;
+          const mCtx = miniCanvas.getContext('2d');
+
+          // Draw a crisp 3D LEGO brick icon centered inside the mini canvas!
+          const isWide = ['2x4', 'arch', 'roof'].includes(shapeId);
+          const bw = isWide ? 48 : 36;
+          const bh = 22;
+          const bx = Math.round((56 - bw) / 2);
+          const by = shapeId === 'horn' ? 14 : 11;
+          drawLegoShape(mCtx, {
+            x: bx,
+            y: by,
+            w: bw,
+            h: bh,
+            shape: shapeId,
+            colorObj: legoState.selectedColor
+          }, false, true, 0);
+
+          btn.appendChild(miniCanvas);
+          btn.onclick = () => {
+            legoState.selectedShape = shapeId;
+            renderPictureBrickTray();
+            playMagicSound('legoSnap');
+          };
+          shapeContainer.appendChild(btn);
+        });
+      }
+
+      // Populate 5 Big Round Glossy LEGO Color Swatches (Zero text!)
       const colorContainer = document.getElementById('lego-fs-colors');
       colorContainer.innerHTML = '';
-      LEGO_COLORS.forEach((cObj, idx) => {
+      const KID_PALETTE = [LEGO_COLORS[0], LEGO_COLORS[1], LEGO_COLORS[4], LEGO_COLORS[5], LEGO_COLORS[7]];
+      KID_PALETTE.forEach((cObj, idx) => {
         const sw = document.createElement('button');
         sw.className = 'lego-swatch' + (idx === 0 ? ' active' : '');
         sw.style.background = cObj.hex;
@@ -3969,46 +3924,13 @@
           legoState.selectedColor = cObj;
           colorContainer.querySelectorAll('.lego-swatch').forEach(s => s.classList.remove('active'));
           sw.classList.add('active');
+          renderPictureBrickTray();
           playMagicSound('legoSnap');
         };
         colorContainer.appendChild(sw);
       });
 
-      // Populate Category Tabs & 4 Big Kid-Friendly Shape Cards per Category (Zero horizontal scrolling!)
-      const catContainer = document.getElementById('lego-cat-tabs');
-      const shapeContainer = document.getElementById('lego-fs-shapes');
-
-      function renderShapeCategory(catId) {
-        legoState.activeCategory = catId;
-        catContainer.innerHTML = '';
-        LEGO_SHAPE_CATEGORIES.forEach(cat => {
-          const cBtn = document.createElement('button');
-          cBtn.className = 'lego-cat-btn' + (cat.id === catId ? ' active' : '');
-          cBtn.textContent = cat.label;
-          cBtn.onclick = () => {
-            playMagicSound('pop');
-            renderShapeCategory(cat.id);
-          };
-          catContainer.appendChild(cBtn);
-        });
-
-        shapeContainer.innerHTML = '';
-        const catShapes = LEGO_BRICK_SHAPES.filter(s => s.cat === catId);
-        catShapes.forEach(sh => {
-          const btn = document.createElement('button');
-          btn.className = 'lego-shape-card' + (legoState.selectedShape === sh.id ? ' active' : '');
-          btn.textContent = sh.label;
-          btn.onclick = () => {
-            legoState.selectedShape = sh.id;
-            shapeContainer.querySelectorAll('.lego-shape-card').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            if (legoState.tool !== 'build') setLegoTool('build');
-            playMagicSound('legoSnap');
-          };
-          shapeContainer.appendChild(btn);
-        });
-      }
-      renderShapeCategory('bricks');
+      renderPictureBrickTray();
 
       // REAL LEGO LAW & STRUCTURAL SUPPORT GRAPH SOLVER (Clutch Power + Cantilever + Cascade Gravity)
       function bricksOverlapX(a, b) {
@@ -4076,7 +3998,8 @@
 
       function computeSnapTarget(wx, wy, shapeId) {
         const sh = LEGO_BRICK_SHAPES.find(s => s.id === shapeId) || LEGO_BRICK_SHAPES[0];
-        const snapX = Math.max(0, Math.min(LEGO_WORLD_W - sh.w, Math.round((wx - sh.w / 2) / LEGO_STUD_W) * LEGO_STUD_W));
+        const maxW = Math.max(240, fCanvas.width - sh.w);
+        const snapX = Math.max(0, Math.min(maxW, Math.round((wx - sh.w / 2) / LEGO_STUD_W) * LEGO_STUD_W));
         let snapY = Math.min(legoState.floorY - sh.h, Math.max(LEGO_BRICK_H, Math.round((wy - sh.h / 2) / LEGO_BRICK_H) * LEGO_BRICK_H));
 
         let resolved = false;
@@ -4100,72 +4023,47 @@
         return { x: snapX, y: Math.max(LEGO_BRICK_H, snapY), w: sh.w, h: sh.h };
       }
 
-      // Pointer / Touch Interaction on the Full-Screen LEGO Canvas
+      // 1-Tap Kid-Friendly Touch Interaction on the Single-Screen LEGO Canvas!
       fCanvas.onpointerdown = (e) => {
         const rect = fCanvas.getBoundingClientRect();
-        const wx = (e.clientX - rect.left) * (fCanvas.width / rect.width) + legoState.camX;
+        const wx = (e.clientX - rect.left) * (fCanvas.width / rect.width);
         const wy = (e.clientY - rect.top) * (fCanvas.height / rect.height);
 
-        // Have the Cute LEGO Unicorn trot toward the work site!
-        legoState.person.targetWalkX = Math.max(24, Math.min(LEGO_WORLD_W - 64, wx - 48));
+        // Have the Cute LEGO Unicorn trot toward the tapped spot!
+        legoState.person.targetWalkX = Math.max(12, Math.min(fCanvas.width - 64, wx - 48));
 
-        // 1. Check if tapping a glowing blueprint slot directly
+        // 1. Check if tapping near ANY glowing placeholder brick (generous 32px touch margin for a 5-year-old!)
         const hitBlueprint = legoState.blueprints.find(bp =>
           !bp.filled &&
-          wx >= bp.x - 12 && wx <= bp.x + bp.w + 12 &&
-          wy >= bp.y - 12 && wy <= bp.y + bp.h + 12
+          wx >= bp.x - 32 && wx <= bp.x + bp.w + 32 &&
+          wy >= bp.y - 32 && wy <= bp.y + bp.h + 32
         );
-        if (hitBlueprint && legoState.tool === 'build') {
-          legoState.placeBrickAt(hitBlueprint.x, hitBlueprint.y, hitBlueprint.shape, hitBlueprint.colorObj, false);
+        if (hitBlueprint) {
+          legoState.placeBrickAt(hitBlueprint.x, hitBlueprint.y, hitBlueprint.shape, hitBlueprint.colorObj, false, hitBlueprint.isRocketPart);
           return;
         }
 
-        // 2. Check if tapping an existing placed brick for Pry / Paint / Grab
-        const hitBrickIdx = legoState.bricks.findIndex(b =>
-          wx >= b.x && wx <= b.x + b.w &&
-          wy >= b.y && wy <= b.y + b.h
-        );
-
-        if (legoState.tool === 'pry') {
-          if (hitBrickIdx !== -1 && !legoState.bricks[hitBrickIdx].isPermanent) {
-            const removed = legoState.bricks.splice(hitBrickIdx, 1)[0];
-            legoState.person.armSwing = 1.2;
-            playMagicSound('legoBreak');
-            legoState.spawnFlyingDebris(removed.x + removed.w / 2, removed.y + removed.h / 2, removed.colorObj.hex, 12);
-            runLegoStructuralPhysics();
-          }
+        // 2. If she taps directly on the Cute LEGO Unicorn, do a happy Pegasus Wing Jump!
+        const p = legoState.person;
+        if (wx >= p.x - 16 && wx <= p.x + p.w + 16 && wy >= p.y - 16 && wy <= p.y + p.h + 16) {
+          p.vy = -11.2;
+          p.onGround = false;
+          legoState.spawnFlyingDebris(p.x + p.w / 2, p.y + p.h, '#ff80ab', 10);
+          playMagicSound('sparkle');
           return;
         }
 
-        if (legoState.tool === 'paint') {
-          if (hitBrickIdx !== -1) {
-            legoState.bricks[hitBrickIdx].colorObj = legoState.selectedColor;
-            legoState.person.armSwing = 1.0;
-            playMagicSound('legoSnap');
-          }
-          return;
-        }
-
-        if (legoState.tool === 'grab') {
-          if (hitBrickIdx !== -1 && !legoState.bricks[hitBrickIdx].isPermanent) {
-            legoState.grabbedBrick = legoState.bricks.splice(hitBrickIdx, 1)[0];
-            playMagicSound('pop');
-            runLegoStructuralPhysics();
-          }
-          return;
-        }
-
-        // 3. Build Tool: Snap or Drop a new LEGO brick!
+        // 3. Otherwise, snap & stack the selected Picture Brick from the bottom tray!
         const target = computeSnapTarget(wx, wy, legoState.selectedShape);
         legoState.placeBrickAt(target.x, target.y, legoState.selectedShape, legoState.selectedColor, false);
       };
 
       fCanvas.onpointermove = (e) => {
         const rect = fCanvas.getBoundingClientRect();
-        const wx = (e.clientX - rect.left) * (fCanvas.width / rect.width) + legoState.camX;
+        const wx = (e.clientX - rect.left) * (fCanvas.width / rect.width);
         const wy = (e.clientY - rect.top) * (fCanvas.height / rect.height);
 
-        const shapeId = legoState.grabbedBrick ? legoState.grabbedBrick.shape : legoState.selectedShape;
+        const shapeId = legoState.selectedShape;
         const snap = computeSnapTarget(wx, wy, shapeId);
         legoState.ghost = {
           active: true,
@@ -4174,56 +4072,14 @@
           w: snap.w,
           h: snap.h,
           shape: shapeId,
-          colorObj: legoState.grabbedBrick ? legoState.grabbedBrick.colorObj : legoState.selectedColor,
+          colorObj: legoState.selectedColor,
           valid: true
         };
       };
 
       fCanvas.onpointerup = () => {
-        if (legoState.grabbedBrick && legoState.ghost.active) {
-          const gb = legoState.grabbedBrick;
-          legoState.grabbedBrick = null;
-          legoState.placeBrickAt(legoState.ghost.x, legoState.ghost.y, gb.shape, gb.colorObj, false);
-        }
+        legoState.ghost.active = false;
       };
-
-      // Trot & Fly-Jump Controls for the Cute LEGO Unicorn Builder!
-      const bindWalkBtn = (id, dir) => {
-        const btn = document.getElementById(id);
-        if (!btn) return;
-        const start = (e) => {
-          e.preventDefault();
-          legoState.person.targetWalkX = null;
-          legoState.keys[dir] = true;
-        };
-        const stop = (e) => {
-          e.preventDefault();
-          legoState.keys[dir] = false;
-        };
-        btn.onpointerdown = start;
-        btn.onpointerup = stop;
-        btn.onpointerleave = stop;
-        btn.onpointercancel = stop;
-      };
-      bindWalkBtn('lego-walk-left', 'left');
-      bindWalkBtn('lego-walk-right', 'right');
-
-      const jumpBtn = document.getElementById('lego-walk-jump');
-      if (jumpBtn) {
-        jumpBtn.onpointerdown = (e) => {
-          e.preventDefault();
-          const p = legoState.person;
-          if (p.onGround) {
-            p.vy = -11.2;
-            p.onGround = false;
-            playMagicSound('legoSnap');
-          } else if (p.vy > -3.5) {
-            p.vy = -9.6;
-            legoState.spawnFlyingDebris(p.x + p.w / 2, p.y + p.h, '#ff80ab', 6);
-            playMagicSound('sparkle');
-          }
-        };
-      }
 
       // Draw Articulated Cute LEGO Unicorn Character (with LEGO hooves, Pegasus wings, rainbow tail, golden horn & held brick!)
       function drawCuteLegoUnicornBuilder(c, p, ts) {
@@ -4421,7 +4277,7 @@
           p.armSwing = Math.max(0, p.armSwing - 0.08);
         }
 
-        const nextX = Math.max(12, Math.min(LEGO_WORLD_W - p.w - 12, p.x + p.vx));
+        const nextX = Math.max(8, Math.min(fCanvas.width - p.w - 8, p.x + p.vx));
         const wallBrick = legoState.bricks.find(b =>
           !b.falling && !b.launching &&
           nextX + p.w > b.x + 2 && nextX < b.x + b.w - 2 &&
@@ -4461,20 +4317,10 @@
           }
         }
 
-        const pCol = Math.floor((p.x + p.w / 2) / LEGO_STUD_W);
-        if (!isRiverStud(pCol)) {
-          if (p.y + p.h >= fY) {
-            p.y = fY - p.h;
-            p.vy = 0;
-            p.onGround = true;
-          }
-        } else {
-          if (p.y + p.h >= fY + 14) {
-            p.vy = -9.0;
-            p.x = 180;
-            p.targetWalkX = null;
-            playMagicSound('oops');
-          }
+        if (p.y + p.h >= fY) {
+          p.y = fY - p.h;
+          p.vy = 0;
+          p.onGround = true;
         }
 
         // 3. Check Golden LEGO Crown Pickups
@@ -4492,9 +4338,8 @@
           }
         });
 
-        // 4. Smooth Camera Follow
-        const targetCam = Math.max(0, Math.min(LEGO_WORLD_W - fCanvas.width, p.x - fCanvas.width * 0.35));
-        legoState.camX += (targetCam - legoState.camX) * 0.14;
+        // 4. Lock Camera to 0 (Single-Screen Zero-Scroll Mobile View for 5-Year-Old!)
+        legoState.camX = 0;
 
         // 5. RENDER FULL-SCREEN PINK & PURPLE LEGO UNICORN KINGDOM
         fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
