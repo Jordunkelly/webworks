@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v7.6 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
+  <title>v7.7 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -1873,7 +1873,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.6</small></span>
+      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.7</small></span>
     </div>
 
     <div class="header-controls">
@@ -1883,9 +1883,6 @@
       </div>
       <button class="ctrl-btn" id="music-btn" onclick="toggleBgMusic()" title="Toggle Background Music!">
         🎵
-      </button>
-      <button class="ctrl-btn" id="voice-style-btn" onclick="cycleVoiceEnergy()">
-        🇦🇺
       </button>
       <button class="ctrl-btn" id="mute-btn" onclick="toggleMute()">
         🔊
@@ -2349,18 +2346,14 @@
     let currentWorld = 'abc';
     let currentSubMode = '';
     let soundMuted = false;
-    // Default: the cute Aussie (Bluey) voice. The 🎀/🇦🇺/🌸 button changes it and is remembered.
-    let voiceEnergyMode = (() => {
-      const v = parseInt(localStorage.getItem('kiki_voice_style'), 10);
-      return Number.isInteger(v) && v >= 0 && v < 3 ? v : 1;
-    })();
+    // Always the cute Aussie (Bluey) girl voice. There is no switch on purpose.
+    const voiceEnergyMode = 1;
     const VOICE_STYLES = [
       { label: '🎀', pitch: 1.44, rate: 1.02 },
       { label: '🇦🇺', pitch: 1.38, rate: 1.05 },
       { label: '🌸', pitch: 1.26, rate: 0.90 }
     ];
 
-    document.getElementById('voice-style-btn').textContent = VOICE_STYLES[voiceEnergyMode].label;
     let preferredVoice = null;
     let candidateVoices = [];
     let selectedVoiceIndex = 0;
@@ -2844,18 +2837,6 @@
       } else {
         unicornSpeak(lastSpokenPrompt, { updateBubble: false, customRate: 0.8 });
       }
-    }
-
-    function cycleVoiceEnergy() {
-      voiceEnergyMode = (voiceEnergyMode + 1) % VOICE_STYLES.length;
-      try { localStorage.setItem('kiki_voice_style', String(voiceEnergyMode)); } catch (e) {}
-      if (voiceEnergyMode === 0 && candidateVoices.length > 1) {
-        selectedVoiceIndex = (selectedVoiceIndex + 1) % Math.min(candidateVoices.length, 4);
-      }
-      selectBestGirlyVoice();
-      document.getElementById('voice-style-btn').textContent = VOICE_STYLES[voiceEnergyMode].label;
-      playMagicSound('sparkle');
-      unicornSpeak("Hi! I'm Kiki! Do you like my voice?", { updateBubble: false });
     }
 
     function toggleMute() {
