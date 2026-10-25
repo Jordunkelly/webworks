@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v7.1 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
+  <title>v7.2 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -1834,7 +1834,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.1</small></span>
+      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.2</small></span>
     </div>
 
     <div class="header-controls">
@@ -2393,6 +2393,7 @@
 
     function unicornSpeak(text, options = {}) {
       const { updateBubble = true, isSoundOut = false, customRate = null, customPitch = null } = options;
+      phonicsToken++;
       if (updateBubble) {
         lastSpokenPrompt = text;
         document.getElementById('speech-text').textContent = text;
@@ -2426,6 +2427,156 @@
 
         window.speechSynthesis.speak(utter);
       });
+    }
+
+    /*************************************************************************
+     * 🔤 REAL LETTER SOUNDS
+     * Browser voices can't say a hissy or hummy sound on its own: "suh" comes
+     * out as "sue", "mm" gets spelled out. So S, F, Z, V, M and N are made
+     * right here with Web Audio (a hiss, a buzz, a hum) and Kiki's voice says
+     * the words around them: "S says ... sssss ... sun!"
+     *************************************************************************/
+    const SYNTH_SOUNDS = { S: 's', F: 'f', Z: 'z', V: 'v', M: 'm', N: 'n' };
+    const SOUND_LABEL = { S: 'sss', F: 'fff', Z: 'zzz', V: 'vvv', M: 'mmm', N: 'nnn' };
+    let phonicsToken = 0;
+    let noiseBuffer = null;
+
+    function soundLabel(letter) {
+      return SOUND_LABEL[letter] || PHONICS_SOUND[letter] || letter;
+    }
+
+    // Returns how long the sound lasts, in seconds
+    function playPhoneme(letter) {
+      const kind = SYNTH_SOUNDS[letter];
+      if (!kind || soundMuted) return 0.5;
+      try {
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
+        const dur = 0.75;
+        const out = ctx.createGain();
+        out.gain.setValueAtTime(0.0001, now);
+        out.gain.exponentialRampToValueAtTime(1, now + 0.06);
+        out.gain.setValueAtTime(1, now + dur - 0.12);
+        out.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+        out.connect(ctx.destination);
+
+        const hiss = (lowCut, highCut, vol) => {
+          if (!noiseBuffer) {
+            noiseBuffer = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+            const d = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+          }
+          const src = ctx.createBufferSource();
+          src.buffer = noiseBuffer;
+          const hp = ctx.createBiquadFilter();
+          hp.type = 'highpass'; hp.frequency.value = lowCut;
+          const lp = ctx.createBiquadFilter();
+          lp.type = 'lowpass'; lp.frequency.value = highCut;
+          const g = ctx.createGain();
+          g.gain.value = vol;
+          src.connect(hp); hp.connect(lp); lp.connect(g); g.connect(out);
+          src.start(now); src.stop(now + dur);
+        };
+        const hum = (freq, bright, vol) => {
+          const lp = ctx.createBiquadFilter();
+          lp.type = 'lowpass'; lp.frequency.value = bright; lp.Q.value = 1.2;
+          const g = ctx.createGain();
+          g.gain.value = vol;
+          lp.connect(g); g.connect(out);
+          [[freq, 'sawtooth', 1], [freq * 2, 'sine', 0.35]].forEach(([f, type, v]) => {
+            const o = ctx.createOscillator();
+            const og = ctx.createGain();
+            o.type = type;
+            o.frequency.setValueAtTime(f, now);
+            og.gain.value = v;
+            o.connect(og); og.connect(lp);
+            o.start(now); o.stop(now + dur);
+          });
+        };
+
+        if (kind === 's') hiss(4200, 11000, 0.55);
+        else if (kind === 'f') hiss(1400, 7000, 0.22);
+        else if (kind === 'z') { hiss(4200, 11000, 0.3); hum(170, 700, 0.14); }
+        else if (kind === 'v') { hiss(1400, 7000, 0.14); hum(170, 700, 0.16); }
+        else if (kind === 'm') hum(210, 420, 0.42);
+        else if (kind === 'n') hum(220, 750, 0.32);
+        return dur;
+      } catch (e) {
+        return 0.5;
+      }
+    }
+
+    function phonicsUtterance(text) {
+      if (!preferredVoice) selectBestGirlyVoice();
+      const u = new SpeechSynthesisUtterance(cleanForSpeech(text));
+      if (preferredVoice) u.voice = preferredVoice;
+      const style = VOICE_STYLES[voiceEnergyMode];
+      u.pitch = style.pitch;
+      u.rate = 0.9;
+      return u;
+    }
+
+    // Plays steps one after another: { speak: 'text' } or { synth: 'S' }, each with an optional onStart
+    function speakSteps(steps, onDone) {
+      const token = ++phonicsToken;
+      const ub = document.getElementById('unicorn-box');
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      const next = (i) => {
+        if (token !== phonicsToken) return;
+        if (i >= steps.length) {
+          ub.classList.remove('speaking');
+          if (onDone) onDone();
+          return;
+        }
+        const st = steps[i];
+        if (st.onStart) st.onStart();
+        if (st.synth) {
+          const d = playPhoneme(st.synth);
+          setTimeout(() => next(i + 1), d * 1000 + 220);
+          return;
+        }
+        if (soundMuted || !('speechSynthesis' in window)) {
+          setTimeout(() => next(i + 1), 450 + st.speak.length * 40);
+          return;
+        }
+        const u = phonicsUtterance(st.speak);
+        let moved = false;
+        const go = () => { if (moved) return; moved = true; setTimeout(() => next(i + 1), 140); };
+        u.onstart = () => ub.classList.add('speaking');
+        u.onend = go;
+        u.onerror = go;
+        window.speechSynthesis.speak(u);
+        // Some voices never fire onend; don't get stuck
+        setTimeout(go, 1800 + st.speak.length * 90);
+      };
+      next(0);
+    }
+
+    // "S says ... sssss" or "B says buh!"
+    function letterSteps(letter, onStart) {
+      if (SYNTH_SOUNDS[letter]) return [{ speak: `${letter} says`, onStart }, { synth: letter }];
+      return [{ speak: `${letter} says ${PHONICS_SOUND[letter] || letter}!`, onStart }];
+    }
+
+    // The sound alone, for repeating after the letter
+    function soundOnlyStep(letter) {
+      return SYNTH_SOUNDS[letter] ? { synth: letter } : { speak: `${PHONICS_SOUND[letter]}, ${PHONICS_SOUND[letter]}` };
+    }
+
+    // ABC style: "S says sss, sss, Sun!"
+    function abcSteps(item) {
+      const steps = letterSteps(item.letter);
+      if (SYNTH_SOUNDS[item.letter]) steps.push({ synth: item.letter }, { speak: `${item.word}!` });
+      else steps.push({ speak: `${item.soundCue}, ${item.word}!` });
+      return steps;
+    }
+
+    // Every letter's sound, then the whole word
+    function blendSteps(word, onLetter, onWord) {
+      const steps = [];
+      word.split('').forEach((l, i) => steps.push(...letterSteps(l, onLetter ? () => onLetter(i) : null)));
+      steps.push({ speak: `${word.toLowerCase()}!`, onStart: onWord });
+      return steps;
     }
 
     function repeatCurrentPrompt() {
@@ -2928,12 +3079,7 @@
       const distractors = ALPHABET.filter(x => x.letter !== target.letter).sort(() => Math.random() - 0.5).slice(0, 3);
       const choices = [target, ...distractors].sort(() => Math.random() - 0.5);
 
-      currentSoundOutCallback = () => {
-        unicornSpeak(`${target.letter} says ${target.phonetic}! | ${target.soundCue}, ${target.word}!`, {
-          updateBubble: false,
-          isSoundOut: true
-        });
-      };
+      currentSoundOutCallback = () => speakSteps(abcSteps(target));
 
       const showcase = document.getElementById('showcase-card');
       const area = document.getElementById('interactive-area');
@@ -2946,7 +3092,7 @@
             <span style="font-size:1.45rem; color:#d95f02;">(${target.word})</span>
           </div>
           <div class="phonics-pill" onclick="soundOutCurrent()">
-            🔊 Tap sound: <strong>"/${target.letter.toLowerCase()}/ says ${target.phonetic}!"</strong>
+            🔊 <strong>${target.letter} says "${soundLabel(target.letter)}"</strong>
           </div>
         `;
 
@@ -2971,7 +3117,9 @@
           grid.appendChild(btn);
         });
 
-        unicornSpeak(`Find letter ${target.letter}! ${target.letter} says ${target.phonetic} for ${target.word}!`);
+        lastSpokenPrompt = `Find letter ${target.letter}!`;
+        document.getElementById('speech-text').textContent = `Find letter ${target.letter}! ${target.emoji}`;
+        speakSteps([{ speak: `Find letter ${target.letter}!` }, ...letterSteps(target.letter), { speak: `for ${target.word}!` }]);
       } else {
         showcase.innerHTML = `
           <div style="font-size:1rem; font-weight:700; color:#2b4c7e;">Match BIG letter to lowercase letter!</div>
@@ -3109,7 +3257,7 @@
     }
 
     function speakSound(letter) {
-      unicornSpeak(letterSoundPhrase(letter), { updateBubble: false, isSoundOut: true });
+      speakSteps(letterSteps(letter));
     }
 
     // "C says kuh! | A says ah! | T says tuh! | cat!"
@@ -3126,17 +3274,18 @@
       const slideTo = (idx) => {
         if (slider && tiles[idx]) slider.style.left = (tiles[idx].offsetLeft + tiles[idx].offsetWidth / 2 - 16) + 'px';
       };
-      // One tile lights per letter sound, then the whole word pops
-      const STEP = 1350;
-      tiles.forEach((tile, i) => setTimeout(() => {
+      // Each tile lights exactly when its sound starts, then the whole word pops
+      speakSteps(blendSteps(target.word,
+        (i) => { if (ep !== roundEpoch || !tiles[i]) return; tiles[i].classList.add('sounded'); slideTo(i); },
+        () => { if (ep !== roundEpoch) return; tiles.forEach(t => t.classList.add('pop-word')); playCountNote(5); }
+      ), () => {
         if (ep !== roundEpoch) return;
-        tile.classList.add('sounded');
-        slideTo(i);
-      }, i * STEP));
-      const wordAt = tiles.length * STEP;
-      setTimeout(() => { if (ep !== roundEpoch) return; tiles.forEach(t => t.classList.add('pop-word')); playCountNote(5); }, wordAt);
-      unicornSpeak(onsetRimeSpeech(target.word), { updateBubble: false, isSoundOut: true });
-      setTimeout(() => { if (ep !== roundEpoch) return; tiles.forEach(t => t.classList.remove('pop-word')); if (done) done(); }, wordAt + 1000);
+        setTimeout(() => {
+          if (ep !== roundEpoch) return;
+          tiles.forEach(t => t.classList.remove('pop-word'));
+          if (done) done();
+        }, 500);
+      });
     }
 
     function letterTilesHTML(letters, rowId, tapToSound = true) {
@@ -3248,7 +3397,7 @@
       const bankEl = document.getElementById('letter-bank');
 
       const sayTarget = () => unicornSpeak(`${target.word.toLowerCase()}!`, { updateBubble: false });
-      currentSoundOutCallback = () => unicornSpeak(onsetRimeSpeech(target.word), { updateBubble: false, isSoundOut: true });
+      currentSoundOutCallback = () => speakSteps(blendSteps(target.word));
 
       bank.forEach(l => {
         const b = document.createElement('button');
@@ -4131,7 +4280,7 @@
 
       const say = () => {
         if (kind === 'num') unicornSpeak(ch === '0' ? 'zero' : String(ch), { updateBubble: false });
-        else unicornSpeak(`${item.letter}! | ${item.phonetic}`, { updateBubble: false, isSoundOut: true });
+        else speakSteps([{ speak: `${item.letter}!` }, ...letterSteps(item.letter)]);
       };
       currentSoundOutCallback = say;
 
@@ -5163,9 +5312,9 @@
           burstSparkles(r.left + r.width / 2, r.top + r.height / 2, 22);
           document.getElementById('explore-banner').innerHTML = `
             <span>${item.emoji}</span>
-            <span>${item.letter}${item.letter.toLowerCase()} says "${item.phonetic}" (${item.word})</span>
+            <span>${item.letter}${item.letter.toLowerCase()} says "${soundLabel(item.letter)}" (${item.word})</span>
           `;
-          unicornSpeak(`${item.letter}! | ${item.letter} says ${item.phonetic}! | ${item.soundCue}, ${item.word}!`, { isSoundOut: true });
+          speakSteps([{ speak: `${item.letter}!` }, ...abcSteps(item)]);
         };
         grid.appendChild(btn);
       });
