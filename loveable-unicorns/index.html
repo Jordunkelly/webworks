@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v8.4 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
+  <title>v8.5 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -1521,6 +1521,18 @@
     }
 
     /* =========================================================================
+       v8.5: LEGO BOX DRAWERS
+       ========================================================================= */
+    .lego-piece-tabs { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; padding: 0 2px 6px; min-height: 44px; flex-shrink: 0; }
+    .lego-fs-dock .lego-picture-row { min-height: 68px; flex-shrink: 0; }
+    .lego-piece-tabs::-webkit-scrollbar { display: none; }
+    .lego-piece-tab {
+      flex: 0 0 auto; width: 44px; height: 38px; border-radius: 12px; border: 2.5px solid rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.18); font-size: 1.3rem; cursor: pointer; padding: 0;
+    }
+    .lego-piece-tab.active { background: #fff59d; border-color: #ffffff; box-shadow: 0 3px 0 #311b92; }
+
+    /* =========================================================================
        MINI GAME 3: 🧱 5-YEAR-OLD PICTURE-ONLY LEGO UNICORN BUILDER (v5.0)
        ========================================================================= */
     .lego-fs-overlay {
@@ -1665,8 +1677,8 @@
       cursor: grab;
     }
     .lego-picture-row::-webkit-scrollbar, #lego-fs-colors::-webkit-scrollbar { display: none; }
-    .lego-picture-row .lego-pic-brick-btn { flex: 0 0 66px; }
-    .lego-pic-brick-btn canvas { width: 56px; height: 38px; }
+    .lego-picture-row .lego-pic-brick-btn { flex: 0 0 74px; height: 62px; }
+    .lego-pic-brick-btn canvas { width: 66px; height: 45px; }
     #lego-fs-colors { overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; padding: 4px 2px; }
     #lego-fs-colors .lego-swatch { flex-shrink: 0; }
 
@@ -1970,7 +1982,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v8.4</small></span>
+      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v8.5</small></span>
     </div>
 
     <div class="header-controls">
@@ -2144,6 +2156,7 @@
 
       <!-- Simple Picture-Only Bottom Tray: 6 Drawn LEGO Bricks + Colors + Magic Wand + Launch + Boom -->
       <div class="lego-fs-dock">
+        <div class="lego-piece-tabs" id="lego-piece-tabs"></div>
         <div class="lego-picture-row" id="lego-fs-shapes"></div>
 
         <div class="lego-bottom-controls">
@@ -5899,6 +5912,97 @@
       'lamp', 'moon', 'sun', 'butterfly', 'kitty', 'bunny', 'unihead', 'wing', 'car', 'boat', 'glass']);
     const LEGO_DECOR_STUDS = new Set(['cake', 'car', 'boat', 'glass']);
 
+    /*************************************************************************
+     * 🧰 THE BIG LEGO BOX: more brick sizes plus ~100 cute pieces (sea, forest,
+     * animals, food, vehicles, space, magic, home). Each cute piece stands on a
+     * little LEGO base in the colour she picked, and stacks like any brick.
+     *************************************************************************/
+    LEGO_BRICK_SHAPES.push(
+      { id: '1x1',  cat: 'bricks', label: '1x1',  cols: 1, rows: 1, w: 24,  h: 28, hasTopStuds: true },
+      { id: '2x8',  cat: 'bricks', label: '2x8',  cols: 8, rows: 1, w: 192, h: 28, hasTopStuds: true },
+      { id: 'tall', cat: 'bricks', label: 'tall', cols: 2, rows: 3, w: 48,  h: 84, hasTopStuds: true },
+      { id: 'big',  cat: 'bricks', label: 'big',  cols: 4, rows: 2, w: 96,  h: 56, hasTopStuds: true }
+    );
+    const LEGO_EMOJI_SETS = {
+      home:     ['🏠', '🏡', '🪑', '🛏️', '🛝', '🎠', '⛲', '🎡', '🎁', '🧸', '🪴', '🕰️', '🛁', '📚', '🎈', '🪁'],
+      sea:      ['🐠', '🐟', '🐡', '🐙', '🦑', '🐳', '🐬', '🦈', '🐢', '🦀', '🦞', '🦐', '🐚', '🪸', '🪼', '⚓', '🧜‍♀️', '🌊', '🏝️', '⛵'],
+      forest:   ['🌲', '🌳', '🍄', '🦊', '🦉', '🐿️', '🦔', '🐻', '🦌', '🐇', '🌰', '🍂', '🪵', '🌿', '🍓', '🐌', '🐞', '🌻', '🌼', '🦝'],
+      animals:  ['🐶', '🐱', '🐰', '🐼', '🐨', '🦁', '🐯', '🐸', '🐷', '🐮', '🐴', '🦒', '🐘', '🐧', '🐥', '🦆', '🦋', '🐝', '🦕', '🦖'],
+      food:     ['🍕', '🍔', '🍟', '🌮', '🍩', '🧁', '🍰', '🍦', '🍭', '🍬', '🍫', '🍪', '🍉', '🍌', '🍎', '🥕', '🍇', '🥞'],
+      vehicles: ['🚗', '🚕', '🚌', '🚒', '🚓', '🚑', '🚜', '🚂', '🚁', '✈️', '🛶', '🚲', '🛴', '🛵', '🏎️', '🚀'],
+      space:    ['🪐', '🌍', '🌙', '☀️', '⭐', '🌟', '☄️', '🛸', '🛰️', '👽', '👩‍🚀', '🔭'],
+      magic:    ['🧚', '🧜‍♀️', '👸', '🏰', '🔮', '🪄', '💎', '🌈', '✨', '🦄', '🐉', '🧞‍♀️']
+    };
+    // These stand twice as big
+    const LEGO_BIG_EMOJI = new Set(['🐳', '🌳', '🌲', '🏰', '🎡', '🚂', '🚒', '🚌', '🏠', '🏡', '🦕', '🦖', '🐘', '🦒', '⛲', '🎠', '🛸', '🌍', '🪐', '🐻', '🦈', '🛝', '🏝️', '🐉', '⛵']);
+    const LEGO_EMOJI_PIECE = {};
+    Object.values(LEGO_EMOJI_SETS).flat().forEach(e => {
+      const id = 'e:' + e;
+      if (LEGO_EMOJI_PIECE[id]) return;
+      const big = LEGO_BIG_EMOJI.has(e);
+      LEGO_EMOJI_PIECE[id] = { emoji: e };
+      LEGO_BRICK_SHAPES.push({ id, cat: 'emoji', label: e, cols: big ? 4 : 2, rows: big ? 3 : 2, w: big ? 96 : 48, h: big ? 84 : 56 });
+    });
+    const emo = list => list.map(e => 'e:' + e);
+    const LEGO_PIECE_TABS = [
+      { icon: '🧱', ids: ['1x1', '2x2', '2x4', '2x6', '2x8', 'tall', 'big', 'round', 'glass', 'slopeL', 'slopeR', 'arch', 'roof', 'turret', 'window', 'door', 'fence', 'ladder', 'flag', 'spring'] },
+      { icon: '🏠', ids: ['door', 'window', 'roof', 'lamp', 'fence', ...emo(LEGO_EMOJI_SETS.home)] },
+      { icon: '🌊', ids: ['boat', ...emo(LEGO_EMOJI_SETS.sea)] },
+      { icon: '🌲', ids: ['tree', 'mushroom', 'flower', ...emo(LEGO_EMOJI_SETS.forest)] },
+      { icon: '🐾', ids: ['kitty', 'bunny', 'butterfly', ...emo(LEGO_EMOJI_SETS.animals)] },
+      { icon: '🍰', ids: ['cake', 'icecream', ...emo(LEGO_EMOJI_SETS.food)] },
+      { icon: '🚗', ids: ['car', 'wheel', 'thruster', 'rotor', ...emo(LEGO_EMOJI_SETS.vehicles)] },
+      { icon: '🚀', ids: ['moon', 'sun', 'star', 'cloud', ...emo(LEGO_EMOJI_SETS.space)] },
+      { icon: '✨', ids: ['unihead', 'horn', 'crown', 'crystal', 'heart', 'rainbow', 'wing', ...emo(LEGO_EMOJI_SETS.magic)] }
+    ];
+    const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+
+    // A cute piece: a little coloured LEGO base with the character standing on it
+    function drawEmojiPiece(c, br, col, isGhost, ghostValid, ts) {
+      const { x, y, w, h, shape } = br;
+      const baseH = 12;
+      c.save();
+      if (isGhost) c.globalAlpha = 0.52;
+      const by = y + h - baseH;
+      // studs peeking out each side of the base
+      const studs = Math.max(1, Math.round(w / LEGO_STUD_W));
+      for (let i = 0; i < studs; i++) {
+        c.fillStyle = col.top || col.hex;
+        c.fillRect(x + i * LEGO_STUD_W + 5, by - 4, 14, 5);
+      }
+      c.fillStyle = col.top || col.hex;
+      c.beginPath(); c.moveTo(x, by); c.lineTo(x + 4, by - 4); c.lineTo(x + w + 4, by - 4); c.lineTo(x + w, by); c.closePath(); c.fill();
+      c.fillStyle = col.side || col.hex;
+      c.beginPath(); c.moveTo(x + w, by); c.lineTo(x + w + 4, by - 4); c.lineTo(x + w + 4, by + baseH - 4); c.lineTo(x + w, by + baseH); c.closePath(); c.fill();
+      c.fillStyle = col.hex;
+      c.fillRect(x, by, w, baseH);
+      c.fillStyle = 'rgba(255,255,255,0.3)';
+      c.fillRect(x + 2, by + 2, w - 4, 2);
+      c.strokeStyle = 'rgba(49, 27, 146, 0.35)';
+      c.lineWidth = 1.4;
+      c.strokeRect(x, by, w, baseH);
+      // the character, with a soft shadow
+      const size = Math.min(w * 0.95, (h - baseH) * 1.02);
+      c.font = `${size}px ${EMOJI_FONT}`;
+      c.textAlign = 'center';
+      c.textBaseline = 'bottom';
+      c.shadowColor = 'rgba(49, 27, 146, 0.25)';
+      c.shadowOffsetY = 3;
+      c.fillStyle = '#000000';   // colour emoji take their opacity from the fill, so it must be solid
+      const bob = /🐠|🐟|🐡|🐙|🦑|🐳|🐬|🦈|🪼|🧜/.test(shape) ? Math.sin((ts || performance.now()) * 0.004 + x) * 2 : 0;
+      c.fillText(LEGO_EMOJI_PIECE[shape].emoji, x + w / 2, by + 2 + bob);
+      c.restore();
+      if (isGhost) {
+        c.save();
+        const pulse = 0.65 + 0.35 * Math.sin((ts || performance.now()) * 0.008);
+        c.strokeStyle = ghostValid ? `rgba(255, 255, 255, ${pulse})` : '#ff4081';
+        c.lineWidth = 3;
+        c.setLineDash([6, 4]);
+        c.strokeRect(x - 2, y - 2, w + 4, h + 4);
+        c.restore();
+      }
+    }
+
     function drawLegoDecor(c, shape, x, y, w, h, col, ts) {
       const ink = 'rgba(49, 27, 146, 0.55)';
       const t = (ts || performance.now());
@@ -6070,6 +6174,7 @@
     function drawLegoShape(c, br, isGhost = false, ghostValid = true, ts = 0) {
       const { x, y, w, h, colorObj, shape = '2x4', label = '' } = br;
       const col = colorObj || LEGO_COLORS[0];
+      if (LEGO_EMOJI_PIECE[shape]) { drawEmojiPiece(c, br, col, isGhost, ghostValid, ts); return; }
 
       c.save();
       if (isGhost) {
@@ -6469,7 +6574,9 @@
       { id: 'sea', icon: '🐠', say: 'Under the sea!', sky: ['#01579b', '#0288d1', '#4fc3f7'], hills: 'rgba(0, 96, 100, 0.35)',
         ground: [14, 14], decor: ['🐠', '🪸', '🐙', '🐢', '🐳', '🪸'], particles: { chars: ['○'], kind: 'rise', n: 22, color: 'rgba(255,255,255,0.75)' }, gravity: 0.55, treasure: '💎' },
       { id: 'clouds', icon: '🌈', say: 'Rainbow clouds!', sky: ['#e1bee7', '#f8bbd0', '#ffffff'], hills: 'rgba(255, 255, 255, 0.6)',
-        ground: [7, 2], decor: ['🌈', '🏰', '🦄', '☁️', '🌈', '🦄'], particles: { chars: ['✨'], kind: 'twinkle', n: 14 }, gravity: 0.7, treasure: '🌟' }
+        ground: [7, 2], decor: ['🌈', '🏰', '🦄', '☁️', '🌈', '🦄'], particles: { chars: ['✨'], kind: 'twinkle', n: 14 }, gravity: 0.7, treasure: '🌟' },
+      { id: 'forest', icon: '🌲', say: 'Into the forest!', sky: ['#80cbc4', '#c8e6c9', '#f1f8e9'], hills: 'rgba(46, 125, 50, 0.35)',
+        ground: [9, 12], decor: ['🌲', '🍄', '🦊', '🌳', '🦉', '🐿️', '🦔', '🌲'], particles: { chars: ['🍂', '🍃'], kind: 'drift', n: 10 }, gravity: 1, treasure: '🍄' }
     ];
 
     // Build templates shown in the 🧩 picker; index 8 is Free Build
@@ -6968,7 +7075,8 @@
       if (!legoState) return;
       const nextSlot = legoState.blueprints.find(bp => !bp.filled);
       if (!nextSlot && legoState.questIdx === LEGO_FREE_BUILD) {
-        const fun = ['heart', 'star', 'unihead', 'rainbow', 'tree', 'kitty', 'bunny', 'butterfly', 'cake', 'icecream', 'flower', 'mushroom', 'crown', 'car', 'boat', 'lamp'];
+        const fun = ['heart', 'star', 'unihead', 'rainbow', 'tree', 'kitty', 'bunny', 'butterfly', 'cake', 'icecream', 'flower', 'mushroom', 'crown', 'car', 'boat', 'lamp',
+          ...Object.keys(LEGO_EMOJI_PIECE)];
         const shapeId = fun[Math.floor(Math.random() * fun.length)];
         const sh = LEGO_BRICK_SHAPES.find(x => x.id === shapeId);
         const p = legoState.person;
@@ -7009,13 +7117,20 @@
       const wrap = document.getElementById('lego-fs-canvas-wrap');
       const fCtx = fCanvas.getContext('2d');
 
+      // The ground sits just above the brick tray, whatever height the tray ends up
+      function legoFloorFor(h) {
+        const dock = document.querySelector('.lego-fs-dock');
+        const dockH = dock ? dock.offsetHeight : 110;
+        return Math.floor((h - dockH - 34) / LEGO_BRICK_H) * LEGO_BRICK_H;
+      }
+
       function syncCanvasSize() {
         const w = wrap.clientWidth || window.innerWidth;
         const h = wrap.clientHeight || window.innerHeight;
         fCanvas.width = w;
         fCanvas.height = h;
         if (legoState) {
-          legoState.floorY = Math.floor((h - 128) / LEGO_BRICK_H) * LEGO_BRICK_H;
+          legoState.floorY = legoFloorFor(h);
           legoState.mapW = Math.min(LEGO_WORLD_W, Math.max(w * 3, 1200));
         }
       }
@@ -7026,7 +7141,7 @@
         window.addEventListener('resize', () => window.legoSyncCanvasSize && window.legoSyncCanvasSize());
       }
 
-      const floorY = Math.floor((fCanvas.height - 128) / LEGO_BRICK_H) * LEGO_BRICK_H;
+      const floorY = legoFloorFor(fCanvas.height);
 
       // Solid Royal Lavender LEGO ground across the entire single-screen view!
       const isRiverStud = () => false;
@@ -7150,16 +7265,27 @@
       });
 
       // 6 Picture-Only Mini-Canvas 3D LEGO Brick Buttons (Zero text for a 5-year-old!)
-      const PICTURE_TRAY_SHAPES = ['2x4', '2x2', '2x6', 'heart', 'star', 'unihead', 'rainbow', 'cloud', 'tree', 'flower', 'mushroom',
-        'kitty', 'bunny', 'butterfly', 'wing', 'horn', 'crown', 'crystal', 'cake', 'icecream', 'sun', 'moon', 'lamp', 'fence',
-        'ladder', 'door', 'window', 'arch', 'roof', 'slopeL', 'slopeR', 'turret', 'flag', 'round', 'glass', 'car', 'boat',
-        'wheel', 'thruster', 'rotor', 'spring'];
       const shapeContainer = document.getElementById('lego-fs-shapes');
+      const tabContainer = document.getElementById('lego-piece-tabs');
+      let trayTab = 0;
+
+      function renderPieceTabs() {
+        tabContainer.innerHTML = LEGO_PIECE_TABS.map((t, i) => `<button class="lego-piece-tab ${i === trayTab ? 'active' : ''}" data-i="${i}">${t.icon}</button>`).join('');
+        tabContainer.querySelectorAll('.lego-piece-tab').forEach(b => {
+          b.onclick = () => {
+            trayTab = parseInt(b.dataset.i, 10);
+            playMagicSound('pop');
+            renderPieceTabs();
+            renderPictureBrickTray();
+            shapeContainer.scrollLeft = 0;
+          };
+        });
+      }
 
       function renderPictureBrickTray() {
         if (!shapeContainer) return;
         shapeContainer.innerHTML = '';
-        PICTURE_TRAY_SHAPES.forEach(shapeId => {
+        LEGO_PIECE_TABS[trayTab].ids.forEach(shapeId => {
           const btn = document.createElement('button');
           btn.className = 'lego-pic-brick-btn' + (legoState.selectedShape === shapeId ? ' active' : '');
           const miniCanvas = document.createElement('canvas');
@@ -7169,7 +7295,7 @@
 
           // Draw the real piece at its true proportions, scaled to fit the button
           const sh = LEGO_BRICK_SHAPES.find(s => s.id === shapeId) || LEGO_BRICK_SHAPES[0];
-          const scale = Math.min(96 / (sh.w + 8), 60 / (sh.h + 14));
+          const scale = Math.min(104 / (sh.w + 4), 68 / (sh.h + 8));
           mCtx.save();
           mCtx.translate((112 - sh.w * scale) / 2, (76 - sh.h * scale) / 2 + 4 * scale);
           mCtx.scale(scale, scale);
@@ -7204,8 +7330,10 @@
         colorContainer.appendChild(sw);
       });
 
+      renderPieceTabs();
       renderPictureBrickTray();
       enableDragScroll(shapeContainer);
+      enableDragScroll(tabContainer);
       enableDragScroll(colorContainer);
       let savedMap = 0;
       try { savedMap = parseInt(localStorage.getItem('kiki_lego_map') || '0', 10) || 0; } catch (e) {}
