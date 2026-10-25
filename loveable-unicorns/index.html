@@ -1198,45 +1198,95 @@
     ];
 
     let preferredVoice = null;
+    let candidateVoices = [];
+    let selectedVoiceIndex = 0;
     let lastSpokenPrompt = '';
     let currentSoundOutCallback = null;
     let roundLocked = false;
     let balloonLoopId = null;
+    let firstTouchUnlocked = false;
 
     function selectBestGirlyVoice() {
       if (!('speechSynthesis' in window)) return;
-      const voices = window.speechSynthesis.getVoices();
-      if (!voices.length) return;
+      const allVoices = window.speechSynthesis.getVoices();
+      if (!allVoices.length) return;
 
-      const priorityNames = [
-        'Microsoft Ana',
-        'Microsoft Aria',
-        'Microsoft Jenny',
-        'Google US English',
-        'Samantha',
-        'Victoria',
-        'Karen',
-        'Moira',
-        'Tessa',
-        'Microsoft Zira'
-      ];
-
-      for (const name of priorityNames) {
-        const match = voices.find(v => v.name.includes(name) && v.lang.startsWith('en'));
-        if (match) {
-          preferredVoice = match;
-          return;
-        }
+      const enVoices = allVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+      if (!enVoices.length) {
+        preferredVoice = allVoices[0];
+        return;
       }
-      preferredVoice = voices.find(v => v.lang.startsWith('en') && /female|girl|woman|zira|samantha/i.test(v.name))
-                    || voices.find(v => v.lang.startsWith('en'))
-                    || voices[0];
+
+      // Score every English voice so Pixel 8 / Android, iOS, and Windows pick the sweetest girly voice
+      // Note: On Pixel/Android, Google TTS female voice IDs are tpf, sfg, iob, tpc, gba, gbg.
+      // Male IDs on Android are iom, iol, tpd, gbd, rjs.
+      // Also on Android Chrome, "-local" voices honor utter.pitch (sweet high voice!), while "-network" voices ignore pitch!
+      const scored = enVoices.map(v => {
+        const id = (v.name + ' ' + v.voiceURI).toLowerCase();
+        let score = 0;
+
+        // Avoid known male voices on Android, Windows, Apple
+        if (/iom|iol|tpd|gbd|male|david|mark|daniel|alex|fred|guy|christopher|eric|roger|steffan/.test(id)) {
+          score -= 100;
+        }
+
+        // Top priority: Windows / Apple / Chrome known girl/female voices
+        if (id.includes('microsoft ana')) score += 90;     // Windows 11 child girl voice
+        if (id.includes('microsoft aria')) score += 75;
+        if (id.includes('microsoft jenny')) score += 70;
+        if (id.includes('samantha')) score += 75;          // iOS bright female
+        if (id.includes('tessa') || id.includes('moira') || id.includes('karen') || id.includes('victoria')) score += 60;
+        if (id.includes('google us english')) score += 65;
+
+        // Pixel 8 / Android Google TTS female voice codes:
+        // tpf = high bright female, sfg = warm female, iob = clear female, tpc = upbeat female
+        if (id.includes('tpf')) score += 88;
+        if (id.includes('sfg')) score += 82;
+        if (id.includes('iob')) score += 78;
+        if (id.includes('tpc')) score += 74;
+        if (id.includes('gba') || id.includes('gbg')) score += 65;
+        if (/female|woman|girl|zira/.test(id)) score += 60;
+
+        // Prefer local voices on Android because local voices allow pitch shifting (1.42x girly pitch)!
+        if (id.includes('local') || v.localService) score += 25;
+        if (id.includes('network')) score -= 15;
+
+        // Prefer US English
+        if (v.lang.toLowerCase().includes('us')) score += 15;
+
+        return { voice: v, score, id };
+      });
+
+      scored.sort((a, b) => b.score - a.score);
+      candidateVoices = scored.filter(s => s.score >= 0).map(s => s.voice);
+      if (!candidateVoices.length) candidateVoices = enVoices;
+
+      const savedURI = localStorage.getItem('unicorn_voice_uri');
+      const savedIdx = candidateVoices.findIndex(v => v.voiceURI === savedURI);
+      if (savedIdx !== -1) {
+        selectedVoiceIndex = savedIdx;
+      } else {
+        selectedVoiceIndex = 0;
+      }
+      preferredVoice = candidateVoices[selectedVoiceIndex];
     }
 
     if ('speechSynthesis' in window) {
       window.speechSynthesis.onvoiceschanged = selectBestGirlyVoice;
       selectBestGirlyVoice();
+      // Android Chrome sometimes populates voices slightly after load
+      setTimeout(selectBestGirlyVoice, 300);
+      setTimeout(selectBestGirlyVoice, 1000);
     }
+
+    // Unlock audio and speech on first finger tap on mobile phones
+    window.addEventListener('pointerdown', () => {
+      if (!firstTouchUnlocked) {
+        firstTouchUnlocked = true;
+        getAudioCtx();
+        selectBestGirlyVoice();
+      }
+    }, { once: true });
 
     function cleanForSpeech(str) {
       return str
@@ -1297,8 +1347,16 @@
     }
 
     function cycleVoiceEnergy() {
+      if (!candidateVoices.length) selectBestGirlyVoice();
       voiceEnergyMode = (voiceEnergyMode + 1) % VOICE_STYLES.length;
-      document.getElementById('voice-style-btn').textContent = VOICE_STYLES[voiceEnergyMode].label;
+      // When cycling past the 3 styles, also step to the next top female voice on the device
+      if (voiceEnergyMode === 0 && candidateVoices.length > 1) {
+        selectedVoiceIndex = (selectedVoiceIndex + 1) % Math.min(candidateVoices.length, 4);
+        preferredVoice = candidateVoices[selectedVoiceIndex];
+        localStorage.setItem('unicorn_voice_uri', preferredVoice.voiceURI);
+      }
+      const vNum = candidateVoices.length > 1 ? ` #${selectedVoiceIndex + 1}` : '';
+      document.getElementById('voice-style-btn').textContent = VOICE_STYLES[voiceEnergyMode].label + vNum;
       playMagicSound('sparkle');
       unicornSpeak("Hi bestie! How do you like my unicorn voice now?! Sparkle power!", { updateBubble: false });
     }
