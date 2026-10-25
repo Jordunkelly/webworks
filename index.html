@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>webworks — Jordan Kelly</title>
+  <title>Jordan Kelly Consulting</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -41,26 +41,28 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    header {
-      padding: 3rem 2rem 2rem;
+    .hero {
+      padding: 3.5rem 2rem 2rem;
       max-width: 1080px;
       margin: 0 auto;
     }
 
     .wordmark {
       font-family: var(--mono);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 500;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
 
-    .wordmark class="muted" { color: var(--text-muted); }
+    .wordmark .muted { color: var(--text-muted); }
 
     .resume-link {
       color: var(--accent);
@@ -72,29 +74,48 @@
 
     .resume-link:hover { color: var(--text-primary); }
 
-    header h1 {
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
+    .hero h1 {
+      font-size: clamp(2rem, 4.2vw, 2.85rem);
       font-weight: 700;
-      line-height: 1.15;
+      line-height: 1.12;
       letter-spacing: -0.03em;
-      max-width: 600px;
+      max-width: 680px;
     }
 
-    header p {
-      margin-top: 0.75rem;
-      font-size: 0.95rem;
+    .hero p {
+      margin-top: 0.85rem;
+      font-size: 1rem;
       color: var(--text-secondary);
-      max-width: 520px;
+      max-width: 620px;
       line-height: 1.6;
+    }
+
+    .Capabilities {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 2rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .cap-pill {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-primary);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
     }
 
     .projects {
       max-width: 1080px;
-      margin: 1.5rem auto 0;
+      margin: 1.25rem auto 0;
       padding: 0 2rem 5rem;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.1rem;
     }
 
     .card {
@@ -164,7 +185,7 @@
 
     .card-desc {
       color: var(--text-secondary);
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       line-height: 1.55;
       margin-bottom: auto;
       padding-bottom: 1rem;
@@ -190,9 +211,8 @@
     footer {
       max-width: 1080px;
       margin: 0 auto;
-      padding: 0 2rem 3rem;
+      padding: 2rem 2rem 3rem;
       border-top: 1px solid var(--border);
-      padding-top: 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -213,10 +233,10 @@
     .footer-links { display: flex; gap: 1.5rem; }
 
     @media (max-width: 768px) {
-      .projects { grid-template-columns: 1fr; }
-      header { padding: 2rem 1.25rem 1.5rem; }
-      .projects { padding: 0 1.25rem 4rem; }
-      footer { padding: 0 1.25rem 2rem; padding-top: 1.5rem; }
+      .projects { grid-template-columns: 1fr; padding: 0 1.25rem 4rem; }
+      .hero { padding: 2rem 1.25rem 1.25rem; }
+      .Capabilities { padding: 0 1.25rem 0.75rem; }
+      footer { padding: 1.5rem 1.25rem 2rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -228,21 +248,28 @@
 </head>
 <body>
 
-  <header>
+  <section class="hero">
     <div class="wordmark">
-      <span>webworks <span class="muted">/ jordan kelly</span></span>
-      <a href="https://jordunkelly.github.io" class="resume-link">RESUME →</a>
+      <span>Jordan Kelly Consulting <span class="muted">/ Custom Software &amp; Product Engineering</span></span>
+      <a href="https://jordunkelly.github.io" class="resume-link">RESUME &amp; CONTACT →</a>
     </div>
-    <h1>Small tools, real patterns.</h1>
-    <p>Full-stack web applications built to solve actual problems — authentication, data visualization, API-driven persistence, and shared state.</p>
-  </header>
+    <h1>Jordan Kelly Consulting</h1>
+    <p>I design and ship production web applications, data systems, and interactive products. 6 live deployments below cover scheduling, financial modeling, probability analytics, and early education.</p>
+  </section>
+
+  <div class="Capabilities">
+    <span class="cap-pill">Full Stack Web Apps</span>
+    <span class="cap-pill">Data Pipelines &amp; Dashboards</span>
+    <span class="cap-pill">API &amp; Serverless Architecture</span>
+    <span class="cap-pill">Interactive &amp; Mobile First UI</span>
+  </div>
 
   <section class="projects">
 
     <a class="card" href="event-planner/">
       <span class="card-status">Full Stack</span>
       <h2>Event Planner</h2>
-      <p class="card-desc">Collaborative scheduling app with authentication, calendar UI, and persistent shared state across sessions. ~Current state is mini interactive experience</p>
+      <p class="card-desc">Collaborative scheduling platform with authentication, calendar workflows, and persistent shared state across sessions.</p>
       <div class="card-meta">
         <span class="tag">JavaScript</span>
         <span class="tag">CRUD</span>
@@ -252,20 +279,20 @@
     </a>
 
     <a class="card" href="pso-drop-charts/">
-      <span class="card-status">Data Viz</span>
+      <span class="card-status">Data Analytics</span>
       <h2>Drop Rate Dashboard</h2>
-      <p class="card-desc">Interactive dashboard with filterable, sortable tables and probability calculations over structured datasets.</p>
+      <p class="card-desc">Interactive analytics dashboard with filterable, sortable tables and probability calculations over structured datasets.</p>
       <div class="card-meta">
         <span class="tag">JavaScript</span>
         <span class="tag">DataTables</span>
-        <span class="tag">Data Viz</span>
+        <span class="tag">Analytics</span>
       </div>
     </a>
 
     <a class="card" href="event-rsvp/">
-      <span class="card-status">API Integration</span>
+      <span class="card-status">Serverless API</span>
       <h2>Event RSVP</h2>
-      <p class="card-desc">Lightweight RSVP app using Excel API as a serverless backend — spreadsheet-as-database for zero-cost persistence.</p>
+      <p class="card-desc">Guest management application using the Excel API as a serverless backend. Uses a spreadsheet as a database for zero cost persistence.</p>
       <div class="card-meta">
         <span class="tag">JavaScript</span>
         <span class="tag">Excel API</span>
@@ -274,45 +301,45 @@
     </a>
 
     <a class="card" href="skald/">
-      <span class="card-status">Nordic Tool</span>
+      <span class="card-status">Financial Tool</span>
       <h2>Skald</h2>
-      <p class="card-desc">8-bit Nordic Deal Calculator to calculate discounts, incentives, tax trade credits, and slay dealer fee bloat.</p>
+      <p class="card-desc">Automotive deal calculator built to model discounts, incentives, state tax trade credits, and dealer fee structures.</p>
       <div class="card-meta">
         <span class="tag">React</span>
-        <span class="tag">Calculator</span>
-        <span class="tag">Nordic Vibe</span>
+        <span class="tag">Pricing Math</span>
+        <span class="tag">Single Page</span>
       </div>
     </a>
 
     <a class="card" href="last-epoch-planner/">
-      <span class="card-status">Build Planner</span>
+      <span class="card-status">Simulation Tool</span>
       <h2>Build Planner</h2>
-      <p class="card-desc">Fire Aura Spellblade planner for Last Epoch S4 — skill trees, gear, and stat breakdowns in a single page.</p>
+      <p class="card-desc">Character optimization and stat simulation tool for Last Epoch S4. Combines skill trees, gear slots, and live stat breakdowns on one screen.</p>
       <div class="card-meta">
         <span class="tag">JavaScript</span>
-        <span class="tag">Theorycraft</span>
+        <span class="tag">Simulation</span>
         <span class="tag">Single Page</span>
       </div>
     </a>
 
     <a class="card" href="loveable-unicorns/">
-      <span class="card-status">Kindergarten App</span>
+      <span class="card-status">EdTech Mobile App</span>
       <h2>Loveable Unicorns</h2>
-      <p class="card-desc">Kindergarten game across 9 learning modes covering 26 phoneme sounds, CVC word blending, counting, calendar days, and seasons with Web Speech API voice synthesis.</p>
+      <p class="card-desc">Mobile first Kindergarten platform across 10 learning and arcade modes covering 26 phoneme sounds, CVC word blending, counting, calendar days, and seasons with Web Speech API synthesis.</p>
       <div class="card-meta">
+        <span class="tag">Mobile First</span>
         <span class="tag">Web Speech API</span>
         <span class="tag">Web Audio</span>
-        <span class="tag">Kindergarten</span>
       </div>
     </a>
 
   </section>
 
   <footer>
-    <p>&copy; 2026 Jordan Kelly</p>
+    <p>&copy; 2026 Jordan Kelly Consulting</p>
     <div class="footer-links">
       <a href="https://github.com/Jordunkelly" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://jordunkelly.github.io" target="_blank" rel="noopener">Resume</a>
+      <a href="https://jordunkelly.github.io" target="_blank" rel="noopener">Resume &amp; Contact</a>
     </div>
   </footer>
 

@@ -1,6 +1,11 @@
 (function() {
   const path = window.location.pathname.toLowerCase();
-  
+
+  // Never inject consulting nav inside the kids unicorn game
+  if (path.includes('/loveable-unicorns/')) {
+    return;
+  }
+
   // Set root prefix depending on whether we are in a subdirectory
   let prefix = './';
   if (
@@ -8,8 +13,7 @@
     path.includes('/pso-drop-charts/') ||
     path.includes('/event-rsvp/') ||
     path.includes('/last-epoch-planner/') ||
-    path.includes('/skald/') ||
-    path.includes('/loveable-unicorns/')
+    path.includes('/skald/')
   ) {
     prefix = '../';
   }
@@ -24,11 +28,10 @@
   const isRsvp = path.includes('/event-rsvp/');
   const isLastEpoch = path.includes('/last-epoch-planner/');
   const isSkald = path.includes('/skald/');
-  const isUnicorns = path.includes('/loveable-unicorns/');
 
   header.innerHTML = `
     <a href="${prefix}index.html" class="webworks-brand">
-      webworks <span class="muted">/ jordan kelly</span>
+      Jordan Kelly Consulting
     </a>
     <nav class="webworks-nav">
       <a href="${prefix}event-planner/index.html" class="webworks-nav-link ${isPlanner ? 'active' : ''}">Event Planner</a>
@@ -36,7 +39,7 @@
       <a href="${prefix}event-rsvp/index.html" class="webworks-nav-link ${isRsvp ? 'active' : ''}">Event RSVP</a>
       <a href="${prefix}last-epoch-planner/index.html" class="webworks-nav-link ${isLastEpoch ? 'active' : ''}">Build Planner</a>
       <a href="${prefix}skald/index.html" class="webworks-nav-link ${isSkald ? 'active' : ''}">Skald</a>
-      <a href="${prefix}loveable-unicorns/index.html" class="webworks-nav-link ${isUnicorns ? 'active' : ''}">Loveable Unicorns</a>
+      <a href="${prefix}loveable-unicorns/index.html" class="webworks-nav-link">Loveable Unicorns</a>
     </nav>
   `;
 

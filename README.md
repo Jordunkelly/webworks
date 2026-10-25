@@ -1,33 +1,33 @@
-# webworks
+# Jordan Kelly Consulting
 
-Full-stack web applications — scheduling, data visualization, and API-driven persistence.
+Production web applications, data systems, and interactive products built and shipped by Jordan Kelly Consulting.
 
 Live at **https://jordunkelly.github.io/webworks/**
 
-## Projects
+## Client & Product Portfolio
 
-Each project lives in its own top-level folder and is entered through its `index.html`.
+Each application lives in its own top level folder and launches through its `index.html`.
 
-| Folder | Project | What it does |
+| Folder | Product | What it does |
 | --- | --- | --- |
-| `event-planner/` | Event Planner | Collaborative meal-train scheduling with calendar UI and persistent shared state. |
-| `event-rsvp/` | Event RSVP | Lightweight RSVP tracker using the Excel API as a serverless backend. |
-| `pso-drop-charts/` | Drop Rate Dashboard | Filterable, sortable drop tables with probability calculations, plus a mag timer and the Photon Defender mini-game. |
-| `last-epoch-planner/` | Build Planner | Fire Aura Spellblade build planner for Last Epoch S4. |
-| `skald/` | Skald | 8-bit Nordic deal calculator — discounts, incentives, and state tax trade credits. |
-| `loveable-unicorns/` | Loveable Unicorns | Kindergarten game across 9 learning modes covering 26 phoneme sounds, CVC word blending, counting, calendar days, and seasons with Web Speech API voice synthesis. |
+| `event-planner/` | Event Planner | Collaborative scheduling platform with calendar UI and persistent shared state. |
+| `event-rsvp/` | Event RSVP | Guest RSVP tracker using the Excel API as a serverless backend for zero cost persistence. |
+| `pso-drop-charts/` | Drop Rate Dashboard | Filterable, sortable probability tables with live drop calculations, a timer utility, and the Photon Defender game. |
+| `last-epoch-planner/` | Build Planner | Character stat simulation and gear planner for Last Epoch S4. |
+| `skald/` | Skald | Automotive deal calculator for modeling discounts, incentives, and state tax trade credits. |
+| `loveable-unicorns/` | Loveable Unicorns | Mobile first Kindergarten platform across 10 learning and arcade modes covering 26 phoneme sounds, CVC word blending, counting, calendar days, seasons, balloon pop, and candy match with Web Speech API synthesis. |
 
-Shared across all projects: `index.html` (hub), `global-nav.css`, `global-nav.js`.
+Shared across portfolio projects: `index.html` (consulting hub), `global-nav.css`, `global-nav.js`.
 
-## Conventions
+## Architecture Conventions
 
-- Folder and file names are lowercase `kebab-case`.
-- One project per top-level folder; the entry point is always `index.html`.
-- Project-local images live in that project's `assets/` folder.
+* Folder and file names use lowercase `kebab-case`.
+* One product per top level folder. The entry point is always `index.html`.
+* Product images live in that folder's `assets/` directory.
 
-## Tech
+## Tech Stack
 
-HTML5 · JavaScript · CSS · React · REST APIs · Excel API · DataTables
+HTML5 · JavaScript · CSS · React · REST APIs · Excel API · Web Speech API · Web Audio API · DataTables
 
 ## License
 

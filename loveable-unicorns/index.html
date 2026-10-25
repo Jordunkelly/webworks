@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#ffd1f0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>Loveable Unicorns 🦄 Kindergarten Kingdom</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../global-nav.css" />
-  <script src="../global-nav.js" defer></script>
   <style>
     :root {
       --pink-hot: #ff1493;
@@ -21,6 +21,8 @@
       --sky-1: #ffd1f0;
       --sky-2: #e8d1ff;
       --sky-3: #ccf2ff;
+      --font-print: 'Andika', 'Fredoka', Roboto, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+      --font-ui: 'Fredoka', 'Andika', Roboto, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
     }
 
     * {
@@ -28,39 +30,42 @@
       user-select: none;
       -webkit-user-select: none;
       -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
       margin: 0;
       padding: 0;
     }
 
+    /* =========================================================================
+       1. MOBILE FIRST BASE STYLES (Phone portrait: Pixel 8 / iPhone)
+       ========================================================================= */
     body {
-      font-family: 'Fredoka', 'Andika', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: var(--font-ui);
       background: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 50%, var(--sky-3) 100%);
-      min-height: 100vh;
+      min-height: 100dvh;
       overflow-x: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       color: var(--purple-dark);
-      padding-bottom: 40px;
+      padding: 6px 8px 18px;
     }
 
-    /* Animated Magical Background */
     .rainbow-bg {
       position: fixed;
-      top: 80px;
+      top: 40px;
       left: 50%;
       transform: translateX(-50%);
-      width: 95vw;
+      width: 110vw;
       max-width: 860px;
-      height: 420px;
+      height: 300px;
       border-radius: 450px 450px 0 0;
       box-shadow:
-        0 -16px 0 0 rgba(255, 94, 158, 0.25),
-        0 -32px 0 0 rgba(255, 165, 82, 0.25),
-        0 -48px 0 0 rgba(255, 235, 102, 0.25),
-        0 -64px 0 0 rgba(114, 239, 157, 0.25),
-        0 -80px 0 0 rgba(107, 203, 255, 0.25),
-        0 -96px 0 0 rgba(190, 133, 255, 0.25);
+        0 -12px 0 0 rgba(255, 94, 158, 0.22),
+        0 -24px 0 0 rgba(255, 165, 82, 0.22),
+        0 -36px 0 0 rgba(255, 235, 102, 0.22),
+        0 -48px 0 0 rgba(114, 239, 157, 0.22),
+        0 -60px 0 0 rgba(107, 203, 255, 0.22),
+        0 -72px 0 0 rgba(190, 133, 255, 0.22);
       pointer-events: none;
       z-index: 0;
     }
@@ -75,127 +80,126 @@
 
     .cloud {
       position: absolute;
-      font-size: 4rem;
-      opacity: 0.55;
+      font-size: 2.6rem;
+      opacity: 0.45;
       animation: floatCloud linear infinite;
     }
 
     @keyframes floatCloud {
-      from { transform: translateX(-160px); }
-      to { transform: translateX(calc(100vw + 160px)); }
+      from { transform: translateX(-120px); }
+      to { transform: translateX(calc(100vw + 120px)); }
     }
 
-    /* Game Top Bar */
+    /* Compact Mobile Top Bar */
     .game-header {
       position: relative;
       z-index: 5;
       width: 100%;
-      max-width: 1040px;
-      padding: 12px 16px 6px;
+      max-width: 980px;
+      padding: 2px 2px 6px;
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
     }
 
     .brand-pill {
       background: linear-gradient(135deg, #ffffff, #fff0f8);
-      border: 4px solid #ff66b3;
+      border: 3px solid #ff66b3;
       border-radius: 999px;
-      padding: 8px 18px;
+      padding: 4px 11px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      box-shadow: 0 6px 0 #ff66b3;
-      font-size: 1.25rem;
-      font-weight: 900;
+      gap: 5px;
+      box-shadow: 0 3px 0 #ff66b3;
+      font-size: 0.94rem;
+      font-weight: 700;
       color: #c2185b;
+      white-space: nowrap;
     }
 
     .header-controls {
       display: flex;
       align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
+      gap: 5px;
     }
 
     .star-pill {
       background: linear-gradient(135deg, #fff9c4, #ffd54f);
-      border: 4px solid #ffa000;
+      border: 3px solid #ffa000;
       border-radius: 999px;
-      padding: 6px 18px;
+      padding: 3px 10px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 1.4rem;
-      font-weight: 900;
+      gap: 4px;
+      font-size: 1rem;
+      font-weight: 700;
       color: #8d4e00;
-      box-shadow: 0 6px 0 #ffa000;
+      box-shadow: 0 3px 0 #ffa000;
       transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .star-pill.pop {
-      transform: scale(1.28) rotate(5deg);
+      transform: scale(1.25) rotate(5deg);
     }
 
     .ctrl-btn {
       background: #ffffff;
-      border: 4px solid #ab47bc;
+      border: 3px solid #ab47bc;
       border-radius: 999px;
-      padding: 7px 14px;
-      font-size: 1rem;
-      font-weight: 900;
-      font-family: inherit;
+      padding: 4px 9px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: var(--font-ui);
       color: #6a1b9a;
       cursor: pointer;
-      box-shadow: 0 5px 0 #ab47bc;
-      transition: transform 0.1s;
+      box-shadow: 0 3px 0 #ab47bc;
+      white-space: nowrap;
     }
 
     .ctrl-btn:active {
-      transform: translateY(4px);
+      transform: translateY(2px);
       box-shadow: 0 1px 0 #ab47bc;
     }
 
-    /* World / Subject Navigation Grid */
+    /* Mobile-First 5x2 Compact World Selector Grid (10 Worlds!) */
     .world-nav {
       position: relative;
       z-index: 5;
-      width: 96%;
-      max-width: 1040px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-      margin: 8px 0 12px;
+      width: 100%;
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      margin-bottom: 8px;
     }
 
     .world-btn {
-      border: 3.5px solid #ffffff;
-      border-radius: 20px;
-      padding: 9px 14px;
-      font-size: 1.02rem;
-      font-weight: 900;
-      font-family: inherit;
+      border: 2.5px solid #ffffff;
+      border-radius: 14px;
+      padding: 5px 2px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      font-family: var(--font-ui);
       color: #ffffff;
       cursor: pointer;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 6px;
-      box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
-      transition: transform 0.15s, filter 0.15s;
+      justify-content: center;
+      gap: 1px;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+      line-height: 1.1;
     }
 
-    .world-btn:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.06);
+    .world-btn .w-icon {
+      font-size: 1.2rem;
     }
 
     .world-btn.active {
-      transform: scale(1.07) translateY(-2px);
-      outline: 4px solid #ffd700;
-      box-shadow: 0 7px 0 rgba(0, 0, 0, 0.25), 0 0 16px rgba(255, 215, 0, 0.8);
+      outline: 3px solid #ffd700;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25), 0 0 10px rgba(255, 215, 0, 0.85);
     }
 
     .w-abc     { background: linear-gradient(135deg, #ff4081, #c51162); }
@@ -205,55 +209,54 @@
     .w-seasons { background: linear-gradient(135deg, #66bb6a, #2e7d32); }
     .w-shapes  { background: linear-gradient(135deg, #ffa726, #ef6c00); }
     .w-rhyme   { background: linear-gradient(135deg, #ec407a, #880e4f); }
-    .w-explore { background: linear-gradient(135deg, #26c6da, #00838f); }
+    .w-balloon { background: linear-gradient(135deg, #00bcd4, #00838f); }
+    .w-candy   { background: linear-gradient(135deg, #e040fb, #7b1fa2); }
     .w-closet  { background: linear-gradient(135deg, #ffd54f, #f57f17); color: #5d2900; }
 
-    /* Main Stage Card */
+    /* Main Stage Card (Mobile First) */
     main {
       position: relative;
       z-index: 5;
-      width: 96%;
-      max-width: 1000px;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(10px);
-      border: 6px solid #ffffff;
-      border-radius: 36px;
-      box-shadow: 0 16px 40px rgba(156, 39, 176, 0.22);
-      padding: 18px 20px 24px;
+      width: 100%;
+      max-width: 960px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      border: 4px solid #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 10px 28px rgba(156, 39, 176, 0.18);
+      padding: 10px 10px 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    /* Princess Sparkle Interactive Stage */
+    /* Compact Unicorn + Speech Row for Phone Screens */
     .unicorn-header-stage {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 16px;
+      gap: 8px;
       width: 100%;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
+      margin-bottom: 8px;
     }
 
     .unicorn-avatar-box {
       position: relative;
-      width: 155px;
-      height: 155px;
+      width: 82px;
+      height: 82px;
       background: radial-gradient(circle, #ffffff 35%, #ffd1f0 100%);
-      border: 5px solid #ff66b3;
+      border: 3.5px solid #ff66b3;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 24px rgba(255, 20, 147, 0.28);
+      box-shadow: 0 4px 12px rgba(255, 20, 147, 0.25);
       cursor: pointer;
-      transition: transform 0.2s;
       flex-shrink: 0;
     }
 
-    .unicorn-avatar-box:hover {
-      transform: scale(1.05);
+    .unicorn-avatar-box svg {
+      width: 72px;
+      height: 72px;
     }
 
     .unicorn-avatar-box.dancing {
@@ -262,10 +265,9 @@
 
     @keyframes sparkleDance {
       0% { transform: translateY(0) rotate(-6deg) scale(1.04); }
-      100% { transform: translateY(-16px) rotate(7deg) scale(1.1); }
+      100% { transform: translateY(-8px) rotate(7deg) scale(1.08); }
     }
 
-    /* Animated mouth & horn glow when speaking */
     #unicorn-mouth-open {
       opacity: 0;
       transition: opacity 0.08s;
@@ -285,89 +287,88 @@
 
     .acc-badge {
       position: absolute;
-      font-size: 2.3rem;
+      font-size: 1.4rem;
       pointer-events: none;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
     }
-    .acc-crown { top: -20px; left: 50%; transform: translateX(-50%); }
-    .acc-wand  { bottom: 2px; right: -12px; transform: rotate(15deg); }
-    .acc-pet   { bottom: -8px; left: -12px; }
-    .acc-wings { top: 28px; left: -18px; font-size: 2.1rem; }
+    .acc-crown { top: -12px; left: 50%; transform: translateX(-50%); }
+    .acc-wand  { bottom: 0; right: -8px; transform: rotate(15deg); }
+    .acc-pet   { bottom: -5px; left: -8px; }
+    .acc-wings { top: 15px; left: -11px; font-size: 1.3rem; }
 
     /* Speech Bubble */
     .speech-card {
       flex: 1;
-      min-width: 260px;
+      min-width: 0;
       background: linear-gradient(135deg, #ffffff, #fff5fb);
-      border: 4px solid #ff66b3;
-      border-radius: 28px;
-      padding: 14px 18px;
+      border: 3px solid #ff66b3;
+      border-radius: 18px;
+      padding: 7px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 4px 0 #ffb3d9;
+    }
+
+    .speech-top-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      box-shadow: 0 8px 0 #ffb3d9;
-    }
-
-    .speech-content {
-      flex: 1;
+      gap: 6px;
     }
 
     .unicorn-tag {
       display: inline-block;
       background: #ff4081;
       color: #fff;
-      font-size: 0.8rem;
-      font-weight: 900;
-      padding: 2px 10px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 7px;
       border-radius: 99px;
-      margin-bottom: 4px;
-      letter-spacing: 0.5px;
-    }
-
-    .speech-text {
-      font-size: 1.4rem;
-      font-weight: 900;
-      color: #880e4f;
-      line-height: 1.3;
+      letter-spacing: 0.3px;
     }
 
     .speech-actions {
       display: flex;
-      gap: 8px;
+      gap: 5px;
       flex-shrink: 0;
     }
 
     .action-circle-btn {
       background: linear-gradient(135deg, #ff4081, #c51162);
       color: #fff;
-      border: 3px solid #fff;
-      border-radius: 50%;
-      width: 54px;
-      height: 54px;
-      font-size: 1.6rem;
+      border: 2px solid #fff;
+      border-radius: 99px;
+      height: 30px;
+      min-width: 30px;
+      padding: 0 8px;
+      font-size: 0.9rem;
       cursor: pointer;
-      box-shadow: 0 5px 0 #880e4f;
+      box-shadow: 0 3px 0 #880e4f;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.1s;
+      font-family: var(--font-ui);
+      font-weight: 700;
     }
 
     .action-circle-btn.phonics-btn {
       background: linear-gradient(135deg, #ab47bc, #6a1b9a);
-      box-shadow: 0 5px 0 #4a148c;
-      width: auto;
-      border-radius: 99px;
-      padding: 0 14px;
-      font-size: 1rem;
-      font-weight: 900;
-      font-family: inherit;
-      gap: 6px;
+      box-shadow: 0 3px 0 #4a148c;
+      font-size: 0.74rem;
+      gap: 3px;
     }
 
     .action-circle-btn:active {
-      transform: translateY(4px);
+      transform: translateY(2px);
+    }
+
+    .speech-text {
+      font-family: var(--font-print);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #880e4f;
+      line-height: 1.25;
     }
 
     /* Sub-mode pill bar */
@@ -375,186 +376,181 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 8px;
-      margin-bottom: 12px;
+      gap: 6px;
+      margin-bottom: 8px;
       width: 100%;
     }
 
     .submode-pill {
       background: #fce4ec;
-      border: 3px solid #f48fb1;
+      border: 2.5px solid #f48fb1;
       border-radius: 999px;
-      padding: 6px 16px;
-      font-size: 1rem;
-      font-weight: 900;
-      font-family: inherit;
+      padding: 4px 11px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: var(--font-ui);
       color: #880e4f;
       cursor: pointer;
-      transition: all 0.15s;
     }
 
     .submode-pill.active {
       background: #ff4081;
       border-color: #c51162;
       color: #ffffff;
-      box-shadow: 0 4px 0 #880e4f;
+      box-shadow: 0 3px 0 #880e4f;
     }
 
-    /* Showcase Stage */
+    /* Showcase Stage (Mobile First) */
     .showcase-card {
       background: linear-gradient(180deg, #fff8fc 0%, #fce4ec 100%);
-      border: 4px dashed #ff66b3;
-      border-radius: 28px;
-      padding: 18px 20px;
-      margin-bottom: 18px;
+      border: 3px dashed #ff66b3;
+      border-radius: 20px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
       width: 100%;
-      min-height: 135px;
+      min-height: 88px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 8px;
       text-align: center;
     }
 
     .big-prompt-display {
-      font-family: 'Andika', 'Fredoka', Roboto, sans-serif;
-      font-size: 3rem;
+      font-family: var(--font-print);
+      font-size: 2.1rem;
       font-weight: 700;
       color: #c2185b;
       text-shadow: 2px 2px 0 #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 16px;
+      gap: 10px;
       flex-wrap: wrap;
+      line-height: 1.15;
     }
 
     .phonics-pill {
       background: #fff9c4;
-      border: 3px solid #fbc02d;
-      border-radius: 20px;
-      padding: 6px 16px;
-      font-size: 1.3rem;
+      border: 2.5px solid #fbc02d;
+      border-radius: 16px;
+      padding: 4px 12px;
+      font-family: var(--font-print);
+      font-size: 0.94rem;
       color: #8d4e00;
       cursor: pointer;
-      box-shadow: 0 4px 0 #fbc02d;
+      box-shadow: 0 3px 0 #fbc02d;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     /* Sound-It-Out Word Blender Tiles */
     .blender-row {
       display: flex;
-      gap: 14px;
+      gap: 10px;
       justify-content: center;
       align-items: center;
-      flex-wrap: wrap;
-      margin: 6px 0;
+      margin: 4px 0;
     }
 
     .letter-tile {
-      width: 86px;
-      height: 96px;
+      width: 66px;
+      height: 76px;
       background: linear-gradient(180deg, #ffffff, #f3e5f5);
-      border: 5px solid #ab47bc;
-      border-radius: 22px;
-      font-size: 3.2rem;
-      font-weight: 900;
+      border: 4px solid #ab47bc;
+      border-radius: 18px;
+      font-family: var(--font-print);
+      font-size: 2.2rem;
+      font-weight: 700;
       color: #4a148c;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 8px 0 #7b1fa2;
-      transition: transform 0.2s, background 0.2s;
-      position: relative;
+      box-shadow: 0 5px 0 #7b1fa2;
     }
 
     .letter-tile.sounded {
       background: linear-gradient(180deg, #fff9c4, #ffe082);
       border-color: #ffa000;
-      box-shadow: 0 8px 0 #ff6f00;
-      transform: translateY(-6px) scale(1.06);
+      box-shadow: 0 5px 0 #ff6f00;
+      transform: translateY(-4px) scale(1.05);
     }
 
     .tile-dot {
-      width: 14px;
-      height: 14px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: #ce93d8;
-      margin-top: 4px;
+      margin-top: 2px;
     }
 
     .letter-tile.sounded .tile-dot {
       background: #ff4081;
-      box-shadow: 0 0 8px #ff4081;
     }
 
     .blend-arrow-btn {
       background: linear-gradient(135deg, #ff4081, #f50057);
       color: #fff;
-      border: 4px solid #fff;
+      border: 3px solid #fff;
       border-radius: 99px;
-      padding: 10px 22px;
-      font-size: 1.3rem;
-      font-weight: 900;
-      font-family: inherit;
+      padding: 6px 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: var(--font-ui);
       cursor: pointer;
-      box-shadow: 0 6px 0 #ad1457;
+      box-shadow: 0 4px 0 #ad1457;
     }
 
-    /* Answer Choices Grid */
+    /* Mobile-First 2x2 Answer Choices Grid */
     .choices-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
       width: 100%;
-      max-width: 860px;
     }
 
     .choice-btn {
       background: linear-gradient(180deg, #ffffff 0%, #fff0f7 100%);
-      border: 5px solid #ff80ab;
-      border-radius: 26px;
-      padding: 16px 12px;
-      font-size: 2.6rem;
+      border: 4px solid #ff80ab;
+      border-radius: 22px;
+      padding: 12px 8px;
+      min-height: 92px;
+      font-size: 2.1rem;
       font-weight: 700;
-      font-family: 'Andika', 'Fredoka', Roboto, sans-serif;
+      font-family: var(--font-print);
       color: #ad1457;
       cursor: pointer;
-      box-shadow: 0 8px 0 #f06292, 0 12px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 6px 0 #f06292, 0 8px 14px rgba(0, 0, 0, 0.08);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      transition: transform 0.15s, background 0.2s;
+      gap: 4px;
+      transition: transform 0.12s, background 0.2s;
     }
 
     .choice-btn .choice-label {
-      font-size: 1.25rem;
+      font-family: var(--font-print);
+      font-size: 1.02rem;
       color: #6a1b9a;
-      font-weight: 900;
-    }
-
-    .choice-btn:hover {
-      transform: translateY(-3px);
+      font-weight: 700;
     }
 
     .choice-btn:active {
-      transform: translateY(5px);
-      box-shadow: 0 3px 0 #f06292;
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #f06292;
     }
 
     .choice-btn.correct {
       background: linear-gradient(180deg, #b9f6ca, #69f0ae);
       border-color: #00c853;
       color: #1b5e20;
-      box-shadow: 0 8px 0 #00c853;
-      animation: correctPop 0.6s ease;
+      box-shadow: 0 6px 0 #00c853;
+      animation: correctPop 0.55s ease;
     }
 
     .choice-btn.wrong {
@@ -565,13 +561,13 @@
 
     @keyframes correctPop {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.15) rotate(3deg); }
+      50% { transform: scale(1.12) rotate(2deg); }
     }
 
     @keyframes gentleShake {
       0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-8px); }
-      75% { transform: translateX(8px); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
     }
 
     /* Counting & Math Objects */
@@ -580,45 +576,46 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      gap: 12px;
-      padding: 6px;
+      gap: 8px;
+      padding: 4px;
     }
 
     .count-card {
-      font-size: 3.1rem;
-      width: 78px;
-      height: 78px;
+      font-size: 2.1rem;
+      width: 56px;
+      height: 56px;
       background: #fff;
-      border: 4px solid #f48fb1;
-      border-radius: 22px;
+      border: 3px solid #f48fb1;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       position: relative;
-      box-shadow: 0 5px 0 #f48fb1;
+      box-shadow: 0 4px 0 #f48fb1;
       transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .count-card.counted {
       background: #fff9c4;
       border-color: #ffa000;
-      box-shadow: 0 5px 0 #ffa000;
-      transform: scale(1.12);
+      box-shadow: 0 4px 0 #ffa000;
+      transform: scale(1.1);
     }
 
     .count-num-badge {
       position: absolute;
-      bottom: -9px;
-      right: -9px;
+      bottom: -7px;
+      right: -7px;
       background: #ff1493;
       color: #fff;
-      font-size: 1.1rem;
-      font-weight: 900;
-      width: 30px;
-      height: 30px;
+      font-family: var(--font-print);
+      font-size: 0.85rem;
+      font-weight: 700;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
-      border: 3px solid #fff;
+      border: 2px solid #fff;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -626,102 +623,192 @@
 
     /* Days of the Week Rainbow Train */
     .days-train {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
       width: 100%;
     }
 
     .day-car {
-      padding: 10px 14px;
-      border-radius: 18px;
-      border: 3.5px solid #fff;
+      padding: 6px 4px;
+      border-radius: 14px;
+      border: 2.5px solid #fff;
       color: #fff;
-      font-weight: 900;
-      font-size: 1.05rem;
+      font-family: var(--font-print);
+      font-weight: 700;
+      font-size: 0.82rem;
       cursor: pointer;
-      box-shadow: 0 5px 0 rgba(0,0,0,0.18);
+      box-shadow: 0 3px 0 rgba(0,0,0,0.16);
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 105px;
-      transition: transform 0.15s;
     }
 
-    .day-car:hover { transform: scale(1.06); }
     .day-car.mystery {
       background: #ffffff !important;
       color: #d81b60 !important;
-      border: 4px dashed #ff4081;
+      border: 3px dashed #ff4081;
       animation: pulseMystery 1s infinite alternate;
     }
 
     @keyframes pulseMystery {
       from { transform: scale(1); }
-      to { transform: scale(1.08); }
+      to { transform: scale(1.06); }
+    }
+
+    /* =========================================================================
+       MINI GAME 1: 🎈 BALLOON POP ARENA
+       ========================================================================= */
+    .balloon-arena {
+      position: relative;
+      width: 100%;
+      height: 310px;
+      background: linear-gradient(180deg, #b3e5fc 0%, #e1bee7 65%, #f8bbd0 100%);
+      border: 4px solid #fff;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: inset 0 6px 20px rgba(0,0,0,0.08);
+      touch-action: manipulation;
+    }
+
+    .balloon-node {
+      position: absolute;
+      width: 78px;
+      height: 94px;
+      border-radius: 50% 50% 48% 48%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-print);
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      cursor: pointer;
+      box-shadow: inset -8px -8px 16px rgba(0,0,0,0.18), inset 8px 8px 16px rgba(255,255,255,0.45), 0 6px 14px rgba(0,0,0,0.12);
+      transition: transform 0.1s;
+      user-select: none;
+    }
+
+    .balloon-node::after {
+      content: '';
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      width: 2px;
+      height: 18px;
+      background: rgba(255,255,255,0.85);
+      transform: translateX(-50%);
+    }
+
+    .balloon-node:active {
+      transform: scale(1.2);
+    }
+
+    /* =========================================================================
+       MINI GAME 2: 🍬 UNICORN CANDY CRUSH
+       ========================================================================= */
+    .candy-board {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 7px;
+      width: 100%;
+      max-width: 390px;
+      background: linear-gradient(180deg, #fce4ec, #f3e5f5);
+      border: 4px solid #ff80ab;
+      border-radius: 24px;
+      padding: 10px;
+      box-shadow: 0 8px 0 #f06292;
+      touch-action: manipulation;
+    }
+
+    .candy-cell {
+      aspect-ratio: 1 / 1;
+      background: linear-gradient(180deg, #ffffff, #fff5fb);
+      border: 3.5px solid #f8bbd0;
+      border-radius: 18px;
+      font-size: 2.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #f48fb1;
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.15s, border-color 0.15s;
+    }
+
+    .candy-cell.selected {
+      background: #fff9c4;
+      border-color: #ffd700;
+      box-shadow: 0 0 14px #ffd700;
+      transform: scale(1.12);
+      z-index: 2;
+    }
+
+    .candy-cell.crushing {
+      animation: candyCrushAnim 0.35s ease forwards;
+    }
+
+    @keyframes candyCrushAnim {
+      0% { transform: scale(1.25) rotate(12deg); opacity: 1; background: #fff59d; }
+      100% { transform: scale(0.1) rotate(-25deg); opacity: 0; }
     }
 
     /* Explore / Soundboard Grid */
     .explore-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
       width: 100%;
     }
 
     .explore-key {
       background: #fff;
-      border: 4px solid #ce93d8;
-      border-radius: 20px;
-      padding: 10px 6px;
-      font-size: 1.7rem;
-      font-weight: 900;
-      font-family: inherit;
+      border: 3px solid #ce93d8;
+      border-radius: 16px;
+      padding: 8px 4px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      font-family: var(--font-print);
       color: #6a1b9a;
       cursor: pointer;
-      box-shadow: 0 5px 0 #ab47bc;
+      box-shadow: 0 4px 0 #ab47bc;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 2px;
-      transition: transform 0.1s;
-    }
-
-    .explore-key:active {
-      transform: translateY(4px);
-      box-shadow: 0 1px 0 #ab47bc;
     }
 
     /* Royal Closet Grid */
     .closet-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
       width: 100%;
     }
 
     .closet-card {
       background: #fff;
-      border: 4px solid #f48fb1;
-      border-radius: 22px;
-      padding: 12px;
+      border: 3.5px solid #f48fb1;
+      border-radius: 18px;
+      padding: 10px;
       text-align: center;
       cursor: pointer;
-      box-shadow: 0 6px 0 #f48fb1;
+      box-shadow: 0 5px 0 #f48fb1;
+      font-family: var(--font-print);
     }
 
     .closet-card.equipped {
       background: #fff9c4;
       border-color: #ffa000;
-      box-shadow: 0 6px 0 #ffa000;
+      box-shadow: 0 5px 0 #ffa000;
     }
 
     .closet-card.locked {
       opacity: 0.65;
       background: #f5f5f5;
       border-color: #bdbdbd;
-      box-shadow: 0 6px 0 #9e9e9e;
+      box-shadow: 0 5px 0 #9e9e9e;
     }
 
     #fx-canvas {
@@ -731,11 +818,96 @@
       z-index: 999;
     }
 
-    @media (max-width: 640px) {
-      .speech-text { font-size: 1.18rem; }
-      .big-prompt-display { font-size: 2.2rem; }
-      .choice-btn { font-size: 2.1rem; padding: 12px 8px; }
-      .letter-tile { width: 70px; height: 80px; font-size: 2.5rem; }
+    /* =========================================================================
+       2. TABLET BREAKPOINT (iPad / Android Tablet: 768px and up)
+       ========================================================================= */
+    @media (min-width: 768px) {
+      body { padding: 12px 16px 32px; }
+      .brand-pill { font-size: 1.2rem; padding: 7px 16px; }
+      .star-pill { font-size: 1.3rem; padding: 6px 16px; }
+      .ctrl-btn { font-size: 0.95rem; padding: 7px 14px; }
+
+      .world-nav {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .world-btn {
+        flex-direction: row;
+        font-size: 0.95rem;
+        padding: 9px 12px;
+        border-radius: 18px;
+        gap: 6px;
+      }
+
+      main {
+        padding: 18px 20px 22px;
+        border-radius: 32px;
+      }
+
+      .unicorn-avatar-box {
+        width: 124px;
+        height: 124px;
+      }
+      .unicorn-avatar-box svg {
+        width: 104px;
+        height: 104px;
+      }
+      .acc-badge { font-size: 1.95rem; }
+      .acc-crown { top: -18px; }
+
+      .speech-card {
+        padding: 12px 16px;
+        border-radius: 24px;
+      }
+      .speech-text { font-size: 1.25rem; }
+      .action-circle-btn { height: 40px; min-width: 40px; font-size: 1.15rem; }
+      .action-circle-btn.phonics-btn { font-size: 0.9rem; padding: 0 14px; }
+
+      .showcase-card { min-height: 118px; padding: 14px 18px; margin-bottom: 14px; }
+      .big-prompt-display { font-size: 2.65rem; }
+
+      .choices-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .choice-btn {
+        font-size: 2.4rem;
+        min-height: 120px;
+        padding: 16px 12px;
+      }
+      .choice-btn .choice-label { font-size: 1.18rem; }
+
+      .balloon-arena { height: 370px; }
+      .balloon-node { width: 88px; height: 106px; font-size: 2.2rem; }
+      .candy-board { max-width: 450px; gap: 10px; padding: 14px; }
+      .candy-cell { font-size: 2.6rem; }
+
+      .count-card { width: 70px; height: 70px; font-size: 2.6rem; }
+      .days-train { grid-template-columns: repeat(7, 1fr); }
+      .explore-grid { grid-template-columns: repeat(6, 1fr); }
+      .closet-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* =========================================================================
+       3. DESKTOP / PC BREAKPOINT (1024px and up)
+       ========================================================================= */
+    @media (min-width: 1024px) {
+      .unicorn-avatar-box {
+        width: 142px;
+        height: 142px;
+      }
+      .unicorn-avatar-box svg {
+        width: 116px;
+        height: 116px;
+      }
+      .speech-text { font-size: 1.38rem; }
+      .big-prompt-display { font-size: 2.9rem; }
+      .choice-btn:hover { transform: translateY(-3px); }
+      .world-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+      .explore-grid { grid-template-columns: repeat(8, 1fr); }
+      .closet-grid { grid-template-columns: repeat(5, 1fr); }
     }
   </style>
 </head>
@@ -743,14 +915,14 @@
 
   <div class="rainbow-bg"></div>
   <div class="bg-decor">
-    <div class="cloud" style="top: 10%; animation-duration: 42s;">☁️</div>
+    <div class="cloud" style="top: 8%; animation-duration: 42s;">☁️</div>
     <div class="cloud" style="top: 26%; animation-duration: 55s; animation-delay: -22s;">☁️</div>
     <div class="cloud" style="top: 68%; animation-duration: 48s; animation-delay: -12s;">☁️</div>
   </div>
 
   <canvas id="fx-canvas"></canvas>
 
-  <!-- Game Top Bar -->
+  <!-- Compact Mobile-First Game Header -->
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄</span>
@@ -763,25 +935,46 @@
         <span id="star-count">0</span>
       </div>
       <button class="ctrl-btn" id="voice-style-btn" onclick="cycleVoiceEnergy()">
-        🎀 Voice: Super Girly!
+        🎀 Girly
       </button>
       <button class="ctrl-btn" id="mute-btn" onclick="toggleMute()">
-        🔊 Sound: ON
+        🔊 ON
       </button>
     </div>
   </div>
 
-  <!-- 9 Kindergarten Learning Worlds -->
+  <!-- 10 Worlds in a Compact 5x2 Grid (Includes Balloon Pop & Candy Crush!) -->
   <nav class="world-nav">
-    <button class="world-btn w-abc active" onclick="setWorld('abc')" id="wbtn-abc">🔤 ABC & Phonics</button>
-    <button class="world-btn w-blend" onclick="setWorld('blend')" id="wbtn-blend">📖 Sound It Out!</button>
-    <button class="world-btn w-math" onclick="setWorld('math')" id="wbtn-math">🔢 123 & Math</button>
-    <button class="world-btn w-days" onclick="setWorld('days')" id="wbtn-days">📅 Days of Week</button>
-    <button class="world-btn w-seasons" onclick="setWorld('seasons')" id="wbtn-seasons">🍂 Seasons & Weather</button>
-    <button class="world-btn w-shapes" onclick="setWorld('shapes')" id="wbtn-shapes">🎨 Shapes & Colors</button>
-    <button class="world-btn w-rhyme" onclick="setWorld('rhyme')" id="wbtn-rhyme">🎵 Rhymes & Opposites</button>
-    <button class="world-btn w-explore" onclick="setWorld('explore')" id="wbtn-explore">🎹 Magic Board</button>
-    <button class="world-btn w-closet" onclick="setWorld('closet')" id="wbtn-closet">👑 Royal Closet</button>
+    <button class="world-btn w-abc active" onclick="setWorld('abc')" id="wbtn-abc">
+      <span class="w-icon">🔤</span><span>ABCs</span>
+    </button>
+    <button class="world-btn w-blend" onclick="setWorld('blend')" id="wbtn-blend">
+      <span class="w-icon">📖</span><span>Blend</span>
+    </button>
+    <button class="world-btn w-math" onclick="setWorld('math')" id="wbtn-math">
+      <span class="w-icon">🔢</span><span>123 Math</span>
+    </button>
+    <button class="world-btn w-days" onclick="setWorld('days')" id="wbtn-days">
+      <span class="w-icon">📅</span><span>7 Days</span>
+    </button>
+    <button class="world-btn w-seasons" onclick="setWorld('seasons')" id="wbtn-seasons">
+      <span class="w-icon">🍂</span><span>Seasons</span>
+    </button>
+    <button class="world-btn w-shapes" onclick="setWorld('shapes')" id="wbtn-shapes">
+      <span class="w-icon">🎨</span><span>Shapes</span>
+    </button>
+    <button class="world-btn w-rhyme" onclick="setWorld('rhyme')" id="wbtn-rhyme">
+      <span class="w-icon">🎵</span><span>Rhymes</span>
+    </button>
+    <button class="world-btn w-balloon" onclick="setWorld('balloon')" id="wbtn-balloon">
+      <span class="w-icon">🎈</span><span>Balloons</span>
+    </button>
+    <button class="world-btn w-candy" onclick="setWorld('candy')" id="wbtn-candy">
+      <span class="w-icon">🍬</span><span>Candy</span>
+    </button>
+    <button class="world-btn w-closet" onclick="setWorld('closet')" id="wbtn-closet">
+      <span class="w-icon">👑</span><span>Closet</span>
+    </button>
   </nav>
 
   <!-- Main Interactive Stage -->
@@ -790,7 +983,7 @@
       <!-- Animated Talking Princess Unicorn SVG -->
       <div class="unicorn-avatar-box" id="unicorn-box" onclick="petUnicorn()" title="Tap Princess Sparkle!">
         <span class="acc-badge acc-wings" id="acc-wings" style="display:none;">🪽</span>
-        <svg viewBox="0 0 120 120" width="125" height="125">
+        <svg viewBox="0 0 120 120">
           <!-- Rainbow Flowing Mane -->
           <path d="M32 45 Q14 55 24 72 Q12 82 28 96" fill="none" stroke="#ff4081" stroke-width="11" stroke-linecap="round"/>
           <path d="M35 50 Q20 60 28 77" fill="none" stroke="#ffd740" stroke-width="8.5" stroke-linecap="round"/>
@@ -832,19 +1025,19 @@
 
       <!-- Speech Bubble + Sound Out Controls -->
       <div class="speech-card">
-        <div class="speech-content" onclick="repeatCurrentPrompt()" style="cursor:pointer;">
-          <span class="unicorn-tag">✨ PRINCESS SPARKLE SAYS:</span>
-          <div class="speech-text" id="speech-text">
-            Hi bestie! Ready for Kindergarten magic?! Let's play! 🦄💖
+        <div class="speech-top-row">
+          <span class="unicorn-tag">✨ PRINCESS SPARKLE</span>
+          <div class="speech-actions">
+            <button class="action-circle-btn phonics-btn" id="sound-out-btn" onclick="soundOutCurrent()" title="Sound It Out Slowly!">
+              🗣️ Sound Out
+            </button>
+            <button class="action-circle-btn" onclick="repeatCurrentPrompt()" title="Say it again!">
+              🔊
+            </button>
           </div>
         </div>
-        <div class="speech-actions">
-          <button class="action-circle-btn phonics-btn" id="sound-out-btn" onclick="soundOutCurrent()" title="Sound It Out Slowly!">
-            🗣️ Sound It Out!
-          </button>
-          <button class="action-circle-btn" onclick="repeatCurrentPrompt()" title="Say it again!">
-            🔊
-          </button>
+        <div class="speech-text" id="speech-text" onclick="repeatCurrentPrompt()" style="cursor:pointer;">
+          Hi bestie! Ready for Kindergarten magic?! Let's play! 🦄💖
         </div>
       </div>
     </div>
@@ -999,15 +1192,16 @@
     let soundMuted = false;
     let voiceEnergyMode = 0;
     const VOICE_STYLES = [
-      { label: '🎀 Voice: Super Girly!', pitch: 1.42, rate: 1.02 },
-      { label: '🦄 Voice: Extra Bubbly!', pitch: 1.58, rate: 1.08 },
-      { label: '🌸 Voice: Sweet & Slow', pitch: 1.25, rate: 0.90 }
+      { label: '🎀 Girly', pitch: 1.42, rate: 1.02 },
+      { label: '🦄 Bubbly', pitch: 1.58, rate: 1.08 },
+      { label: '🌸 Sweet', pitch: 1.25, rate: 0.90 }
     ];
 
     let preferredVoice = null;
     let lastSpokenPrompt = '';
     let currentSoundOutCallback = null;
     let roundLocked = false;
+    let balloonLoopId = null;
 
     function selectBestGirlyVoice() {
       if (!('speechSynthesis' in window)) return;
@@ -1111,7 +1305,7 @@
 
     function toggleMute() {
       soundMuted = !soundMuted;
-      document.getElementById('mute-btn').textContent = soundMuted ? '🔇 Sound: OFF' : '🔊 Sound: ON';
+      document.getElementById('mute-btn').textContent = soundMuted ? '🔇 OFF' : '🔊 ON';
       if (soundMuted && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
       } else {
@@ -1121,7 +1315,7 @@
 
     function petUnicorn() {
       playMagicSound('success');
-      burstSparkles(window.innerWidth / 2, 220, 35);
+      burstSparkles(window.innerWidth / 2, 180, 35);
       const box = document.getElementById('unicorn-box');
       box.classList.add('dancing');
       setTimeout(() => box.classList.remove('dancing'), 1200);
@@ -1190,13 +1384,13 @@
           const gain = ctx.createGain();
           osc.type = 'sine';
           osc.frequency.setValueAtTime(480, now);
-          osc.frequency.exponentialRampToValueAtTime(920, now + 0.12);
-          gain.gain.setValueAtTime(0.22, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+          osc.frequency.exponentialRampToValueAtTime(980, now + 0.11);
+          gain.gain.setValueAtTime(0.26, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
           osc.connect(gain);
           gain.connect(ctx.destination);
           osc.start(now);
-          osc.stop(now + 0.14);
+          osc.stop(now + 0.13);
         } else if (type === 'oops') {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
@@ -1244,6 +1438,10 @@
     function setWorld(world) {
       currentWorld = world;
       roundLocked = false;
+      if (balloonLoopId) {
+        cancelAnimationFrame(balloonLoopId);
+        balloonLoopId = null;
+      }
       document.querySelectorAll('.world-btn').forEach(b => b.classList.remove('active'));
       document.getElementById('wbtn-' + world).classList.add('active');
       playMagicSound('pop');
@@ -1254,35 +1452,38 @@
 
       if (world === 'abc') {
         setupSubModes([
-          { id: 'phonics', label: '🗣️ Letter Sounds (Phonics)' },
-          { id: 'matchCase', label: '🔤 Big & Little Letters (Aa)' }
+          { id: 'phonics',   label: '🗣️ Letter Sounds' },
+          { id: 'matchCase', label: '🔤 Big & Little (Aa)' },
+          { id: 'board',     label: '🎹 Free Soundboard' }
         ], 'phonics', startABCWorld);
       } else if (world === 'blend') {
         startBlendWorld();
       } else if (world === 'math') {
         setupSubModes([
-          { id: 'count', label: '🔢 Count Treats (1–15)' },
-          { id: 'add',   label: '➕ Picture Addition' }
+          { id: 'count', label: '🔢 Count (1 to 12)' },
+          { id: 'add',   label: '➕ Picture Add' }
         ], 'count', startMathWorld);
       } else if (world === 'days') {
         startDaysWorld();
       } else if (world === 'seasons') {
         setupSubModes([
           { id: 'fourSeasons', label: '🍂 4 Seasons' },
-          { id: 'weather',     label: '🌦️ Weather Watch' }
+          { id: 'weather',     label: '🌦️ Weather' }
         ], 'fourSeasons', startSeasonsWorld);
       } else if (world === 'shapes') {
         setupSubModes([
-          { id: 'shapesQuiz', label: '⭐ Shapes & Sides' },
-          { id: 'colorMix',   label: '🎨 Magic Color Mixing' }
+          { id: 'shapesQuiz', label: '⭐ Shapes' },
+          { id: 'colorMix',   label: '🎨 Color Mix' }
         ], 'shapesQuiz', startShapesWorld);
       } else if (world === 'rhyme') {
         setupSubModes([
-          { id: 'rhyming',   label: '🎵 Rhyming Words' },
+          { id: 'rhyming',   label: '🎵 Rhymes' },
           { id: 'opposites', label: '🔄 Opposites' }
         ], 'rhyming', startRhymeWorld);
-      } else if (world === 'explore') {
-        startExploreWorld();
+      } else if (world === 'balloon') {
+        startBalloonWorld();
+      } else if (world === 'candy') {
+        startCandyWorld();
       } else if (world === 'closet') {
         startClosetWorld();
       }
@@ -1313,6 +1514,10 @@
      * WORLD 1: ABCs & PHONICS SOUNDS
      *************************************************************************/
     function startABCWorld() {
+      if (currentSubMode === 'board') {
+        startExploreWorld();
+        return;
+      }
       roundLocked = false;
       const target = ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
       const distractors = ALPHABET.filter(x => x.letter !== target.letter).sort(() => Math.random() - 0.5).slice(0, 3);
@@ -1333,10 +1538,10 @@
           <div class="big-prompt-display">
             <span>${target.emoji}</span>
             <span>${target.letter}${target.letter.toLowerCase()}</span>
-            <span style="font-size:2rem; color:#7b1fa2;">(${target.word})</span>
+            <span style="font-size:1.5rem; color:#7b1fa2;">(${target.word})</span>
           </div>
           <div class="phonics-pill" onclick="soundOutCurrent()">
-            🔊 Tap to hear sound: <strong>"/${target.letter.toLowerCase()}/ — ${target.phonetic}!"</strong>
+            🔊 Tap sound: <strong>"/${target.letter.toLowerCase()}/ says ${target.phonetic}!"</strong>
           </div>
         `;
 
@@ -1365,10 +1570,10 @@
         unicornSpeak(`Which letter makes the "${target.phonetic}" sound in ${target.word}? ${target.soundCue}, ${target.word}!`);
       } else {
         showcase.innerHTML = `
-          <div style="font-size:1.25rem; font-weight:bold; color:#7b1fa2;">Match the BIG letter to its baby lowercase letter!</div>
+          <div style="font-size:1.05rem; font-weight:700; color:#7b1fa2;">Match BIG letter to baby lowercase letter!</div>
           <div class="big-prompt-display">
             <span>${target.emoji}</span>
-            <span>Big Letter: ${target.letter}</span>
+            <span>Big: ${target.letter}</span>
           </div>
         `;
         area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
@@ -1416,12 +1621,12 @@
 
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
-        <div style="font-size:1.15rem; font-weight:900; color:#6a1b9a;">
-          👇 Tap each crystal letter to sound it out, then blend the word!
+        <div style="font-size:0.98rem; font-weight:700; color:#6a1b9a;">
+          👇 Tap each letter to sound it out!
         </div>
         <div class="blender-row" id="blender-row"></div>
         <button class="blend-arrow-btn" onclick="soundOutCurrent()">
-          🦄 Blend It Together! ➡️
+          🦄 Blend Word! ➡️
         </button>
       `;
 
@@ -1493,8 +1698,8 @@
         };
 
         showcase.innerHTML = `
-          <div style="font-size:1.2rem; font-weight:900; color:#6a1b9a;">
-            Tap each ${theme.emoji} to count out loud with me!
+          <div style="font-size:1rem; font-weight:700; color:#6a1b9a;">
+            Tap each ${theme.emoji} to count out loud!
           </div>
           <div class="counting-wrap" id="counting-wrap"></div>
         `;
@@ -1557,8 +1762,8 @@
         };
 
         showcase.innerHTML = `
-          <div style="font-size:1.4rem; font-weight:900; color:#ad1457;">
-            ${a} + ${b} = ❓ (Tap to count them all!)
+          <div style="font-size:1.15rem; font-weight:700; color:#ad1457;">
+            ${a} + ${b} = ❓ (Tap to count all!)
           </div>
           <div class="counting-wrap" id="add-wrap"></div>
         `;
@@ -1585,8 +1790,8 @@
 
         for (let i = 0; i < a; i++) wrap.appendChild(makeTouchableItem());
         const plus = document.createElement('div');
-        plus.style.fontSize = '2.8rem';
-        plus.style.fontWeight = '900';
+        plus.style.fontSize = '2rem';
+        plus.style.fontWeight = '700';
         plus.style.color = '#d81b60';
         plus.textContent = '➕';
         wrap.appendChild(plus);
@@ -1642,16 +1847,16 @@
           <div class="day-car ${isMystery ? 'mystery' : ''}"
                style="background:${d.color};"
                onclick="unicornSpeak('${isMystery ? 'Mystery Day! What comes after ' + beforeDay.name + '?' : d.name + '! ' + d.fun}', {updateBubble:false})">
-            <span style="font-size:1.6rem;">${isMystery ? '❓' : d.emoji}</span>
-            <span>${isMystery ? '???' : d.name}</span>
+            <span style="font-size:1.3rem;">${isMystery ? '❓' : d.emoji}</span>
+            <span>${isMystery ? '???' : d.short}</span>
           </div>
         `;
       }).join('');
 
       showcase.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:8px;">
-          <span style="font-weight:900; color:#880e4f; font-size:1.2rem;">🚂 The 7 Days of the Week Rainbow Train!</span>
-          <button class="phonics-pill" onclick="soundOutCurrent()" style="font-size:1rem; font-weight:900;">
+        <div style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:6px;">
+          <span style="font-weight:700; color:#880e4f; font-size:1rem;">🚂 7 Days Rainbow Train</span>
+          <button class="phonics-pill" onclick="soundOutCurrent()" style="font-size:0.88rem; font-weight:700;">
             🎶 Sing All 7 Days!
           </button>
         </div>
@@ -1670,7 +1875,7 @@
         btn.className = 'choice-btn';
         btn.innerHTML = `
           <span>${item.emoji}</span>
-          <span class="choice-label" style="font-size:1.45rem;">${item.name}</span>
+          <span class="choice-label" style="font-size:1.25rem;">${item.name}</span>
         `;
         btn.onclick = () => {
           if (roundLocked) return;
@@ -1704,7 +1909,7 @@
 
         showcase.innerHTML = `
           <div class="big-prompt-display">${target.itemEmoji}</div>
-          <div style="font-size:1.35rem; font-weight:900; color:#4a148c; max-width:650px;">
+          <div style="font-size:1.05rem; font-weight:700; color:#4a148c; max-width:650px;">
             "${target.clue}"
           </div>
         `;
@@ -1716,7 +1921,7 @@
           btn.className = 'choice-btn';
           btn.innerHTML = `
             <span>${s.emoji}</span>
-            <span class="choice-label" style="font-size:1.5rem;">${s.season}</span>
+            <span class="choice-label" style="font-size:1.3rem;">${s.season}</span>
           `;
           btn.onclick = () => {
             if (roundLocked) return;
@@ -1744,9 +1949,9 @@
 
         showcase.innerHTML = `
           <div class="big-prompt-display">${target.emoji}</div>
-          <div style="font-size:1.3rem; font-weight:900; color:#0277bd;">
+          <div style="font-size:1.05rem; font-weight:700; color:#0277bd;">
             ${target.prompt}<br/>
-            <span style="color:#ad1457;">Helpful hint: ${target.wear}</span>
+            <span style="color:#ad1457;">Hint: ${target.wear}</span>
           </div>
         `;
 
@@ -1757,7 +1962,7 @@
           btn.className = 'choice-btn';
           btn.innerHTML = `
             <span>${w.emoji}</span>
-            <span class="choice-label" style="font-size:1.45rem;">${w.type}</span>
+            <span class="choice-label" style="font-size:1.3rem;">${w.type}</span>
           `;
           btn.onclick = () => {
             if (roundLocked) return;
@@ -1795,7 +2000,7 @@
 
         showcase.innerHTML = `
           <div class="big-prompt-display">${target.emoji}</div>
-          <div style="font-size:1.35rem; font-weight:900; color:#6a1b9a;">
+          <div style="font-size:1.05rem; font-weight:700; color:#6a1b9a;">
             ${target.clue}
           </div>
         `;
@@ -1807,7 +2012,7 @@
           btn.className = 'choice-btn';
           btn.innerHTML = `
             <span>${s.emoji}</span>
-            <span class="choice-label" style="font-size:1.4rem;">${s.name}</span>
+            <span class="choice-label" style="font-size:1.25rem;">${s.name}</span>
           `;
           btn.onclick = () => {
             if (roundLocked) return;
@@ -1830,13 +2035,13 @@
         };
 
         showcase.innerHTML = `
-          <div class="big-prompt-display">
+          <div class="big-prompt-display" style="font-size:1.8rem;">
             <span>${target.c1}</span>
             <span>➕</span>
             <span>${target.c2}</span>
             <span>＝ ❓</span>
           </div>
-          <div style="font-size:1.25rem; font-weight:900; color:#880e4f;">${target.clue}</div>
+          <div style="font-size:1.05rem; font-weight:700; color:#880e4f;">${target.clue}</div>
         `;
 
         area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
@@ -1846,7 +2051,7 @@
           btn.className = 'choice-btn';
           btn.innerHTML = `
             <span>${c.emoji}</span>
-            <span class="choice-label" style="font-size:1.45rem;">${c.result}</span>
+            <span class="choice-label" style="font-size:1.25rem;">${c.result}</span>
           `;
           btn.onclick = () => {
             if (roundLocked) return;
@@ -1888,10 +2093,10 @@
         };
 
         showcase.innerHTML = `
-          <div style="font-size:1.2rem; font-weight:900; color:#6a1b9a;">🎵 Rhyming words sound the same at the end!</div>
-          <div class="big-prompt-display">
+          <div style="font-size:0.95rem; font-weight:700; color:#6a1b9a;">🎵 Rhyming words sound the same at the end!</div>
+          <div class="big-prompt-display" style="font-size:1.8rem;">
             <span>${item.baseEmoji}</span>
-            <span>What rhymes with <u>${item.baseWord}</u>?</span>
+            <span>Rhymes with <u>${item.baseWord}</u>?</span>
           </div>
         `;
 
@@ -1902,7 +2107,7 @@
           btn.className = 'choice-btn';
           btn.innerHTML = `
             <span>${ch.e}</span>
-            <span class="choice-label" style="font-size:1.45rem;">${ch.w}</span>
+            <span class="choice-label" style="font-size:1.25rem;">${ch.w}</span>
           `;
           btn.onclick = () => {
             if (roundLocked) return;
@@ -1930,9 +2135,9 @@
         };
 
         showcase.innerHTML = `
-          <div style="font-size:1.2rem; font-weight:900; color:#6a1b9a;">🔄 Opposites are totally different!</div>
-          <div class="big-prompt-display">
-            <span>Opposite of ${item.word} is...</span>
+          <div style="font-size:0.95rem; font-weight:700; color:#6a1b9a;">🔄 Opposites are totally different!</div>
+          <div class="big-prompt-display" style="font-size:1.8rem;">
+            <span>Opposite of ${item.word}?</span>
           </div>
         `;
 
@@ -1943,7 +2148,7 @@
           btn.className = 'choice-btn';
           btn.innerHTML = `
             <span>${ch.e}</span>
-            <span class="choice-label" style="font-size:1.45rem;">${ch.w}</span>
+            <span class="choice-label" style="font-size:1.25rem;">${ch.w}</span>
           `;
           btn.onclick = () => {
             if (roundLocked) return;
@@ -1963,14 +2168,363 @@
     }
 
     /*************************************************************************
-     * WORLD 8: MAGIC SOUNDBOARD (Free Play Phonics, Days, Seasons, 1-20)
+     * WORLD 8: 🎈 BALLOON POP MINI GAME!
+     *************************************************************************/
+    const BALLOON_COLORS = [
+      'radial-gradient(circle at 30% 30%, #ff80ab, #f50057)',
+      'radial-gradient(circle at 30% 30%, #ea80fc, #8e24aa)',
+      'radial-gradient(circle at 30% 30%, #80d8ff, #0288d1)',
+      'radial-gradient(circle at 30% 30%, #ffe57f, #ffa000)',
+      'radial-gradient(circle at 30% 30%, #b9f6ca, #00c853)',
+      'radial-gradient(circle at 30% 30%, #ff9e80, #ff3d00)'
+    ];
+
+    function startBalloonWorld() {
+      if (balloonLoopId) cancelAnimationFrame(balloonLoopId);
+      const targetItem = ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+      let poppedCount = 0;
+
+      currentSoundOutCallback = () => {
+        unicornSpeak(`Pop the balloons! Find ${targetItem.letter} for ${targetItem.word}, or pop any balloon for fun!`, { updateBubble: false });
+      };
+
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:8px;">
+          <div style="font-size:1.15rem; font-weight:700; color:#c2185b;">
+            🎈 Bonus Star Target: <strong>${targetItem.letter}${targetItem.letter.toLowerCase()}</strong> (${targetItem.emoji} ${targetItem.word})
+          </div>
+          <div class="phonics-pill" id="balloon-score-pill">
+            💥 Popped: <strong id="balloon-pop-count">0</strong>
+          </div>
+        </div>
+      `;
+
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `<div class="balloon-arena" id="balloon-arena"></div>`;
+      const arena = document.getElementById('balloon-arena');
+
+      let activeBalloons = [];
+      let lastSpawn = 0;
+
+      function spawnBalloon() {
+        const isTarget = Math.random() < 0.42;
+        const isBonusUnicorn = !isTarget && Math.random() < 0.2;
+        const randomAlpha = ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+        const item = isTarget ? targetItem : randomAlpha;
+
+        const el = document.createElement('div');
+        el.className = 'balloon-node';
+        el.style.background = BALLOON_COLORS[Math.floor(Math.random() * BALLOON_COLORS.length)];
+
+        const label = isBonusUnicorn ? '🦄' : `${item.letter}${item.letter.toLowerCase()}`;
+        const sub = isBonusUnicorn ? '⭐' : item.emoji;
+        el.innerHTML = `<span>${label}</span><span style="font-size:1.1rem; line-height:1;">${sub}</span>`;
+
+        const arenaWidth = arena.clientWidth || 340;
+        const x = Math.random() * Math.max(20, arenaWidth - 88) + 6;
+        const bObj = {
+          el,
+          x,
+          y: (arena.clientHeight || 310) + 20,
+          speed: Math.random() * 0.75 + 0.7,
+          wobbleOffset: Math.random() * Math.PI * 2,
+          item,
+          isTarget,
+          isBonusUnicorn
+        };
+
+        const popHandler = (ev) => {
+          ev.stopPropagation();
+          playMagicSound('pop');
+          const rect = el.getBoundingClientRect();
+          burstSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 32);
+
+          poppedCount++;
+          const counterEl = document.getElementById('balloon-pop-count');
+          if (counterEl) counterEl.textContent = poppedCount;
+
+          if (bObj.isBonusUnicorn) {
+            playMagicSound('success');
+            addStar();
+            unicornSpeak("YAAAY! You popped the magic Unicorn Balloon! Bonus Star!", { updateBubble: false });
+          } else if (bObj.isTarget) {
+            playMagicSound('success');
+            addStar();
+            unicornSpeak(`POP! ${item.letter} says ${item.phonetic} for ${item.word}! You got a Star!`, { updateBubble: false });
+          } else {
+            unicornSpeak(`${item.letter}! ${item.phonetic} for ${item.word}!`, { updateBubble: false });
+          }
+
+          el.remove();
+          activeBalloons = activeBalloons.filter(b => b !== bObj);
+        };
+
+        el.addEventListener('pointerdown', popHandler);
+        arena.appendChild(el);
+        activeBalloons.push(bObj);
+      }
+
+      // Spawn 4 initial balloons immediately
+      for (let i = 0; i < 4; i++) {
+        spawnBalloon();
+        activeBalloons[activeBalloons.length - 1].y -= i * 65;
+      }
+
+      function stepBalloons(ts) {
+        if (currentWorld !== 'balloon') return;
+        if (ts - lastSpawn > 1150 && activeBalloons.length < 7) {
+          spawnBalloon();
+          lastSpawn = ts;
+        }
+        for (let i = activeBalloons.length - 1; i >= 0; i--) {
+          const b = activeBalloons[i];
+          b.y -= b.speed;
+          const sway = Math.sin(ts * 0.003 + b.wobbleOffset) * 8;
+          b.el.style.transform = `translate3d(${b.x + sway}px, ${b.y}px, 0)`;
+          if (b.y < -110) {
+            b.el.remove();
+            activeBalloons.splice(i, 1);
+          }
+        }
+        balloonLoopId = requestAnimationFrame(stepBalloons);
+      }
+
+      balloonLoopId = requestAnimationFrame(stepBalloons);
+      unicornSpeak(`Balloon Pop time! Tap any floating balloon to pop it! Pop ${targetItem.letter} for ${targetItem.word} to win bonus stars!`);
+    }
+
+    /*************************************************************************
+     * WORLD 9: 🍬 UNICORN CANDY CRUSH (5-Year-Old Friendly Match & Crush!)
+     *************************************************************************/
+    const CANDY_TYPES = ['🧁', '🍓', '🍭', '💎', '🌈'];
+
+    function startCandyWorld() {
+      const ROWS = 5;
+      const COLS = 5;
+      let board = [];
+      let selectedCell = null;
+      let crushBusy = false;
+      let crushedTotal = 0;
+
+      currentSoundOutCallback = () => {
+        unicornSpeak("Tap matching candies next to each other, or swap any two candies to crush them and win stars!", { updateBubble: false });
+      };
+
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:8px;">
+          <div style="font-size:1.05rem; font-weight:700; color:#880e4f;">
+            🍬 Tap matching candies or swap 2 candies!
+          </div>
+          <div class="phonics-pill">
+            🍬 Crushed: <strong id="candy-crush-score">0</strong> (Every 10 = ⭐!)
+          </div>
+        </div>
+      `;
+
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `<div class="candy-board" id="candy-board"></div>`;
+      const boardEl = document.getElementById('candy-board');
+
+      function randomCandy() {
+        return CANDY_TYPES[Math.floor(Math.random() * CANDY_TYPES.length)];
+      }
+
+      function initBoard() {
+        board = [];
+        for (let r = 0; r < ROWS; r++) {
+          const row = [];
+          for (let c = 0; c < COLS; c++) {
+            row.push(randomCandy());
+          }
+          board.push(row);
+        }
+        // Guarantee at least a couple adjacent pairs for instant 5-year-old fun
+        board[2][2] = board[2][3];
+        board[1][1] = board[2][1];
+      }
+
+      function getConnectedGroup(startR, startC) {
+        const target = board[startR][startC];
+        const visited = new Set();
+        const queue = [[startR, startC]];
+        const group = [];
+
+        while (queue.length > 0) {
+          const [r, c] = queue.shift();
+          const key = `${r},${c}`;
+          if (visited.has(key)) continue;
+          visited.add(key);
+          if (board[r][c] === target) {
+            group.push([r, c]);
+            [[r-1,c],[r+1,c],[r,c-1],[r,c+1]].forEach(([nr, nc]) => {
+              if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && !visited.has(`${nr},${nc}`)) {
+                queue.push([nr, nc]);
+              }
+            });
+          }
+        }
+        return group;
+      }
+
+      function findAllMatches3OrMore() {
+        const matched = new Set();
+        // Horizontal 3+
+        for (let r = 0; r < ROWS; r++) {
+          for (let c = 0; c < COLS - 2; c++) {
+            const v = board[r][c];
+            if (v && board[r][c+1] === v && board[r][c+2] === v) {
+              matched.add(`${r},${c}`);
+              matched.add(`${r},${c+1}`);
+              matched.add(`${r},${c+2}`);
+            }
+          }
+        }
+        // Vertical 3+
+        for (let c = 0; c < COLS; c++) {
+          for (let r = 0; r < ROWS - 2; r++) {
+            const v = board[r][c];
+            if (v && board[r+1][c] === v && board[r+2][c] === v) {
+              matched.add(`${r},${c}`);
+              matched.add(`${r+1},${c}`);
+              matched.add(`${r+2},${c}`);
+            }
+          }
+        }
+        return Array.from(matched).map(s => s.split(',').map(Number));
+      }
+
+      function crushCoordinates(coords) {
+        if (!coords.length) return;
+        crushBusy = true;
+        playMagicSound('sparkle');
+
+        coords.forEach(([r, c]) => {
+          const cellEl = document.getElementById(`candy-${r}-${c}`);
+          if (cellEl) {
+            cellEl.classList.add('crushing');
+            const rect = cellEl.getBoundingClientRect();
+            burstSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 14);
+          }
+          board[r][c] = null;
+        });
+
+        const prevTens = Math.floor(crushedTotal / 10);
+        crushedTotal += coords.length;
+        const newTens = Math.floor(crushedTotal / 10);
+
+        const scoreEl = document.getElementById('candy-crush-score');
+        if (scoreEl) scoreEl.textContent = crushedTotal;
+
+        if (newTens > prevTens) {
+          addStar();
+          playMagicSound('success');
+          const praise = GIRLY_PRAISES[Math.floor(Math.random() * GIRLY_PRAISES.length)];
+          unicornSpeak(`${praise} You crushed ${crushedTotal} candies and won a Rainbow Star!`, { updateBubble: false });
+        } else if (coords.length >= 4) {
+          unicornSpeak(`Whoa! Super ${coords.length} candy crush!`, { updateBubble: false });
+        } else {
+          unicornSpeak(`${coords.length}! Sweet crush!`, { updateBubble: false });
+        }
+
+        setTimeout(() => {
+          // Gravity drop down
+          for (let c = 0; c < COLS; c++) {
+            let emptyRow = ROWS - 1;
+            for (let r = ROWS - 1; r >= 0; r--) {
+              if (board[r][c] !== null) {
+                board[emptyRow][c] = board[r][c];
+                if (emptyRow !== r) board[r][c] = null;
+                emptyRow--;
+              }
+            }
+            for (let r = emptyRow; r >= 0; r--) {
+              board[r][c] = randomCandy();
+            }
+          }
+          renderCandyBoard();
+          crushBusy = false;
+        }, 340);
+      }
+
+      function handleCandyTap(r, c) {
+        if (crushBusy) return;
+
+        // Kid-friendly Rule 1: If this candy is already part of a touching group of 2+ same candies,
+        // and nothing is selected yet, tapping it crushes the whole group immediately!
+        if (!selectedCell) {
+          const group = getConnectedGroup(r, c);
+          if (group.length >= 2) {
+            crushCoordinates(group);
+            return;
+          }
+          selectedCell = { r, c };
+          playMagicSound('pop');
+          renderCandyBoard();
+          return;
+        }
+
+        // If tapping the same cell, deselect
+        if (selectedCell.r === r && selectedCell.c === c) {
+          selectedCell = null;
+          renderCandyBoard();
+          return;
+        }
+
+        // Swap the two tapped cells!
+        const r1 = selectedCell.r, c1 = selectedCell.c;
+        selectedCell = null;
+        const tmp = board[r1][c1];
+        board[r1][c1] = board[r][c];
+        board[r][c] = tmp;
+        renderCandyBoard();
+
+        // Check for 3-in-a-row OR connected group of 2+ at either swapped position
+        const matches3 = findAllMatches3OrMore();
+        if (matches3.length >= 3) {
+          crushCoordinates(matches3);
+          return;
+        }
+        const g1 = getConnectedGroup(r, c);
+        const g2 = getConnectedGroup(r1, c1);
+        const combined = [... (g1.length >= 2 ? g1 : []), ... (g2.length >= 2 ? g2 : [])];
+        if (combined.length >= 2) {
+          crushCoordinates(combined);
+        } else {
+          playMagicSound('pop');
+        }
+      }
+
+      function renderCandyBoard() {
+        boardEl.innerHTML = '';
+        for (let r = 0; r < ROWS; r++) {
+          for (let c = 0; c < COLS; c++) {
+            const cell = document.createElement('div');
+            cell.id = `candy-${r}-${c}`;
+            const isSel = selectedCell && selectedCell.r === r && selectedCell.c === c;
+            cell.className = 'candy-cell' + (isSel ? ' selected' : '');
+            cell.textContent = board[r][c];
+            cell.onclick = () => handleCandyTap(r, c);
+            boardEl.appendChild(cell);
+          }
+        }
+      }
+
+      initBoard();
+      renderCandyBoard();
+      unicornSpeak("Unicorn Candy Crush! Tap any matching candies next to each other, or tap two candies to swap and crush them!");
+    }
+
+    /*************************************************************************
+     * FREE PLAY SOUNDBOARD (Inside ABCs -> Free Soundboard)
      *************************************************************************/
     function startExploreWorld() {
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
-        <div class="big-prompt-display" id="explore-banner">
+        <div class="big-prompt-display" id="explore-banner" style="font-size:1.6rem;">
           <span>🦄</span>
-          <span>Tap anything to hear Princess Sparkle sound it out!</span>
+          <span>Tap any tile to hear me sound it out!</span>
         </div>
       `;
 
@@ -1988,53 +2542,27 @@
           burstSparkles(r.left + r.width / 2, r.top + r.height / 2, 22);
           document.getElementById('explore-banner').innerHTML = `
             <span>${item.emoji}</span>
-            <span>${item.letter}${item.letter.toLowerCase()} says "${item.phonetic}" — ${item.word}!</span>
+            <span>${item.letter}${item.letter.toLowerCase()} says "${item.phonetic}" (${item.word})</span>
           `;
           unicornSpeak(`${item.letter}! | ${item.letter} says ${item.phonetic}! | ${item.soundCue}, ${item.word}!`, { isSoundOut: true });
         };
         grid.appendChild(btn);
       });
 
-      DAYS_OF_WEEK.forEach(d => {
-        const btn = document.createElement('button');
-        btn.className = 'explore-key';
-        btn.style.borderColor = d.color;
-        btn.innerHTML = `<span style="font-size:1.1rem;">${d.name}</span><small>${d.emoji}</small>`;
-        btn.onclick = () => {
-          playMagicSound('pop');
-          document.getElementById('explore-banner').innerHTML = `<span>${d.emoji}</span><span>${d.name}!</span>`;
-          unicornSpeak(`${d.name}! ${d.fun}`);
-        };
-        grid.appendChild(btn);
-      });
-
-      SEASONS_QUESTIONS.forEach(s => {
-        const btn = document.createElement('button');
-        btn.className = 'explore-key';
-        btn.style.borderColor = '#66bb6a';
-        btn.innerHTML = `<span style="font-size:1.15rem;">${s.season}</span><small>${s.emoji}</small>`;
-        btn.onclick = () => {
-          playMagicSound('sparkle');
-          document.getElementById('explore-banner').innerHTML = `<span>${s.emoji}</span><span>${s.season}! ${s.itemEmoji}</span>`;
-          unicornSpeak(`${s.soundOut} | ${s.clue}`, { isSoundOut: true });
-        };
-        grid.appendChild(btn);
-      });
-
-      unicornSpeak("Welcome to the Magic Board! Tap any letter, day of the week, or season to hear me sound it out!");
+      unicornSpeak("Tap any letter to hear its unicorn phonics sound!");
     }
 
     /*************************************************************************
-     * WORLD 9: ROYAL CLOSET (Dress Up Princess Sparkle!)
+     * WORLD 10: ROYAL CLOSET (Dress Up Princess Sparkle!)
      *************************************************************************/
     function startClosetWorld() {
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
-        <div style="font-size:1.5rem; font-weight:900; color:#ad1457;">
-          👑 Princess Sparkle's Royal Closet — You have ⭐ ${stars} Stars!
+        <div style="font-size:1.2rem; font-weight:700; color:#ad1457;">
+          👑 Royal Closet — You have ⭐ ${stars} Stars!
         </div>
-        <div style="font-size:1.05rem; color:#6a1b9a; font-weight:bold;">
-          Tap any unlocked accessory to dress me up!
+        <div style="font-size:0.95rem; color:#6a1b9a; font-weight:700;">
+          Tap any unlocked item to dress me up!
         </div>
       `;
 
@@ -2047,10 +2575,10 @@
         const card = document.createElement('div');
         card.className = `closet-card ${item.equipped ? 'equipped' : ''} ${!unlocked ? 'locked' : ''}`;
         card.innerHTML = `
-          <div style="font-size:3rem;">${item.emoji}</div>
-          <div style="font-weight:900; color:#880e4f;">${item.name}</div>
-          <div style="font-size:0.95rem; font-weight:bold; color:#d81b60; margin-top:4px;">
-            ${unlocked ? (item.equipped ? '✅ Wearing!' : '✨ Tap to Wear!') : `🔒 Need ⭐ ${item.stars}`}
+          <div style="font-size:2.4rem;">${item.emoji}</div>
+          <div style="font-weight:700; color:#880e4f; font-size:0.95rem;">${item.name}</div>
+          <div style="font-size:0.85rem; font-weight:700; color:#d81b60; margin-top:3px;">
+            ${unlocked ? (item.equipped ? '✅ Wearing!' : '✨ Wear!') : `🔒 ⭐ ${item.stars}`}
           </div>
         `;
         card.onclick = () => {
@@ -2068,7 +2596,7 @@
             slotEl.textContent = item.emoji;
             slotEl.style.display = 'block';
             playMagicSound('success');
-            burstSparkles(window.innerWidth / 2, 220, 35);
+            burstSparkles(window.innerWidth / 2, 180, 35);
             unicornSpeak(`YAAAY! Look at my ${item.name}! Do I look super cute?!`);
           } else {
             slotEl.style.display = 'none';
@@ -2105,7 +2633,7 @@
           x, y,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed - 2.5,
-          size: Math.random() * 11 + 6,
+          size: Math.random() * 10 + 5,
           color: colors[Math.floor(Math.random() * colors.length)],
           alpha: 1,
           rotation: Math.random() * 360
