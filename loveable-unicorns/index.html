@@ -3,24 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#ffd1f0" />
+  <meta name="theme-color" content="#88c9f9" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>Loveable Unicorns 🦄 Kindergarten Kingdom</title>
+  <title>Loveable Unicorns 🦄💙 Wackadoo Kindergarten!</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
+      /* Bluey Brisbane Sky + Unicorn Pastel Palette */
+      --bluey-dark: #2b4c7e;
+      --bluey-main: #4f91cd;
+      --bluey-light: #88c9f9;
+      --bingo-orange: #f58634;
+      --bingo-cream: #fff3d6;
       --pink-hot: #ff1493;
       --pink-main: #ff4da6;
-      --pink-soft: #ffb3d9;
-      --purple-main: #9c27b0;
-      --purple-dark: #4a148c;
+      --purple-dark: #311b92;
       --gold: #ffd700;
-      --mint: #00e676;
-      --sky-1: #ffd1f0;
-      --sky-2: #e8d1ff;
-      --sky-3: #ccf2ff;
+      --sky-1: #8fd3fe;
+      --sky-2: #d4ecff;
+      --sky-3: #ffd6f3;
       --font-print: 'Andika', 'Fredoka', Roboto, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
       --font-ui: 'Fredoka', 'Andika', Roboto, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
     }
@@ -40,13 +43,13 @@
        ========================================================================= */
     body {
       font-family: var(--font-ui);
-      background: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 50%, var(--sky-3) 100%);
+      background: linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 55%, var(--sky-3) 100%);
       min-height: 100dvh;
       overflow-x: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: var(--purple-dark);
+      color: var(--bluey-dark);
       padding: 6px 8px 18px;
     }
 
@@ -60,12 +63,12 @@
       height: 300px;
       border-radius: 450px 450px 0 0;
       box-shadow:
-        0 -12px 0 0 rgba(255, 94, 158, 0.22),
-        0 -24px 0 0 rgba(255, 165, 82, 0.22),
-        0 -36px 0 0 rgba(255, 235, 102, 0.22),
-        0 -48px 0 0 rgba(114, 239, 157, 0.22),
-        0 -60px 0 0 rgba(107, 203, 255, 0.22),
-        0 -72px 0 0 rgba(190, 133, 255, 0.22);
+        0 -12px 0 0 rgba(255, 94, 158, 0.24),
+        0 -24px 0 0 rgba(245, 134, 52, 0.24),
+        0 -36px 0 0 rgba(255, 215, 64, 0.24),
+        0 -48px 0 0 rgba(102, 187, 106, 0.24),
+        0 -60px 0 0 rgba(79, 145, 205, 0.24),
+        0 -72px 0 0 rgba(171, 71, 188, 0.24);
       pointer-events: none;
       z-index: 0;
     }
@@ -81,7 +84,7 @@
     .cloud {
       position: absolute;
       font-size: 2.6rem;
-      opacity: 0.45;
+      opacity: 0.6;
       animation: floatCloud linear infinite;
     }
 
@@ -100,21 +103,21 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .brand-pill {
-      background: linear-gradient(135deg, #ffffff, #fff0f8);
-      border: 3px solid #ff66b3;
+      background: linear-gradient(135deg, #ffffff, #e3f2fd);
+      border: 3px solid var(--bluey-main);
       border-radius: 999px;
-      padding: 4px 11px;
+      padding: 4px 10px;
       display: flex;
       align-items: center;
       gap: 5px;
-      box-shadow: 0 3px 0 #ff66b3;
-      font-size: 0.94rem;
+      box-shadow: 0 3px 0 var(--bluey-main);
+      font-size: 0.9rem;
       font-weight: 700;
-      color: #c2185b;
+      color: var(--bluey-dark);
       white-space: nowrap;
     }
 
@@ -126,17 +129,18 @@
 
     .star-pill {
       background: linear-gradient(135deg, #fff9c4, #ffd54f);
-      border: 3px solid #ffa000;
+      border: 3px solid #f57c00;
       border-radius: 999px;
       padding: 3px 10px;
       display: flex;
       align-items: center;
       gap: 4px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #8d4e00;
-      box-shadow: 0 3px 0 #ffa000;
+      box-shadow: 0 3px 0 #f57c00;
       transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      white-space: nowrap;
     }
 
     .star-pill.pop {
@@ -145,21 +149,21 @@
 
     .ctrl-btn {
       background: #ffffff;
-      border: 3px solid #ab47bc;
+      border: 3px solid var(--bluey-main);
       border-radius: 999px;
       padding: 4px 9px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 700;
       font-family: var(--font-ui);
-      color: #6a1b9a;
+      color: var(--bluey-dark);
       cursor: pointer;
-      box-shadow: 0 3px 0 #ab47bc;
+      box-shadow: 0 3px 0 var(--bluey-main);
       white-space: nowrap;
     }
 
     .ctrl-btn:active {
       transform: translateY(2px);
-      box-shadow: 0 1px 0 #ab47bc;
+      box-shadow: 0 1px 0 var(--bluey-main);
     }
 
     /* Mobile-First 5x2 Compact World Selector Grid (10 Worlds!) */
@@ -171,14 +175,14 @@
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 5px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .world-btn {
       border: 2.5px solid #ffffff;
       border-radius: 14px;
       padding: 5px 2px;
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       font-weight: 700;
       font-family: var(--font-ui);
       color: #ffffff;
@@ -188,30 +192,45 @@
       align-items: center;
       justify-content: center;
       gap: 1px;
-      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.18);
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
       line-height: 1.1;
     }
 
     .world-btn .w-icon {
-      font-size: 1.2rem;
+      font-size: 1.18rem;
     }
 
     .world-btn.active {
       outline: 3px solid #ffd700;
       transform: translateY(-1px);
-      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25), 0 0 10px rgba(255, 215, 0, 0.85);
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25), 0 0 12px rgba(255, 215, 0, 0.9);
     }
 
-    .w-abc     { background: linear-gradient(135deg, #ff4081, #c51162); }
-    .w-blend   { background: linear-gradient(135deg, #ff7043, #d84315); }
+    .w-abc     { background: linear-gradient(135deg, #4f91cd, #2b5c8f); }
+    .w-blend   { background: linear-gradient(135deg, #f58634, #d95f02); }
     .w-math    { background: linear-gradient(135deg, #ab47bc, #6a1b9a); }
     .w-days    { background: linear-gradient(135deg, #29b6f6, #0277bd); }
     .w-seasons { background: linear-gradient(135deg, #66bb6a, #2e7d32); }
     .w-shapes  { background: linear-gradient(135deg, #ffa726, #ef6c00); }
-    .w-rhyme   { background: linear-gradient(135deg, #ec407a, #880e4f); }
-    .w-balloon { background: linear-gradient(135deg, #00bcd4, #00838f); }
-    .w-candy   { background: linear-gradient(135deg, #e040fb, #7b1fa2); }
-    .w-closet  { background: linear-gradient(135deg, #ffd54f, #f57f17); color: #5d2900; }
+    .w-rhyme   { background: linear-gradient(135deg, #ec407a, #ad1457); }
+    .w-balloon { background: linear-gradient(135deg, #ef5350, #c62828); }
+    .w-candy   { background: linear-gradient(135deg, #ab47bc, #4a148c); }
+    .w-closet  { background: linear-gradient(135deg, #ffd54f, #f57f17); color: #4e2600; }
+
+    /* Bluey Style Episode Banner ("This episode is called...") */
+    .episode-banner {
+      background: linear-gradient(90deg, #4f91cd, #6ab0f3, #4f91cd);
+      color: #ffffff;
+      border: 2.5px solid #ffffff;
+      border-radius: 999px;
+      padding: 3px 14px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      margin-bottom: 6px;
+      box-shadow: 0 3px 0 rgba(43, 76, 126, 0.25);
+      text-align: center;
+    }
 
     /* Main Stage Card (Mobile First) */
     main {
@@ -219,12 +238,12 @@
       z-index: 5;
       width: 100%;
       max-width: 960px;
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(8px);
       border: 4px solid #ffffff;
       border-radius: 24px;
-      box-shadow: 0 10px 28px rgba(156, 39, 176, 0.18);
-      padding: 10px 10px 14px;
+      box-shadow: 0 10px 28px rgba(43, 76, 126, 0.2);
+      padding: 9px 10px 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -243,13 +262,13 @@
       position: relative;
       width: 82px;
       height: 82px;
-      background: radial-gradient(circle, #ffffff 35%, #ffd1f0 100%);
-      border: 3.5px solid #ff66b3;
+      background: radial-gradient(circle, #ffffff 35%, #b8e2ff 100%);
+      border: 3.5px solid var(--bluey-main);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(255, 20, 147, 0.25);
+      box-shadow: 0 4px 12px rgba(79, 145, 205, 0.35);
       cursor: pointer;
       flex-shrink: 0;
     }
@@ -300,14 +319,14 @@
     .speech-card {
       flex: 1;
       min-width: 0;
-      background: linear-gradient(135deg, #ffffff, #fff5fb);
-      border: 3px solid #ff66b3;
+      background: linear-gradient(135deg, #ffffff, #fff8ee);
+      border: 3px solid var(--bingo-orange);
       border-radius: 18px;
       padding: 7px 10px;
       display: flex;
       flex-direction: column;
       gap: 4px;
-      box-shadow: 0 4px 0 #ffb3d9;
+      box-shadow: 0 4px 0 #ffd19a;
     }
 
     .speech-top-row {
@@ -319,7 +338,7 @@
 
     .unicorn-tag {
       display: inline-block;
-      background: #ff4081;
+      background: var(--bluey-main);
       color: #fff;
       font-size: 0.65rem;
       font-weight: 700;
@@ -335,7 +354,7 @@
     }
 
     .action-circle-btn {
-      background: linear-gradient(135deg, #ff4081, #c51162);
+      background: linear-gradient(135deg, var(--bingo-orange), #d95f02);
       color: #fff;
       border: 2px solid #fff;
       border-radius: 99px;
@@ -344,7 +363,7 @@
       padding: 0 8px;
       font-size: 0.9rem;
       cursor: pointer;
-      box-shadow: 0 3px 0 #880e4f;
+      box-shadow: 0 3px 0 #9e4200;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -353,8 +372,8 @@
     }
 
     .action-circle-btn.phonics-btn {
-      background: linear-gradient(135deg, #ab47bc, #6a1b9a);
-      box-shadow: 0 3px 0 #4a148c;
+      background: linear-gradient(135deg, var(--bluey-main), var(--bluey-dark));
+      box-shadow: 0 3px 0 #1b3358;
       font-size: 0.74rem;
       gap: 3px;
     }
@@ -367,7 +386,7 @@
       font-family: var(--font-print);
       font-size: 0.95rem;
       font-weight: 700;
-      color: #880e4f;
+      color: var(--bluey-dark);
       line-height: 1.25;
     }
 
@@ -382,46 +401,46 @@
     }
 
     .submode-pill {
-      background: #fce4ec;
-      border: 2.5px solid #f48fb1;
+      background: #e3f2fd;
+      border: 2.5px solid #90caf9;
       border-radius: 999px;
       padding: 4px 11px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 700;
       font-family: var(--font-ui);
-      color: #880e4f;
+      color: var(--bluey-dark);
       cursor: pointer;
     }
 
     .submode-pill.active {
-      background: #ff4081;
-      border-color: #c51162;
+      background: var(--bingo-orange);
+      border-color: #d95f02;
       color: #ffffff;
-      box-shadow: 0 3px 0 #880e4f;
+      box-shadow: 0 3px 0 #9e4200;
     }
 
     /* Showcase Stage (Mobile First) */
     .showcase-card {
-      background: linear-gradient(180deg, #fff8fc 0%, #fce4ec 100%);
-      border: 3px dashed #ff66b3;
+      background: linear-gradient(180deg, #f5faff 0%, #fff3e0 100%);
+      border: 3px dashed var(--bluey-main);
       border-radius: 20px;
-      padding: 10px 12px;
+      padding: 9px 12px;
       margin-bottom: 10px;
       width: 100%;
-      min-height: 88px;
+      min-height: 84px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       text-align: center;
     }
 
     .big-prompt-display {
       font-family: var(--font-print);
-      font-size: 2.1rem;
+      font-size: 2.05rem;
       font-weight: 700;
-      color: #c2185b;
+      color: var(--bluey-dark);
       text-shadow: 2px 2px 0 #ffffff;
       display: flex;
       align-items: center;
@@ -437,7 +456,7 @@
       border-radius: 16px;
       padding: 4px 12px;
       font-family: var(--font-print);
-      font-size: 0.94rem;
+      font-size: 0.92rem;
       color: #8d4e00;
       cursor: pointer;
       box-shadow: 0 3px 0 #fbc02d;
@@ -458,25 +477,25 @@
     .letter-tile {
       width: 66px;
       height: 76px;
-      background: linear-gradient(180deg, #ffffff, #f3e5f5);
-      border: 4px solid #ab47bc;
+      background: linear-gradient(180deg, #ffffff, #e3f2fd);
+      border: 4px solid var(--bluey-main);
       border-radius: 18px;
       font-family: var(--font-print);
       font-size: 2.2rem;
       font-weight: 700;
-      color: #4a148c;
+      color: var(--bluey-dark);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 5px 0 #7b1fa2;
+      box-shadow: 0 5px 0 var(--bluey-dark);
     }
 
     .letter-tile.sounded {
       background: linear-gradient(180deg, #fff9c4, #ffe082);
-      border-color: #ffa000;
-      box-shadow: 0 5px 0 #ff6f00;
+      border-color: var(--bingo-orange);
+      box-shadow: 0 5px 0 #d95f02;
       transform: translateY(-4px) scale(1.05);
     }
 
@@ -484,16 +503,16 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #ce93d8;
+      background: #90caf9;
       margin-top: 2px;
     }
 
     .letter-tile.sounded .tile-dot {
-      background: #ff4081;
+      background: var(--bingo-orange);
     }
 
     .blend-arrow-btn {
-      background: linear-gradient(135deg, #ff4081, #f50057);
+      background: linear-gradient(135deg, var(--bingo-orange), #d95f02);
       color: #fff;
       border: 3px solid #fff;
       border-radius: 99px;
@@ -502,7 +521,7 @@
       font-weight: 700;
       font-family: var(--font-ui);
       cursor: pointer;
-      box-shadow: 0 4px 0 #ad1457;
+      box-shadow: 0 4px 0 #9e4200;
     }
 
     /* Mobile-First 2x2 Answer Choices Grid */
@@ -514,17 +533,17 @@
     }
 
     .choice-btn {
-      background: linear-gradient(180deg, #ffffff 0%, #fff0f7 100%);
-      border: 4px solid #ff80ab;
+      background: linear-gradient(180deg, #ffffff 0%, #f0f8ff 100%);
+      border: 4px solid var(--bluey-main);
       border-radius: 22px;
       padding: 12px 8px;
-      min-height: 92px;
+      min-height: 90px;
       font-size: 2.1rem;
       font-weight: 700;
       font-family: var(--font-print);
-      color: #ad1457;
+      color: var(--bluey-dark);
       cursor: pointer;
-      box-shadow: 0 6px 0 #f06292, 0 8px 14px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 6px 0 #3973ac, 0 8px 14px rgba(0, 0, 0, 0.08);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -536,13 +555,13 @@
     .choice-btn .choice-label {
       font-family: var(--font-print);
       font-size: 1.02rem;
-      color: #6a1b9a;
+      color: #c2185b;
       font-weight: 700;
     }
 
     .choice-btn:active {
       transform: translateY(4px);
-      box-shadow: 0 2px 0 #f06292;
+      box-shadow: 0 2px 0 #3973ac;
     }
 
     .choice-btn.correct {
@@ -554,8 +573,8 @@
     }
 
     .choice-btn.wrong {
-      background: #fce4ec;
-      opacity: 0.6;
+      background: #fff3e0;
+      opacity: 0.65;
       animation: gentleShake 0.4s ease;
     }
 
@@ -585,21 +604,21 @@
       width: 56px;
       height: 56px;
       background: #fff;
-      border: 3px solid #f48fb1;
+      border: 3px solid var(--bluey-main);
       border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       position: relative;
-      box-shadow: 0 4px 0 #f48fb1;
+      box-shadow: 0 4px 0 var(--bluey-main);
       transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .count-card.counted {
       background: #fff9c4;
-      border-color: #ffa000;
-      box-shadow: 0 4px 0 #ffa000;
+      border-color: var(--bingo-orange);
+      box-shadow: 0 4px 0 var(--bingo-orange);
       transform: scale(1.1);
     }
 
@@ -607,7 +626,7 @@
       position: absolute;
       bottom: -7px;
       right: -7px;
-      background: #ff1493;
+      background: var(--bingo-orange);
       color: #fff;
       font-family: var(--font-print);
       font-size: 0.85rem;
@@ -657,13 +676,13 @@
     }
 
     /* =========================================================================
-       MINI GAME 1: 🎈 BALLOON POP ARENA
+       MINI GAME 1: 🎈 KEEPY UPPY! (Balloon Pop)
        ========================================================================= */
     .balloon-arena {
       position: relative;
       width: 100%;
-      height: 310px;
-      background: linear-gradient(180deg, #b3e5fc 0%, #e1bee7 65%, #f8bbd0 100%);
+      height: 300px;
+      background: linear-gradient(180deg, #88c9f9 0%, #d4ecff 65%, #c8e6c9 100%);
       border: 4px solid #fff;
       border-radius: 24px;
       overflow: hidden;
@@ -707,40 +726,40 @@
     }
 
     /* =========================================================================
-       MINI GAME 2: 🍬 UNICORN CANDY CRUSH
+       MINI GAME 2: 🍬 DUCK CAKE & CANDY CRUSH
        ========================================================================= */
     .candy-board {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 7px;
       width: 100%;
-      max-width: 390px;
-      background: linear-gradient(180deg, #fce4ec, #f3e5f5);
-      border: 4px solid #ff80ab;
+      max-width: 380px;
+      background: linear-gradient(180deg, #e3f2fd, #fff3e0);
+      border: 4px solid var(--bluey-main);
       border-radius: 24px;
       padding: 10px;
-      box-shadow: 0 8px 0 #f06292;
+      box-shadow: 0 8px 0 #3973ac;
       touch-action: manipulation;
     }
 
     .candy-cell {
       aspect-ratio: 1 / 1;
-      background: linear-gradient(180deg, #ffffff, #fff5fb);
-      border: 3.5px solid #f8bbd0;
+      background: linear-gradient(180deg, #ffffff, #f5faff);
+      border: 3.5px solid #90caf9;
       border-radius: 18px;
-      font-size: 2.15rem;
+      font-size: 2.1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 4px 0 #f48fb1;
+      box-shadow: 0 4px 0 #64b5f6;
       transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.15s, border-color 0.15s;
     }
 
     .candy-cell.selected {
       background: #fff9c4;
-      border-color: #ffd700;
-      box-shadow: 0 0 14px #ffd700;
+      border-color: var(--bingo-orange);
+      box-shadow: 0 0 14px var(--bingo-orange);
       transform: scale(1.12);
       z-index: 2;
     }
@@ -764,15 +783,15 @@
 
     .explore-key {
       background: #fff;
-      border: 3px solid #ce93d8;
+      border: 3px solid #90caf9;
       border-radius: 16px;
       padding: 8px 4px;
       font-size: 1.4rem;
       font-weight: 700;
       font-family: var(--font-print);
-      color: #6a1b9a;
+      color: var(--bluey-dark);
       cursor: pointer;
-      box-shadow: 0 4px 0 #ab47bc;
+      box-shadow: 0 4px 0 var(--bluey-main);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -789,19 +808,19 @@
 
     .closet-card {
       background: #fff;
-      border: 3.5px solid #f48fb1;
+      border: 3.5px solid #90caf9;
       border-radius: 18px;
       padding: 10px;
       text-align: center;
       cursor: pointer;
-      box-shadow: 0 5px 0 #f48fb1;
+      box-shadow: 0 5px 0 var(--bluey-main);
       font-family: var(--font-print);
     }
 
     .closet-card.equipped {
       background: #fff9c4;
-      border-color: #ffa000;
-      box-shadow: 0 5px 0 #ffa000;
+      border-color: var(--bingo-orange);
+      box-shadow: 0 5px 0 var(--bingo-orange);
     }
 
     .closet-card.locked {
@@ -823,14 +842,14 @@
        ========================================================================= */
     @media (min-width: 768px) {
       body { padding: 12px 16px 32px; }
-      .brand-pill { font-size: 1.2rem; padding: 7px 16px; }
-      .star-pill { font-size: 1.3rem; padding: 6px 16px; }
+      .brand-pill { font-size: 1.15rem; padding: 7px 16px; }
+      .star-pill { font-size: 1.2rem; padding: 6px 16px; }
       .ctrl-btn { font-size: 0.95rem; padding: 7px 14px; }
 
       .world-nav {
         grid-template-columns: repeat(5, 1fr);
         gap: 8px;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
       }
 
       .world-btn {
@@ -840,6 +859,8 @@
         border-radius: 18px;
         gap: 6px;
       }
+
+      .episode-banner { font-size: 0.95rem; padding: 5px 20px; margin-bottom: 10px; }
 
       main {
         padding: 18px 20px 22px;
@@ -879,10 +900,10 @@
       }
       .choice-btn .choice-label { font-size: 1.18rem; }
 
-      .balloon-arena { height: 370px; }
+      .balloon-arena { height: 360px; }
       .balloon-node { width: 88px; height: 106px; font-size: 2.2rem; }
-      .candy-board { max-width: 450px; gap: 10px; padding: 14px; }
-      .candy-cell { font-size: 2.6rem; }
+      .candy-board { max-width: 440px; gap: 10px; padding: 14px; }
+      .candy-cell { font-size: 2.5rem; }
 
       .count-card { width: 70px; height: 70px; font-size: 2.6rem; }
       .days-train { grid-template-columns: repeat(7, 1fr); }
@@ -902,8 +923,8 @@
         width: 116px;
         height: 116px;
       }
-      .speech-text { font-size: 1.38rem; }
-      .big-prompt-display { font-size: 2.9rem; }
+      .speech-text { font-size: 1.35rem; }
+      .big-prompt-display { font-size: 2.85rem; }
       .choice-btn:hover { transform: translateY(-3px); }
       .world-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
       .explore-grid { grid-template-columns: repeat(8, 1fr); }
@@ -925,13 +946,13 @@
   <!-- Compact Mobile-First Game Header -->
   <div class="game-header">
     <div class="brand-pill">
-      <span>🦄</span>
+      <span>🦄💙</span>
       <span>Loveable Unicorns</span>
     </div>
 
     <div class="header-controls">
-      <div class="star-pill" id="star-box">
-        <span>⭐</span>
+      <div class="star-pill" id="star-box" title="Dollarbucks & Rainbow Stars!">
+        <span>💵⭐</span>
         <span id="star-count">0</span>
       </div>
       <button class="ctrl-btn" id="voice-style-btn" onclick="cycleVoiceEnergy()">
@@ -943,7 +964,7 @@
     </div>
   </div>
 
-  <!-- 10 Worlds in a Compact 5x2 Grid (Includes Balloon Pop & Candy Crush!) -->
+  <!-- 10 Worlds in a Compact 5x2 Grid (With Keepy Uppy & Duck Cake Crush!) -->
   <nav class="world-nav">
     <button class="world-btn w-abc active" onclick="setWorld('abc')" id="wbtn-abc">
       <span class="w-icon">🔤</span><span>ABCs</span>
@@ -967,45 +988,50 @@
       <span class="w-icon">🎵</span><span>Rhymes</span>
     </button>
     <button class="world-btn w-balloon" onclick="setWorld('balloon')" id="wbtn-balloon">
-      <span class="w-icon">🎈</span><span>Balloons</span>
+      <span class="w-icon">🎈</span><span>Keepy Uppy</span>
     </button>
     <button class="world-btn w-candy" onclick="setWorld('candy')" id="wbtn-candy">
-      <span class="w-icon">🍬</span><span>Candy</span>
+      <span class="w-icon">🎂</span><span>Candy Crush</span>
     </button>
     <button class="world-btn w-closet" onclick="setWorld('closet')" id="wbtn-closet">
-      <span class="w-icon">👑</span><span>Closet</span>
+      <span class="w-icon">🕶️</span><span>Grannies</span>
     </button>
   </nav>
 
   <!-- Main Interactive Stage -->
   <main>
+    <!-- Bluey Episode Title Card Banner -->
+    <div class="episode-banner" id="episode-banner">
+      🎬 This episode of Loveable Unicorns is called: Magic Phonics!
+    </div>
+
     <div class="unicorn-header-stage">
-      <!-- Animated Talking Princess Unicorn SVG -->
-      <div class="unicorn-avatar-box" id="unicorn-box" onclick="petUnicorn()" title="Tap Princess Sparkle!">
+      <!-- Animated Talking Princess Unicorn / Unicorse SVG -->
+      <div class="unicorn-avatar-box" id="unicorn-box" onclick="petUnicorn()" title="Tap me for silly Bluey sayings!">
         <span class="acc-badge acc-wings" id="acc-wings" style="display:none;">🪽</span>
         <svg viewBox="0 0 120 120">
-          <!-- Rainbow Flowing Mane -->
-          <path d="M32 45 Q14 55 24 72 Q12 82 28 96" fill="none" stroke="#ff4081" stroke-width="11" stroke-linecap="round"/>
-          <path d="M35 50 Q20 60 28 77" fill="none" stroke="#ffd740" stroke-width="8.5" stroke-linecap="round"/>
-          <path d="M38 56 Q25 68 32 85" fill="none" stroke="#40c4ff" stroke-width="7" stroke-linecap="round"/>
+          <!-- Bluey & Rainbow Flowing Mane -->
+          <path d="M32 45 Q14 55 24 72 Q12 82 28 96" fill="none" stroke="#4f91cd" stroke-width="11" stroke-linecap="round"/>
+          <path d="M35 50 Q20 60 28 77" fill="none" stroke="#f58634" stroke-width="8.5" stroke-linecap="round"/>
+          <path d="M38 56 Q25 68 32 85" fill="none" stroke="#ff4081" stroke-width="7" stroke-linecap="round"/>
           <!-- Ear -->
-          <polygon points="45,38 38,17 55,30" fill="#ffffff" stroke="#ff66b3" stroke-width="3"/>
+          <polygon points="45,38 38,17 55,30" fill="#ffffff" stroke="#4f91cd" stroke-width="3"/>
           <polygon points="45,35 41,22 52,30" fill="#ffb3d9"/>
           <!-- Head & Neck -->
-          <path d="M35 98 L42 55 Q40 32 65 32 Q92 32 96 55 Q98 73 78 77 L68 98 Z" fill="#ffffff" stroke="#ff66b3" stroke-width="3.5"/>
-          <!-- Pink Snout -->
-          <ellipse cx="86" cy="59" rx="15" ry="13.5" fill="#ffd1ec"/>
-          <circle cx="83" cy="54" r="2.2" fill="#c2185b"/>
-          <circle cx="93" cy="54" r="2.2" fill="#c2185b"/>
+          <path d="M35 98 L42 55 Q40 32 65 32 Q92 32 96 55 Q98 73 78 77 L68 98 Z" fill="#ffffff" stroke="#4f91cd" stroke-width="3.5"/>
+          <!-- Cute Snout -->
+          <ellipse cx="86" cy="59" rx="15" ry="13.5" fill="#fff3d6"/>
+          <circle cx="83" cy="54" r="2.2" fill="#2b4c7e"/>
+          <circle cx="93" cy="54" r="2.2" fill="#2b4c7e"/>
           <!-- Closed Smile -->
-          <path d="M78 63 Q85 71 93 63" fill="none" stroke="#c2185b" stroke-width="3" stroke-linecap="round"/>
+          <path d="M78 63 Q85 71 93 63" fill="none" stroke="#2b4c7e" stroke-width="3" stroke-linecap="round"/>
           <!-- Animated Talking Open Mouth -->
-          <ellipse id="unicorn-mouth-open" cx="85.5" cy="65" rx="6.5" ry="5" fill="#ff1493" stroke="#880e4f" stroke-width="2"/>
+          <ellipse id="unicorn-mouth-open" cx="85.5" cy="65" rx="6.5" ry="5" fill="#ff1493" stroke="#2b4c7e" stroke-width="2"/>
           <!-- Sparkly Big Eye -->
-          <circle cx="62" cy="49" r="7" fill="#311b92"/>
+          <circle cx="62" cy="49" r="7" fill="#2b4c7e"/>
           <circle cx="60" cy="46.5" r="2.7" fill="#ffffff"/>
           <circle cx="64.5" cy="51.5" r="1.3" fill="#ffffff"/>
-          <path d="M55 44 L50 39 M58 42 L55 36 M62 41 L61 36" stroke="#311b92" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M55 44 L50 39 M58 42 L55 36 M62 41 L61 36" stroke="#2b4c7e" stroke-width="2.2" stroke-linecap="round"/>
           <!-- Rosy Blush -->
           <ellipse cx="66" cy="59" rx="6.5" ry="3.8" fill="#ff4081" opacity="0.55"/>
           <!-- Magical Golden Horn -->
@@ -1019,14 +1045,14 @@
           </defs>
         </svg>
         <span class="acc-badge acc-crown" id="acc-crown">👑</span>
-        <span class="acc-badge acc-wand" id="acc-wand" style="display:none;">🪄</span>
-        <span class="acc-badge acc-pet" id="acc-pet" style="display:none;">🧚‍♀️</span>
+        <span class="acc-badge acc-wand" id="acc-wand" style="display:none;">🪶</span>
+        <span class="acc-badge acc-pet" id="acc-pet" style="display:none;">🦉</span>
       </div>
 
       <!-- Speech Bubble + Sound Out Controls -->
       <div class="speech-card">
         <div class="speech-top-row">
-          <span class="unicorn-tag">✨ PRINCESS SPARKLE</span>
+          <span class="unicorn-tag">💙 SPARKLE &amp; BLUEY MODE</span>
           <div class="speech-actions">
             <button class="action-circle-btn phonics-btn" id="sound-out-btn" onclick="soundOutCurrent()" title="Sound It Out Slowly!">
               🗣️ Sound Out
@@ -1037,7 +1063,7 @@
           </div>
         </div>
         <div class="speech-text" id="speech-text" onclick="repeatCurrentPrompt()" style="cursor:pointer;">
-          Hi bestie! Ready for Kindergarten magic?! Let's play! 🦄💖
+          Wackadoo! Ready to play for real life?! Hooray! 🦄💙
         </div>
       </div>
     </div>
@@ -1054,20 +1080,58 @@
 
   <script>
     /*************************************************************************
-     * 1. PHONICS & KINDERGARTEN CURRICULUM DATABASE
+     * 1. PHONICS, BLUEY SAYINGS & KINDERGARTEN CURRICULUM DATABASE
      *************************************************************************/
+    const EPISODE_TITLES = {
+      abc:     "Magic Phonics!",
+      blend:   "Sound It Out, Mate!",
+      math:    "Dollarbucks Counting!",
+      days:    "Wackadoo Weekdays!",
+      seasons: "Four Seasons For Real Life!",
+      shapes:  "Pavlova Shapes & Colors!",
+      rhyme:   "Chattermax Rhymes!",
+      balloon: "Keepy Uppy!",
+      candy:   "Duck Cake Crush!",
+      closet:  "Here Come The Grannies!"
+    };
+
+    const BLUEY_PRAISES = [
+      "HOORAY! For real life?! You got it, mate!",
+      "WACKADOO! That was trifficult and you nailed it!",
+      "Nice parking spot, Rita! You just won a Dollarbuck Star!",
+      "HOORAY! Doot doot doot, shake your tail!",
+      "Cheese and crackers, you are SO super smart!",
+      "Even Unicorse is impressed! Aaaand why should I care?! Just kidding, hooray!"
+    ];
+
+    const BLUEY_OOPSIES = [
+      "Oh, biscuits!",
+      "Aw, duck cake!",
+      "Cheese and crackers!",
+      "Oopsie, I slipped on mah beans!"
+    ];
+
+    const BLUEY_TAP_QUOTES = [
+      "I slipped on mah beans! Hehehe! Thanks, Janet!",
+      "Here come the Grannies! Nice parking spot, Rita!",
+      "Aaaaand why should I care?! Bahaha, classic Unicorse!",
+      "Freeze! Magic Xylophone! Unfreeze! Wackadoo!",
+      "Heavy! Featherwand made your nose heavy! Boop!",
+      "Hooray! For real life, you are my best mate!"
+    ];
+
     const ALPHABET = [
       { letter: 'A', phonetic: 'aah', soundCue: 'aah, aah', word: 'Apple', emoji: '🍎' },
-      { letter: 'B', phonetic: 'buh', soundCue: 'buh, buh', word: 'Butterfly', emoji: '🦋' },
-      { letter: 'C', phonetic: 'kuh', soundCue: 'kuh, kuh', word: 'Castle', emoji: '🏰' },
-      { letter: 'D', phonetic: 'duh', soundCue: 'duh, duh', word: 'Dolphin', emoji: '🐬' },
+      { letter: 'B', phonetic: 'buh', soundCue: 'buh, buh', word: 'Bluey Balloon', emoji: '🎈' },
+      { letter: 'C', phonetic: 'kuh', soundCue: 'kuh, kuh', word: 'Chattermax', emoji: '🦉' },
+      { letter: 'D', phonetic: 'duh', soundCue: 'duh, duh', word: 'Duck Cake', emoji: '🎂' },
       { letter: 'E', phonetic: 'ehh', soundCue: 'ehh, ehh', word: 'Elephant', emoji: '🐘' },
-      { letter: 'F', phonetic: 'fff', soundCue: 'fff, fff', word: 'Fairy', emoji: '🧚‍♀️' },
-      { letter: 'G', phonetic: 'guh', soundCue: 'guh, guh', word: 'Gem', emoji: '💎' },
+      { letter: 'F', phonetic: 'fff', soundCue: 'fff, fff', word: 'Featherwand', emoji: '🪶' },
+      { letter: 'G', phonetic: 'guh', soundCue: 'guh, guh', word: 'Grannies', emoji: '👵' },
       { letter: 'H', phonetic: 'huh', soundCue: 'huh, huh', word: 'Heart', emoji: '💖' },
-      { letter: 'I', phonetic: 'ihh', soundCue: 'ihh, ihh', word: 'Igloo', emoji: '🧊' },
+      { letter: 'I', phonetic: 'ihh', soundCue: 'ihh, ihh', word: 'Ice Cream', emoji: '🍦' },
       { letter: 'J', phonetic: 'juh', soundCue: 'juh, juh', word: 'Jellyfish', emoji: '🪼' },
-      { letter: 'K', phonetic: 'kuh', soundCue: 'kuh, kuh', word: 'Kitten', emoji: '🐱' },
+      { letter: 'K', phonetic: 'kuh', soundCue: 'kuh, kuh', word: 'Keepy Uppy', emoji: '🎈' },
       { letter: 'L', phonetic: 'lll', soundCue: 'lll, lll', word: 'Lion', emoji: '🦁' },
       { letter: 'M', phonetic: 'mmm', soundCue: 'mmm, mmm', word: 'Moon', emoji: '🌙' },
       { letter: 'N', phonetic: 'nnn', soundCue: 'nnn, nnn', word: 'Narwhal', emoji: '🐳' },
@@ -1076,18 +1140,18 @@
       { letter: 'Q', phonetic: 'kwuh', soundCue: 'kwuh, kwuh', word: 'Queen', emoji: '👑' },
       { letter: 'R', phonetic: 'rrr', soundCue: 'rrr, rrr', word: 'Rainbow', emoji: '🌈' },
       { letter: 'S', phonetic: 'sss', soundCue: 'sss, sss', word: 'Star', emoji: '⭐' },
-      { letter: 'T', phonetic: 'tuh', soundCue: 'tuh, tuh', word: 'Turtle', emoji: '🐢' },
-      { letter: 'U', phonetic: 'uhh', soundCue: 'uhh, uhh', word: 'Umbrella', emoji: '☂️' },
+      { letter: 'T', phonetic: 'tuh', soundCue: 'tuh, tuh', word: 'Turtleboy', emoji: '🐢' },
+      { letter: 'U', phonetic: 'uhh', soundCue: 'uhh, uhh', word: 'Unicorse', emoji: '🦄' },
       { letter: 'V', phonetic: 'vvv', soundCue: 'vvv, vvv', word: 'Violin', emoji: '🎻' },
       { letter: 'W', phonetic: 'wuh', soundCue: 'wuh, wuh', word: 'Wand', emoji: '🪄' },
-      { letter: 'X', phonetic: 'ksss', soundCue: 'ksss, ksss', word: 'Fox', emoji: '🦊' },
+      { letter: 'X', phonetic: 'ksss', soundCue: 'ksss, ksss', word: 'Xylophone', emoji: '🎶' },
       { letter: 'Y', phonetic: 'yuh', soundCue: 'yuh, yuh', word: 'Yo-yo', emoji: '🪀' },
       { letter: 'Z', phonetic: 'zzz', soundCue: 'zzz, zzz', word: 'Zebra', emoji: '🦓' }
     ];
 
     const BLEND_WORDS = [
-      { word: 'CAT', emoji: '🐱', letters: ['C', 'A', 'T'], sounds: ['kuh', 'aah', 'tuh'] },
       { word: 'DOG', emoji: '🐶', letters: ['D', 'O', 'G'], sounds: ['duh', 'aww', 'guh'] },
+      { word: 'CAT', emoji: '🐱', letters: ['C', 'A', 'T'], sounds: ['kuh', 'aah', 'tuh'] },
       { word: 'SUN', emoji: '☀️', letters: ['S', 'U', 'N'], sounds: ['sss', 'uhh', 'nnn'] },
       { word: 'HAT', emoji: '👒', letters: ['H', 'A', 'T'], sounds: ['huh', 'aah', 'tuh'] },
       { word: 'PIG', emoji: '🐷', letters: ['P', 'I', 'G'], sounds: ['puh', 'ihh', 'guh'] },
@@ -1101,12 +1165,12 @@
     ];
 
     const DAYS_OF_WEEK = [
-      { name: 'Sunday',    short: 'Sun', emoji: '☀️', color: '#ff5252', fun: 'Sunday is family fun day!' },
+      { name: 'Sunday',    short: 'Sun', emoji: '☀️', color: '#ff5252', fun: 'Sunday is backyard BBQ day!' },
       { name: 'Monday',    short: 'Mon', emoji: '🌙', color: '#ff9800', fun: 'Monday starts the school week!' },
       { name: 'Tuesday',   short: 'Tue', emoji: '🌮', color: '#fbc02d', fun: 'Terrific Tuesday!' },
-      { name: 'Wednesday', short: 'Wed', emoji: '🐸', color: '#4caf50', fun: 'Wacky Wednesday in the middle!' },
+      { name: 'Wednesday', short: 'Wed', emoji: '🐸', color: '#4caf50', fun: 'Wackadoo Wednesday in the middle!' },
       { name: 'Thursday',  short: 'Thu', emoji: '⚡', color: '#29b6f6', fun: 'Thinking Thursday!' },
-      { name: 'Friday',    short: 'Fri', emoji: '🎉', color: '#7e57c2', fun: 'Yay! Fri-yay is party day!' },
+      { name: 'Friday',    short: 'Fri', emoji: '🎉', color: '#7e57c2', fun: 'Hooray! Fri-yay is dance mode day!' },
       { name: 'Saturday',  short: 'Sat', emoji: '🎠', color: '#ec407a', fun: 'Super Saturday weekend!' }
     ];
 
@@ -1136,8 +1200,8 @@
     ];
 
     const COLOR_MIX_DATA = [
-      { c1: 'Red 🔴', c2: 'Yellow 🟡', result: 'Orange', emoji: '🟠', clue: 'What magical color do we get when we mix RED and YELLOW?' },
-      { c1: 'Blue 🔵', c2: 'Yellow 🟡', result: 'Green', emoji: '🟢', clue: 'What magical color do we get when we mix BLUE and YELLOW?' },
+      { c1: 'Red 🔴', c2: 'Yellow 🟡', result: 'Orange', emoji: '🟠', clue: 'What Bingo color do we get when we mix RED and YELLOW?' },
+      { c1: 'Blue 🔵', c2: 'Yellow 🟡', result: 'Green', emoji: '🟢', clue: 'What kiwi color do we get when we mix BLUE and YELLOW?' },
       { c1: 'Red 🔴', c2: 'Blue 🔵', result: 'Purple', emoji: '🟣', clue: 'What royal color do we get when we mix RED and BLUE?' },
       { c1: 'Red 🔴', c2: 'White ⚪', result: 'Pink', emoji: '🩷', clue: 'What unicorn color do we get when we mix RED and WHITE?' }
     ];
@@ -1160,29 +1224,22 @@
       { word: 'UP ⬆️', answer: 'Down', emoji: '⬇️', wrong: [{w:'Soft',e:'🧸'},{w:'Hot',e:'🔥'},{w:'Fast',e:'🚀'}] }
     ];
 
+    // Bluey + Unicorn Dress-Up Closet ("Here Come The Grannies!")
     const ROYAL_CLOSET = [
-      { id: 'crown1', slot: 'acc-crown', emoji: '👑', name: 'Golden Crown', stars: 0, equipped: true },
-      { id: 'crown2', slot: 'acc-crown', emoji: '🎀', name: 'Sparkle Bow', stars: 2, equipped: false },
-      { id: 'crown3', slot: 'acc-crown', emoji: '🌸', name: 'Flower Tiara', stars: 5, equipped: false },
-      { id: 'wand1',  slot: 'acc-wand',  emoji: '🪄', name: 'Star Wand', stars: 3, equipped: false },
-      { id: 'wand2',  slot: 'acc-wand',  emoji: '🍭', name: 'Rainbow Wand', stars: 7, equipped: false },
-      { id: 'wings1', slot: 'acc-wings', emoji: '🪽', name: 'Pegasus Wings', stars: 6, equipped: false },
-      { id: 'wings2', slot: 'acc-wings', emoji: '🦋', name: 'Fairy Wings', stars: 10, equipped: false },
-      { id: 'pet1',   slot: 'acc-pet',   emoji: '🧚‍♀️', name: 'Pixie Bestie', stars: 8, equipped: false },
-      { id: 'pet2',   slot: 'acc-pet',   emoji: '🐱', name: 'Princess Kitty', stars: 12, equipped: false },
-      { id: 'pet3',   slot: 'acc-pet',   emoji: '🐉', name: 'Baby Dragon', stars: 16, equipped: false }
-    ];
-
-    const GIRLY_PRAISES = [
-      "OH EM GEE! You got it! Sparkle power!",
-      "YAAAY! Bestie, you are SO super smart!",
-      "WOOHOO! Magical princess genius!",
-      "TWINKLE STARS! You nailed it, cutie!",
-      "Yippee! My rainbow horn is glowing for you!"
+      { id: 'crown1', slot: 'acc-crown', emoji: '👑', name: 'Princess Crown', stars: 0, equipped: true },
+      { id: 'crown2', slot: 'acc-crown', emoji: '🕶️', name: 'Granny Glasses (Rita!)', stars: 2, equipped: false },
+      { id: 'crown3', slot: 'acc-crown', emoji: '🎂', name: 'Duck Cake Hat', stars: 5, equipped: false },
+      { id: 'wand1',  slot: 'acc-wand',  emoji: '🪶', name: 'Featherwand (Heavy!)', stars: 3, equipped: false },
+      { id: 'wand2',  slot: 'acc-wand',  emoji: '🎶', name: 'Magic Xylophone', stars: 6, equipped: false },
+      { id: 'wings1', slot: 'acc-wings', emoji: '🪽', name: 'Pegasus Wings', stars: 5, equipped: false },
+      { id: 'wings2', slot: 'acc-wings', emoji: '🎈', name: 'Keepy Uppy Balloon', stars: 8, equipped: false },
+      { id: 'pet1',   slot: 'acc-pet',   emoji: '🦉', name: 'Chattermax!', stars: 4, equipped: false },
+      { id: 'pet2',   slot: 'acc-pet',   emoji: '🐰', name: 'Floppy Bunny', stars: 9, equipped: false },
+      { id: 'pet3',   slot: 'acc-pet',   emoji: '🦄', name: 'Unicorse Puppet!', stars: 12, equipped: false }
     ];
 
     /*************************************************************************
-     * 2. GIRLY UNICORN VOICE ENGINE & SOUND-OUT SYNTHESIZER
+     * 2. GIRLY UNICORN & AUSSIE BLUEY VOICE ENGINE
      *************************************************************************/
     let stars = parseInt(localStorage.getItem('unicorn_k_stars') || '0', 10);
     document.getElementById('star-count').textContent = stars;
@@ -1192,9 +1249,9 @@
     let soundMuted = false;
     let voiceEnergyMode = 0;
     const VOICE_STYLES = [
-      { label: '🎀 Girly', pitch: 1.42, rate: 1.02 },
-      { label: '🦄 Bubbly', pitch: 1.58, rate: 1.08 },
-      { label: '🌸 Sweet', pitch: 1.25, rate: 0.90 }
+      { label: '🎀 Girly', pitch: 1.44, rate: 1.02 },
+      { label: '🇦🇺 Bluey', pitch: 1.38, rate: 1.05 },
+      { label: '🌸 Sweet', pitch: 1.26, rate: 0.90 }
     ];
 
     let preferredVoice = null;
@@ -1217,42 +1274,38 @@
         return;
       }
 
-      // Score every English voice so Pixel 8 / Android, iOS, and Windows pick the sweetest girly voice
-      // Note: On Pixel/Android, Google TTS female voice IDs are tpf, sfg, iob, tpc, gba, gbg.
-      // Male IDs on Android are iom, iol, tpd, gbd, rjs.
-      // Also on Android Chrome, "-local" voices honor utter.pitch (sweet high voice!), while "-network" voices ignore pitch!
+      const wantAussie = voiceEnergyMode === 1;
+
       const scored = enVoices.map(v => {
-        const id = (v.name + ' ' + v.voiceURI).toLowerCase();
+        const id = (v.name + ' ' + v.voiceURI + ' ' + v.lang).toLowerCase();
         let score = 0;
 
-        // Avoid known male voices on Android, Windows, Apple
-        if (/iom|iol|tpd|gbd|male|david|mark|daniel|alex|fred|guy|christopher|eric|roger|steffan/.test(id)) {
-          score -= 100;
+        // Filter out male voices on Android, Windows, iOS
+        if (/iom|iol|tpd|gbd|auc|aud|male|david|mark|daniel|alex|fred|guy|christopher|eric|roger|steffan|james|william/.test(id)) {
+          score -= 120;
         }
 
-        // Top priority: Windows / Apple / Chrome known girl/female voices
-        if (id.includes('microsoft ana')) score += 90;     // Windows 11 child girl voice
-        if (id.includes('microsoft aria')) score += 75;
-        if (id.includes('microsoft jenny')) score += 70;
-        if (id.includes('samantha')) score += 75;          // iOS bright female
-        if (id.includes('tessa') || id.includes('moira') || id.includes('karen') || id.includes('victoria')) score += 60;
+        // Australian female voices (Bluey mode!)
+        if (wantAussie && (id.includes('en-au') || id.includes('en_au') || id.includes('karen') || id.includes('catherine') || id.includes('matilda') || id.includes('afh') || id.includes('aua'))) {
+          score += 95;
+        }
+
+        // Windows / Apple / Chrome female & child voices
+        if (id.includes('microsoft ana')) score += 90;
+        if (id.includes('microsoft aria') || id.includes('microsoft jenny') || id.includes('natasha')) score += 75;
+        if (id.includes('samantha') || id.includes('karen')) score += 78;
         if (id.includes('google us english')) score += 65;
 
-        // Pixel 8 / Android Google TTS female voice codes:
-        // tpf = high bright female, sfg = warm female, iob = clear female, tpc = upbeat female
+        // Pixel 8 / Android Google TTS female local voice codes
         if (id.includes('tpf')) score += 88;
-        if (id.includes('sfg')) score += 82;
-        if (id.includes('iob')) score += 78;
-        if (id.includes('tpc')) score += 74;
-        if (id.includes('gba') || id.includes('gbg')) score += 65;
+        if (id.includes('sfg')) score += 84;
+        if (id.includes('afh') || id.includes('aua')) score += 82; // Android Aussie female!
+        if (id.includes('iob') || id.includes('tpc')) score += 76;
         if (/female|woman|girl|zira/.test(id)) score += 60;
 
-        // Prefer local voices on Android because local voices allow pitch shifting (1.42x girly pitch)!
-        if (id.includes('local') || v.localService) score += 25;
-        if (id.includes('network')) score -= 15;
-
-        // Prefer US English
-        if (v.lang.toLowerCase().includes('us')) score += 15;
+        // Prefer local voices on Android so utter.pitch works!
+        if (id.includes('local') || v.localService) score += 28;
+        if (id.includes('network')) score -= 18;
 
         return { voice: v, score, id };
       });
@@ -1261,25 +1314,16 @@
       candidateVoices = scored.filter(s => s.score >= 0).map(s => s.voice);
       if (!candidateVoices.length) candidateVoices = enVoices;
 
-      const savedURI = localStorage.getItem('unicorn_voice_uri');
-      const savedIdx = candidateVoices.findIndex(v => v.voiceURI === savedURI);
-      if (savedIdx !== -1) {
-        selectedVoiceIndex = savedIdx;
-      } else {
-        selectedVoiceIndex = 0;
-      }
-      preferredVoice = candidateVoices[selectedVoiceIndex];
+      preferredVoice = candidateVoices[selectedVoiceIndex % candidateVoices.length] || candidateVoices[0];
     }
 
     if ('speechSynthesis' in window) {
       window.speechSynthesis.onvoiceschanged = selectBestGirlyVoice;
       selectBestGirlyVoice();
-      // Android Chrome sometimes populates voices slightly after load
       setTimeout(selectBestGirlyVoice, 300);
       setTimeout(selectBestGirlyVoice, 1000);
     }
 
-    // Unlock audio and speech on first finger tap on mobile phones
     window.addEventListener('pointerdown', () => {
       if (!firstTouchUnlocked) {
         firstTouchUnlocked = true;
@@ -1347,18 +1391,15 @@
     }
 
     function cycleVoiceEnergy() {
-      if (!candidateVoices.length) selectBestGirlyVoice();
       voiceEnergyMode = (voiceEnergyMode + 1) % VOICE_STYLES.length;
-      // When cycling past the 3 styles, also step to the next top female voice on the device
       if (voiceEnergyMode === 0 && candidateVoices.length > 1) {
         selectedVoiceIndex = (selectedVoiceIndex + 1) % Math.min(candidateVoices.length, 4);
-        preferredVoice = candidateVoices[selectedVoiceIndex];
-        localStorage.setItem('unicorn_voice_uri', preferredVoice.voiceURI);
       }
-      const vNum = candidateVoices.length > 1 ? ` #${selectedVoiceIndex + 1}` : '';
+      selectBestGirlyVoice();
+      const vNum = candidateVoices.length > 1 ? ` #${(selectedVoiceIndex % Math.min(candidateVoices.length, 4)) + 1}` : '';
       document.getElementById('voice-style-btn').textContent = VOICE_STYLES[voiceEnergyMode].label + vNum;
       playMagicSound('sparkle');
-      unicornSpeak("Hi bestie! How do you like my unicorn voice now?! Sparkle power!", { updateBubble: false });
+      unicornSpeak("Wackadoo! For real life, how do you like my voice now, mate?! Hooray!", { updateBubble: false });
     }
 
     function toggleMute() {
@@ -1377,12 +1418,8 @@
       const box = document.getElementById('unicorn-box');
       box.classList.add('dancing');
       setTimeout(() => box.classList.remove('dancing'), 1200);
-      const giggles = [
-        "Hehehe! That tickles my rainbow mane! You're my best friend!",
-        "Yay! Unicorn hugs for you! Let's learn some more!",
-        "Ooh, my horn is extra sparkly when you tap me!"
-      ];
-      unicornSpeak(giggles[Math.floor(Math.random() * giggles.length)], { updateBubble: false });
+      const quote = BLUEY_TAP_QUOTES[Math.floor(Math.random() * BLUEY_TAP_QUOTES.length)];
+      unicornSpeak(quote, { updateBubble: true });
     }
 
     function addStar() {
@@ -1394,8 +1431,12 @@
       setTimeout(() => box.classList.remove('pop'), 380);
     }
 
+    function randomOopsie() {
+      return BLUEY_OOPSIES[Math.floor(Math.random() * BLUEY_OOPSIES.length)];
+    }
+
     /*************************************************************************
-     * 3. WEB AUDIO API MAGICAL SOUND EFFECTS
+     * 3. WEB AUDIO API MAGICAL & BLUEY DANCE CHIMES
      *************************************************************************/
     let audioCtx = null;
     function getAudioCtx() {
@@ -1410,18 +1451,20 @@
         const ctx = getAudioCtx();
         const now = ctx.currentTime;
         if (type === 'success') {
-          const notes = [523.25, 659.25, 783.99, 1046.5, 1318.5, 1567.98];
+          // Upbeat Bluey-style "Ba-da-da-da-DA!" celebration riff!
+          const notes = [523.25, 659.25, 783.99, 659.25, 1046.5];
+          const times = [0, 0.08, 0.16, 0.24, 0.33];
           notes.forEach((f, i) => {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.type = 'triangle';
-            osc.frequency.setValueAtTime(f, now + i * 0.065);
-            gain.gain.setValueAtTime(0.2, now + i * 0.065);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.065 + 0.4);
+            osc.frequency.setValueAtTime(f, now + times[i]);
+            gain.gain.setValueAtTime(0.24, now + times[i]);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + times[i] + 0.35);
             osc.connect(gain);
             gain.connect(ctx.destination);
-            osc.start(now + i * 0.065);
-            osc.stop(now + i * 0.065 + 0.4);
+            osc.start(now + times[i]);
+            osc.stop(now + times[i] + 0.35);
           });
         } else if (type === 'sparkle') {
           const notes = [880, 1174.66, 1396.91, 1760];
@@ -1480,18 +1523,18 @@
       const ubox = document.getElementById('unicorn-box');
       ubox.classList.add('dancing');
 
-      const praise = GIRLY_PRAISES[Math.floor(Math.random() * GIRLY_PRAISES.length)];
+      const praise = BLUEY_PRAISES[Math.floor(Math.random() * BLUEY_PRAISES.length)];
       unicornSpeak(`${praise} ${spokenDetail}`);
 
       const savedWorld = currentWorld;
       setTimeout(() => {
         ubox.classList.remove('dancing');
         if (currentWorld === savedWorld) nextFn();
-      }, 2600);
+      }, 2700);
     }
 
     /*************************************************************************
-     * 4. WORLD NAVIGATION & SUB-MODES
+     * 4. WORLD NAVIGATION & BLUEY EPISODE BANNER
      *************************************************************************/
     function setWorld(world) {
       currentWorld = world;
@@ -1504,6 +1547,9 @@
       document.getElementById('wbtn-' + world).classList.add('active');
       playMagicSound('pop');
 
+      const epTitle = EPISODE_TITLES[world] || "Wackadoo Learning!";
+      document.getElementById('episode-banner').textContent = `🎬 This episode is called: ${epTitle}`;
+
       const subBar = document.getElementById('submode-bar');
       subBar.style.display = 'none';
       subBar.innerHTML = '';
@@ -1512,7 +1558,7 @@
         setupSubModes([
           { id: 'phonics',   label: '🗣️ Letter Sounds' },
           { id: 'matchCase', label: '🔤 Big & Little (Aa)' },
-          { id: 'board',     label: '🎹 Free Soundboard' }
+          { id: 'board',     label: '🎹 Soundboard' }
         ], 'phonics', startABCWorld);
       } else if (world === 'blend') {
         startBlendWorld();
@@ -1582,7 +1628,7 @@
       const choices = [target, ...distractors].sort(() => Math.random() - 0.5);
 
       currentSoundOutCallback = () => {
-        unicornSpeak(`Listen to my unicorn sound! | The letter ${target.letter} says ${target.phonetic}! | ${target.soundCue}! | ${target.word}!`, {
+        unicornSpeak(`Wackadoo, listen closely! | The letter ${target.letter} says ${target.phonetic}! | ${target.soundCue}! | ${target.word}!`, {
           updateBubble: false,
           isSoundOut: true
         });
@@ -1596,7 +1642,7 @@
           <div class="big-prompt-display">
             <span>${target.emoji}</span>
             <span>${target.letter}${target.letter.toLowerCase()}</span>
-            <span style="font-size:1.5rem; color:#7b1fa2;">(${target.word})</span>
+            <span style="font-size:1.45rem; color:#d95f02;">(${target.word})</span>
           </div>
           <div class="phonics-pill" onclick="soundOutCurrent()">
             🔊 Tap sound: <strong>"/${target.letter.toLowerCase()}/ says ${target.phonetic}!"</strong>
@@ -1619,16 +1665,16 @@
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`Oopsie! That's ${item.letter}, which says ${item.phonetic} for ${item.word}! Find ${target.letter} that says ${target.phonetic}!`, { updateBubble: false });
+              unicornSpeak(`${randomOopsie()} That's ${item.letter} for ${item.word}! Find ${target.letter} that says ${target.phonetic}!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
         });
 
-        unicornSpeak(`Which letter makes the "${target.phonetic}" sound in ${target.word}? ${target.soundCue}, ${target.word}!`);
+        unicornSpeak(`For real life, which letter makes the "${target.phonetic}" sound in ${target.word}? ${target.soundCue}, ${target.word}!`);
       } else {
         showcase.innerHTML = `
-          <div style="font-size:1.05rem; font-weight:700; color:#7b1fa2;">Match BIG letter to baby lowercase letter!</div>
+          <div style="font-size:1rem; font-weight:700; color:#2b4c7e;">Match BIG Bluey letter to baby Bingo lowercase letter!</div>
           <div class="big-prompt-display">
             <span>${target.emoji}</span>
             <span>Big: ${target.letter}</span>
@@ -1647,7 +1693,7 @@
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`That's little ${item.letter.toLowerCase()}! Can you find little ${target.letter.toLowerCase()}?`, { updateBubble: false });
+              unicornSpeak(`${randomOopsie()} That's little ${item.letter.toLowerCase()}! Find little ${target.letter.toLowerCase()}!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
@@ -1673,18 +1719,18 @@
             playMagicSound('pop');
           }, idx * 650);
         });
-        const seqText = `${target.sounds[0]}! | ${target.sounds[1]}! | ${target.sounds[2]}! | Blend it together: ${target.word}!`;
+        const seqText = `${target.sounds[0]}! | ${target.sounds[1]}! | ${target.sounds[2]}! | Blend it, mate: ${target.word}!`;
         unicornSpeak(seqText, { updateBubble: false, isSoundOut: true });
       };
 
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
-        <div style="font-size:0.98rem; font-weight:700; color:#6a1b9a;">
+        <div style="font-size:0.95rem; font-weight:700; color:#2b4c7e;">
           👇 Tap each letter to sound it out!
         </div>
         <div class="blender-row" id="blender-row"></div>
         <button class="blend-arrow-btn" onclick="soundOutCurrent()">
-          🦄 Blend Word! ➡️
+          🦄 Blend Word, Mate! ➡️
         </button>
       `;
 
@@ -1715,29 +1761,29 @@
         btn.onclick = () => {
           if (roundLocked) return;
           if (item.word === target.word) {
-            celebrateWin(btn, `${target.sounds.join('... ')}... makes ${target.word}! You read the word ${target.word}!`, startBlendWorld);
+            celebrateWin(btn, `${target.sounds.join('... ')}... makes ${target.word}! You read ${target.word} for real life!`, startBlendWorld);
           } else {
             btn.classList.add('wrong');
             playMagicSound('oops');
-            unicornSpeak(`That's a ${item.word}! Tap the letters to sound out ${target.sounds.join(', ')}!`, { updateBubble: false });
+            unicornSpeak(`${randomOopsie()} That's ${item.word}! Tap the letters to sound out ${target.sounds.join(', ')}!`, { updateBubble: false });
           }
         };
         grid.appendChild(btn);
       });
 
-      unicornSpeak(`Let's sound out this word together! ${target.sounds[0]}... ${target.sounds[1]}... ${target.sounds[2]}! Which picture matches?`);
+      unicornSpeak(`This episode is called Sound It Out! ${target.sounds[0]}... ${target.sounds[1]}... ${target.sounds[2]}! Which picture matches?`);
     }
 
     /*************************************************************************
      * WORLD 3: 123 COUNTING & KINDERGARTEN PICTURE ADDITION
      *************************************************************************/
     const MATH_THEMES = [
-      { name: 'magical cupcakes', emoji: '🧁' },
-      { name: 'baby unicorns', emoji: '🦄' },
-      { name: 'sparkly crowns', emoji: '👑' },
-      { name: 'sweet strawberries', emoji: '🍓' },
-      { name: 'shooting stars', emoji: '🌟' },
-      { name: 'pink butterflies', emoji: '🦋' }
+      { name: 'duck cakes', emoji: '🎂' },
+      { name: 'Keepy Uppy balloons', emoji: '🎈' },
+      { name: 'Dollarbucks', emoji: '💵' },
+      { name: 'magic xylophones', emoji: '🎶' },
+      { name: 'Chattermax owls', emoji: '🦉' },
+      { name: 'baby unicorns', emoji: '🦄' }
     ];
 
     function startMathWorld() {
@@ -1752,11 +1798,11 @@
 
         currentSoundOutCallback = () => {
           const seq = Array.from({ length: count }, (_, i) => i + 1).join(', ');
-          unicornSpeak(`Let's count together! ${seq}! How many is that?`, { updateBubble: false });
+          unicornSpeak(`Let's count together, mate! ${seq}! How many is that?`, { updateBubble: false });
         };
 
         showcase.innerHTML = `
-          <div style="font-size:1rem; font-weight:700; color:#6a1b9a;">
+          <div style="font-size:0.98rem; font-weight:700; color:#2b4c7e;">
             Tap each ${theme.emoji} to count out loud!
           </div>
           <div class="counting-wrap" id="counting-wrap"></div>
@@ -1798,17 +1844,17 @@
           btn.onclick = () => {
             if (roundLocked) return;
             if (num === count) {
-              celebrateWin(btn, `There are ${count} ${theme.name}! You're a counting princess!`, startMathWorld);
+              celebrateWin(btn, `There are ${count} ${theme.name}! Worth a hundred Dollarbucks!`, startMathWorld);
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`That's number ${num}! Tap each ${theme.name} to count them all!`, { updateBubble: false });
+              unicornSpeak(`${randomOopsie()} That's ${num}! Tap each ${theme.name} to count them all!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
         });
 
-        unicornSpeak(`How many ${theme.name} do you see? Tap each one to count!`);
+        unicornSpeak(`Wackadoo! How many ${theme.name} do you see? Tap each one to count!`);
       } else {
         const a = Math.floor(Math.random() * 5) + 1;
         const b = Math.floor(Math.random() * 4) + 1;
@@ -1820,7 +1866,7 @@
         };
 
         showcase.innerHTML = `
-          <div style="font-size:1.15rem; font-weight:700; color:#ad1457;">
+          <div style="font-size:1.1rem; font-weight:700; color:#d95f02;">
             ${a} + ${b} = ❓ (Tap to count all!)
           </div>
           <div class="counting-wrap" id="add-wrap"></div>
@@ -1867,17 +1913,17 @@
           btn.onclick = () => {
             if (roundLocked) return;
             if (num === sum) {
-              celebrateWin(btn, `${a} plus ${b} equals ${sum}! You did Kindergarten addition!`, startMathWorld);
+              celebrateWin(btn, `${a} plus ${b} equals ${sum}! Hooray!`, startMathWorld);
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`Almost! Tap every ${theme.emoji} from left to right to count how many altogether!`, { updateBubble: false });
+              unicornSpeak(`${randomOopsie()} Tap every ${theme.emoji} to count how many altogether!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
         });
 
-        unicornSpeak(`Let's add! What is ${a} ${theme.name} plus ${b} more ${theme.name}?`);
+        unicornSpeak(`Let's add, mate! What is ${a} ${theme.name} plus ${b} more ${theme.name}?`);
       }
     }
 
@@ -1913,8 +1959,8 @@
 
       showcase.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:6px;">
-          <span style="font-weight:700; color:#880e4f; font-size:1rem;">🚂 7 Days Rainbow Train</span>
-          <button class="phonics-pill" onclick="soundOutCurrent()" style="font-size:0.88rem; font-weight:700;">
+          <span style="font-weight:700; color:#2b4c7e; font-size:0.98rem;">🚂 7 Days Wackadoo Train</span>
+          <button class="phonics-pill" onclick="soundOutCurrent()" style="font-size:0.85rem; font-weight:700;">
             🎶 Sing All 7 Days!
           </button>
         </div>
@@ -1942,13 +1988,13 @@
           } else {
             btn.classList.add('wrong');
             playMagicSound('oops');
-            unicornSpeak(`That's ${item.name}! Listen to the order: ${beforeDay.name}, then what day comes next?`, { updateBubble: false });
+            unicornSpeak(`${randomOopsie()} That's ${item.name}! What day comes right after ${beforeDay.name}?`, { updateBubble: false });
           }
         };
         grid.appendChild(btn);
       });
 
-      unicornSpeak(`Look at the Rainbow Train! What day of the week comes right after ${beforeDay.name}?`);
+      unicornSpeak(`Look at the Wackadoo Train! What day of the week comes right after ${beforeDay.name}?`);
     }
 
     /*************************************************************************
@@ -1967,7 +2013,7 @@
 
         showcase.innerHTML = `
           <div class="big-prompt-display">${target.itemEmoji}</div>
-          <div style="font-size:1.05rem; font-weight:700; color:#4a148c; max-width:650px;">
+          <div style="font-size:1rem; font-weight:700; color:#2b4c7e; max-width:650px;">
             "${target.clue}"
           </div>
         `;
@@ -1988,13 +2034,13 @@
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`That's ${s.season}! Listen to the clue: ${target.clue}`, { updateBubble: false });
+              unicornSpeak(`${randomOopsie()} That's ${s.season}! Listen to the clue: ${target.clue}`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
         });
 
-        unicornSpeak(`${target.clue} Which season is it?`);
+        unicornSpeak(`${target.clue} Which season is it, mate?`);
       } else {
         const target = WEATHER_QUESTIONS[Math.floor(Math.random() * WEATHER_QUESTIONS.length)];
         const choices = [...WEATHER_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 4);
@@ -2007,9 +2053,9 @@
 
         showcase.innerHTML = `
           <div class="big-prompt-display">${target.emoji}</div>
-          <div style="font-size:1.05rem; font-weight:700; color:#0277bd;">
+          <div style="font-size:1rem; font-weight:700; color:#0277bd;">
             ${target.prompt}<br/>
-            <span style="color:#ad1457;">Hint: ${target.wear}</span>
+            <span style="color:#d95f02;">Hint: ${target.wear}</span>
           </div>
         `;
 
@@ -2029,7 +2075,7 @@
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`That's ${w.type}! Try again, cutie!`, { updateBubble: false });
+              unicornSpeak(`${randomOopsie()} That's ${w.type}! Try again, mate!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
@@ -2058,7 +2104,7 @@
 
         showcase.innerHTML = `
           <div class="big-prompt-display">${target.emoji}</div>
-          <div style="font-size:1.05rem; font-weight:700; color:#6a1b9a;">
+          <div style="font-size:1rem; font-weight:700; color:#2b4c7e;">
             ${target.clue}
           </div>
         `;
@@ -2079,7 +2125,7 @@
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`That's a ${s.name}! Look for the ${target.name}!`, { updateBubble: false });
+              unicornSpeak(`${randomOopsie()} That's a ${s.name}! Look for the ${target.name}!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
@@ -2093,13 +2139,13 @@
         };
 
         showcase.innerHTML = `
-          <div class="big-prompt-display" style="font-size:1.8rem;">
+          <div class="big-prompt-display" style="font-size:1.75rem;">
             <span>${target.c1}</span>
             <span>➕</span>
             <span>${target.c2}</span>
             <span>＝ ❓</span>
           </div>
-          <div style="font-size:1.05rem; font-weight:700; color:#880e4f;">${target.clue}</div>
+          <div style="font-size:1rem; font-weight:700; color:#2b4c7e;">${target.clue}</div>
         `;
 
         area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
@@ -2114,11 +2160,11 @@
           btn.onclick = () => {
             if (roundLocked) return;
             if (c.result === target.result) {
-              celebrateWin(btn, `Mixing ${target.c1} and ${target.c2} makes ${target.result}! Rainbow magic!`, startShapesWorld);
+              celebrateWin(btn, `Mixing ${target.c1} and ${target.c2} makes ${target.result}! Wackadoo!`, startShapesWorld);
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`That's ${c.result}! Try another color, bestie!`, { updateBubble: false });
+              unicornSpeak(`${randomOopsie()} That's ${c.result}! Try another color, mate!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
@@ -2151,7 +2197,7 @@
         };
 
         showcase.innerHTML = `
-          <div style="font-size:0.95rem; font-weight:700; color:#6a1b9a;">🎵 Rhyming words sound the same at the end!</div>
+          <div style="font-size:0.95rem; font-weight:700; color:#2b4c7e;">🎵 Rhyming words sound the same at the end!</div>
           <div class="big-prompt-display" style="font-size:1.8rem;">
             <span>${item.baseEmoji}</span>
             <span>Rhymes with <u>${item.baseWord}</u>?</span>
@@ -2174,13 +2220,13 @@
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`${item.baseWord} and ${ch.w} don't rhyme! Listen for a word that sounds like ${item.baseWord}!`, { updateBubble: false });
+              unicornSpeak(`${randomOopsie()} ${item.baseWord} and ${ch.w} don't rhyme!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
         });
 
-        unicornSpeak(`Which word rhymes with ${item.baseWord}? Listen closely to the ending sound!`);
+        unicornSpeak(`Chattermax wants to know: which word rhymes with ${item.baseWord}?`);
       } else {
         const item = OPPOSITES_DATA[Math.floor(Math.random() * OPPOSITES_DATA.length)];
         const choices = [
@@ -2193,7 +2239,7 @@
         };
 
         showcase.innerHTML = `
-          <div style="font-size:0.95rem; font-weight:700; color:#6a1b9a;">🔄 Opposites are totally different!</div>
+          <div style="font-size:0.95rem; font-weight:700; color:#2b4c7e;">🔄 Opposites are totally different!</div>
           <div class="big-prompt-display" style="font-size:1.8rem;">
             <span>Opposite of ${item.word}?</span>
           </div>
@@ -2215,7 +2261,7 @@
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`Not ${ch.w}! What is the opposite of ${item.word}?`, { updateBubble: false });
+              unicornSpeak(`${randomOopsie()} Not ${ch.w}! What is the opposite of ${item.word}?`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
@@ -2226,15 +2272,15 @@
     }
 
     /*************************************************************************
-     * WORLD 8: 🎈 BALLOON POP MINI GAME!
+     * WORLD 8: 🎈 KEEPY UPPY! (Balloon Pop Mini Game)
      *************************************************************************/
     const BALLOON_COLORS = [
-      'radial-gradient(circle at 30% 30%, #ff80ab, #f50057)',
-      'radial-gradient(circle at 30% 30%, #ea80fc, #8e24aa)',
-      'radial-gradient(circle at 30% 30%, #80d8ff, #0288d1)',
-      'radial-gradient(circle at 30% 30%, #ffe57f, #ffa000)',
-      'radial-gradient(circle at 30% 30%, #b9f6ca, #00c853)',
-      'radial-gradient(circle at 30% 30%, #ff9e80, #ff3d00)'
+      'radial-gradient(circle at 30% 30%, #ff5252, #c62828)', // Classic red Keepy Uppy balloon!
+      'radial-gradient(circle at 30% 30%, #80d8ff, #0277bd)', // Bluey balloon!
+      'radial-gradient(circle at 30% 30%, #ffcc80, #ef6c00)', // Bingo balloon!
+      'radial-gradient(circle at 30% 30%, #ff80ab, #c51162)', // Unicorn pink!
+      'radial-gradient(circle at 30% 30%, #ea80fc, #6a1b9a)',
+      'radial-gradient(circle at 30% 30%, #b9f6ca, #00c853)'
     ];
 
     function startBalloonWorld() {
@@ -2243,17 +2289,17 @@
       let poppedCount = 0;
 
       currentSoundOutCallback = () => {
-        unicornSpeak(`Pop the balloons! Find ${targetItem.letter} for ${targetItem.word}, or pop any balloon for fun!`, { updateBubble: false });
+        unicornSpeak(`It's Keepy Uppy! Tap any balloon before it floats away! Pop ${targetItem.letter} for ${targetItem.word} to win bonus Dollarbuck Stars!`, { updateBubble: false });
       };
 
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
-        <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:8px;">
-          <div style="font-size:1.15rem; font-weight:700; color:#c2185b;">
-            🎈 Bonus Star Target: <strong>${targetItem.letter}${targetItem.letter.toLowerCase()}</strong> (${targetItem.emoji} ${targetItem.word})
+        <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:6px;">
+          <div style="font-size:1.05rem; font-weight:700; color:#c62828;">
+            🎈 Keepy Uppy Target: <strong>${targetItem.letter}${targetItem.letter.toLowerCase()}</strong> (${targetItem.emoji} ${targetItem.word})
           </div>
           <div class="phonics-pill" id="balloon-score-pill">
-            💥 Popped: <strong id="balloon-pop-count">0</strong>
+            💥 Keepy Uppies: <strong id="balloon-pop-count">0</strong>
           </div>
         </div>
       `;
@@ -2267,7 +2313,7 @@
 
       function spawnBalloon() {
         const isTarget = Math.random() < 0.42;
-        const isBonusUnicorn = !isTarget && Math.random() < 0.2;
+        const isBonusUnicorn = !isTarget && Math.random() < 0.22;
         const randomAlpha = ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
         const item = isTarget ? targetItem : randomAlpha;
 
@@ -2276,7 +2322,7 @@
         el.style.background = BALLOON_COLORS[Math.floor(Math.random() * BALLOON_COLORS.length)];
 
         const label = isBonusUnicorn ? '🦄' : `${item.letter}${item.letter.toLowerCase()}`;
-        const sub = isBonusUnicorn ? '⭐' : item.emoji;
+        const sub = isBonusUnicorn ? '💵' : item.emoji;
         el.innerHTML = `<span>${label}</span><span style="font-size:1.1rem; line-height:1;">${sub}</span>`;
 
         const arenaWidth = arena.clientWidth || 340;
@@ -2284,7 +2330,7 @@
         const bObj = {
           el,
           x,
-          y: (arena.clientHeight || 310) + 20,
+          y: (arena.clientHeight || 300) + 20,
           speed: Math.random() * 0.75 + 0.7,
           wobbleOffset: Math.random() * Math.PI * 2,
           item,
@@ -2305,11 +2351,11 @@
           if (bObj.isBonusUnicorn) {
             playMagicSound('success');
             addStar();
-            unicornSpeak("YAAAY! You popped the magic Unicorn Balloon! Bonus Star!", { updateBubble: false });
+            unicornSpeak("Wackadoo! You popped Unicorse's Dollarbuck balloon! Hooray!", { updateBubble: false });
           } else if (bObj.isTarget) {
             playMagicSound('success');
             addStar();
-            unicornSpeak(`POP! ${item.letter} says ${item.phonetic} for ${item.word}! You got a Star!`, { updateBubble: false });
+            unicornSpeak(`Keepy Uppy! ${item.letter} says ${item.phonetic} for ${item.word}! You got a Star!`, { updateBubble: false });
           } else {
             unicornSpeak(`${item.letter}! ${item.phonetic} for ${item.word}!`, { updateBubble: false });
           }
@@ -2323,7 +2369,6 @@
         activeBalloons.push(bObj);
       }
 
-      // Spawn 4 initial balloons immediately
       for (let i = 0; i < 4; i++) {
         spawnBalloon();
         activeBalloons[activeBalloons.length - 1].y -= i * 65;
@@ -2349,13 +2394,13 @@
       }
 
       balloonLoopId = requestAnimationFrame(stepBalloons);
-      unicornSpeak(`Balloon Pop time! Tap any floating balloon to pop it! Pop ${targetItem.letter} for ${targetItem.word} to win bonus stars!`);
+      unicornSpeak(`This episode is called Keepy Uppy! Tap the floating balloons! Pop ${targetItem.letter} for ${targetItem.word} to win Dollarbuck Stars!`);
     }
 
     /*************************************************************************
-     * WORLD 9: 🍬 UNICORN CANDY CRUSH (5-Year-Old Friendly Match & Crush!)
+     * WORLD 9: 🎂 DUCK CAKE & CANDY CRUSH
      *************************************************************************/
-    const CANDY_TYPES = ['🧁', '🍓', '🍭', '💎', '🌈'];
+    const CANDY_TYPES = ['🎂', '🧁', '🍓', '🍭', '🌈'];
 
     function startCandyWorld() {
       const ROWS = 5;
@@ -2366,17 +2411,17 @@
       let crushedTotal = 0;
 
       currentSoundOutCallback = () => {
-        unicornSpeak("Tap matching candies next to each other, or swap any two candies to crush them and win stars!", { updateBubble: false });
+        unicornSpeak("Tap matching Duck Cakes and candies next to each other, or swap any two candies to crush them for Dollarbuck Stars!", { updateBubble: false });
       };
 
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
-        <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:8px;">
-          <div style="font-size:1.05rem; font-weight:700; color:#880e4f;">
-            🍬 Tap matching candies or swap 2 candies!
+        <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:6px;">
+          <div style="font-size:1rem; font-weight:700; color:#2b4c7e;">
+            🎂 Tap matching treats or swap 2 treats!
           </div>
           <div class="phonics-pill">
-            🍬 Crushed: <strong id="candy-crush-score">0</strong> (Every 10 = ⭐!)
+            🎂 Crushed: <strong id="candy-crush-score">0</strong> (Every 10 = ⭐!)
           </div>
         </div>
       `;
@@ -2398,7 +2443,6 @@
           }
           board.push(row);
         }
-        // Guarantee at least a couple adjacent pairs for instant 5-year-old fun
         board[2][2] = board[2][3];
         board[1][1] = board[2][1];
       }
@@ -2428,7 +2472,6 @@
 
       function findAllMatches3OrMore() {
         const matched = new Set();
-        // Horizontal 3+
         for (let r = 0; r < ROWS; r++) {
           for (let c = 0; c < COLS - 2; c++) {
             const v = board[r][c];
@@ -2439,7 +2482,6 @@
             }
           }
         }
-        // Vertical 3+
         for (let c = 0; c < COLS; c++) {
           for (let r = 0; r < ROWS - 2; r++) {
             const v = board[r][c];
@@ -2478,16 +2520,15 @@
         if (newTens > prevTens) {
           addStar();
           playMagicSound('success');
-          const praise = GIRLY_PRAISES[Math.floor(Math.random() * GIRLY_PRAISES.length)];
-          unicornSpeak(`${praise} You crushed ${crushedTotal} candies and won a Rainbow Star!`, { updateBubble: false });
+          const praise = BLUEY_PRAISES[Math.floor(Math.random() * BLUEY_PRAISES.length)];
+          unicornSpeak(`${praise} You crushed ${crushedTotal} Duck Cakes and candies!`, { updateBubble: false });
         } else if (coords.length >= 4) {
-          unicornSpeak(`Whoa! Super ${coords.length} candy crush!`, { updateBubble: false });
+          unicornSpeak(`Wackadoo! ${coords.length} Duck Cake mega crush!`, { updateBubble: false });
         } else {
-          unicornSpeak(`${coords.length}! Sweet crush!`, { updateBubble: false });
+          unicornSpeak(`Duck cake! ${coords.length} crushed!`, { updateBubble: false });
         }
 
         setTimeout(() => {
-          // Gravity drop down
           for (let c = 0; c < COLS; c++) {
             let emptyRow = ROWS - 1;
             for (let r = ROWS - 1; r >= 0; r--) {
@@ -2509,8 +2550,6 @@
       function handleCandyTap(r, c) {
         if (crushBusy) return;
 
-        // Kid-friendly Rule 1: If this candy is already part of a touching group of 2+ same candies,
-        // and nothing is selected yet, tapping it crushes the whole group immediately!
         if (!selectedCell) {
           const group = getConnectedGroup(r, c);
           if (group.length >= 2) {
@@ -2523,14 +2562,12 @@
           return;
         }
 
-        // If tapping the same cell, deselect
         if (selectedCell.r === r && selectedCell.c === c) {
           selectedCell = null;
           renderCandyBoard();
           return;
         }
 
-        // Swap the two tapped cells!
         const r1 = selectedCell.r, c1 = selectedCell.c;
         selectedCell = null;
         const tmp = board[r1][c1];
@@ -2538,7 +2575,6 @@
         board[r][c] = tmp;
         renderCandyBoard();
 
-        // Check for 3-in-a-row OR connected group of 2+ at either swapped position
         const matches3 = findAllMatches3OrMore();
         if (matches3.length >= 3) {
           crushCoordinates(matches3);
@@ -2546,7 +2582,7 @@
         }
         const g1 = getConnectedGroup(r, c);
         const g2 = getConnectedGroup(r1, c1);
-        const combined = [... (g1.length >= 2 ? g1 : []), ... (g2.length >= 2 ? g2 : [])];
+        const combined = [...(g1.length >= 2 ? g1 : []), ...(g2.length >= 2 ? g2 : [])];
         if (combined.length >= 2) {
           crushCoordinates(combined);
         } else {
@@ -2571,17 +2607,17 @@
 
       initBoard();
       renderCandyBoard();
-      unicornSpeak("Unicorn Candy Crush! Tap any matching candies next to each other, or tap two candies to swap and crush them!");
+      unicornSpeak("Duck Cake Candy Crush! Tap any matching treats next to each other, or swap two treats to crush them, mate!");
     }
 
     /*************************************************************************
-     * FREE PLAY SOUNDBOARD (Inside ABCs -> Free Soundboard)
+     * FREE PLAY SOUNDBOARD (Inside ABCs -> Soundboard)
      *************************************************************************/
     function startExploreWorld() {
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
         <div class="big-prompt-display" id="explore-banner" style="font-size:1.6rem;">
-          <span>🦄</span>
+          <span>🦄💙</span>
           <span>Tap any tile to hear me sound it out!</span>
         </div>
       `;
@@ -2607,20 +2643,20 @@
         grid.appendChild(btn);
       });
 
-      unicornSpeak("Tap any letter to hear its unicorn phonics sound!");
+      unicornSpeak("Wackadoo! Tap any letter to hear its phonics sound!");
     }
 
     /*************************************************************************
-     * WORLD 10: ROYAL CLOSET (Dress Up Princess Sparkle!)
+     * WORLD 10: 🕶️ HERE COME THE GRANNIES! (Dress Up Closet)
      *************************************************************************/
-    function startClosetWorld() {
+    function startClosetWorld(announce = true) {
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
-        <div style="font-size:1.2rem; font-weight:700; color:#ad1457;">
-          👑 Royal Closet — You have ⭐ ${stars} Stars!
+        <div style="font-size:1.15rem; font-weight:700; color:#2b4c7e;">
+          🕶️ Here Come The Grannies Closet — 💵⭐ ${stars} Dollarbuck Stars!
         </div>
-        <div style="font-size:0.95rem; color:#6a1b9a; font-weight:700;">
-          Tap any unlocked item to dress me up!
+        <div style="font-size:0.92rem; color:#d95f02; font-weight:700;">
+          Unlock Granny Glasses, Featherwand, Chattermax &amp; Unicorse!
         </div>
       `;
 
@@ -2634,15 +2670,15 @@
         card.className = `closet-card ${item.equipped ? 'equipped' : ''} ${!unlocked ? 'locked' : ''}`;
         card.innerHTML = `
           <div style="font-size:2.4rem;">${item.emoji}</div>
-          <div style="font-weight:700; color:#880e4f; font-size:0.95rem;">${item.name}</div>
-          <div style="font-size:0.85rem; font-weight:700; color:#d81b60; margin-top:3px;">
+          <div style="font-weight:700; color:#2b4c7e; font-size:0.95rem;">${item.name}</div>
+          <div style="font-size:0.85rem; font-weight:700; color:#d95f02; margin-top:3px;">
             ${unlocked ? (item.equipped ? '✅ Wearing!' : '✨ Wear!') : `🔒 ⭐ ${item.stars}`}
           </div>
         `;
         card.onclick = () => {
           if (!unlocked) {
             playMagicSound('oops');
-            unicornSpeak(`Ooh, you need ${item.stars} stars for the ${item.name}! Play some more games with me to unlock it!`);
+            unicornSpeak(`Oh, biscuits! You need ${item.stars} Dollarbuck Stars for ${item.name}! Play some more games with me to unlock it!`);
             return;
           }
           const wasEquipped = item.equipped;
@@ -2655,17 +2691,20 @@
             slotEl.style.display = 'block';
             playMagicSound('success');
             burstSparkles(window.innerWidth / 2, 180, 35);
-            unicornSpeak(`YAAAY! Look at my ${item.name}! Do I look super cute?!`);
+            unicornSpeak(`Hooray! Look at my ${item.name}! Nice parking spot, Rita!`);
           } else {
             slotEl.style.display = 'none';
             playMagicSound('pop');
+            unicornSpeak(`Took off my ${item.name}! What should I wear next, mate?`);
           }
-          startClosetWorld();
+          startClosetWorld(false);
         };
         grid.appendChild(card);
       });
 
-      unicornSpeak("Welcome to my Royal Closet! Let's play dress up!");
+      if (announce) {
+        unicornSpeak("Here come the Grannies! Tap any unlocked item to dress me up, mate!");
+      }
     }
 
     /*************************************************************************
@@ -2683,7 +2722,7 @@
     resizeCanvas();
 
     function burstSparkles(x, y, count = 40) {
-      const colors = ['#ff1493', '#ffd700', '#00e5ff', '#d500f9', '#00e676', '#ff80ab'];
+      const colors = ['#4f91cd', '#f58634', '#ffd700', '#ff4081', '#00e676', '#88c9f9'];
       for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
         const speed = Math.random() * 8.5 + 2;
