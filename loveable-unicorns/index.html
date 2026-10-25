@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v7.5 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
+  <title>v7.6 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -1873,7 +1873,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.5</small></span>
+      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.6</small></span>
     </div>
 
     <div class="header-controls">
@@ -1885,7 +1885,7 @@
         🎵
       </button>
       <button class="ctrl-btn" id="voice-style-btn" onclick="cycleVoiceEnergy()">
-        🎀
+        🇦🇺
       </button>
       <button class="ctrl-btn" id="mute-btn" onclick="toggleMute()">
         🔊
@@ -2349,13 +2349,18 @@
     let currentWorld = 'abc';
     let currentSubMode = '';
     let soundMuted = false;
-    let voiceEnergyMode = 0;
+    // Default: the cute Aussie (Bluey) voice. The 🎀/🇦🇺/🌸 button changes it and is remembered.
+    let voiceEnergyMode = (() => {
+      const v = parseInt(localStorage.getItem('kiki_voice_style'), 10);
+      return Number.isInteger(v) && v >= 0 && v < 3 ? v : 1;
+    })();
     const VOICE_STYLES = [
       { label: '🎀', pitch: 1.44, rate: 1.02 },
       { label: '🇦🇺', pitch: 1.38, rate: 1.05 },
       { label: '🌸', pitch: 1.26, rate: 0.90 }
     ];
 
+    document.getElementById('voice-style-btn').textContent = VOICE_STYLES[voiceEnergyMode].label;
     let preferredVoice = null;
     let candidateVoices = [];
     let selectedVoiceIndex = 0;
@@ -2487,213 +2492,36 @@
     }
 
     /*************************************************************************
-     * 🔤 REAL LETTER SOUNDS (all 26 made here, never by the voice)
-     * Browser voices garble letter sounds said alone ("kuh" -> "koo", "suh" -> "sue",
-     * "ah" is the wrong a). So every letter sound is synthesized with Web Audio, the way
-     * a mouth makes it, and Kiki's voice only says the words around it:
-     * "C says ... kuh ... Cat!"
-     *
-     * Building blocks, on a short timeline (seconds):
-     *   noise  - filtered hiss: s, f, and the puff of air in p / t / k
-     *   voice  - a child-like buzz shaped by three resonances (formants) that make
-     *            it sound like a particular vowel or m / n / l / r
-     * Consonants are told apart the way ears really do it: where the puff's energy sits
-     * (low for p/b, high for t/d, mid for k/g), and how the resonances slide into the
-     * little "uh" that follows (from low for p/b, middle for t/d, high for k/g).
-     * Sounds are "clipped" like phonics teachers say them: the "uh" is short.
+     * 🔤 LETTER SOUNDS, said by Kiki's own voice
+     * Browser voices garble a sound said all alone, so every sound is said inside a
+     * little sentence ("C says cuh") with the spellings below, which voices read
+     * well. Single letters also get a keyword ("like cat") so she always hears the
+     * sound in a real word. A grown-up's recording (Voice Studio) is used instead
+     * when there is one.
      *************************************************************************/
-    // Formants: [frequency Hz, bandwidth Hz, level]
-    const VOICE_F = {
-      schwa: [[760, 90, 1], [1450, 110, 0.7], [2900, 160, 0.35]],
-      A: [[1000, 90, 1], [2250, 110, 0.7], [3100, 160, 0.35]],   // a in apple
-      E: [[720, 90, 1], [2150, 110, 0.7], [3000, 160, 0.35]],    // e in egg
-      I: [[470, 90, 1], [2450, 110, 0.7], [3200, 160, 0.35]],    // i in igloo
-      O: [[880, 90, 1], [1250, 110, 0.7], [2900, 160, 0.35]],    // o in octopus
-      U: [[760, 90, 1], [1450, 110, 0.7], [2900, 160, 0.35]],    // u in up
-      M: [[250, 220, 1], [1000, 250, 0.35], [2200, 300, 0.2]],   // lips closed hum (wide, so it isn't a beep)
-      N: [[260, 220, 1], [1700, 250, 0.4], [2700, 300, 0.25]],   // tongue-up hum, a bit brighter
-      L: [[360, 80, 1], [1100, 120, 0.55], [2800, 200, 0.3]],    // "lll"
-      R: [[420, 90, 1], [1150, 120, 0.7], [1650, 150, 0.6]],     // "rrr": the low third formant is the r
-      buzz: [[250, 80, 1], [1500, 200, 0.08]]                    // throat buzz under b d g z v j
+    const TTS_SOUND = {
+      A: 'ap', B: 'buh', C: 'cuh', D: 'duh', E: 'eh', F: 'fuh', G: 'guh', H: 'huh', I: 'ig',
+      J: 'juh', K: 'cuh', L: 'luh', M: 'mmm', N: 'nuh', O: 'ock', P: 'puh', Q: 'kwuh', R: 'ruh',
+      S: 'sss', T: 'tuh', U: 'um', V: 'vuh', W: 'wuh', X: 'ecks', Y: 'yuh', Z: 'zuh'
     };
-    // Where the resonances start before sliding into the "uh" (place of the lips/tongue)
-    const FROM = {
-      lips:   [500, 900, 2300],    // p b m w
-      tongue: [450, 1750, 2700],   // t d n
-      back:   [450, 2100, 2350],   // k g: second and third close together
-      roof:   [400, 2100, 2900],   // j y
-      w:      [320, 650, 2200],
-      y:      [280, 2300, 3000]
+    const KEY_WORD = {
+      A: 'apple', B: 'ball', C: 'cat', D: 'dog', E: 'egg', F: 'fish', G: 'goat', H: 'hat', I: 'igloo',
+      J: 'jam', K: 'kite', L: 'lion', M: 'moon', N: 'nest', O: 'octopus', P: 'pig', Q: 'queen', R: 'rainbow',
+      S: 'sun', T: 'top', U: 'umbrella', V: 'van', W: 'wand', X: 'fox', Y: 'yo-yo', Z: 'zebra'
     };
-
-    const hissP = (lo, hi, t, len, vol, peak) => ({ noise: [lo, hi, peak], t, len, vol });
-    const voiceP = (f, t, len, vol, bright = 4200, from = null, glide = 0.06, f0 = [265, 240], rise = 0.015) => ({ voice: VOICE_F[f], t, len, vol, bright, from, glide, f0, rise });
-    // Hums sit lower, with a soft start, so they sound like a person going "mmm"
-    const humP = (f, bright) => voiceP(f, 0, 0.7, 1, bright, null, 0.06, [215, 195], 0.09);
-    const uhP = (t, from, len = 0.17, glide = 0.06) => voiceP('schwa', t, len, 1, 4200, from, glide);
-
-    const PHONEMES = {
-      // Held sounds
-      S: [hissP(4500, 11000, 0, 0.7, 1, 6500)],
-      F: [hissP(1200, 8000, 0, 0.7, 1)],
-      Z: [hissP(4500, 11000, 0, 0.7, 0.7, 6500), voiceP('buzz', 0, 0.7, 0.8, 900)],
-      V: [hissP(1200, 8000, 0, 0.7, 0.6), voiceP('buzz', 0, 0.7, 0.9, 900)],
-      M: [humP('M', 3000)],
-      N: [humP('N', 3600)],
-      L: [voiceP('L', 0, 0.6, 1, 3400)],
-      R: [voiceP('R', 0, 0.6, 1, 3400)],
-      // Short vowels
-      A: [voiceP('A', 0, 0.5, 1)], E: [voiceP('E', 0, 0.5, 1)], I: [voiceP('I', 0, 0.5, 1)],
-      O: [voiceP('O', 0, 0.5, 1)], U: [voiceP('U', 0, 0.5, 1)],
-      // Pops: unvoiced ones get a puff and a breath of air, voiced ones a short throat buzz first
-      P: [hissP(250, 1600, 0, 0.03, 0.55, 700), hissP(400, 4000, 0.03, 0.05, 0.35), uhP(0.07, FROM.lips)],
-      B: [voiceP('buzz', 0, 0.05, 0.7, 700), hissP(250, 1600, 0.045, 0.02, 0.6, 700), uhP(0.06, FROM.lips)],
-      T: [hissP(3500, 9000, 0, 0.03, 0.3, 5000), hissP(1500, 7000, 0.03, 0.05, 0.4), uhP(0.07, FROM.tongue)],
-      D: [voiceP('buzz', 0, 0.05, 0.7, 700), hissP(3000, 8000, 0.045, 0.02, 0.6, 4500), uhP(0.06, FROM.tongue)],
-      K: [hissP(1500, 3500, 0, 0.035, 0.5, 2100), hissP(1200, 5000, 0.035, 0.06, 0.4), uhP(0.085, FROM.back)],
-      C: [hissP(1500, 3500, 0, 0.035, 0.5, 2100), hissP(1200, 5000, 0.035, 0.06, 0.4), uhP(0.085, FROM.back)],
-      G: [voiceP('buzz', 0, 0.05, 0.7, 700), hissP(1500, 3500, 0.045, 0.025, 0.6, 2100), uhP(0.065, FROM.back)],
-      // Breathy h: air shaped like the vowel that follows
-      H: [hissP(400, 5000, 0, 0.16, 0.45, 1500), uhP(0.13)],
-      // j = d + sh with a buzz
-      J: [voiceP('buzz', 0, 0.13, 0.6, 700), hissP(1800, 6000, 0.02, 0.11, 0.6, 2800), uhP(0.12, FROM.roof)],
-      // Glides: start at the w / y mouth shape and slide into "uh"
-      W: [uhP(0, FROM.w, 0.32, 0.18)],
-      Y: [uhP(0, FROM.y, 0.32, 0.18)],
-      // q = k + w,  x = k + s
-      Q: [hissP(1500, 3500, 0, 0.035, 0.5, 2100), uhP(0.06, FROM.w, 0.3, 0.16)],
-      X: [hissP(1500, 3500, 0, 0.035, 0.5, 2100), hissP(1200, 5000, 0.035, 0.04, 0.35), hissP(4500, 11000, 0.08, 0.45, 0.9, 6500)]
-    };
-    const SYNTH_SOUNDS = Object.fromEntries(Object.keys(PHONEMES).map(k => [k, true]));
-    const SOUND_LABEL = { S: 'sss', F: 'fff', Z: 'zzz', V: 'vvv', M: 'mmm', N: 'nnn', L: 'lll', R: 'rrr',
-      A: 'a as in apple', E: 'e as in egg', I: 'i as in igloo', O: 'o as in octopus', U: 'u as in up' };
+    // A short vowel can't be spelled so a voice says it right, so vowels are taught
+    // through their word: "A, as in apple!"
+    const VOWELS = new Set(['A', 'E', 'I', 'O', 'U']);
     let phonicsToken = 0;
-    let noiseBuffer = null;
-    // Filled in at start-up by measuring every letter offline, so they all come out equally loud
-    const LETTER_LEVEL = {};
 
     function soundLabel(letter) {
-      return SOUND_LABEL[letter] || PHONICS_SOUND[letter] || letter;
+      return VOWELS.has(letter) ? `as in ${KEY_WORD[letter]}` : (TTS_SOUND[letter] || letter);
     }
 
-    function getNoiseBuffer(ctx) {
-      if (!noiseBuffer) {
-        // Seeded, so the hiss is identical on every device and every play
-        noiseBuffer = ctx.createBuffer(1, 44100, 44100);
-        const d = noiseBuffer.getChannelData(0);
-        let seed = 12345;
-        for (let i = 0; i < d.length; i++) { seed = (seed * 1103515245 + 12345) % 2147483648; d[i] = seed / 1073741824 - 1; }
-      }
-      return noiseBuffer;
+    // Only a grown-up's recording; nothing is synthesized any more
+    function playPhoneme(letter) {
+      return playVoiceClip(letter) || 0.3;
     }
-
-    // Plays one letter sound (or renders it into an offline context). Returns its length in seconds.
-    function playPhoneme(letter, offlineCtx, level) {
-      if (!offlineCtx && VOICE_CLIPS[letter]) return playVoiceClip(letter);
-      const segs = PHONEMES[letter];
-      if (!segs || (soundMuted && !offlineCtx)) return 0.4;
-      try {
-        const ctx = offlineCtx || getAudioCtx();
-        const now = ctx.currentTime + (offlineCtx ? 0 : 0.01);
-        const out = ctx.createGain();
-        out.gain.value = level != null ? level : (LETTER_LEVEL[letter] || 0.5);
-        out.connect(ctx.destination);
-        let end = 0;
-        segs.forEach(sg => {
-          const t0 = now + sg.t;
-          const t1 = t0 + sg.len;
-          end = Math.max(end, sg.t + sg.len);
-          const env = ctx.createGain();
-          const rise = Math.min(sg.rise || 0.015, sg.len / 3);
-          const fall = Math.min(0.05, sg.len / 3);
-          env.gain.setValueAtTime(0.0001, t0);
-          env.gain.exponentialRampToValueAtTime(sg.vol, t0 + rise);
-          env.gain.setValueAtTime(sg.vol, Math.max(t0 + rise, t1 - fall));
-          env.gain.exponentialRampToValueAtTime(0.0001, t1);
-          env.connect(out);
-          if (sg.noise) {
-            const src = ctx.createBufferSource();
-            src.buffer = getNoiseBuffer(ctx);
-            src.loop = true;
-            const hp = ctx.createBiquadFilter();
-            hp.type = 'highpass'; hp.frequency.value = sg.noise[0];
-            const lp = ctx.createBiquadFilter();
-            lp.type = 'lowpass'; lp.frequency.value = sg.noise[1];
-            let last = lp;
-            src.connect(hp); hp.connect(lp);
-            if (sg.noise[2]) {
-              // Give the hiss its own colour: a lift where this sound's energy really sits
-              const pk = ctx.createBiquadFilter();
-              pk.type = 'peaking'; pk.frequency.value = sg.noise[2]; pk.Q.value = 1.4; pk.gain.value = 10;
-              lp.connect(pk); last = pk;
-            }
-            last.connect(env);
-            src.start(t0, 0.1); src.stop(t1 + 0.01);
-          } else {
-            // Voice: a buzz with a falling pitch, a gentle wobble and a little breath
-            const src = ctx.createOscillator();
-            src.type = 'sawtooth';
-            src.frequency.setValueAtTime(sg.f0[0], t0);
-            src.frequency.linearRampToValueAtTime(sg.f0[1], t1);
-            const vib = ctx.createOscillator();
-            const vibAmt = ctx.createGain();
-            vib.frequency.value = 5.5;
-            vibAmt.gain.value = 4;
-            vib.connect(vibAmt); vibAmt.connect(src.frequency);
-            const breath = ctx.createBufferSource();
-            breath.buffer = getNoiseBuffer(ctx);
-            breath.loop = true;
-            const breathAmt = ctx.createGain();
-            breathAmt.gain.value = 0.06;
-            breath.connect(breathAmt);
-            const sum = ctx.createGain();
-            sum.gain.value = 2;
-            sg.voice.forEach(([f, bw, lvl], k) => {
-              const bp = ctx.createBiquadFilter();
-              bp.type = 'bandpass';
-              bp.Q.value = f / bw;
-              if (sg.from) {
-                // Slide from the lips/tongue position into the vowel
-                bp.frequency.setValueAtTime(sg.from[k], t0);
-                bp.frequency.linearRampToValueAtTime(f, t0 + sg.glide);
-              } else {
-                bp.frequency.value = f;
-              }
-              const g = ctx.createGain();
-              g.gain.value = lvl;
-              src.connect(bp); breathAmt.connect(bp); bp.connect(g); g.connect(sum);
-            });
-            const soft = ctx.createBiquadFilter();
-            soft.type = 'lowpass';
-            soft.frequency.value = sg.bright;
-            sum.connect(soft); soft.connect(env);
-            src.start(t0); vib.start(t0); breath.start(t0, 0.3);
-            src.stop(t1 + 0.01); vib.stop(t1 + 0.01); breath.stop(t1 + 0.01);
-          }
-        });
-        return end;
-      } catch (e) {
-        return 0.4;
-      }
-    }
-
-    // Measure every letter once and set its level so they all sound about as loud
-    async function levelLetterSounds() {
-      if (!window.OfflineAudioContext) return;
-      for (const letter of Object.keys(PHONEMES)) {
-        try {
-          const oc = new OfflineAudioContext(1, 22050, 22050);
-          playPhoneme(letter, oc, 1);
-          const d = (await oc.startRendering()).getChannelData(0);
-          let sum = 0, n = 0, peak = 0;
-          for (const v of d) { const a = Math.abs(v); if (a > 0.004) { sum += v * v; n++; } if (a > peak) peak = a; }
-          const rms = n ? Math.sqrt(sum / n) : 0.2;
-          // Aim for the same loudness, never let a peak go over 0.85
-          LETTER_LEVEL[letter] = Math.min(0.19 / rms, 0.8 / Math.max(peak, 0.001));
-        } catch (e) {}
-      }
-    }
-    setTimeout(levelLetterSounds, 300);
 
     /*************************************************************************
      * 🎙️ VOICE STUDIO (for grown-ups)
@@ -2826,7 +2654,7 @@
         </div>
         <div class="studio-actions small">
           <button class="studio-btn wide" ${VOICE_CLIPS[L] ? '' : 'disabled'} onclick="playStudioMine()">▶ Mine</button>
-          <button class="studio-btn wide" onclick="playStudioKiki()">🦄 Kiki's</button>
+          <button class="studio-btn wide" onclick="playStudioKiki()">🦄 Kiki</button>
           <button class="studio-btn wide" ${VOICE_CLIPS[L] ? '' : 'disabled'} onclick="deleteStudioClip()">🗑️</button>
         </div>`;
       document.getElementById('studio-strip').innerHTML = STUDIO_LETTERS.map((l, i) =>
@@ -2847,8 +2675,8 @@
     function playStudioKiki() {
       const L = STUDIO_LETTERS[studio.idx];
       const saved = VOICE_CLIPS[L];
-      delete VOICE_CLIPS[L];           // hear the built-in one even if a recording exists
-      playPhoneme(L);
+      delete VOICE_CLIPS[L];           // hear Kiki's voice even if a recording exists
+      speakSteps(letterSteps(L, null, true));
       if (saved) VOICE_CLIPS[L] = saved;
     }
     async function deleteStudioClip() {
@@ -2975,23 +2803,25 @@
       next(0);
     }
 
-    // "S says ... sssss" or "B says buh!"
-    function letterSteps(letter, onStart) {
-      if (SYNTH_SOUNDS[letter]) return [{ speak: `${letter} says`, onStart }, { synth: letter }];
-      return [{ speak: `${letter} says ${PHONICS_SOUND[letter] || letter}!`, onStart }];
+    // "C says cuh!" (plus "like cat!" when withWord), or a grown-up's recording
+    function letterSteps(letter, onStart, withWord) {
+      if (VOICE_CLIPS[letter]) {
+        const steps = [{ speak: `${letter} says`, onStart }, { synth: letter }];
+        if (withWord) steps.push({ speak: `like ${KEY_WORD[letter]}!` });
+        return steps;
+      }
+      if (VOWELS.has(letter)) return [{ speak: `${letter}, as in ${KEY_WORD[letter]}!`, onStart }];
+      const snd = TTS_SOUND[letter] || letter;
+      return [{ speak: withWord ? `${letter} says ${snd}, like ${KEY_WORD[letter]}!` : `${letter} says ${snd}!`, onStart }];
     }
 
-    // The sound alone, for repeating after the letter
-    function soundOnlyStep(letter) {
-      return SYNTH_SOUNDS[letter] ? { synth: letter } : { speak: `${PHONICS_SOUND[letter]}, ${PHONICS_SOUND[letter]}` };
-    }
-
-    // ABC style: "S says sss, sss, Sun!"
+    // ABC style: "S says sss! sss, sss, Sun!"
     function abcSteps(item) {
-      const steps = letterSteps(item.letter);
-      if (SYNTH_SOUNDS[item.letter]) steps.push({ synth: item.letter }, { speak: `${item.word}!` });
-      else steps.push({ speak: `${item.soundCue}, ${item.word}!` });
-      return steps;
+      const L = item.letter;
+      if (VOICE_CLIPS[L]) return [...letterSteps(L), { synth: L }, { speak: `${item.word}!` }];
+      if (VOWELS.has(L)) return [{ speak: `${L}, as in ${KEY_WORD[L]}!` }, { speak: `${item.word}!` }];
+      const snd = TTS_SOUND[L];
+      return [{ speak: `${L} says ${snd}!` }, { speak: `${snd}, ${snd}, ${item.word}!` }];
     }
 
     // Every letter's sound, then the whole word
@@ -3018,6 +2848,7 @@
 
     function cycleVoiceEnergy() {
       voiceEnergyMode = (voiceEnergyMode + 1) % VOICE_STYLES.length;
+      try { localStorage.setItem('kiki_voice_style', String(voiceEnergyMode)); } catch (e) {}
       if (voiceEnergyMode === 0 && candidateVoices.length > 1) {
         selectedVoiceIndex = (selectedVoiceIndex + 1) % Math.min(candidateVoices.length, 4);
       }
@@ -3583,7 +3414,11 @@
      * Build and Read climb through word families; 5 right moves up a family.
      *************************************************************************/
     const PHONICS_SOUND = {};
-    ALPHABET.forEach(a => { PHONICS_SOUND[a.letter] = a.phonetic; });
+    ALPHABET.forEach(a => {
+      a.phonetic = TTS_SOUND[a.letter];
+      a.soundCue = `${a.phonetic}, ${a.phonetic}`;
+      PHONICS_SOUND[a.letter] = a.phonetic;
+    });
 
     const WORD_FAMILIES = [
       { fam: 'at', emoji: '🐱', words: [['CAT','🐱'],['HAT','👒'],['BAT','🦇'],['RAT','🐀'],['MAT','🧘'],['SAT','🪑']] },
@@ -3680,9 +3515,7 @@
     }
 
     function speakSound(letter) {
-      const steps = letterSteps(letter);
-      if (VOWEL_WORD[letter]) steps.push({ speak: `like ${VOWEL_WORD[letter]}!` });
-      speakSteps(steps);
+      speakSteps(letterSteps(letter, null, true));
     }
 
     // "C says kuh! | A says ah! | T says tuh! | cat!"
