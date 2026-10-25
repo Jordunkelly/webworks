@@ -1668,6 +1668,27 @@
       } catch (e) {}
     }
 
+    // Xylophone ascending note when poking items to count (no chatty voice spam!)
+    function playCountNote(stepNum = 1) {
+      if (soundMuted) return;
+      try {
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
+        const scale = [523.25, 587.33, 659.25, 698.46, 783.99, 880.0, 987.77, 1046.5, 1174.66, 1318.51, 1396.91, 1567.98];
+        const freq = scale[(Math.max(1, stepNum) - 1) % scale.length];
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now);
+        gain.gain.setValueAtTime(0.28, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.23);
+      } catch (e) {}
+    }
+
     // Procedural Upbeat Bluey & LEGO Marimba Background Music Loop
     const BG_MELODY_STEPS = [
       { f: 523.25, b: 196.00 }, // C5
@@ -1834,9 +1855,10 @@
           toggleBgMusic(true);
         }
         setupSubModes([
-          { id: 'scroller', label: '🏃‍♀️🦄 LEGO Side-Scroller' },
-          { id: 'builder',  label: '🏗️ LEGO Brick Builder' }
-        ], 'scroller', startLegoWorld);
+          { id: 'puzzles',  label: '🧩 LEGO Build Puzzles' },
+          { id: 'builder',  label: '🏗️ Free Build World' },
+          { id: 'scroller', label: '🏃‍♀️🦄 LEGO Runner' }
+        ], 'puzzles', startLegoWorld);
       } else if (world === 'closet') {
         startClosetWorld();
       }
@@ -1877,7 +1899,7 @@
       const choices = [target, ...distractors].sort(() => Math.random() - 0.5);
 
       currentSoundOutCallback = () => {
-        unicornSpeak(`Wackadoo, listen closely! | The letter ${target.letter} says ${target.phonetic}! | ${target.soundCue}! | ${target.word}!`, {
+        unicornSpeak(`${target.letter} says ${target.phonetic}! | ${target.soundCue}, ${target.word}!`, {
           updateBubble: false,
           isSoundOut: true
         });
@@ -1910,20 +1932,19 @@
           btn.onclick = () => {
             if (roundLocked) return;
             if (item.letter === target.letter) {
-              celebrateWin(btn, `${target.letter} says ${target.phonetic}! ${target.phonetic} is for ${target.word}!`, startABCWorld);
+              celebrateWin(btn, `${target.letter} is for ${target.word}!`, startABCWorld);
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`${randomOopsie()} That's ${item.letter} for ${item.word}! Find ${target.letter} that says ${target.phonetic}!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
         });
 
-        unicornSpeak(`For real life, which letter makes the "${target.phonetic}" sound in ${target.word}? ${target.soundCue}, ${target.word}!`);
+        unicornSpeak(`Find letter ${target.letter}! ${target.letter} says ${target.phonetic} for ${target.word}!`);
       } else {
         showcase.innerHTML = `
-          <div style="font-size:1rem; font-weight:700; color:#2b4c7e;">Match BIG Bluey letter to baby Bingo lowercase letter!</div>
+          <div style="font-size:1rem; font-weight:700; color:#2b4c7e;">Match BIG letter to lowercase letter!</div>
           <div class="big-prompt-display">
             <span>${target.emoji}</span>
             <span>Big: ${target.letter}</span>
@@ -1938,16 +1959,15 @@
           btn.onclick = () => {
             if (roundLocked) return;
             if (item.letter === target.letter) {
-              celebrateWin(btn, `Big ${target.letter} and little ${target.letter.toLowerCase()} make the "${target.phonetic}" sound in ${target.word}!`, startABCWorld);
+              celebrateWin(btn, `Big ${target.letter} and little ${target.letter.toLowerCase()}!`, startABCWorld);
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`${randomOopsie()} That's little ${item.letter.toLowerCase()}! Find little ${target.letter.toLowerCase()}!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
         });
-        unicornSpeak(`Can you find the baby lowercase letter ${target.letter.toLowerCase()} that matches big ${target.letter}?`);
+        unicornSpeak(`Find little lowercase ${target.letter.toLowerCase()}!`);
       }
     }
 
@@ -1968,7 +1988,7 @@
             playMagicSound('pop');
           }, idx * 650);
         });
-        const seqText = `${target.sounds[0]}! | ${target.sounds[1]}! | ${target.sounds[2]}! | Blend it, mate: ${target.word}!`;
+        const seqText = `${target.sounds[0]}! | ${target.sounds[1]}! | ${target.sounds[2]}! | ${target.word}!`;
         unicornSpeak(seqText, { updateBubble: false, isSoundOut: true });
       };
 
@@ -1979,7 +1999,7 @@
         </div>
         <div class="blender-row" id="blender-row"></div>
         <button class="blend-arrow-btn" onclick="soundOutCurrent()">
-          🦄 Blend Word, Mate! ➡️
+          🦄 Sound Out Word ➡️
         </button>
       `;
 
@@ -1991,7 +2011,7 @@
         tile.onclick = () => {
           tile.classList.add('sounded');
           playMagicSound('pop');
-          unicornSpeak(target.sounds[idx], { updateBubble: false, customRate: 0.85 });
+          unicornSpeak(target.sounds[idx], { updateBubble: false, customRate: 0.9 });
         };
         row.appendChild(tile);
       });
@@ -2010,17 +2030,16 @@
         btn.onclick = () => {
           if (roundLocked) return;
           if (item.word === target.word) {
-            celebrateWin(btn, `${target.sounds.join('... ')}... makes ${target.word}! You read ${target.word} for real life!`, startBlendWorld);
+            celebrateWin(btn, `${target.word}!`, startBlendWorld);
           } else {
             btn.classList.add('wrong');
             playMagicSound('oops');
-            unicornSpeak(`${randomOopsie()} That's ${item.word}! Tap the letters to sound out ${target.sounds.join(', ')}!`, { updateBubble: false });
           }
         };
         grid.appendChild(btn);
       });
 
-      unicornSpeak(`This episode is called Sound It Out! ${target.sounds[0]}... ${target.sounds[1]}... ${target.sounds[2]}! Which picture matches?`);
+      unicornSpeak(`Sound it out: ${target.sounds[0]}, ${target.sounds[1]}, ${target.sounds[2]}! Which picture matches?`);
     }
 
     /*************************************************************************
@@ -2047,12 +2066,12 @@
 
         currentSoundOutCallback = () => {
           const seq = Array.from({ length: count }, (_, i) => i + 1).join(', ');
-          unicornSpeak(`Let's count together, mate! ${seq}! How many is that?`, { updateBubble: false });
+          unicornSpeak(`Let's count: ${seq}!`, { updateBubble: false });
         };
 
         showcase.innerHTML = `
           <div style="font-size:0.98rem; font-weight:700; color:#2b4c7e;">
-            Tap each ${theme.emoji} to count out loud!
+            Tap each ${theme.emoji} to count!
           </div>
           <div class="counting-wrap" id="counting-wrap"></div>
         `;
@@ -2063,7 +2082,6 @@
           card.className = 'count-card';
           card.innerHTML = `<span>${theme.emoji}</span>`;
           card.onclick = () => {
-            playMagicSound('pop');
             if (!card.classList.contains('counted')) {
               countedSoFar++;
               card.classList.add('counted');
@@ -2071,10 +2089,10 @@
               b.className = 'count-num-badge';
               b.textContent = countedSoFar;
               card.appendChild(b);
-              unicornSpeak(String(countedSoFar), { updateBubble: false });
+              playCountNote(countedSoFar);
             } else {
-              const num = card.querySelector('.count-num-badge').textContent;
-              unicornSpeak(String(num), { updateBubble: false });
+              const num = Number(card.querySelector('.count-num-badge').textContent) || 1;
+              playCountNote(num);
             }
           };
           wrap.appendChild(card);
@@ -2093,17 +2111,16 @@
           btn.onclick = () => {
             if (roundLocked) return;
             if (num === count) {
-              celebrateWin(btn, `There are ${count} ${theme.name}! Worth a hundred Dollarbucks!`, startMathWorld);
+              celebrateWin(btn, `Number ${count}!`, startMathWorld);
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`${randomOopsie()} That's ${num}! Tap each ${theme.name} to count them all!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
         });
 
-        unicornSpeak(`Wackadoo! How many ${theme.name} do you see? Tap each one to count!`);
+        unicornSpeak(`How many ${theme.name} do you see?`);
       } else {
         const a = Math.floor(Math.random() * 5) + 1;
         const b = Math.floor(Math.random() * 4) + 1;
@@ -2111,12 +2128,12 @@
         let countedSoFar = 0;
 
         currentSoundOutCallback = () => {
-          unicornSpeak(`${a} ${theme.name}, plus ${b} more ${theme.name}! Tap every single one to count how many altogether!`, { updateBubble: false });
+          unicornSpeak(`What is ${a} plus ${b}?`, { updateBubble: false });
         };
 
         showcase.innerHTML = `
           <div style="font-size:1.1rem; font-weight:700; color:#d95f02;">
-            ${a} + ${b} = ❓ (Tap to count all!)
+            ${a} + ${b} = ❓ (Tap to count!)
           </div>
           <div class="counting-wrap" id="add-wrap"></div>
         `;
@@ -2127,7 +2144,6 @@
           card.className = 'count-card';
           card.innerHTML = `<span>${theme.emoji}</span>`;
           card.onclick = () => {
-            playMagicSound('pop');
             if (!card.classList.contains('counted')) {
               countedSoFar++;
               card.classList.add('counted');
@@ -2135,7 +2151,10 @@
               badge.className = 'count-num-badge';
               badge.textContent = countedSoFar;
               card.appendChild(badge);
-              unicornSpeak(String(countedSoFar), { updateBubble: false });
+              playCountNote(countedSoFar);
+            } else {
+              const num = Number(card.querySelector('.count-num-badge').textContent) || 1;
+              playCountNote(num);
             }
           };
           return card;
@@ -2162,17 +2181,16 @@
           btn.onclick = () => {
             if (roundLocked) return;
             if (num === sum) {
-              celebrateWin(btn, `${a} plus ${b} equals ${sum}! Hooray!`, startMathWorld);
+              celebrateWin(btn, `${a} plus ${b} is ${sum}!`, startMathWorld);
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`${randomOopsie()} Tap every ${theme.emoji} to count how many altogether!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
         });
 
-        unicornSpeak(`Let's add, mate! What is ${a} ${theme.name} plus ${b} more ${theme.name}?`);
+        unicornSpeak(`What is ${a} plus ${b}?`);
       }
     }
 
@@ -2187,7 +2205,7 @@
 
       currentSoundOutCallback = () => {
         const allNames = DAYS_OF_WEEK.map(d => d.name).join(', ');
-        unicornSpeak(`Let's sing the 7 days of the week! | ${allNames}! | So right after ${beforeDay.name} comes... what day?`, {
+        unicornSpeak(`${allNames}! | What comes after ${beforeDay.name}?`, {
           updateBubble: false,
           isSoundOut: true
         });
@@ -2199,7 +2217,7 @@
         return `
           <div class="day-car ${isMystery ? 'mystery' : ''}"
                style="background:${d.color};"
-               onclick="unicornSpeak('${isMystery ? 'Mystery Day! What comes after ' + beforeDay.name + '?' : d.name + '! ' + d.fun}', {updateBubble:false})">
+               onclick="playCountNote(${idx + 1})">
             <span style="font-size:1.3rem;">${isMystery ? '❓' : d.emoji}</span>
             <span>${isMystery ? '???' : d.short}</span>
           </div>
@@ -2233,17 +2251,16 @@
         btn.onclick = () => {
           if (roundLocked) return;
           if (item.name === targetDay.name) {
-            celebrateWin(btn, `${targetDay.name} comes right after ${beforeDay.name}! ${targetDay.fun}`, startDaysWorld);
+            celebrateWin(btn, `${targetDay.name}!`, startDaysWorld);
           } else {
             btn.classList.add('wrong');
             playMagicSound('oops');
-            unicornSpeak(`${randomOopsie()} That's ${item.name}! What day comes right after ${beforeDay.name}?`, { updateBubble: false });
           }
         };
         grid.appendChild(btn);
       });
 
-      unicornSpeak(`Look at the Wackadoo Train! What day of the week comes right after ${beforeDay.name}?`);
+      unicornSpeak(`What day comes right after ${beforeDay.name}?`);
     }
 
     /*************************************************************************
@@ -2257,7 +2274,7 @@
       if (currentSubMode === 'fourSeasons') {
         const target = SEASONS_QUESTIONS[Math.floor(Math.random() * SEASONS_QUESTIONS.length)];
         currentSoundOutCallback = () => {
-          unicornSpeak(`${target.soundOut} | ${target.clue}`, { updateBubble: false, isSoundOut: true });
+          unicornSpeak(target.clue, { updateBubble: false });
         };
 
         showcase.innerHTML = `
@@ -2279,17 +2296,16 @@
           btn.onclick = () => {
             if (roundLocked) return;
             if (s.season === target.season) {
-              celebrateWin(btn, `It is ${target.season}! ${target.soundOut}`, startSeasonsWorld);
+              celebrateWin(btn, `${target.season}!`, startSeasonsWorld);
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`${randomOopsie()} That's ${s.season}! Listen to the clue: ${target.clue}`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
         });
 
-        unicornSpeak(`${target.clue} Which season is it, mate?`);
+        unicornSpeak(`${target.clue} Which season is it?`);
       } else {
         const target = WEATHER_QUESTIONS[Math.floor(Math.random() * WEATHER_QUESTIONS.length)];
         const choices = [...WEATHER_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 4);
@@ -2297,7 +2313,7 @@
         choices.sort(() => Math.random() - 0.5);
 
         currentSoundOutCallback = () => {
-          unicornSpeak(`${target.prompt} We use ${target.wear}!`, { updateBubble: false });
+          unicornSpeak(target.prompt, { updateBubble: false });
         };
 
         showcase.innerHTML = `
@@ -2320,11 +2336,10 @@
           btn.onclick = () => {
             if (roundLocked) return;
             if (w.type === target.type) {
-              celebrateWin(btn, `Yes! It is ${target.type} weather!`, startSeasonsWorld);
+              celebrateWin(btn, `${target.type}!`, startSeasonsWorld);
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`${randomOopsie()} That's ${w.type}! Try again, mate!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
@@ -2352,7 +2367,7 @@
         const choices = [target, ...distractors].sort(() => Math.random() - 0.5);
 
         currentSoundOutCallback = () => {
-          unicornSpeak(`${target.name}! | ${target.clue}`, { updateBubble: false, isSoundOut: true });
+          unicornSpeak(`Find the ${target.name}!`, { updateBubble: false });
         };
 
         showcase.innerHTML = `
@@ -2374,21 +2389,20 @@
           btn.onclick = () => {
             if (roundLocked) return;
             if (s.name === target.name) {
-              celebrateWin(btn, `That's a ${target.name}! ${target.clue}`, startShapesWorld);
+              celebrateWin(btn, `${target.name}!`, startShapesWorld);
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`${randomOopsie()} That's a ${s.name}! Look for the ${target.name}!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
         });
 
-        unicornSpeak(`Can you find the ${target.name}? ${target.clue}`);
+        unicornSpeak(`Find the ${target.name}!`);
       } else {
         const target = COLOR_MIX_DATA[Math.floor(Math.random() * COLOR_MIX_DATA.length)];
         currentSoundOutCallback = () => {
-          unicornSpeak(`When we mix ${target.c1} and ${target.c2}, what new color does it make?`, { updateBubble: false });
+          unicornSpeak(target.clue, { updateBubble: false });
         };
 
         showcase.innerHTML = `
@@ -2413,11 +2427,10 @@
           btn.onclick = () => {
             if (roundLocked) return;
             if (c.result === target.result) {
-              celebrateWin(btn, `Mixing ${target.c1} and ${target.c2} makes ${target.result}! Wackadoo!`, startShapesWorld);
+              celebrateWin(btn, `${target.result}!`, startShapesWorld);
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`${randomOopsie()} That's ${c.result}! Try another color, mate!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
@@ -2443,10 +2456,7 @@
         ].sort(() => Math.random() - 0.5);
 
         currentSoundOutCallback = () => {
-          unicornSpeak(`Listen to the ending sound! | ${item.baseWord}... | ${item.answer}! | They sound the same at the end!`, {
-            updateBubble: false,
-            isSoundOut: true
-          });
+          unicornSpeak(`Which word rhymes with ${item.baseWord}?`, { updateBubble: false });
         };
 
         showcase.innerHTML = `
@@ -2469,17 +2479,16 @@
           btn.onclick = () => {
             if (roundLocked) return;
             if (ch.isCorrect) {
-              celebrateWin(btn, `${item.baseWord} and ${item.answer} rhyme! ${item.baseWord}, ${item.answer}!`, startRhymeWorld);
+              celebrateWin(btn, `${item.baseWord} and ${item.answer} rhyme!`, startRhymeWorld);
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`${randomOopsie()} ${item.baseWord} and ${ch.w} don't rhyme!`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
         });
 
-        unicornSpeak(`Chattermax wants to know: which word rhymes with ${item.baseWord}?`);
+        unicornSpeak(`Which word rhymes with ${item.baseWord}?`);
       } else {
         const item = OPPOSITES_DATA[Math.floor(Math.random() * OPPOSITES_DATA.length)];
         const choices = [
@@ -2510,11 +2519,10 @@
           btn.onclick = () => {
             if (roundLocked) return;
             if (ch.isCorrect) {
-              celebrateWin(btn, `The opposite of ${item.word} is ${item.answer}!`, startRhymeWorld);
+              celebrateWin(btn, `${item.answer}!`, startRhymeWorld);
             } else {
               btn.classList.add('wrong');
               playMagicSound('oops');
-              unicornSpeak(`${randomOopsie()} Not ${ch.w}! What is the opposite of ${item.word}?`, { updateBubble: false });
             }
           };
           grid.appendChild(btn);
@@ -2528,10 +2536,10 @@
      * WORLD 8: 🎈 KEEPY UPPY! (Balloon Pop Mini Game)
      *************************************************************************/
     const BALLOON_COLORS = [
-      'radial-gradient(circle at 30% 30%, #ff5252, #c62828)', // Classic red Keepy Uppy balloon!
-      'radial-gradient(circle at 30% 30%, #80d8ff, #0277bd)', // Bluey balloon!
-      'radial-gradient(circle at 30% 30%, #ffcc80, #ef6c00)', // Bingo balloon!
-      'radial-gradient(circle at 30% 30%, #ff80ab, #c51162)', // Unicorn pink!
+      'radial-gradient(circle at 30% 30%, #ff5252, #c62828)',
+      'radial-gradient(circle at 30% 30%, #80d8ff, #0277bd)',
+      'radial-gradient(circle at 30% 30%, #ffcc80, #ef6c00)',
+      'radial-gradient(circle at 30% 30%, #ff80ab, #c51162)',
       'radial-gradient(circle at 30% 30%, #ea80fc, #6a1b9a)',
       'radial-gradient(circle at 30% 30%, #b9f6ca, #00c853)'
     ];
@@ -2542,17 +2550,17 @@
       let poppedCount = 0;
 
       currentSoundOutCallback = () => {
-        unicornSpeak(`It's Keepy Uppy! Tap any balloon before it floats away! Pop ${targetItem.letter} for ${targetItem.word} to win bonus Dollarbuck Stars!`, { updateBubble: false });
+        unicornSpeak(`Pop letter ${targetItem.letter} for ${targetItem.word}!`, { updateBubble: false });
       };
 
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
         <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:6px;">
           <div style="font-size:1.05rem; font-weight:700; color:#c62828;">
-            🎈 Keepy Uppy Target: <strong>${targetItem.letter}${targetItem.letter.toLowerCase()}</strong> (${targetItem.emoji} ${targetItem.word})
+            🎈 Pop Letter: <strong>${targetItem.letter}${targetItem.letter.toLowerCase()}</strong> (${targetItem.emoji} ${targetItem.word})
           </div>
           <div class="phonics-pill" id="balloon-score-pill">
-            💥 Keepy Uppies: <strong id="balloon-pop-count">0</strong>
+            💥 Popped: <strong id="balloon-pop-count">0</strong>
           </div>
         </div>
       `;
@@ -2593,24 +2601,23 @@
 
         const popHandler = (ev) => {
           ev.stopPropagation();
-          playMagicSound('pop');
           const rect = el.getBoundingClientRect();
-          burstSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 32);
+          burstSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 28);
 
           poppedCount++;
           const counterEl = document.getElementById('balloon-pop-count');
           if (counterEl) counterEl.textContent = poppedCount;
 
-          if (bObj.isBonusUnicorn) {
+          if (bObj.isTarget) {
             playMagicSound('success');
             addStar();
-            unicornSpeak("Wackadoo! You popped Unicorse's Dollarbuck balloon! Hooray!", { updateBubble: false });
-          } else if (bObj.isTarget) {
-            playMagicSound('success');
+            // Only speak brief acknowledgement when popping the target letter!
+            unicornSpeak(`Yay! ${item.letter} for ${item.word}!`, { updateBubble: false });
+          } else if (bObj.isBonusUnicorn) {
+            playMagicSound('legoStud');
             addStar();
-            unicornSpeak(`Keepy Uppy! ${item.letter} says ${item.phonetic} for ${item.word}! You got a Star!`, { updateBubble: false });
           } else {
-            unicornSpeak(`${item.letter}! ${item.phonetic} for ${item.word}!`, { updateBubble: false });
+            playMagicSound('pop');
           }
 
           el.remove();
@@ -2647,7 +2654,7 @@
       }
 
       balloonLoopId = requestAnimationFrame(stepBalloons);
-      unicornSpeak(`This episode is called Keepy Uppy! Tap the floating balloons! Pop ${targetItem.letter} for ${targetItem.word} to win Dollarbuck Stars!`);
+      unicornSpeak(`Pop the ${targetItem.letter} balloons for ${targetItem.word}!`);
     }
 
     /*************************************************************************
@@ -2664,8 +2671,10 @@
       let crushedTotal = 0;
 
       currentSoundOutCallback = () => {
-        unicornSpeak("Tap matching Duck Cakes and candies next to each other, or swap any two candies to crush them for Dollarbuck Stars!", { updateBubble: false });
+        unicornSpeak("Tap matching treats or swap two treats!", { updateBubble: false });
       };
+
+      document.getElementById('speech-text').textContent = "🎂 Tap matching treats next to each other, or swap 2 treats to crush them!";
 
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
@@ -2751,7 +2760,6 @@
       function crushCoordinates(coords) {
         if (!coords.length) return;
         crushBusy = true;
-        playMagicSound('sparkle');
 
         coords.forEach(([r, c]) => {
           const cellEl = document.getElementById(`candy-${r}-${c}`);
@@ -2770,15 +2778,14 @@
         const scoreEl = document.getElementById('candy-crush-score');
         if (scoreEl) scoreEl.textContent = crushedTotal;
 
+        // Pure sound effects when crushing treats (no voice spam!)
         if (newTens > prevTens) {
           addStar();
           playMagicSound('success');
-          const praise = BLUEY_PRAISES[Math.floor(Math.random() * BLUEY_PRAISES.length)];
-          unicornSpeak(`${praise} You crushed ${crushedTotal} Duck Cakes and candies!`, { updateBubble: false });
         } else if (coords.length >= 4) {
-          unicornSpeak(`Wackadoo! ${coords.length} Duck Cake mega crush!`, { updateBubble: false });
+          playMagicSound('legoStud');
         } else {
-          unicornSpeak(`Duck cake! ${coords.length} crushed!`, { updateBubble: false });
+          playMagicSound('sparkle');
         }
 
         setTimeout(() => {
@@ -2860,7 +2867,7 @@
 
       initBoard();
       renderCandyBoard();
-      unicornSpeak("Duck Cake Candy Crush! Tap any matching treats next to each other, or swap two treats to crush them, mate!");
+      playMagicSound('sparkle');
     }
 
     /*************************************************************************
@@ -2900,60 +2907,196 @@
     }
 
     /*************************************************************************
-     * WORLD 9.5: 🧱 LEGO UNICORN SIDE-SCROLLER & BRICK BUILDER WORLD
+     * WORLD 9.5: 🧱 LEGO BUILD PUZZLES, WIDE FREE-BUILD & SIDE-SCROLLER WORLD
      *************************************************************************/
     const LEGO_COLORS = [
-      { name: 'LEGO Red',    hex: '#e53935', top: '#ff6f60', side: '#ab000d' },
-      { name: 'LEGO Blue',   hex: '#1e88e5', top: '#6ab7ff', side: '#005cb2' },
-      { name: 'LEGO Yellow', hex: '#fdd835', top: '#ffff6b', side: '#c6a700' },
-      { name: 'LEGO Green',  hex: '#43a047', top: '#76d275', side: '#00701a' },
-      { name: 'LEGO Pink',   hex: '#ec407a', top: '#ff77a9', side: '#b4004e' },
-      { name: 'LEGO Orange', hex: '#fb8c00', top: '#ffbd45', side: '#c25e00' },
-      { name: 'LEGO Purple', hex: '#8e24aa', top: '#c158dc', side: '#5c007a' },
-      { name: 'LEGO Cyan',   hex: '#00acc1', top: '#5ddef4', side: '#007c91' }
+      { name: 'Red',    hex: '#e53935', top: '#ff6f60', side: '#ab000d' },
+      { name: 'Blue',   hex: '#1e88e5', top: '#6ab7ff', side: '#005cb2' },
+      { name: 'Yellow', hex: '#fdd835', top: '#ffff6b', side: '#c6a700' },
+      { name: 'Green',  hex: '#43a047', top: '#76d275', side: '#00701a' },
+      { name: 'Pink',   hex: '#ec407a', top: '#ff77a9', side: '#b4004e' },
+      { name: 'Orange', hex: '#fb8c00', top: '#ffbd45', side: '#c25e00' },
+      { name: 'Purple', hex: '#8e24aa', top: '#c158dc', side: '#5c007a' },
+      { name: 'White',  hex: '#ffffff', top: '#ffffff', side: '#cfd8dc' }
     ];
 
-    // Helper to draw a genuine 3D-shaded studded LEGO brick on any 2D canvas
+    const LEGO_BRICK_SHAPES = [
+      { id: '2x4',    label: '🧱 2x4 Brick',   w: 88, h: 28 },
+      { id: '2x2',    label: '🟦 2x2 Cube',    w: 44, h: 28 },
+      { id: '1x2',    label: '🟨 1x2 Mini',    w: 22, h: 28 },
+      { id: 'arch',   label: '🌉 Arch Brick',  w: 88, h: 28 },
+      { id: 'slopeL', label: '📐 Slope Left',  w: 44, h: 28 },
+      { id: 'slopeR', label: '📐 Slope Right', w: 44, h: 28 },
+      { id: 'wheel',  label: '🛞 Wheel Brick', w: 44, h: 28 },
+      { id: 'window', label: '🪟 Window',      w: 44, h: 28 },
+      { id: 'eye',    label: '👀 Eye Brick',   w: 44, h: 28 },
+      { id: 'horn',   label: '🦄 Golden Horn', w: 44, h: 28 },
+      { id: 'flower', label: '🌸 Flower Brick',w: 44, h: 28 },
+      { id: 'crown',  label: '👑 Royal Crown', w: 44, h: 28 }
+    ];
+
+    // Helper to draw a standard studded LEGO block
     function drawStuddedLegoBrick(c, x, y, w, h, colorObj, label = '') {
+      drawLegoShape(c, { x, y, w, h, colorObj, shape: '2x4', label }, false);
+    }
+
+    // Master renderer for all 12 different LEGO brick shapes (solid or blueprint ghost slot)
+    function drawLegoShape(c, br, isGhost = false) {
+      const { x, y, w, h, colorObj, shape = '2x4', label = '' } = br;
+      const col = colorObj || LEGO_COLORS[0];
+
+      c.save();
+      if (isGhost) {
+        c.globalAlpha = 0.42;
+      }
+
       const studCount = Math.max(1, Math.round(w / 22));
       const studW = Math.min(13, (w / studCount) * 0.58);
       const studH = 5;
 
-      // Top LEGO cylindrical studs
-      for (let i = 0; i < studCount; i++) {
-        const sx = x + (i + 0.5) * (w / studCount) - studW / 2;
-        const sy = y - studH;
-        c.fillStyle = colorObj.top || colorObj.hex;
-        c.fillRect(sx, sy, studW, studH);
-        c.strokeStyle = 'rgba(0,0,0,0.22)';
-        c.lineWidth = 1.2;
-        c.strokeRect(sx, sy, studW, studH);
+      // Top LEGO studs (except on angled slopes/horns)
+      if (shape !== 'horn') {
+        for (let i = 0; i < studCount; i++) {
+          if (shape === 'slopeL' && i < studCount - 1) continue;
+          if (shape === 'slopeR' && i > 0) continue;
+          const sx = x + (i + 0.5) * (w / studCount) - studW / 2;
+          const sy = y - studH;
+          c.fillStyle = col.top || col.hex;
+          c.fillRect(sx, sy, studW, studH);
+          c.strokeStyle = 'rgba(0,0,0,0.25)';
+          c.lineWidth = 1.2;
+          c.strokeRect(sx, sy, studW, studH);
+        }
       }
 
-      // Main brick body
-      c.fillStyle = colorObj.hex;
-      c.fillRect(x, y, w, h);
+      if (shape === 'slopeL') {
+        // Sloped roof brick rising left-to-right
+        c.fillStyle = col.hex;
+        c.beginPath();
+        c.moveTo(x, y + h);
+        c.lineTo(x + w - 14, y);
+        c.lineTo(x + w, y);
+        c.lineTo(x + w, y + h);
+        c.closePath();
+        c.fill();
+        c.strokeStyle = 'rgba(0,0,0,0.3)';
+        c.lineWidth = 1.5;
+        c.stroke();
+      } else if (shape === 'slopeR') {
+        // Sloped roof brick rising right-to-left
+        c.fillStyle = col.hex;
+        c.beginPath();
+        c.moveTo(x, y);
+        c.lineTo(x + 14, y);
+        c.lineTo(x + w, y + h);
+        c.lineTo(x, y + h);
+        c.closePath();
+        c.fill();
+        c.strokeStyle = 'rgba(0,0,0,0.3)';
+        c.lineWidth = 1.5;
+        c.stroke();
+      } else if (shape === 'arch') {
+        // LEGO Bridge Arch Brick with curved cutout underneath
+        c.fillStyle = col.hex;
+        c.beginPath();
+        c.moveTo(x, y);
+        c.lineTo(x + w, y);
+        c.lineTo(x + w, y + h);
+        c.lineTo(x + w - 16, y + h);
+        c.arc(x + w / 2, y + h, w / 2 - 16, 0, Math.PI, true);
+        c.lineTo(x, y + h);
+        c.closePath();
+        c.fill();
+        c.strokeStyle = 'rgba(0,0,0,0.3)';
+        c.lineWidth = 1.5;
+        c.stroke();
+      } else {
+        // Standard rectangular brick body
+        c.fillStyle = col.hex;
+        c.fillRect(x, y, w, h);
+        c.fillStyle = col.top || 'rgba(255,255,255,0.3)';
+        c.fillRect(x, y, w, 4);
+        c.fillStyle = col.side || 'rgba(0,0,0,0.22)';
+        c.fillRect(x, y + h - 4, w, 4);
+        c.strokeStyle = 'rgba(0,0,0,0.28)';
+        c.lineWidth = 1.5;
+        c.strokeRect(x, y, w, h);
+      }
 
-      // Top highlight bevel
-      c.fillStyle = colorObj.top || 'rgba(255,255,255,0.32)';
-      c.fillRect(x, y, w, 4);
-
-      // Bottom shadow bevel
-      c.fillStyle = colorObj.side || 'rgba(0,0,0,0.25)';
-      c.fillRect(x, y + h - 4, w, 4);
-
-      // Crisp brick outline
-      c.strokeStyle = 'rgba(0,0,0,0.28)';
-      c.lineWidth = 1.5;
-      c.strokeRect(x, y, w, h);
-
-      // Front circular LEGO studs or mystery label
-      if (label) {
+      // Special brick details (Wheel, Window, Eye, Horn, Flower, Crown)
+      if (shape === 'wheel') {
+        c.fillStyle = '#263238';
+        c.beginPath();
+        c.arc(x + w / 2, y + h / 2 + 2, 13, 0, Math.PI * 2);
+        c.fill();
+        c.fillStyle = '#eceff1';
+        c.beginPath();
+        c.arc(x + w / 2, y + h / 2 + 2, 6.5, 0, Math.PI * 2);
+        c.fill();
+      } else if (shape === 'window') {
+        c.fillStyle = '#b3e5fc';
+        c.fillRect(x + 7, y + 5, 13, h - 10);
+        c.fillRect(x + w - 20, y + 5, 13, h - 10);
+        c.strokeStyle = '#ffffff';
+        c.lineWidth = 1.5;
+        c.strokeRect(x + 7, y + 5, 13, h - 10);
+        c.strokeRect(x + w - 20, y + 5, 13, h - 10);
+      } else if (shape === 'eye') {
         c.fillStyle = '#ffffff';
-        c.font = '700 15px Fredoka, Andika, sans-serif';
+        c.beginPath();
+        c.arc(x + w / 2, y + h / 2, 8, 0, Math.PI * 2);
+        c.fill();
+        c.fillStyle = '#1a237e';
+        c.beginPath();
+        c.arc(x + w / 2 + 2, y + h / 2, 4.5, 0, Math.PI * 2);
+        c.fill();
+        c.fillStyle = '#ffffff';
+        c.beginPath();
+        c.arc(x + w / 2 + 3, y + h / 2 - 1.5, 1.6, 0, Math.PI * 2);
+        c.fill();
+      } else if (shape === 'horn') {
+        c.fillStyle = '#ffd700';
+        c.beginPath();
+        c.moveTo(x + 8, y + h);
+        c.lineTo(x + w / 2, y - 10);
+        c.lineTo(x + w - 8, y + h);
+        c.closePath();
+        c.fill();
+        c.strokeStyle = '#b28900';
+        c.stroke();
+      } else if (shape === 'flower') {
+        c.font = '18px sans-serif';
+        c.textAlign = 'center';
+        c.textBaseline = 'middle';
+        c.fillText('🌸', x + w / 2, y + h / 2 + 1);
+      } else if (shape === 'crown') {
+        c.font = '18px sans-serif';
+        c.textAlign = 'center';
+        c.textBaseline = 'middle';
+        c.fillText('👑', x + w / 2, y + h / 2 + 1);
+      } else if (label) {
+        c.fillStyle = '#ffffff';
+        c.font = '700 14px Fredoka, Andika, sans-serif';
         c.textAlign = 'center';
         c.textBaseline = 'middle';
         c.fillText(label, x + w / 2, y + h / 2 + 1);
+      }
+
+      c.restore();
+
+      // If this is a missing puzzle blueprint slot, draw a glowing dashed outline & tap icon!
+      if (isGhost) {
+        c.save();
+        c.strokeStyle = '#ffffff';
+        c.lineWidth = 2.5;
+        c.setLineDash([5, 4]);
+        c.strokeRect(x - 1, y - 1, w + 2, h + 2);
+        c.fillStyle = '#1b365d';
+        c.font = '700 12px Fredoka, Andika, sans-serif';
+        c.textAlign = 'center';
+        c.textBaseline = 'middle';
+        c.fillText('➕ TAP', x + w / 2, y + h / 2);
+        c.restore();
       }
     }
 
@@ -2964,9 +3107,387 @@
       }
       if (currentSubMode === 'builder') {
         startLegoBuilder();
-      } else {
+      } else if (currentSubMode === 'scroller') {
         startLegoScroller();
+      } else {
+        startLegoPuzzles();
       }
+    }
+
+    /*************************************************************************
+     * SUB-MODE 1: 🧩 SCROLLABLE LEGO BUILD PUZZLES WORLD
+     *************************************************************************/
+    function startLegoPuzzles() {
+      const FLOOR_Y = 236;
+      const WORLD_W = 2880;
+      let camX = 0;
+      let targetCamX = 0;
+      let activeStationIdx = 0;
+      let selectedShape = '2x4';
+      let selectedColor = LEGO_COLORS[0];
+      let sparkParticles = [];
+
+      // 6 Puzzle Stations spread across the scrollable side-scrolling LEGO World!
+      const PUZZLE_STATIONS = [
+        {
+          title: '🌈 Puzzle 1: Rainbow River Bridge',
+          camTarget: 0,
+          baseBricks: [
+            { x: 66,  y: FLOOR_Y - 28, w: 88, h: 28, shape: '2x4', colorObj: LEGO_COLORS[0] },
+            { x: 330, y: FLOOR_Y - 28, w: 88, h: 28, shape: '2x4', colorObj: LEGO_COLORS[0] },
+            { x: 110, y: FLOOR_Y - 56, w: 88, h: 28, shape: '2x4', colorObj: LEGO_COLORS[5] }
+          ],
+          missingSlots: [
+            { x: 154, y: FLOOR_Y - 28, w: 88, h: 28, shape: 'arch',   colorObj: LEGO_COLORS[2], filled: false },
+            { x: 242, y: FLOOR_Y - 28, w: 88, h: 28, shape: 'arch',   colorObj: LEGO_COLORS[3], filled: false },
+            { x: 198, y: FLOOR_Y - 56, w: 88, h: 28, shape: '2x4',    colorObj: LEGO_COLORS[1], filled: false },
+            { x: 286, y: FLOOR_Y - 56, w: 44, h: 28, shape: 'slopeR', colorObj: LEGO_COLORS[6], filled: false }
+          ]
+        },
+        {
+          title: '🦄 Puzzle 2: Giant LEGO Unicorn',
+          camTarget: 480,
+          baseBricks: [
+            { x: 616, y: FLOOR_Y - 28, w: 44, h: 28, shape: '2x2', colorObj: LEGO_COLORS[4] },
+            { x: 704, y: FLOOR_Y - 28, w: 44, h: 28, shape: '2x2', colorObj: LEGO_COLORS[4] },
+            { x: 616, y: FLOOR_Y - 56, w: 44, h: 28, shape: '2x2', colorObj: LEGO_COLORS[7] },
+            { x: 704, y: FLOOR_Y - 56, w: 44, h: 28, shape: '2x2', colorObj: LEGO_COLORS[7] },
+            { x: 572, y: FLOOR_Y - 84, w: 44, h: 28, shape: 'slopeL', colorObj: LEGO_COLORS[6] }
+          ],
+          missingSlots: [
+            { x: 616, y: FLOOR_Y - 84,  w: 88, h: 28, shape: '2x4',  colorObj: LEGO_COLORS[7], filled: false },
+            { x: 660, y: FLOOR_Y - 112, w: 88, h: 28, shape: '2x4',  colorObj: LEGO_COLORS[1], filled: false },
+            { x: 704, y: FLOOR_Y - 140, w: 44, h: 28, shape: 'eye',  colorObj: LEGO_COLORS[7], filled: false },
+            { x: 704, y: FLOOR_Y - 168, w: 44, h: 28, shape: 'horn', colorObj: LEGO_COLORS[2], filled: false }
+          ]
+        },
+        {
+          title: '🏠 Puzzle 3: Bluey Heeler House',
+          camTarget: 960,
+          baseBricks: [
+            { x: 1056, y: FLOOR_Y - 28, w: 88, h: 28, shape: '2x4', colorObj: LEGO_COLORS[2] },
+            { x: 1232, y: FLOOR_Y - 28, w: 88, h: 28, shape: '2x4', colorObj: LEGO_COLORS[2] },
+            { x: 1056, y: FLOOR_Y - 56, w: 88, h: 28, shape: '2x4', colorObj: LEGO_COLORS[1] },
+            { x: 1232, y: FLOOR_Y - 56, w: 88, h: 28, shape: '2x4', colorObj: LEGO_COLORS[1] }
+          ],
+          missingSlots: [
+            { x: 1144, y: FLOOR_Y - 28, w: 88, h: 28, shape: 'arch',   colorObj: LEGO_COLORS[5], filled: false },
+            { x: 1144, y: FLOOR_Y - 56, w: 44, h: 28, shape: 'window', colorObj: LEGO_COLORS[1], filled: false },
+            { x: 1188, y: FLOOR_Y - 56, w: 44, h: 28, shape: 'window', colorObj: LEGO_COLORS[1], filled: false },
+            { x: 1100, y: FLOOR_Y - 84, w: 44, h: 28, shape: 'slopeL', colorObj: LEGO_COLORS[0], filled: false },
+            { x: 1144, y: FLOOR_Y - 84, w: 88, h: 28, shape: '2x4',    colorObj: LEGO_COLORS[0], filled: false },
+            { x: 1232, y: FLOOR_Y - 84, w: 44, h: 28, shape: 'slopeR', colorObj: LEGO_COLORS[0], filled: false }
+          ]
+        },
+        {
+          title: '🏎️ Puzzle 4: Turbo LEGO Race Car',
+          camTarget: 1440,
+          baseBricks: [
+            { x: 1606, y: FLOOR_Y - 28, w: 88, h: 28, shape: '2x4', colorObj: LEGO_COLORS[0] },
+            { x: 1562, y: FLOOR_Y - 56, w: 88, h: 28, shape: '2x4', colorObj: LEGO_COLORS[2] }
+          ],
+          missingSlots: [
+            { x: 1562, y: FLOOR_Y - 28, w: 44, h: 28, shape: 'wheel',  colorObj: LEGO_COLORS[0], filled: false },
+            { x: 1694, y: FLOOR_Y - 28, w: 44, h: 28, shape: 'wheel',  colorObj: LEGO_COLORS[0], filled: false },
+            { x: 1650, y: FLOOR_Y - 56, w: 88, h: 28, shape: '2x4',    colorObj: LEGO_COLORS[0], filled: false },
+            { x: 1650, y: FLOOR_Y - 84, w: 44, h: 28, shape: 'window', colorObj: LEGO_COLORS[1], filled: false },
+            { x: 1694, y: FLOOR_Y - 84, w: 44, h: 28, shape: 'slopeR', colorObj: LEGO_COLORS[1], filled: false }
+          ]
+        },
+        {
+          title: '🏰 Puzzle 5: Royal Unicorn Castle',
+          camTarget: 1920,
+          baseBricks: [
+            { x: 2024, y: FLOOR_Y - 28, w: 44, h: 28, shape: '2x2', colorObj: LEGO_COLORS[6] },
+            { x: 2156, y: FLOOR_Y - 28, w: 44, h: 28, shape: '2x2', colorObj: LEGO_COLORS[6] },
+            { x: 2024, y: FLOOR_Y - 56, w: 44, h: 28, shape: '2x2', colorObj: LEGO_COLORS[4] },
+            { x: 2156, y: FLOOR_Y - 56, w: 44, h: 28, shape: '2x2', colorObj: LEGO_COLORS[4] }
+          ],
+          missingSlots: [
+            { x: 2068, y: FLOOR_Y - 28, w: 88, h: 28, shape: 'arch',   colorObj: LEGO_COLORS[6], filled: false },
+            { x: 2068, y: FLOOR_Y - 56, w: 88, h: 28, shape: '2x4',    colorObj: LEGO_COLORS[4], filled: false },
+            { x: 2090, y: FLOOR_Y - 84, w: 44, h: 28, shape: 'window', colorObj: LEGO_COLORS[7], filled: false },
+            { x: 2024, y: FLOOR_Y - 84, w: 44, h: 28, shape: 'crown',  colorObj: LEGO_COLORS[2], filled: false },
+            { x: 2156, y: FLOOR_Y - 84, w: 44, h: 28, shape: 'crown',  colorObj: LEGO_COLORS[2], filled: false }
+          ]
+        },
+        {
+          title: '🚀 Puzzle 6: Space LEGO Rocket',
+          camTarget: 2360,
+          baseBricks: [
+            { x: 2552, y: FLOOR_Y - 28, w: 88, h: 28, shape: '2x4', colorObj: LEGO_COLORS[5] },
+            { x: 2574, y: FLOOR_Y - 56, w: 44, h: 28, shape: '2x2', colorObj: LEGO_COLORS[7] }
+          ],
+          missingSlots: [
+            { x: 2508, y: FLOOR_Y - 28,  w: 44, h: 28, shape: 'slopeL', colorObj: LEGO_COLORS[0], filled: false },
+            { x: 2640, y: FLOOR_Y - 28,  w: 44, h: 28, shape: 'slopeR', colorObj: LEGO_COLORS[0], filled: false },
+            { x: 2574, y: FLOOR_Y - 84,  w: 44, h: 28, shape: 'window', colorObj: LEGO_COLORS[1], filled: false },
+            { x: 2574, y: FLOOR_Y - 112, w: 44, h: 28, shape: '2x2',    colorObj: LEGO_COLORS[7], filled: false },
+            { x: 2574, y: FLOOR_Y - 140, w: 44, h: 28, shape: 'horn',   colorObj: LEGO_COLORS[0], filled: false }
+          ]
+        }
+      ];
+
+      currentSoundOutCallback = () => {
+        const st = PUZZLE_STATIONS[activeStationIdx];
+        unicornSpeak(`Let's build ${st.title}! Tap the glowing brick slots to snap the missing LEGO pieces in place!`, { updateBubble: false });
+      };
+
+      document.getElementById('speech-text').textContent = "🧱 Pick LEGO bricks below & tap the glowing dashed slots to solve each LEGO puzzle!";
+
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        <div style="display:flex; flex-direction:column; gap:5px; width:100%; align-items:center;">
+          <div style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:4px;">
+            <span id="lego-puzzle-title" style="font-weight:700; color:#b71c1c; font-size:0.95rem;">🌈 Puzzle 1: Rainbow River Bridge</span>
+            <span id="lego-need-hint" class="phonics-pill" style="padding:2px 9px; font-size:0.82rem;">Tap glowing ➕ slots!</span>
+          </div>
+          <div class="lego-palette" id="lego-color-palette"></div>
+          <div class="lego-palette" id="lego-shape-palette"></div>
+        </div>
+      `;
+
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `
+        <div class="lego-stage-wrap">
+          <canvas class="lego-canvas" id="lego-puzzle-canvas" width="680" height="275"></canvas>
+          <div class="lego-controls" style="grid-template-columns: 1fr 1.5fr 1fr;">
+            <button class="lego-ctrl-btn" id="lego-prev-station">⬅️ Scroll Left</button>
+            <button class="lego-ctrl-btn jump-btn" id="lego-auto-piece">✨ Snap Next Brick!</button>
+            <button class="lego-ctrl-btn" id="lego-next-station">Scroll Right ➡️</button>
+          </div>
+        </div>
+      `;
+
+      const colorPal = document.getElementById('lego-color-palette');
+      const shapePal = document.getElementById('lego-shape-palette');
+
+      function updateHintBanner() {
+        const st = PUZZLE_STATIONS[activeStationIdx];
+        const titleEl = document.getElementById('lego-puzzle-title');
+        const hintEl = document.getElementById('lego-need-hint');
+        if (titleEl) titleEl.textContent = st.title;
+        const nextMissing = st.missingSlots.find(s => !s.filled);
+        if (hintEl) {
+          if (nextMissing) {
+            const shObj = LEGO_BRICK_SHAPES.find(x => x.id === nextMissing.shape) || LEGO_BRICK_SHAPES[0];
+            hintEl.innerHTML = `Next: <strong>${nextMissing.colorObj.name} ${shObj.label}</strong>`;
+          } else {
+            hintEl.innerHTML = `✅ <strong>Completed! ⭐</strong>`;
+          }
+        }
+      }
+
+      LEGO_COLORS.forEach((cObj, idx) => {
+        const sw = document.createElement('button');
+        sw.className = 'lego-swatch' + (idx === 0 ? ' active' : '');
+        sw.style.background = cObj.hex;
+        sw.onclick = () => {
+          selectedColor = cObj;
+          colorPal.querySelectorAll('.lego-swatch').forEach(s => s.classList.remove('active'));
+          sw.classList.add('active');
+          playMagicSound('legoSnap');
+        };
+        colorPal.appendChild(sw);
+      });
+
+      LEGO_BRICK_SHAPES.forEach((sh, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'submode-pill' + (idx === 0 ? ' active' : '');
+        btn.style.padding = '3px 8px';
+        btn.style.fontSize = '0.78rem';
+        btn.textContent = sh.label;
+        btn.onclick = () => {
+          selectedShape = sh.id;
+          shapePal.querySelectorAll('.submode-pill').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          playMagicSound('legoSnap');
+        };
+        shapePal.appendChild(btn);
+      });
+
+      const pCanvas = document.getElementById('lego-puzzle-canvas');
+      const pCtx = pCanvas.getContext('2d');
+
+      function snapSlot(station, slot) {
+        if (slot.filled) return;
+        slot.filled = true;
+        playMagicSound('legoSnap');
+
+        // Spawn flying LEGO brick studs
+        for (let i = 0; i < 10; i++) {
+          const ang = Math.random() * Math.PI * 2;
+          const spd = Math.random() * 4 + 1.5;
+          sparkParticles.push({
+            x: slot.x + slot.w / 2,
+            y: slot.y + slot.h / 2,
+            vx: Math.cos(ang) * spd,
+            vy: Math.sin(ang) * spd - 2.5,
+            color: slot.colorObj.hex,
+            alpha: 1
+          });
+        }
+
+        updateHintBanner();
+
+        // Check if entire puzzle station is solved!
+        if (station.missingSlots.every(s => s.filled)) {
+          addStar();
+          setTimeout(() => playMagicSound('legoStud'), 80);
+          setTimeout(() => playMagicSound('success'), 200);
+          const rect = pCanvas.getBoundingClientRect();
+          burstSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 45);
+          unicornSpeak(`Hooray! You built ${station.title.replace(/^[^\s]+\sPuzzle\s\d+:\s/, '')}!`, { updateBubble: true });
+
+          // Auto-scroll to next unfinished puzzle after a moment!
+          setTimeout(() => {
+            const nextIdx = PUZZLE_STATIONS.findIndex(st => st.missingSlots.some(s => !s.filled));
+            if (nextIdx !== -1 && currentWorld === 'lego' && currentSubMode === 'puzzles') {
+              activeStationIdx = nextIdx;
+              targetCamX = PUZZLE_STATIONS[activeStationIdx].camTarget;
+              updateHintBanner();
+            }
+          }, 2100);
+        }
+      }
+
+      // Tap a glowing slot on the canvas to snap the brick in, or tap empty space to place a free brick!
+      pCanvas.addEventListener('pointerdown', (e) => {
+        const rect = pCanvas.getBoundingClientRect();
+        const scaleX = pCanvas.width / rect.width;
+        const scaleY = pCanvas.height / rect.height;
+        const wx = (e.clientX - rect.left) * scaleX + camX;
+        const wy = (e.clientY - rect.top) * scaleY;
+
+        for (let sIdx = 0; sIdx < PUZZLE_STATIONS.length; sIdx++) {
+          const st = PUZZLE_STATIONS[sIdx];
+          for (let i = 0; i < st.missingSlots.length; i++) {
+            const sl = st.missingSlots[i];
+            if (
+              !sl.filled &&
+              wx >= sl.x - 14 &&
+              wx <= sl.x + sl.w + 14 &&
+              wy >= sl.y - 14 &&
+              wy <= sl.y + sl.h + 14
+            ) {
+              activeStationIdx = sIdx;
+              snapSlot(st, sl);
+              return;
+            }
+          }
+        }
+
+        // Otherwise snap a custom decorative brick right where she tapped!
+        const shObj = LEGO_BRICK_SHAPES.find(x => x.id === selectedShape) || LEGO_BRICK_SHAPES[0];
+        const snapX = Math.round((wx - shObj.w / 2) / 22) * 22;
+        const snapY = Math.min(FLOOR_Y - 28, Math.max(20, Math.round((wy - 14) / 28) * 28));
+        PUZZLE_STATIONS[activeStationIdx].baseBricks.push({
+          x: snapX,
+          y: snapY,
+          w: shObj.w,
+          h: shObj.h,
+          shape: selectedShape,
+          colorObj: selectedColor
+        });
+        playMagicSound('legoSnap');
+      });
+
+      document.getElementById('lego-prev-station').onclick = () => {
+        activeStationIdx = Math.max(0, activeStationIdx - 1);
+        targetCamX = PUZZLE_STATIONS[activeStationIdx].camTarget;
+        playMagicSound('legoSnap');
+        updateHintBanner();
+      };
+
+      document.getElementById('lego-next-station').onclick = () => {
+        activeStationIdx = (activeStationIdx + 1) % PUZZLE_STATIONS.length;
+        targetCamX = PUZZLE_STATIONS[activeStationIdx].camTarget;
+        playMagicSound('legoSnap');
+        updateHintBanner();
+      };
+
+      document.getElementById('lego-auto-piece').onclick = () => {
+        const st = PUZZLE_STATIONS[activeStationIdx];
+        const nextMissing = st.missingSlots.find(s => !s.filled);
+        if (nextMissing) {
+          snapSlot(st, nextMissing);
+        } else {
+          document.getElementById('lego-next-station').click();
+        }
+      };
+
+      function stepPuzzles() {
+        if (currentWorld !== 'lego' || currentSubMode !== 'puzzles') return;
+
+        camX += (targetCamX - camX) * 0.14;
+
+        pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+
+        // Sky
+        const sky = pCtx.createLinearGradient(0, 0, 0, FLOOR_Y);
+        sky.addColorStop(0, '#64b5f6');
+        sky.addColorStop(0.7, '#e3f2fd');
+        sky.addColorStop(1, '#fff9c4');
+        pCtx.fillStyle = sky;
+        pCtx.fillRect(0, 0, pCanvas.width, FLOOR_Y);
+
+        pCtx.save();
+        pCtx.translate(-camX, 0);
+
+        // Parallax LEGO clouds
+        for (let i = 0; i < 14; i++) {
+          drawLegoShape(pCtx, {
+            x: i * 220 + 40,
+            y: 22 + (i % 2) * 18,
+            w: 66,
+            h: 18,
+            shape: '2x4',
+            colorObj: LEGO_COLORS[7]
+          }, false);
+        }
+
+        // Scrollable LEGO Baseplate Ground (with Blue River under Station 1!)
+        for (let gx = 0; gx < WORLD_W; gx += 88) {
+          const isRiver = gx >= 154 && gx < 330;
+          drawLegoShape(pCtx, {
+            x: gx,
+            y: FLOOR_Y,
+            w: 88,
+            h: pCanvas.height - FLOOR_Y,
+            shape: '2x4',
+            colorObj: isRiver ? LEGO_COLORS[1] : LEGO_COLORS[3]
+          }, false);
+        }
+
+        // Draw all 6 Puzzle Stations in the scrollable world
+        PUZZLE_STATIONS.forEach(st => {
+          st.baseBricks.forEach(b => drawLegoShape(pCtx, b, false));
+          st.missingSlots.forEach(sl => drawLegoShape(pCtx, sl, !sl.filled));
+        });
+
+        // Spark particles
+        for (let i = sparkParticles.length - 1; i >= 0; i--) {
+          const sp = sparkParticles[i];
+          sp.x += sp.vx;
+          sp.y += sp.vy;
+          sp.vy += 0.25;
+          sp.alpha -= 0.035;
+          if (sp.alpha <= 0) {
+            sparkParticles.splice(i, 1);
+            continue;
+          }
+          pCtx.fillStyle = sp.color;
+          pCtx.fillRect(sp.x, sp.y, 10, 8);
+        }
+
+        pCtx.restore();
+
+        legoLoopId = requestAnimationFrame(stepPuzzles);
+      }
+
+      updateHintBanner();
+      legoLoopId = requestAnimationFrame(stepPuzzles);
+      playMagicSound('legoSnap');
     }
 
     function startLegoScroller() {
@@ -2974,7 +3495,7 @@
       let autoRun = true;
 
       currentSoundOutCallback = () => {
-        unicornSpeak("Welcome to LEGO Unicorn World! Tap BIG JUMP or swipe to scroll through the LEGO world, collect shiny LEGO studs, and bump the floating letter bricks!", { updateBubble: false });
+        unicornSpeak("Tap BIG LEGO JUMP to hop over bricks and bump the floating letter bricks!", { updateBubble: false });
       };
 
       const showcase = document.getElementById('showcase-card');
@@ -3029,7 +3550,6 @@
       let brickParticles = [];
       let floatingBanners = [];
 
-      // Generate side-scrolling LEGO platforms, mystery letter/number bricks, springboards & studs!
       const platforms = [];
       const mysteryBricks = [];
       const springBricks = [];
@@ -3042,7 +3562,6 @@
         const colorObj = LEGO_COLORS[i % LEGO_COLORS.length];
         platforms.push({ x: px, y: py, w: pw, h: 22, colorObj });
 
-        // Add a floating LEGO Mystery Letter/Number Brick above or near platforms
         const isLetter = i % 3 !== 2;
         const alphaItem = ALPHABET[i % ALPHABET.length];
         const numVal = (i % 10) + 1;
@@ -3059,7 +3578,6 @@
           colorObj: LEGO_COLORS[(i + 2) % LEGO_COLORS.length]
         });
 
-        // Add red LEGO springboard every 3rd segment on the ground
         if (i % 3 === 1) {
           springBricks.push({
             x: px - 55,
@@ -3070,19 +3588,17 @@
           });
         }
 
-        // Add arc of shiny LEGO studs
         for (let s = 0; s < 3; s++) {
           studs.push({
             x: px + 14 + s * 28,
             y: py - 20 - (s === 1 ? 10 : 0),
             r: 9,
             collected: false,
-            tier: (i + s) % 4 // 0: Gold, 1: Silver, 2: Blue, 3: Purple
+            tier: (i + s) % 4
           });
         }
       }
 
-      // Ground studs for easy collection
       for (let gx = 190; gx < WORLD_WIDTH - 150; gx += 130) {
         studs.push({
           x: gx,
@@ -3117,14 +3633,12 @@
           player.onGround = false;
           playMagicSound(boost > 1 ? 'legoSpring' : 'legoSnap');
         } else if (player.vy > -3) {
-          // Kid-friendly double-hop in midair!
           player.vy = -9.4;
           playMagicSound('legoSnap');
           spawnLegoBurst(player.x + player.w / 2, player.y + player.h, '#fdd835', 5);
         }
       }
 
-      // Controls wiring
       const autoBtn = document.getElementById('lego-autorun-btn');
       if (autoBtn) {
         autoBtn.onclick = () => {
@@ -3167,7 +3681,6 @@
         });
       }
 
-      // Tap canvas to jump OR tap sky to snap a helper LEGO brick platform right where tapped!
       lCanvas.addEventListener('pointerdown', (e) => {
         const rect = lCanvas.getBoundingClientRect();
         const scaleX = lCanvas.width / rect.width;
@@ -3175,7 +3688,6 @@
         const tapX = (e.clientX - rect.left) * scaleX + cameraX;
         const tapY = (e.clientY - rect.top) * scaleY;
 
-        // If tapping well ahead in the air, snap a new custom LEGO brick bridge AND jump!
         if (tapY < GROUND_Y - 35 && Math.abs(tapX - (player.x + player.w / 2)) > 55) {
           const randColor = LEGO_COLORS[Math.floor(Math.random() * LEGO_COLORS.length)];
           platforms.push({
@@ -3226,11 +3738,10 @@
           alpha: 1
         });
 
+        // Pure sound effects when collecting studs!
         if (studsCollected % 10 === 0) {
           addStar();
           playMagicSound('success');
-          const praise = BLUEY_PRAISES[Math.floor(Math.random() * BLUEY_PRAISES.length)];
-          unicornSpeak(`${praise} You collected ${studsCollected} LEGO studs! Here is a Dollarbuck Star!`, { updateBubble: false });
         }
       }
 
@@ -3251,19 +3762,19 @@
             color: '#ffffff',
             alpha: 1.3
           });
-          unicornSpeak(`LEGO Brick ${it.letter}! ${it.letter} says ${it.phonetic} for ${it.word}!`, { updateBubble: true });
+          // Short acknowledgement for letter bricks!
+          unicornSpeak(`${it.letter} for ${it.word}!`, { updateBubble: true });
         } else {
           floatingBanners.push({
             x: mb.x + mb.w / 2,
             y: mb.y - 10,
-            text: `⭐ LEGO Number ${mb.numVal}!`,
+            text: `⭐ Number ${mb.numVal}!`,
             color: '#ffe082',
             alpha: 1.3
           });
-          unicornSpeak(`Awesome LEGO jump! Number ${mb.numVal}! You got a Dollarbuck Star!`, { updateBubble: true });
+          unicornSpeak(`Number ${mb.numVal}!`, { updateBubble: true });
         }
 
-        // Respawn mystery brick after a few seconds so the world never runs out!
         setTimeout(() => {
           mb.bumped = false;
         }, 4500);
@@ -3277,15 +3788,11 @@
 
         const legSwing = Math.sin(walkCycle) * 5;
 
-        // Back LEGO legs (Pink & Cyan LEGO 1x1 bricks)
         drawStuddedLegoBrick(c, 6 + legSwing, 34, 11, 12, LEGO_COLORS[4]);
         drawStuddedLegoBrick(c, 27 - legSwing, 34, 11, 12, LEGO_COLORS[4]);
+        drawStuddedLegoBrick(c, 4, 18, 34, 16, LEGO_COLORS[7]);
+        drawStuddedLegoBrick(c, 12, 16, 16, 8, LEGO_COLORS[1]);
 
-        // LEGO Unicorn Body (White 2x3 brick with pink saddle)
-        drawStuddedLegoBrick(c, 4, 18, 34, 16, { hex: '#ffffff', top: '#ffffff', side: '#cfd8dc' });
-        drawStuddedLegoBrick(c, 12, 16, 16, 8, LEGO_COLORS[1]); // Bluey saddle brick!
-
-        // Rainbow LEGO Tail bricks
         c.fillStyle = '#ec407a';
         c.fillRect(-4, 19, 8, 6);
         c.fillStyle = '#fdd835';
@@ -3293,10 +3800,8 @@
         c.fillStyle = '#1e88e5';
         c.fillRect(-4, 31, 8, 5);
 
-        // LEGO Unicorn Neck & Head Brick
-        drawStuddedLegoBrick(c, 22, 4, 20, 16, { hex: '#ffffff', top: '#ffffff', side: '#cfd8dc' });
+        drawStuddedLegoBrick(c, 22, 4, 20, 16, LEGO_COLORS[7]);
 
-        // Cute LEGO Eye
         c.fillStyle = '#1a237e';
         c.beginPath();
         c.arc(34, 11, 2.7, 0, Math.PI * 2);
@@ -3306,11 +3811,9 @@
         c.arc(35, 10, 1, 0, Math.PI * 2);
         c.fill();
 
-        // Rainbow LEGO Mane Studs
         c.fillStyle = '#ec407a';
         c.fillRect(17, 5, 5, 12);
 
-        // Magical Golden LEGO Unicorn Horn on top!
         c.fillStyle = '#ffd700';
         c.beginPath();
         c.moveTo(32, 4);
@@ -3328,7 +3831,6 @@
       function stepLegoScroller() {
         if (currentWorld !== 'lego' || currentSubMode !== 'scroller') return;
 
-        // Horizontal movement
         if (keys.left) {
           player.vx = -3.6;
           player.facing = -1;
@@ -3345,31 +3847,26 @@
         player.x += player.vx;
         if (player.x < 20) player.x = 20;
         if (player.x > WORLD_WIDTH - 80) {
-          // Loop seamlessly back to start of LEGO world with a celebration!
           player.x = 80;
           addStar();
           playMagicSound('success');
-          unicornSpeak("Wackadoo! You finished the whole LEGO lap and won a bonus Dollarbuck Star! Let's keep rolling!", { updateBubble: false });
         }
 
         if (Math.abs(player.vx) > 0.3 && player.onGround) {
           player.walkCycle += 0.28;
         }
 
-        // Gravity & vertical movement
         const prevY = player.y;
         player.vy += 0.52;
         player.y += player.vy;
         player.onGround = false;
 
-        // Ground collision
         if (player.y + player.h >= GROUND_Y) {
           player.y = GROUND_Y - player.h;
           player.vy = 0;
           player.onGround = true;
         }
 
-        // Platform collisions (landing on top)
         for (let i = 0; i < platforms.length; i++) {
           const p = platforms[i];
           if (
@@ -3385,7 +3882,6 @@
           }
         }
 
-        // Springboard collisions
         for (let i = 0; i < springBricks.length; i++) {
           const sp = springBricks[i];
           if (
@@ -3402,7 +3898,6 @@
           if (sp.compressed > 0) sp.compressed *= 0.85;
         }
 
-        // Mystery LEGO bricks collision (bump from below or touch)
         for (let i = 0; i < mysteryBricks.length; i++) {
           const mb = mysteryBricks[i];
           if (mb.bumpOffset < 0) mb.bumpOffset += 1.5;
@@ -3418,7 +3913,6 @@
           }
         }
 
-        // Stud pickups
         for (let i = 0; i < studs.length; i++) {
           const st = studs[i];
           if (!st.collected) {
@@ -3430,14 +3924,11 @@
           }
         }
 
-        // Smooth camera follow
         const targetCam = Math.max(0, Math.min(WORLD_WIDTH - lCanvas.width, player.x - 160));
         cameraX += (targetCam - cameraX) * 0.14;
 
-        // RENDER LEGO WORLD
         lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height);
 
-        // Sky gradient
         const skyGrad = lCtx.createLinearGradient(0, 0, 0, GROUND_Y);
         skyGrad.addColorStop(0, '#64b5f6');
         skyGrad.addColorStop(0.65, '#bbdefb');
@@ -3445,44 +3936,38 @@
         lCtx.fillStyle = skyGrad;
         lCtx.fillRect(0, 0, lCanvas.width, GROUND_Y);
 
-        // Parallax LEGO clouds & distant LEGO hills
         for (let cIdx = 0; cIdx < 12; cIdx++) {
           const cx = ((cIdx * 260 - cameraX * 0.3) % (lCanvas.width + 260) + (lCanvas.width + 260)) % (lCanvas.width + 260) - 120;
           const cy = 28 + (cIdx % 3) * 22;
-          drawStuddedLegoBrick(lCtx, cx, cy, 64, 18, { hex: '#ffffff', top: '#ffffff', side: '#e3f2fd' });
+          drawStuddedLegoBrick(lCtx, cx, cy, 64, 18, LEGO_COLORS[7]);
         }
 
         lCtx.save();
         lCtx.translate(-cameraX, 0);
 
-        // Background LEGO towers & rainbows
         for (let bg = 0; bg < 18; bg++) {
           const bx = 140 + bg * 210;
           const bh = 36 + (bg % 3) * 20;
           drawStuddedLegoBrick(lCtx, bx, GROUND_Y - bh, 44, bh, LEGO_COLORS[(bg + 3) % LEGO_COLORS.length]);
         }
 
-        // Studded Green LEGO Baseplate Ground
         const startTile = Math.floor(cameraX / 66) * 66;
         for (let gx = startTile; gx < cameraX + lCanvas.width + 66; gx += 66) {
           drawStuddedLegoBrick(lCtx, gx, GROUND_Y, 66, lCanvas.height - GROUND_Y, LEGO_COLORS[3]);
         }
 
-        // Draw LEGO Platforms
         platforms.forEach(p => {
           if (p.x + p.w > cameraX - 20 && p.x < cameraX + lCanvas.width + 20) {
             drawStuddedLegoBrick(lCtx, p.x, p.y, p.w, p.h, p.colorObj);
           }
         });
 
-        // Draw Bouncy Red LEGO Springboards
         springBricks.forEach(sp => {
           if (sp.x + sp.w > cameraX - 20 && sp.x < cameraX + lCanvas.width + 20) {
             drawStuddedLegoBrick(lCtx, sp.x, sp.y + sp.compressed, sp.w, sp.h - sp.compressed, LEGO_COLORS[0], '⏫');
           }
         });
 
-        // Draw Floating Mystery Letter/Number LEGO Bricks
         mysteryBricks.forEach(mb => {
           if (mb.x + mb.w > cameraX - 20 && mb.x < cameraX + lCanvas.width + 20) {
             const drawCol = mb.bumped
@@ -3492,7 +3977,6 @@
           }
         });
 
-        // Draw Collectible Spinning LEGO Studs
         const studColors = ['#ffd700', '#e0e0e0', '#29b6f6', '#ab47bc'];
         studs.forEach(st => {
           if (!st.collected && st.x > cameraX - 20 && st.x < cameraX + lCanvas.width + 20) {
@@ -3501,10 +3985,8 @@
           }
         });
 
-        // Draw LEGO Unicorn Character
         drawLegoUnicorn(lCtx, player.x, player.y, player.facing, player.walkCycle);
 
-        // Draw Flying LEGO Brick Particles
         for (let i = brickParticles.length - 1; i >= 0; i--) {
           const bp = brickParticles[i];
           bp.x += bp.vx;
@@ -3524,7 +4006,6 @@
           lCtx.restore();
         }
 
-        // Draw Floating Phonics / Score Popups
         for (let i = floatingBanners.length - 1; i >= 0; i--) {
           const fb = floatingBanners[i];
           fb.y -= 1.1;
@@ -3550,20 +4031,24 @@
       }
 
       legoLoopId = requestAnimationFrame(stepLegoScroller);
-      unicornSpeak("Welcome to LEGO Unicorn World! Tap BIG LEGO JUMP to hop over bricks, collect shiny LEGO studs, and bump the floating letter bricks!");
+      playMagicSound('legoSnap');
     }
 
     /*************************************************************************
-     * SUB-MODE 2: 🏗️ LEGO BRICK BUILDER SANDBOX
+     * SUB-MODE 2: 🏗️ WIDE SCROLLABLE LEGO BRICK BUILDER SANDBOX (12 BRICK TYPES)
      *************************************************************************/
     function startLegoBuilder() {
       let selectedColor = LEGO_COLORS[0];
-      let selectedShape = '2x4'; // '2x4', '2x2', '1x2', 'eye', 'horn', 'crown'
+      let selectedShape = '2x4';
       let placedBricks = [];
+      let buildCamX = 0;
+      const BUILD_WORLD_W = 1980;
 
       currentSoundOutCallback = () => {
-        unicornSpeak("Tap any color brick, then tap the LEGO baseplate to snap your bricks together! Or tap Auto-Build Unicorn!", { updateBubble: false });
+        unicornSpeak("Pick from 12 different LEGO brick shapes and tap the baseplate to build!", { updateBubble: false });
       };
+
+      document.getElementById('speech-text').textContent = "🏗️ Pick any LEGO brick shape & color, tap to snap bricks, and scroll left or right!";
 
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
@@ -3576,11 +4061,12 @@
       const area = document.getElementById('interactive-area');
       area.innerHTML = `
         <div class="lego-stage-wrap">
-          <canvas class="lego-canvas" id="lego-builder-canvas" width="680" height="290"></canvas>
-          <div class="lego-controls">
-            <button class="lego-ctrl-btn" id="lego-preset-unicorn">🦄 Build Unicorn</button>
-            <button class="lego-ctrl-btn jump-btn" id="lego-preset-castle">🏰 Build Castle</button>
-            <button class="lego-ctrl-btn" id="lego-smash-btn">💥 Smash All!</button>
+          <canvas class="lego-canvas" id="lego-builder-canvas" width="680" height="280"></canvas>
+          <div class="lego-controls" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
+            <button class="lego-ctrl-btn" id="lego-scroll-left">⬅️ Left</button>
+            <button class="lego-ctrl-btn" id="lego-undo-btn">↩️ Undo</button>
+            <button class="lego-ctrl-btn jump-btn" id="lego-smash-btn">💥 Clear</button>
+            <button class="lego-ctrl-btn" id="lego-scroll-right">Right ➡️</button>
           </div>
         </div>
       `;
@@ -3599,21 +4085,12 @@
         colorPal.appendChild(sw);
       });
 
-      const SHAPES = [
-        { id: '2x4', label: '🧱 Big 2x4', w: 88, h: 28 },
-        { id: '2x2', label: '🟦 Cube 2x2', w: 44, h: 28 },
-        { id: '1x2', label: '🟨 Mini 1x2', w: 22, h: 28 },
-        { id: 'eye', label: '👀 Eye Brick', w: 44, h: 28, icon: '👀' },
-        { id: 'horn', label: '🦄 Horn', w: 44, h: 28, icon: '🦄' },
-        { id: 'crown', label: '👑 Crown', w: 44, h: 28, icon: '👑' }
-      ];
-
       const shapePal = document.getElementById('lego-shape-palette');
-      SHAPES.forEach((sh, idx) => {
+      LEGO_BRICK_SHAPES.forEach((sh, idx) => {
         const btn = document.createElement('button');
         btn.className = 'submode-pill' + (idx === 0 ? ' active' : '');
-        btn.style.padding = '4px 10px';
-        btn.style.fontSize = '0.82rem';
+        btn.style.padding = '3px 8px';
+        btn.style.fontSize = '0.78rem';
         btn.textContent = sh.label;
         btn.onclick = () => {
           selectedShape = sh.id;
@@ -3626,20 +4103,23 @@
 
       const bCanvas = document.getElementById('lego-builder-canvas');
       const bCtx = bCanvas.getContext('2d');
-      const FLOOR_Y = 252;
+      const FLOOR_Y = 244;
 
       function renderBuilder() {
         bCtx.clearRect(0, 0, bCanvas.width, bCanvas.height);
 
         const skyGrad = bCtx.createLinearGradient(0, 0, 0, FLOOR_Y);
-        skyGrad.addColorStop(0, '#e3f2fd');
+        skyGrad.addColorStop(0, '#bbdefb');
         skyGrad.addColorStop(1, '#fff9c4');
         bCtx.fillStyle = skyGrad;
         bCtx.fillRect(0, 0, bCanvas.width, FLOOR_Y);
 
+        bCtx.save();
+        bCtx.translate(-buildCamX, 0);
+
         // Subtle LEGO grid dots
         bCtx.fillStyle = 'rgba(43, 76, 126, 0.1)';
-        for (let gx = 22; gx < bCanvas.width; gx += 22) {
+        for (let gx = 22; gx < BUILD_WORLD_W; gx += 22) {
           for (let gy = 28; gy < FLOOR_Y; gy += 28) {
             bCtx.beginPath();
             bCtx.arc(gx, gy, 2, 0, Math.PI * 2);
@@ -3647,28 +4127,36 @@
           }
         }
 
-        // Green LEGO Baseplate
-        for (let gx = 0; gx < bCanvas.width; gx += 88) {
-          drawStuddedLegoBrick(bCtx, gx, FLOOR_Y, 88, bCanvas.height - FLOOR_Y, LEGO_COLORS[3]);
+        // Studded Green LEGO Baseplate
+        for (let gx = 0; gx < BUILD_WORLD_W; gx += 88) {
+          drawLegoShape(bCtx, {
+            x: gx,
+            y: FLOOR_Y,
+            w: 88,
+            h: bCanvas.height - FLOOR_Y,
+            shape: '2x4',
+            colorObj: LEGO_COLORS[3]
+          }, false);
         }
 
         // Placed LEGO bricks
         placedBricks.forEach(br => {
-          drawStuddedLegoBrick(bCtx, br.x, br.y, br.w, br.h, br.colorObj, br.icon || '');
+          drawLegoShape(bCtx, br, false);
         });
+
+        bCtx.restore();
       }
 
       bCanvas.addEventListener('pointerdown', (e) => {
         const rect = bCanvas.getBoundingClientRect();
         const scaleX = bCanvas.width / rect.width;
         const scaleY = bCanvas.height / rect.height;
-        const rawX = (e.clientX - rect.left) * scaleX;
+        const rawX = (e.clientX - rect.left) * scaleX + buildCamX;
         const rawY = (e.clientY - rect.top) * scaleY;
 
-        const sh = SHAPES.find(s => s.id === selectedShape) || SHAPES[0];
-        const snapX = Math.max(0, Math.min(bCanvas.width - sh.w, Math.round((rawX - sh.w / 2) / 22) * 22));
+        const sh = LEGO_BRICK_SHAPES.find(s => s.id === selectedShape) || LEGO_BRICK_SHAPES[0];
+        const snapX = Math.max(0, Math.min(BUILD_WORLD_W - sh.w, Math.round((rawX - sh.w / 2) / 22) * 22));
 
-        // Stack automatically on top of highest brick in that column, or snap to grid!
         let targetY = FLOOR_Y - sh.h;
         placedBricks.forEach(b => {
           const overlapsX = snapX < b.x + b.w && snapX + sh.w > b.x;
@@ -3685,55 +4173,37 @@
           y: Math.max(12, targetY),
           w: sh.w,
           h: sh.h,
-          colorObj: selectedColor,
-          icon: sh.icon || ''
+          shape: sh.id,
+          colorObj: selectedColor
         });
 
         playMagicSound('legoSnap');
         renderBuilder();
 
-        if (placedBricks.length % 8 === 0) {
+        if (placedBricks.length % 10 === 0) {
           addStar();
           playMagicSound('legoStud');
-          unicornSpeak(`Wackadoo! You snapped ${placedBricks.length} LEGO bricks and earned a Dollarbuck Star!`, { updateBubble: false });
         }
       });
 
-      document.getElementById('lego-preset-unicorn').onclick = () => {
-        placedBricks = [
-          // Legs
-          { x: 242, y: FLOOR_Y - 28, w: 44, h: 28, colorObj: LEGO_COLORS[4] },
-          { x: 330, y: FLOOR_Y - 28, w: 44, h: 28, colorObj: LEGO_COLORS[4] },
-          { x: 242, y: FLOOR_Y - 56, w: 44, h: 28, colorObj: { hex: '#ffffff', top: '#ffffff', side: '#cfd8dc' } },
-          { x: 330, y: FLOOR_Y - 56, w: 44, h: 28, colorObj: { hex: '#ffffff', top: '#ffffff', side: '#cfd8dc' } },
-          // Body & Rainbow Tail
-          { x: 198, y: FLOOR_Y - 84, w: 44, h: 28, colorObj: LEGO_COLORS[6] },
-          { x: 242, y: FLOOR_Y - 84, w: 132, h: 28, colorObj: { hex: '#ffffff', top: '#ffffff', side: '#cfd8dc' } },
-          { x: 264, y: FLOOR_Y - 112, w: 88, h: 28, colorObj: LEGO_COLORS[1] },
-          // Neck & Head
-          { x: 330, y: FLOOR_Y - 140, w: 88, h: 28, colorObj: { hex: '#ffffff', top: '#ffffff', side: '#cfd8dc' }, icon: '👀' },
-          { x: 352, y: FLOOR_Y - 168, w: 44, h: 28, colorObj: LEGO_COLORS[2], icon: '🦄' }
-        ];
+      document.getElementById('lego-scroll-left').onclick = () => {
+        buildCamX = Math.max(0, buildCamX - 220);
         playMagicSound('legoSnap');
-        setTimeout(() => playMagicSound('success'), 100);
         renderBuilder();
-        unicornSpeak("Hooray! We built a giant LEGO Unicorn together! Tap anywhere to add more LEGO bricks!", { updateBubble: true });
       };
 
-      document.getElementById('lego-preset-castle').onclick = () => {
-        placedBricks = [
-          { x: 176, y: FLOOR_Y - 28, w: 88, h: 28, colorObj: LEGO_COLORS[4] },
-          { x: 176, y: FLOOR_Y - 56, w: 88, h: 28, colorObj: LEGO_COLORS[6] },
-          { x: 176, y: FLOOR_Y - 84, w: 44, h: 28, colorObj: LEGO_COLORS[2], icon: '👑' },
-          { x: 374, y: FLOOR_Y - 28, w: 88, h: 28, colorObj: LEGO_COLORS[4] },
-          { x: 374, y: FLOOR_Y - 56, w: 88, h: 28, colorObj: LEGO_COLORS[6] },
-          { x: 418, y: FLOOR_Y - 84, w: 44, h: 28, colorObj: LEGO_COLORS[2], icon: '👑' },
-          { x: 264, y: FLOOR_Y - 56, w: 110, h: 28, colorObj: LEGO_COLORS[1] }
-        ];
+      document.getElementById('lego-scroll-right').onclick = () => {
+        buildCamX = Math.min(BUILD_WORLD_W - bCanvas.width, buildCamX + 220);
         playMagicSound('legoSnap');
-        setTimeout(() => playMagicSound('legoStud'), 90);
         renderBuilder();
-        unicornSpeak("Wackadoo! Look at our Royal LEGO Castle! Tap the baseplate to build it even taller!", { updateBubble: true });
+      };
+
+      document.getElementById('lego-undo-btn').onclick = () => {
+        if (placedBricks.length > 0) {
+          placedBricks.pop();
+          playMagicSound('pop');
+          renderBuilder();
+        }
       };
 
       document.getElementById('lego-smash-btn').onclick = () => {
@@ -3742,17 +4212,24 @@
         burstSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 45);
         placedBricks = [];
         renderBuilder();
-        unicornSpeak("CRASH! All the LEGO bricks tumbled down! Let's build something new, mate!", { updateBubble: false });
       };
 
-      // Start with a starter LEGO Unicorn on the baseplate so it looks awesome right away!
-      document.getElementById('lego-preset-unicorn').click();
+      // Starter build on the baseplate
+      placedBricks = [
+        { x: 176, y: FLOOR_Y - 28, w: 44, h: 28, shape: 'wheel', colorObj: LEGO_COLORS[0] },
+        { x: 264, y: FLOOR_Y - 28, w: 44, h: 28, shape: 'wheel', colorObj: LEGO_COLORS[0] },
+        { x: 176, y: FLOOR_Y - 56, w: 132, h: 28, shape: '2x4', colorObj: LEGO_COLORS[1] },
+        { x: 220, y: FLOOR_Y - 84, w: 44, h: 28, shape: 'window', colorObj: LEGO_COLORS[2] }
+      ];
+      renderBuilder();
     }
 
     /*************************************************************************
      * WORLD 10: 🕶️ HERE COME THE GRANNIES! (Dress Up Closet)
      *************************************************************************/
-    function startClosetWorld(announce = true) {
+    function startClosetWorld() {
+      document.getElementById('speech-text').textContent = "🕶️ Tap any unlocked accessory to dress me up!";
+
       const showcase = document.getElementById('showcase-card');
       showcase.innerHTML = `
         <div style="font-size:1.15rem; font-weight:700; color:#2b4c7e;">
@@ -3781,7 +4258,7 @@
         card.onclick = () => {
           if (!unlocked) {
             playMagicSound('oops');
-            unicornSpeak(`Oh, biscuits! You need ${item.stars} Dollarbuck Stars for ${item.name}! Play some more games with me to unlock it!`);
+            document.getElementById('speech-text').textContent = `🔒 Need ${item.stars} ⭐ Dollarbuck Stars for ${item.name}!`;
             return;
           }
           const wasEquipped = item.equipped;
@@ -3794,20 +4271,16 @@
             slotEl.style.display = 'block';
             playMagicSound('success');
             burstSparkles(window.innerWidth / 2, 180, 35);
-            unicornSpeak(`Hooray! Look at my ${item.name}! Nice parking spot, Rita!`);
+            document.getElementById('speech-text').textContent = `✨ Wearing ${item.emoji} ${item.name}!`;
           } else {
             slotEl.style.display = 'none';
             playMagicSound('pop');
-            unicornSpeak(`Took off my ${item.name}! What should I wear next, mate?`);
+            document.getElementById('speech-text').textContent = `Took off ${item.name}!`;
           }
-          startClosetWorld(false);
+          startClosetWorld();
         };
         grid.appendChild(card);
       });
-
-      if (announce) {
-        unicornSpeak("Here come the Grannies! Tap any unlocked item to dress me up, mate!");
-      }
     }
 
     /*************************************************************************
