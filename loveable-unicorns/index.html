@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v7.2 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
+  <title>v7.3 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -1834,7 +1834,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.2</small></span>
+      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.3</small></span>
     </div>
 
     <div class="header-controls">
@@ -2436,9 +2436,20 @@
      * right here with Web Audio (a hiss, a buzz, a hum) and Kiki's voice says
      * the words around them: "S says ... sssss ... sun!"
      *************************************************************************/
-    const SYNTH_SOUNDS = { S: 's', F: 'f', Z: 'z', V: 'v', M: 'm', N: 'n' };
-    const SOUND_LABEL = { S: 'sss', F: 'fff', Z: 'zzz', V: 'vvv', M: 'mmm', N: 'nnn' };
+    const SYNTH_SOUNDS = { S: 's', F: 'f', Z: 'z', V: 'v', M: 'm', N: 'n', A: 'vowel', E: 'vowel', I: 'vowel', O: 'vowel', U: 'vowel' };
+    const SOUND_LABEL = { S: 'sss', F: 'fff', Z: 'zzz', V: 'vvv', M: 'mmm', N: 'nnn', A: 'a as in apple', E: 'e as in egg', I: 'i as in igloo', O: 'o as in octopus', U: 'u as in up' };
+    // Short vowels, made the way a throat makes them: a buzzy voice shaped by three
+    // resonances (formants). Values are for a child-like voice: [F1, F2, F3] in Hz.
+    const VOWEL_FORMANTS = {
+      A: [1000, 2250, 3100],   // a in apple
+      E: [720, 2150, 3000],    // e in egg
+      I: [470, 2450, 3200],    // i in igloo
+      O: [880, 1250, 2900],    // o in octopus
+      U: [760, 1450, 2900]     // u in up
+    };
     let phonicsToken = 0;
+    // Levelled by measuring each sound offline so every letter is about as loud as the others
+    const VOWEL_GAIN = { A: 2.5, E: 2.1, I: 1.45, O: 2.8, U: 1.8 };
     let noiseBuffer = null;
 
     function soundLabel(letter) {
@@ -2446,16 +2457,16 @@
     }
 
     // Returns how long the sound lasts, in seconds
-    function playPhoneme(letter) {
+    function playPhoneme(letter, offlineCtx) {
       const kind = SYNTH_SOUNDS[letter];
-      if (!kind || soundMuted) return 0.5;
+      if (!kind || (soundMuted && !offlineCtx)) return 0.5;
       try {
-        const ctx = getAudioCtx();
+        const ctx = offlineCtx || getAudioCtx();
         const now = ctx.currentTime;
-        const dur = 0.75;
+        const dur = kind === 'vowel' ? 0.5 : 0.75;
         const out = ctx.createGain();
         out.gain.setValueAtTime(0.0001, now);
-        out.gain.exponentialRampToValueAtTime(1, now + 0.06);
+        out.gain.exponentialRampToValueAtTime(1, now + 0.05);
         out.gain.setValueAtTime(1, now + dur - 0.12);
         out.gain.exponentialRampToValueAtTime(0.0001, now + dur);
         out.connect(ctx.destination);
@@ -2494,12 +2505,41 @@
           });
         };
 
-        if (kind === 's') hiss(4200, 11000, 0.55);
-        else if (kind === 'f') hiss(1400, 7000, 0.22);
-        else if (kind === 'z') { hiss(4200, 11000, 0.3); hum(170, 700, 0.14); }
-        else if (kind === 'v') { hiss(1400, 7000, 0.14); hum(170, 700, 0.16); }
+        if (kind === 'vowel') {
+          // Voice source: a sawtooth with a little falling pitch and wobble, like a happy "a!"
+          const src = ctx.createOscillator();
+          src.type = 'sawtooth';
+          src.frequency.setValueAtTime(265, now);
+          src.frequency.linearRampToValueAtTime(235, now + dur);
+          const vib = ctx.createOscillator();
+          const vibAmt = ctx.createGain();
+          vib.frequency.value = 5.5;
+          vibAmt.gain.value = 4;
+          vib.connect(vibAmt); vibAmt.connect(src.frequency);
+          const sum = ctx.createGain();
+          sum.gain.value = VOWEL_GAIN[letter];
+          VOWEL_FORMANTS[letter].forEach((f, k) => {
+            const bp = ctx.createBiquadFilter();
+            bp.type = 'bandpass';
+            bp.frequency.value = f;
+            bp.Q.value = f / [90, 110, 160][k];
+            const g = ctx.createGain();
+            g.gain.value = [1, 0.7, 0.35][k];
+            src.connect(bp); bp.connect(g); g.connect(sum);
+          });
+          const soft = ctx.createBiquadFilter();
+          soft.type = 'lowpass';
+          soft.frequency.value = 4200;
+          sum.connect(soft); soft.connect(out);
+          src.start(now); vib.start(now);
+          src.stop(now + dur); vib.stop(now + dur);
+        }
+        else if (kind === 's') hiss(4200, 11000, 0.4);
+        else if (kind === 'f') hiss(1400, 7000, 0.42);
+        else if (kind === 'z') { hiss(4200, 11000, 0.32); hum(170, 700, 0.2); }
+        else if (kind === 'v') { hiss(1400, 7000, 0.3); hum(170, 700, 0.32); }
         else if (kind === 'm') hum(210, 420, 0.42);
-        else if (kind === 'n') hum(220, 750, 0.32);
+        else if (kind === 'n') hum(220, 750, 0.42);
         return dur;
       } catch (e) {
         return 0.5;
@@ -3257,7 +3297,9 @@
     }
 
     function speakSound(letter) {
-      speakSteps(letterSteps(letter));
+      const steps = letterSteps(letter);
+      if (VOWEL_WORD[letter]) steps.push({ speak: `like ${VOWEL_WORD[letter]}!` });
+      speakSteps(steps);
     }
 
     // "C says kuh! | A says ah! | T says tuh! | cat!"
