@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v7.0 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
+  <title>v7.1 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -1834,7 +1834,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.0</small></span>
+      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.1</small></span>
     </div>
 
     <div class="header-controls">
@@ -3102,14 +3102,19 @@
     // Word endings, spelled so the voice reads them as one little word
     const RIME_SAY = { ig: 'igg', ug: 'ugg', op: 'opp', eb: 'ebb', ix: 'icks', us: 'uss', ut: 'utt', ib: 'ibb', ub: 'ubb', id: 'idd' };
 
-    // Same letter sounds the ABC world uses (those come out right), one spoken chunk per letter
-    function speakSound(letter) {
-      unicornSpeak(PHONICS_SOUND[letter] || letter, { updateBubble: false, isSoundOut: true });
+    // A sound said all alone ("kuh") comes out garbled in browser voices. Inside a little
+    // sentence ("C says kuh!") it comes out right, which is how the ABC world says it.
+    function letterSoundPhrase(letter) {
+      return `${letter} says ${PHONICS_SOUND[letter] || letter}!`;
     }
 
-    // "kuh | ah | tuh | cat!": every letter's sound on its own, then the whole word
+    function speakSound(letter) {
+      unicornSpeak(letterSoundPhrase(letter), { updateBubble: false, isSoundOut: true });
+    }
+
+    // "C says kuh! | A says ah! | T says tuh! | cat!"
     function onsetRimeSpeech(word) {
-      return word.split('').map(l => PHONICS_SOUND[l] || l).join(' | ') + ` | ${word.toLowerCase()}!`;
+      return word.split('').map(letterSoundPhrase).join(' | ') + ` | ${word.toLowerCase()}!`;
     }
 
     // Light each tile in turn, slide Kiki under them, then say the whole word
@@ -3122,7 +3127,7 @@
         if (slider && tiles[idx]) slider.style.left = (tiles[idx].offsetLeft + tiles[idx].offsetWidth / 2 - 16) + 'px';
       };
       // One tile lights per letter sound, then the whole word pops
-      const STEP = 800;
+      const STEP = 1350;
       tiles.forEach((tile, i) => setTimeout(() => {
         if (ep !== roundEpoch) return;
         tile.classList.add('sounded');
@@ -3242,8 +3247,8 @@
       area.innerHTML = `<div class="letter-bank" id="letter-bank"></div>`;
       const bankEl = document.getElementById('letter-bank');
 
-      const sayTarget = () => unicornSpeak(`${target.word.toLowerCase()}! | ${onsetRimeSpeech(target.word)}`, { updateBubble: false, isSoundOut: true, customRate: 0.85 });
-      currentSoundOutCallback = sayTarget;
+      const sayTarget = () => unicornSpeak(`${target.word.toLowerCase()}!`, { updateBubble: false });
+      currentSoundOutCallback = () => unicornSpeak(onsetRimeSpeech(target.word), { updateBubble: false, isSoundOut: true });
 
       bank.forEach(l => {
         const b = document.createElement('button');
