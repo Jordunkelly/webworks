@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v5.0 | Loveable Unicorns 🦄💖 Royal Pink &amp; Purple Kindergarten!</title>
+  <title>v6.0 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -807,6 +807,286 @@
     }
 
     /* =========================================================================
+       v6.0: ONE-WORD PRAISE POP
+       ========================================================================= */
+    .praise-pop {
+      position: fixed;
+      left: 50%;
+      top: 38%;
+      z-index: 1001;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: var(--font-ui);
+      font-size: clamp(2.6rem, 13vw, 4.6rem);
+      font-weight: 700;
+      color: #ffffff;
+      -webkit-text-stroke: 3px var(--bluey-dark);
+      paint-order: stroke fill;
+      text-shadow: 0 6px 0 var(--bluey-dark);
+      pointer-events: none;
+      animation: praiseBounce 1.5s cubic-bezier(.2, 1.6, .4, 1) forwards;
+    }
+    .praise-pop .praise-emoji { font-size: 0.9em; -webkit-text-stroke: 0; text-shadow: none; }
+    @keyframes praiseBounce {
+      0% { transform: translate(-50%, -50%) scale(0.2) rotate(-12deg); opacity: 0; }
+      25% { transform: translate(-50%, -50%) scale(1.15) rotate(4deg); opacity: 1; }
+      40% { transform: translate(-50%, -50%) scale(1) rotate(0); }
+      80% { opacity: 1; }
+      100% { transform: translate(-50%, -70%) scale(0.9); opacity: 0; }
+    }
+
+    /* =========================================================================
+       v6.0: LEARN TO READ LADDER
+       ========================================================================= */
+    .read-ladder { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 100%; }
+    .read-steps { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; }
+    .read-step {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: #f3e5f5; border: 2.5px solid #ce93d8;
+      display: flex; align-items: center; justify-content: center; font-size: 0.95rem;
+      opacity: 0.55;
+    }
+    .read-step.done { background: #fff59d; border-color: #f9a825; opacity: 1; }
+    .read-step.now { background: #ffffff; border-color: var(--pink-hot); opacity: 1; transform: scale(1.18); box-shadow: 0 3px 0 #ad1457; }
+    .read-dots { display: flex; align-items: center; gap: 5px; font-family: var(--font-print); font-weight: 700; color: #ad1457; font-size: 1rem; }
+    .read-dot { width: 13px; height: 13px; border-radius: 50%; background: #f8bbd0; border: 2px solid #ec407a; }
+    .read-dot.on { background: #ffd54f; border-color: #f57f17; }
+
+    .blender-wrap { position: relative; padding-bottom: 34px; }
+    .blend-slider {
+      position: absolute; bottom: 0; left: -8px;
+      font-size: 1.9rem; transition: left 0.45s cubic-bezier(.4, 1.4, .6, 1);
+      filter: drop-shadow(0 3px 0 rgba(74, 20, 140, 0.25));
+    }
+    .letter-tile { transition: transform 0.2s, background 0.2s; }
+    .letter-tile.empty { background: #f3e5f5; border-style: dashed; color: #ce93d8; }
+
+    .read-reveal {
+      font-size: 4.4rem; line-height: 1; min-height: 76px;
+      transform: scale(0.6); opacity: 0.45; transition: transform 0.4s cubic-bezier(.2, 1.7, .4, 1), opacity 0.3s;
+    }
+    .read-reveal.shown { transform: scale(1); opacity: 1; }
+    .read-reveal.small { font-size: 3.4rem; min-height: 60px; }
+
+    .read-btn-row { display: flex; gap: 14px; justify-content: center; width: 100%; }
+    .read-big-btn {
+      min-width: 92px; height: 78px; border-radius: 26px;
+      border: 4px solid var(--bluey-dark);
+      background: linear-gradient(180deg, #ffffff, #fce4ec);
+      font-size: 2.3rem; cursor: pointer;
+      box-shadow: 0 6px 0 var(--bluey-dark);
+      transition: transform 0.1s;
+    }
+    .read-big-btn.go { background: linear-gradient(180deg, #fff59d, #ffd54f); }
+    .read-big-btn.ear { min-width: 140px; height: 90px; font-size: 2.6rem; animation: pulseMystery 1.8s ease-in-out infinite; }
+    .read-big-btn:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--bluey-dark); }
+
+    .letter-bank { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; }
+    .bank-tile {
+      width: 64px; height: 70px; border-radius: 18px;
+      border: 4px solid #8e24aa; background: #ffffff;
+      font-family: var(--font-print); font-size: 2.1rem; font-weight: 700; color: var(--bluey-dark);
+      box-shadow: 0 5px 0 #6a1b9a; cursor: pointer;
+    }
+    .bank-tile.used { visibility: hidden; }
+    .bank-tile.nope, .glam-tile.nope { animation: gentleShake 0.4s ease; background: #ffebee; }
+
+    .choice-btn.sight-word { font-size: 2.4rem; text-transform: lowercase; }
+    .choices-grid.three { grid-template-columns: repeat(3, 1fr); }
+    .story-line {
+      font-family: var(--font-print); font-size: clamp(1.8rem, 8vw, 2.6rem); font-weight: 700;
+      color: var(--bluey-dark); line-height: 1.35; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 12px;
+    }
+    .story-word { padding: 0 6px; border-radius: 12px; cursor: pointer; transition: background 0.15s, transform 0.15s; }
+    .story-word.lit { background: #fff59d; transform: translateY(-3px); box-shadow: 0 3px 0 #f9a825; }
+
+    /* =========================================================================
+       v6.0: 🎈 FULL SCREEN KEEPY UPPY
+       ========================================================================= */
+    .kup-overlay {
+      position: fixed; inset: 0; width: 100vw; height: 100dvh;
+      z-index: 950; display: none; overflow: hidden; touch-action: none;
+      background: #f8bbd0;
+    }
+    .kup-overlay.open { display: block; }
+    .kup-room, .kup-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .kup-room svg { width: 100%; height: 100%; display: block; }
+    .kup-canvas { touch-action: none; cursor: pointer; }
+    .kup-overlay .lego-fs-topbar { padding: 6px; gap: 6px; }
+    .kup-overlay .lego-scene-btn { flex: 1 1 0; min-width: 0; max-width: 56px; height: 46px; font-size: 1.4rem; }
+    .kup-score { position: absolute; top: 84px; left: 50%; transform: translateX(-50%); font-size: 1.3rem; z-index: 12; pointer-events: none; }
+    .kup-hud {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(49, 27, 146, 0.85); padding: 6px 10px; border-radius: 16px;
+      border: 2.5px solid #ffd54f; color: #fff; font-weight: 700; font-size: 1.05rem; white-space: nowrap;
+    }
+
+    /* =========================================================================
+       v6.0: 💄 KIKI'S GLAM ROOM (flat, chunky, Bluey-style cartoon)
+       ========================================================================= */
+    .glam-overlay {
+      position: fixed; inset: 0; width: 100vw; height: 100dvh;
+      z-index: 950; display: none; flex-direction: column; overflow: hidden;
+      background: #f3e5f5; touch-action: manipulation;
+    }
+    .glam-overlay.open { display: flex; }
+    .glam-top {
+      display: flex; align-items: center; gap: 4px;
+      padding: max(8px, env(safe-area-inset-top)) 8px 8px;
+      background: linear-gradient(90deg, #ec407a, #8e24aa);
+      border-bottom: 4px solid var(--bluey-dark);
+      flex-shrink: 0;
+    }
+    .glam-stations { display: flex; gap: 4px; flex: 1; min-width: 0; justify-content: center; padding: 2px 0 4px; }
+    .glam-stations::-webkit-scrollbar { display: none; }
+    .glam-station-btn {
+      flex: 1 1 0; min-width: 0; max-width: 54px; height: 48px; border-radius: 16px;
+      border: 3px solid var(--bluey-dark); background: #ffffff;
+      font-size: clamp(1.1rem, 5.4vw, 1.6rem); cursor: pointer; box-shadow: 0 4px 0 var(--bluey-dark);
+      transition: transform 0.12s; padding: 0;
+    }
+    .glam-station-btn.active { background: #fff59d; transform: translateY(-2px) scale(1.08); }
+    .glam-station-btn:active, .glam-tab:active, .glam-tile:active { transform: translateY(3px); }
+
+    .glam-stage { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+    .glam-scene, .glam-scene svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .glam-model {
+      position: absolute; inset: 6px 0 0; display: flex; align-items: flex-end; justify-content: center;
+    }
+    .glam-model .doll.main-doll {
+      height: 100%; max-width: 100%;
+      filter: drop-shadow(0 8px 0 rgba(74, 20, 140, 0.18));
+      animation: dollIdle 3.2s ease-in-out infinite;
+      transform-origin: 50% 100%;
+    }
+    @keyframes dollIdle { 0%, 100% { transform: rotate(-1deg) translateY(0); } 50% { transform: rotate(1deg) translateY(-4px); } }
+    .glam-stage.spa-mode .doll.main-doll { animation: none; cursor: grab; touch-action: none; }
+    .doll.glow { animation: dollGlow 1.4s ease; }
+    @keyframes dollGlow { 0% { filter: drop-shadow(0 0 0 #fff59d); } 40% { filter: drop-shadow(0 0 26px #fff59d) brightness(1.15); } 100% { filter: none; } }
+    .spa-spot { transition: opacity 0.12s; }
+    .spa-bubble { position: fixed; z-index: 1000; pointer-events: none; font-size: 1.6rem; animation: bubbleUp 1.1s ease-out forwards; }
+    @keyframes bubbleUp { to { transform: translateY(-70px) scale(1.4); opacity: 0; } }
+
+    .glam-kiki {
+      position: absolute; left: 8px; bottom: 8px; display: flex; align-items: flex-end; gap: 2px;
+      font-size: 2.4rem; pointer-events: none; z-index: 3;
+    }
+    .glam-kiki-say {
+      font-size: 1rem; font-weight: 700; color: var(--bluey-dark);
+      background: #ffffff; border: 3px solid var(--bluey-dark); border-radius: 16px 16px 16px 4px;
+      padding: 3px 10px; margin-bottom: 30px;
+    }
+    .glam-kiki-say.pop { animation: correctPop 0.45s ease; }
+
+    .glam-dock {
+      flex-shrink: 0; background: #ffffff;
+      border-top: 4px solid var(--bluey-dark); border-radius: 26px 26px 0 0;
+      padding: 8px 8px calc(10px + env(safe-area-inset-bottom));
+      box-shadow: 0 -6px 18px rgba(74, 20, 140, 0.18);
+      margin-top: -18px; position: relative; z-index: 4;
+    }
+    .glam-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 2px 6px; }
+    .glam-tabs::-webkit-scrollbar, .glam-options::-webkit-scrollbar { display: none; }
+    .glam-tab {
+      flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%;
+      border: 3px solid #ce93d8; background: #fce4ec; font-size: 1.35rem; cursor: pointer;
+    }
+    .glam-tab.active { border-color: var(--bluey-dark); background: #fff59d; box-shadow: 0 3px 0 var(--bluey-dark); }
+    .glam-options {
+      display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+      padding: 4px 2px 6px; scroll-snap-type: x proximity; min-height: 84px; align-items: center;
+    }
+    .glam-tile {
+      position: relative; flex-shrink: 0; width: 72px; height: 72px; border-radius: 20px;
+      border: 3px solid #f8bbd0; background: #fff5fa; cursor: pointer; overflow: hidden;
+      display: flex; align-items: center; justify-content: center; scroll-snap-align: start;
+      box-shadow: 0 4px 0 #f48fb1; transition: transform 0.12s;
+    }
+    .glam-tile.big { width: 80px; height: 80px; }
+    .glam-tile.sel { border-color: var(--pink-hot); background: #fff59d; box-shadow: 0 4px 0 var(--bluey-dark), 0 0 0 3px #ffffff inset; }
+    .glam-tile.locked > :not(.glam-lock) { filter: grayscale(1) opacity(0.45); }
+    .glam-tile .doll.thumb { width: 100%; height: 100%; }
+    .glam-tile.photo { width: 64px; height: 86px; background: #ffffff; padding: 4px; }
+    .photo-frame { width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background: #fce4ec; }
+    .glam-swatch { width: 46px; height: 46px; border-radius: 50%; border: 3px solid var(--bluey-dark); box-shadow: inset -5px -6px 0 rgba(0, 0, 0, 0.12); }
+    .glam-emoji { font-size: 2.2rem; line-height: 1; }
+    .glam-none { font-size: 1.8rem; opacity: 0.6; }
+    .glam-onoff { position: absolute; right: 4px; bottom: 2px; font-size: 1rem; }
+    .glam-lock {
+      position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
+      background: rgba(49, 27, 146, 0.9); color: #fff; font-size: 0.7rem; font-weight: 700;
+      border-radius: 99px; padding: 1px 5px; white-space: nowrap;
+    }
+    .glam-empty-gallery { font-size: 2rem; opacity: 0.5; padding: 10px; letter-spacing: 6px; }
+    .glam-flash { position: fixed; inset: 0; background: #ffffff; z-index: 1002; pointer-events: none; animation: flashOut 0.6s ease forwards; }
+    @keyframes flashOut { from { opacity: 1; } to { opacity: 0; } }
+
+    /* A bouncing finger shows the next thing to tap. No reading needed. */
+    .pulse-hint { animation: hintGlow 1.2s ease-in-out infinite; z-index: 2; }
+    .pulse-hint::after {
+      content: '👆'; position: absolute; right: -4px; bottom: -8px; font-size: 1.5rem;
+      animation: hintTap 1.2s ease-in-out infinite; pointer-events: none;
+    }
+    @keyframes hintGlow { 0%, 100% { box-shadow: 0 4px 0 var(--bluey-dark), 0 0 0 0 rgba(255, 213, 79, 0.9); } 50% { box-shadow: 0 4px 0 var(--bluey-dark), 0 0 0 8px rgba(255, 213, 79, 0); } }
+    @keyframes hintTap { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-4px, -8px); } }
+
+    /* Laundry room */
+    .laundry-room { position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 10px 14px 28px; }
+    .clothesline { position: relative; height: 90px; }
+    .line-rope { position: absolute; left: 4%; right: 4%; top: 14px; height: 40px; border-bottom: 4px solid var(--bluey-dark); border-radius: 0 0 50% 50%; }
+    .line-items { position: absolute; left: 10%; right: 10%; top: 30px; display: flex; justify-content: space-around; }
+    .line-item { font-size: 2.8rem; animation: hangIn 0.5s cubic-bezier(.2, 1.7, .4, 1), sway 2.4s ease-in-out infinite 0.5s; transform-origin: 50% 0; filter: drop-shadow(0 0 6px #fff59d); }
+    @keyframes hangIn { from { transform: translateY(-60px) scale(0.3); } }
+    @keyframes sway { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+    .laundry-floor { display: flex; align-items: flex-end; justify-content: center; gap: 18px; }
+    .washer {
+      width: min(52vw, 230px); aspect-ratio: 0.85; background: #ffffff;
+      border: 5px solid var(--bluey-dark); border-radius: 28px; box-shadow: 0 8px 0 var(--bluey-dark);
+      display: flex; flex-direction: column; align-items: center; padding: 10px; gap: 10px;
+    }
+    .washer.shaking { animation: washShake 0.18s linear infinite; }
+    @keyframes washShake { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(3px) rotate(0.6deg); } }
+    .washer-top { width: 100%; height: 26px; background: #f8bbd0; border-radius: 14px; border: 3px solid var(--bluey-dark); display: flex; align-items: center; justify-content: flex-end; gap: 6px; padding: 0 8px; }
+    .washer-light { width: 12px; height: 12px; border-radius: 50%; background: #ce93d8; margin-right: auto; }
+    .washer-light.on { background: #69f0ae; box-shadow: 0 0 8px #69f0ae; }
+    .washer-knob { width: 14px; height: 14px; border-radius: 50%; background: #8e24aa; }
+    .washer-door {
+      flex: 1; width: 86%; aspect-ratio: 1; max-height: 78%; border-radius: 50%;
+      border: 8px solid #ce93d8; outline: 4px solid var(--bluey-dark);
+      background: radial-gradient(circle at 35% 30%, #e1f5fe, #81d4fa); overflow: hidden; position: relative;
+    }
+    .washer-drum { position: absolute; inset: 0; }
+    .washer-drum.spin { animation: drumSpin 0.5s linear infinite; }
+    @keyframes drumSpin { to { transform: rotate(360deg); } }
+    .drum-item { position: absolute; font-size: 2rem; left: calc(22% + (var(--n) % 2) * 32%); top: calc(18% + (var(--n) > 1 ? 1 : 0) * 36%); }
+    .drum-suds { position: absolute; left: 0; right: 0; bottom: 8%; text-align: center; font-size: 1.6rem; animation: bubbleBob 1s ease-in-out infinite; }
+    @keyframes bubbleBob { 50% { transform: translateY(-6px); } }
+    .laundry-basket { position: relative; width: min(36vw, 160px); display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; padding-bottom: 54px; }
+    .basket-weave { position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); font-size: 5rem; line-height: 1; pointer-events: none; }
+    .basket-item {
+      position: relative; font-size: 2.4rem; background: none; border: none; cursor: pointer; border-radius: 16px; z-index: 1;
+    }
+    .dirty { filter: sepia(0.7) saturate(0.6) brightness(0.85); }
+    .dirty::before {
+      content: ''; position: absolute; inset: 15%; pointer-events: none;
+      background: radial-gradient(circle at 30% 40%, rgba(109, 76, 65, 0.8) 0 12%, transparent 13%),
+                  radial-gradient(circle at 70% 65%, rgba(109, 76, 65, 0.75) 0 10%, transparent 11%),
+                  radial-gradient(circle at 55% 25%, rgba(109, 76, 65, 0.7) 0 8%, transparent 9%);
+    }
+    .drum-item.dirty::before { inset: 0; }
+
+    /* Big Kiki on the dress-up stage */
+    .kiki-model { position: relative; width: min(78vw, 360px); aspect-ratio: 1; margin-bottom: 4%; animation: dollIdle 3.2s ease-in-out infinite; }
+    .kiki-model svg { width: 100%; height: 100%; }
+    .kiki-badge { position: absolute; font-size: clamp(2.6rem, 14vw, 5rem); filter: drop-shadow(0 4px 0 rgba(74, 20, 140, 0.25)); }
+    .kb-acc-crown { top: -6%; left: 38%; }
+    .kb-acc-wand { bottom: 6%; right: 0; }
+    .kb-acc-wings { top: 28%; left: -4%; }
+    .kb-acc-pet { bottom: 2%; left: 2%; }
+
+    /* =========================================================================
        MINI GAME 3: 🧱 5-YEAR-OLD PICTURE-ONLY LEGO UNICORN BUILDER (v5.0)
        ========================================================================= */
     .lego-fs-overlay {
@@ -1161,7 +1441,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span>Loveable Unicorns <small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v5.0</small></span>
+      <span>Loveable Unicorns <small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v6.0</small></span>
     </div>
 
     <div class="header-controls">
@@ -1170,13 +1450,13 @@
         <span id="star-count">0</span>
       </div>
       <button class="ctrl-btn" id="music-btn" onclick="toggleBgMusic()" title="Toggle Background Music!">
-        🎵 Music
+        🎵
       </button>
       <button class="ctrl-btn" id="voice-style-btn" onclick="cycleVoiceEnergy()">
-        🎀 Girly
+        🎀
       </button>
       <button class="ctrl-btn" id="mute-btn" onclick="toggleMute()">
-        🔊 ON
+        🔊
       </button>
     </div>
   </div>
@@ -1187,7 +1467,7 @@
       <span class="w-icon">🔤</span><span>ABCs</span>
     </button>
     <button class="world-btn w-blend" onclick="setWorld('blend')" id="wbtn-blend">
-      <span class="w-icon">📖</span><span>Blend</span>
+      <span class="w-icon">📖</span><span>Read</span>
     </button>
     <button class="world-btn w-math" onclick="setWorld('math')" id="wbtn-math">
       <span class="w-icon">🔢</span><span>123 Math</span>
@@ -1211,7 +1491,7 @@
       <span class="w-icon">🎂</span><span>Candy Crush</span>
     </button>
     <button class="world-btn w-closet" onclick="setWorld('closet')" id="wbtn-closet">
-      <span class="w-icon">🕶️</span><span>Grannies</span>
+      <span class="w-icon">💄</span><span>Glam Room</span>
     </button>
   </nav>
 
@@ -1224,7 +1504,7 @@
 
     <div class="unicorn-header-stage">
       <!-- Animated Talking Princess Unicorn SVG (Pink & Purple Royal Theme) -->
-      <div class="unicorn-avatar-box" id="unicorn-box" onclick="petUnicorn()" title="Tap me for silly sayings!">
+      <div class="unicorn-avatar-box" id="unicorn-box" onclick="petUnicorn()" title="Tap Kiki!">
         <span class="acc-badge acc-wings" id="acc-wings" style="display:none;">🪽</span>
         <svg viewBox="0 0 120 120">
           <!-- Pink, Purple & Magenta Flowing Mane -->
@@ -1269,7 +1549,7 @@
       <!-- Speech Bubble + Sound Out Controls -->
       <div class="speech-card">
         <div class="speech-top-row">
-          <span class="unicorn-tag">💖 ROYAL PINK &amp; PURPLE UNICORN</span>
+          <span class="unicorn-tag">💖 KIKI THE UNICORN</span>
           <div class="speech-actions">
             <button class="action-circle-btn phonics-btn" id="sound-out-btn" onclick="soundOutCurrent()" title="Sound It Out Slowly!">
               🗣️ Sound Out
@@ -1280,7 +1560,7 @@
           </div>
         </div>
         <div class="speech-text" id="speech-text" onclick="repeatCurrentPrompt()" style="cursor:pointer;">
-          Wackadoo! Ready to play in our Pink &amp; Purple Unicorn Kingdom?! Hooray! 🦄💖💜
+          Hi! I'm Kiki! Let's play! 🦄💖
         </div>
       </div>
     </div>
@@ -1331,13 +1611,43 @@
     </div>
   </div>
 
+  <!-- 🎈 FULL SCREEN KEEPY UPPY (v6.0) -->
+  <div class="kup-overlay" id="kup-overlay">
+    <div class="kup-room" id="kup-room"></div>
+    <canvas class="kup-canvas" id="kup-canvas"></canvas>
+    <div class="lego-fs-topbar">
+      <button class="lego-icon-btn" onclick="exitKeepyUppy()" title="Home">🏠</button>
+      <div class="lego-scene-pills" id="kup-room-bar"></div>
+    </div>
+    <div class="kup-hud kup-score">🎈<span id="kup-count">0</span> 🏆<span id="kup-best">0</span></div>
+  </div>
+
+  <!-- 💄 KIKI'S GLAM ROOM (v6.0) -->
+  <div class="glam-overlay" id="glam-overlay">
+    <div class="glam-top">
+      <button class="glam-station-btn" onclick="exitGlamRoom()" title="Home">🏠</button>
+      <div class="glam-stations" id="glam-stations"></div>
+      <button class="glam-station-btn" onclick="glamRandomLook()" title="Surprise!">🎲</button>
+    </div>
+    <div class="glam-stage" id="glam-stage">
+      <div class="glam-scene" id="glam-scene"></div>
+      <div class="glam-model" id="glam-model"></div>
+      <div class="glam-kiki">🦄<span class="glam-kiki-say" id="glam-kiki-say">Hi!</span></div>
+      <div style="position:absolute; right:8px; top:8px; z-index:3;" class="kup-hud">⭐<span id="glam-stars">0</span></div>
+    </div>
+    <div class="glam-dock">
+      <div class="glam-tabs" id="glam-tabs"></div>
+      <div class="glam-options" id="glam-options"></div>
+    </div>
+  </div>
+
   <script>
     /*************************************************************************
      * 1. PHONICS, BLUEY SAYINGS & KINDERGARTEN CURRICULUM DATABASE
      *************************************************************************/
     const EPISODE_TITLES = {
       abc:     "Magic Phonics!",
-      blend:   "Sound It Out, Mate!",
+      blend:   "Kiki Teaches Reading!",
       math:    "Dollarbucks Counting!",
       days:    "Wackadoo Weekdays!",
       seasons: "Four Seasons For Real Life!",
@@ -1345,16 +1655,21 @@
       lego:    "LEGO Unicorn Side Scroller!",
       balloon: "Keepy Uppy!",
       candy:   "Duck Cake Crush!",
-      closet:  "Here Come The Grannies!"
+      closet:  "Kiki's Glam Room!"
     };
 
+    // One cute word only. A five year old does not wait for a sentence.
     const BLUEY_PRAISES = [
-      "HOORAY! For real life?! You got it, mate!",
-      "WACKADOO! That was trifficult and you nailed it!",
-      "Nice parking spot, Rita! You just won a Dollarbuck Star!",
-      "HOORAY! Doot doot doot, shake your tail!",
-      "Cheese and crackers, you are SO super smart!",
-      "Even Unicorse is impressed! Aaaand why should I care?! Just kidding, hooray!"
+      { word: "YAY!",     emoji: "🎉" },
+      { word: "WOW!",     emoji: "🤩" },
+      { word: "Hooray!",  emoji: "🥳" },
+      { word: "Yippee!",  emoji: "🦄" },
+      { word: "Woohoo!",  emoji: "🌈" },
+      { word: "Super!",   emoji: "⭐" },
+      { word: "Sparkly!", emoji: "✨" },
+      { word: "Magic!",   emoji: "🪄" },
+      { word: "Yummy!",   emoji: "🧁" },
+      { word: "Wackadoo!",emoji: "💖" }
     ];
 
     const BLUEY_OOPSIES = [
@@ -1365,6 +1680,11 @@
     ];
 
     const BLUEY_TAP_QUOTES = [
+      "Hehe! I'm Kiki!",
+      "Boop! Kiki loves you!",
+      "Kiki tickles! Hehehe!",
+      "Neigh! Kiki is happy!",
+      "Sparkle hug from Kiki!",
       "I slipped on mah beans! Hehehe! Thanks, Janet!",
       "Here come the Grannies! Nice parking spot, Rita!",
       "Aaaaand why should I care?! Bahaha, classic Unicorse!",
@@ -1502,9 +1822,9 @@
     let soundMuted = false;
     let voiceEnergyMode = 0;
     const VOICE_STYLES = [
-      { label: '🎀 Girly', pitch: 1.44, rate: 1.02 },
-      { label: '🇦🇺 Bluey', pitch: 1.38, rate: 1.05 },
-      { label: '🌸 Sweet', pitch: 1.26, rate: 0.90 }
+      { label: '🎀', pitch: 1.44, rate: 1.02 },
+      { label: '🇦🇺', pitch: 1.38, rate: 1.05 },
+      { label: '🌸', pitch: 1.26, rate: 0.90 }
     ];
 
     let preferredVoice = null;
@@ -1652,15 +1972,14 @@
         selectedVoiceIndex = (selectedVoiceIndex + 1) % Math.min(candidateVoices.length, 4);
       }
       selectBestGirlyVoice();
-      const vNum = candidateVoices.length > 1 ? ` #${(selectedVoiceIndex % Math.min(candidateVoices.length, 4)) + 1}` : '';
-      document.getElementById('voice-style-btn').textContent = VOICE_STYLES[voiceEnergyMode].label + vNum;
+      document.getElementById('voice-style-btn').textContent = VOICE_STYLES[voiceEnergyMode].label;
       playMagicSound('sparkle');
-      unicornSpeak("Wackadoo! For real life, how do you like my voice now, mate?! Hooray!", { updateBubble: false });
+      unicornSpeak("Hi! I'm Kiki! Do you like my voice?", { updateBubble: false });
     }
 
     function toggleMute() {
       soundMuted = !soundMuted;
-      document.getElementById('mute-btn').textContent = soundMuted ? '🔇 OFF' : '🔊 ON';
+      document.getElementById('mute-btn').textContent = soundMuted ? '🔇' : '🔊';
       if (soundMuted && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
       } else {
@@ -1687,6 +2006,18 @@
       const box = document.getElementById('star-box');
       box.classList.add('pop');
       setTimeout(() => box.classList.remove('pop'), 380);
+    }
+
+    // Giant bouncing one-word cheer in the middle of the screen
+    function showPraisePop(praise) {
+      const old = document.getElementById('praise-pop');
+      if (old) old.remove();
+      const pop = document.createElement('div');
+      pop.id = 'praise-pop';
+      pop.className = 'praise-pop';
+      pop.innerHTML = `<span class="praise-emoji">${praise.emoji}</span><span>${praise.word}</span>`;
+      document.body.appendChild(pop);
+      setTimeout(() => pop.remove(), 1500);
     }
 
     function randomOopsie() {
@@ -1831,6 +2162,35 @@
           gain.connect(ctx.destination);
           osc.start(now);
           osc.stop(now + 0.26);
+        } else if (type === 'bubble') {
+          // Soft soapy blip
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          const f = 600 + Math.random() * 500;
+          osc.frequency.setValueAtTime(f, now);
+          osc.frequency.exponentialRampToValueAtTime(f * 1.8, now + 0.07);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.1);
+        } else if (type === 'shutter') {
+          // Camera click: two quick noise-ish ticks
+          [0, 0.07].forEach(t => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(1800, now + t);
+            osc.frequency.exponentialRampToValueAtTime(300, now + t + 0.04);
+            gain.gain.setValueAtTime(0.18, now + t);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + t + 0.05);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + t);
+            osc.stop(now + t + 0.05);
+          });
         }
       } catch (e) {}
     }
@@ -1916,7 +2276,7 @@
       bgMusicPlaying = typeof forceState === 'boolean' ? forceState : !bgMusicPlaying;
       const btn = document.getElementById('music-btn');
       if (btn) {
-        btn.textContent = bgMusicPlaying ? '🎵 Music: ON' : '🎵 Music';
+        btn.textContent = '🎵';
         btn.style.background = bgMusicPlaying ? '#ffe082' : '#fff8e1';
       }
       if (bgMusicTimer) {
@@ -1944,14 +2304,16 @@
       const ubox = document.getElementById('unicorn-box');
       ubox.classList.add('dancing');
 
+      // spokenDetail is kept for callers but no longer read aloud: just one happy word.
       const praise = BLUEY_PRAISES[Math.floor(Math.random() * BLUEY_PRAISES.length)];
-      unicornSpeak(`${praise} ${spokenDetail}`);
+      showPraisePop(praise);
+      unicornSpeak(`${praise.word} ${praise.emoji}`);
 
       const savedWorld = currentWorld;
       setTimeout(() => {
         ubox.classList.remove('dancing');
         if (currentWorld === savedWorld) nextFn();
-      }, 2700);
+      }, 1700);
     }
 
     /*************************************************************************
@@ -1972,6 +2334,8 @@
       if (fsOverlay && world !== 'lego') {
         fsOverlay.classList.remove('open');
       }
+      if (world !== 'balloon') document.getElementById('kup-overlay').classList.remove('open');
+      if (world !== 'closet') document.getElementById('glam-overlay').classList.remove('open');
       document.querySelectorAll('.world-btn').forEach(b => b.classList.remove('active'));
       const wBtn = document.getElementById('wbtn-' + world);
       if (wBtn) wBtn.classList.add('active');
@@ -2138,67 +2502,282 @@
     }
 
     /*************************************************************************
-     * WORLD 2: SOUND IT OUT! (Word Blender / Early Reading)
+     * WORLD 2: 📖 KIKI'S LEARN TO READ LADDER
+     * Five steps, easiest first:
+     *   🔊 Listen  - Kiki blends a word while the child watches (I do)
+     *   🧩 Build   - hear a word, tap letters in order to spell it (we do)
+     *   👀 Read    - see a word, nobody says it, pick the picture (you do)
+     *   ⭐ Sight   - the little words you just know (the, see, my...)
+     *   📚 Story   - read a whole sentence, then pick the picture
+     * Build and Read climb through word families; 5 right moves up a family.
      *************************************************************************/
-    function startBlendWorld() {
-      roundLocked = false;
-      const target = BLEND_WORDS[Math.floor(Math.random() * BLEND_WORDS.length)];
-      const distractors = BLEND_WORDS.filter(w => w.word !== target.word).sort(() => Math.random() - 0.5).slice(0, 3);
-      const choices = [target, ...distractors].sort(() => Math.random() - 0.5);
+    const PHONICS_SOUND = {};
+    ALPHABET.forEach(a => { PHONICS_SOUND[a.letter] = a.phonetic; });
 
-      currentSoundOutCallback = () => {
-        const tiles = document.querySelectorAll('.letter-tile');
-        target.sounds.forEach((s, idx) => {
-          setTimeout(() => {
-            if (tiles[idx]) tiles[idx].classList.add('sounded');
-            playMagicSound('pop');
-          }, idx * 500);
-        });
-        const blendSpeech = target.spokenBlend
-          ? `${target.spokenBlend}!`
-          : `${target.sounds[0]}... ${target.sounds[1]}... ${target.sounds[2]}... ${target.word.toLowerCase()}!`;
-        unicornSpeak(blendSpeech, { updateBubble: false, customRate: 0.92 });
-      };
+    const WORD_FAMILIES = [
+      { fam: 'at', emoji: '🐱', words: [['CAT','🐱'],['HAT','👒'],['BAT','🦇'],['RAT','🐀'],['MAT','🧘'],['SAT','🪑']] },
+      { fam: 'an', emoji: '🚐', words: [['CAN','🥫'],['FAN','🪭'],['VAN','🚐'],['PAN','🍳'],['MAN','👨'],['JAM','🍓']] },
+      { fam: 'ig', emoji: '🐷', words: [['PIG','🐷'],['WIG','💇'],['DIG','⛏️'],['BIG','🐘'],['FIN','🦈'],['ZIP','🤐']] },
+      { fam: 'op', emoji: '🧹', words: [['MOP','🧹'],['TOP','🔝'],['HOP','🐇'],['POP','🎈'],['BOX','📦'],['FOX','🦊']] },
+      { fam: 'ug', emoji: '🐞', words: [['BUG','🐞'],['HUG','🤗'],['RUG','🧶'],['MUG','☕'],['JUG','🫗'],['CUP','🥤']] },
+      { fam: 'en', emoji: '🐔', words: [['HEN','🐔'],['TEN','🔟'],['PEN','🖊️'],['BED','🛏️'],['NET','🥅'],['WEB','🕸️']] },
+      { fam: 'ot', emoji: '🔥', words: [['POT','🍲'],['HOT','🔥'],['DOT','🔴'],['DOG','🐶'],['LOG','🪵'],['COT','🛌']] },
+      { fam: 'un', emoji: '☀️', words: [['SUN','☀️'],['BUN','🍞'],['RUN','🏃'],['BUS','🚌'],['NUT','🥜'],['TUB','🛁']] },
+      { fam: 'it', emoji: '6️⃣', words: [['SIX','6️⃣'],['LIP','👄'],['PIN','📌'],['KID','🧒'],['SIT','🪑'],['BIB','👶']] }
+    ];
 
-      const showcase = document.getElementById('showcase-card');
-      showcase.innerHTML = `
-        <div style="font-size:0.95rem; font-weight:700; color:#4a148c;">
-          👇 Tap each letter to sound it out!
-        </div>
-        <div class="blender-row" id="blender-row"></div>
-        <button class="blend-arrow-btn" onclick="soundOutCurrent()">
-          🦄 Sound Out Word ➡️
-        </button>
-      `;
+    // Every word, with its sounds worked out from the ABC phonics table
+    const READ_WORDS = [];
+    WORD_FAMILIES.forEach((f, fi) => f.words.forEach(([word, emoji]) => {
+      READ_WORDS.push({ word, emoji, fi, letters: word.split(''), sounds: word.split('').map(l => PHONICS_SOUND[l]) });
+    }));
 
-      const row = document.getElementById('blender-row');
-      target.letters.forEach((ltr, idx) => {
-        const tile = document.createElement('div');
-        tile.className = 'letter-tile';
-        tile.innerHTML = `<span>${ltr}</span><div class="tile-dot"></div>`;
+    const SIGHT_WORDS = ['THE', 'A', 'I', 'SEE', 'CAN', 'MY', 'GO', 'WE', 'IS', 'LIKE', 'LOOK', 'AND', 'TO', 'ME', 'YOU', 'UP', 'IN', 'IT'];
+
+    const READ_SENTENCES = [
+      { text: 'I see a cat.',      emoji: '🐱' },
+      { text: 'The dog can run.',  emoji: '🐶' },
+      { text: 'I like my hat.',    emoji: '👒' },
+      { text: 'Kiki can hop.',     emoji: '🦄' },
+      { text: 'A pig in the mud.', emoji: '🐷' },
+      { text: 'The sun is hot.',   emoji: '☀️' },
+      { text: 'We see a bus.',     emoji: '🚌' },
+      { text: 'Look at the fox.',  emoji: '🦊' },
+      { text: 'A bug on a rug.',   emoji: '🐞' },
+      { text: 'I can see a hen.',  emoji: '🐔' },
+      { text: 'The fan is big.',   emoji: '🪭' },
+      { text: 'Go to bed.',        emoji: '🛏️' },
+      { text: 'Kiki and me.',      emoji: '💖' },
+      { text: 'I hug my mom.',     emoji: '🤗' }
+    ];
+
+    let readLevel = parseInt(localStorage.getItem('kiki_read_level') || '0', 10);
+    let readStreak = parseInt(localStorage.getItem('kiki_read_streak') || '0', 10);
+    let readLastWord = '';
+
+    function pickReadWord() {
+      // Mostly the current family, sometimes an older one to keep it fresh
+      let pool = READ_WORDS.filter(w => w.fi === Math.min(readLevel, WORD_FAMILIES.length - 1));
+      if (readLevel > 0 && Math.random() < 0.3) pool = READ_WORDS.filter(w => w.fi < readLevel);
+      if (readLevel >= WORD_FAMILIES.length) pool = READ_WORDS;
+      pool = pool.filter(w => w.word !== readLastWord);
+      const w = pool[Math.floor(Math.random() * pool.length)];
+      readLastWord = w.word;
+      return w;
+    }
+
+    function readLadderProgress() {
+      readStreak++;
+      if (readStreak >= 5) {
+        readStreak = 0;
+        if (readLevel < WORD_FAMILIES.length) readLevel++;
+        setTimeout(() => {
+          playMagicSound('sparkle');
+          burstSparkles(window.innerWidth / 2, window.innerHeight / 3, 90);
+          showPraisePop({ word: 'Level Up!', emoji: '🏆' });
+        }, 900);
+      }
+      localStorage.setItem('kiki_read_level', readLevel);
+      localStorage.setItem('kiki_read_streak', readStreak);
+    }
+
+    function readLadderBadge() {
+      const fam = WORD_FAMILIES[Math.min(readLevel, WORD_FAMILIES.length - 1)];
+      const dots = [0, 1, 2, 3, 4].map(i => `<span class="read-dot ${i < readStreak ? 'on' : ''}"></span>`).join('');
+      const steps = WORD_FAMILIES.map((f, i) => `<span class="read-step ${i < readLevel ? 'done' : ''} ${i === readLevel ? 'now' : ''}">${i < readLevel ? '⭐' : f.emoji}</span>`).join('');
+      return `<div class="read-ladder"><div class="read-steps">${steps}</div><div class="read-dots">-${fam.fam} ${dots}</div></div>`;
+    }
+
+    function speakSound(letter) {
+      unicornSpeak(PHONICS_SOUND[letter] || letter, { updateBubble: false, customRate: 0.85 });
+    }
+
+    // Light each tile in turn, slide Kiki under them, then say the whole word
+    function blendWordAnimated(target, rowId, done) {
+      const tiles = document.querySelectorAll(`#${rowId} .letter-tile`);
+      const slider = document.getElementById(rowId + '-slider');
+      tiles.forEach(t => t.classList.remove('sounded'));
+      target.letters.forEach((l, idx) => {
+        setTimeout(() => {
+          if (tiles[idx]) tiles[idx].classList.add('sounded');
+          if (slider && tiles[idx]) {
+            slider.style.left = (tiles[idx].offsetLeft + tiles[idx].offsetWidth / 2 - 16) + 'px';
+          }
+          playCountNote(idx + 1);
+        }, idx * 650);
+      });
+      unicornSpeak(target.sounds.join(', ') + ', ' + target.word.toLowerCase() + '!', { updateBubble: false, customRate: 0.78 });
+      setTimeout(() => { if (done) done(); }, target.letters.length * 650 + 900);
+    }
+
+    function letterTilesHTML(letters, rowId, tapToSound = true) {
+      return `
+        <div class="blender-wrap">
+          <div class="blender-row" id="${rowId}">
+            ${letters.map((l, i) => `<div class="letter-tile" data-idx="${i}" data-letter="${l}"><span>${l}</span><div class="tile-dot"></div></div>`).join('')}
+          </div>
+          <div class="blend-slider" id="${rowId}-slider">🦄</div>
+        </div>`;
+    }
+
+    function wireTileTaps(rowId) {
+      document.querySelectorAll(`#${rowId} .letter-tile`).forEach(tile => {
         tile.onclick = () => {
           tile.classList.add('sounded');
           playMagicSound('pop');
-          unicornSpeak(target.sounds[idx], { updateBubble: false, customRate: 0.95 });
+          speakSound(tile.dataset.letter);
         };
-        row.appendChild(tile);
       });
+    }
+
+    function startBlendWorld() {
+      setupSubModes([
+        { id: 'listen', label: '🔊 Listen' },
+        { id: 'build',  label: '🧩 Build' },
+        { id: 'read',   label: '👀 Read' },
+        { id: 'sight',  label: '⭐ Sight' },
+        { id: 'story',  label: '📚 Story' }
+      ], currentSubMode && ['listen', 'build', 'read', 'sight', 'story'].includes(currentSubMode) ? currentSubMode : 'listen', runReadMode);
+    }
+
+    function runReadMode() {
+      roundLocked = false;
+      if (currentSubMode === 'build') return startBuildWord();
+      if (currentSubMode === 'read') return startReadWord();
+      if (currentSubMode === 'sight') return startSightWord();
+      if (currentSubMode === 'story') return startStoryRead();
+      return startListenWord();
+    }
+
+    // 🔊 LISTEN: watch Kiki sound out and blend, then the picture pops out
+    function startListenWord() {
+      const target = pickReadWord();
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        ${readLadderBadge()}
+        ${letterTilesHTML(target.letters, 'listen-row')}
+        <div class="read-reveal" id="listen-reveal">❓</div>
+      `;
+      wireTileTaps('listen-row');
+
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `
+        <div class="read-btn-row">
+          <button class="read-big-btn" id="listen-again">🔁</button>
+          <button class="read-big-btn go" id="listen-next">➡️</button>
+        </div>`;
+
+      const play = () => blendWordAnimated(target, 'listen-row', () => {
+        const rev = document.getElementById('listen-reveal');
+        if (!rev) return;
+        rev.textContent = target.emoji;
+        rev.classList.add('shown');
+        playMagicSound('sparkle');
+      });
+      currentSoundOutCallback = play;
+      document.getElementById('listen-again').onclick = () => { playMagicSound('pop'); play(); };
+      document.getElementById('listen-next').onclick = () => {
+        playMagicSound('pop');
+        addStar();
+        startListenWord();
+      };
+      lastSpokenPrompt = 'Listen!';
+      document.getElementById('speech-text').textContent = '👂 Listen!';
+      setTimeout(() => { if (currentSubMode === 'listen' && currentWorld === 'blend') play(); }, 350);
+    }
+
+    // 🧩 BUILD: picture + empty slots, tap the letters in order
+    function startBuildWord() {
+      const target = pickReadWord();
+      const extras = 'ABCDEFGHIJKLMNOPRSTUVWZ'.split('').filter(l => !target.letters.includes(l))
+        .sort(() => Math.random() - 0.5).slice(0, 3);
+      const bank = [...target.letters, ...extras].sort(() => Math.random() - 0.5);
+      let filled = 0;
+
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        ${readLadderBadge()}
+        <div class="read-reveal shown small">${target.emoji}</div>
+        <div class="blender-wrap">
+          <div class="blender-row" id="build-row">
+            ${target.letters.map((l, i) => `<div class="letter-tile empty" data-idx="${i}" data-letter="${l}"><span>?</span><div class="tile-dot"></div></div>`).join('')}
+          </div>
+          <div class="blend-slider" id="build-row-slider">🦄</div>
+        </div>
+      `;
+
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `<div class="letter-bank" id="letter-bank"></div>`;
+      const bankEl = document.getElementById('letter-bank');
+
+      const sayTarget = () => unicornSpeak(`${target.word.toLowerCase()}! | ${target.sounds.join(' | ')}`, { updateBubble: false, isSoundOut: true });
+      currentSoundOutCallback = sayTarget;
+
+      bank.forEach(l => {
+        const b = document.createElement('button');
+        b.className = 'bank-tile';
+        b.textContent = l;
+        b.onclick = () => {
+          if (roundLocked || b.classList.contains('used')) return;
+          const need = target.letters[filled];
+          if (l === need) {
+            const slot = document.querySelector(`#build-row .letter-tile[data-idx="${filled}"]`);
+            slot.classList.remove('empty');
+            slot.querySelector('span').textContent = l;
+            slot.classList.add('sounded');
+            b.classList.add('used');
+            playMagicSound('legoSnap');
+            speakSound(l);
+            filled++;
+            if (filled === target.letters.length) {
+              roundLocked = true;
+              readLadderProgress();
+              setTimeout(() => blendWordAnimated(target, 'build-row', () => celebrateWin(null, target.word, runReadMode)), 500);
+            }
+          } else {
+            b.classList.add('nope');
+            setTimeout(() => b.classList.remove('nope'), 420);
+            playMagicSound('oops');
+            speakSound(l);
+          }
+        };
+        bankEl.appendChild(b);
+      });
+
+      lastSpokenPrompt = `${target.word.toLowerCase()}!`;
+      document.getElementById('speech-text').textContent = `🧩 ${target.emoji}`;
+      sayTarget();
+    }
+
+    // 👀 READ: the word is shown but never said. Tap letters for help.
+    function startReadWord() {
+      const target = pickReadWord();
+      // Same-family pictures first, so the child has to read past the first letter
+      const pool = READ_WORDS.filter(w => w.word !== target.word && w.emoji !== target.emoji).sort(() => Math.random() - 0.5);
+      const distractors = [...pool.filter(w => w.fi === target.fi), ...pool.filter(w => w.fi !== target.fi)].slice(0, 3);
+      const choices = [target, ...distractors].sort(() => Math.random() - 0.5);
+
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        ${readLadderBadge()}
+        ${letterTilesHTML(target.letters, 'read-row')}
+      `;
+      wireTileTaps('read-row');
+      currentSoundOutCallback = () => blendWordAnimated(target, 'read-row');
 
       const area = document.getElementById('interactive-area');
       area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
       const grid = document.getElementById('choices-grid');
-
       choices.forEach(item => {
         const btn = document.createElement('button');
         btn.className = 'choice-btn';
-        btn.innerHTML = `
-          <span>${item.emoji}</span>
-          <span class="choice-label">${item.word}</span>
-        `;
+        btn.innerHTML = `<span style="font-size:3rem;">${item.emoji}</span>`;
         btn.onclick = () => {
           if (roundLocked) return;
           if (item.word === target.word) {
-            celebrateWin(btn, `${target.word.toLowerCase()}!`, startBlendWorld);
+            readLadderProgress();
+            unicornSpeak(target.word.toLowerCase(), { updateBubble: false });
+            celebrateWin(btn, target.word, runReadMode);
           } else {
             btn.classList.add('wrong');
             playMagicSound('oops');
@@ -2207,9 +2786,113 @@
         grid.appendChild(btn);
       });
 
-      const promptBlend = target.spokenBlend || `${target.sounds[0]}, ${target.sounds[1]}, ${target.sounds[2]}, ${target.word.toLowerCase()}`;
-      document.getElementById('speech-text').textContent = `Sound it out: ${target.letters.join(' - ')} = ${target.word}! Which picture matches?`;
-      unicornSpeak(`Sound it out: ${promptBlend}! Which picture is ${target.word.toLowerCase()}?`, { updateBubble: false });
+      lastSpokenPrompt = 'Read it!';
+      document.getElementById('speech-text').textContent = '👀 Read it!';
+      unicornSpeak('Read it!', { updateBubble: false });
+    }
+
+    // ⭐ SIGHT WORDS: Kiki says a word, find it
+    function startSightWord() {
+      let target;
+      do { target = SIGHT_WORDS[Math.floor(Math.random() * SIGHT_WORDS.length)]; } while (target === readLastWord);
+      readLastWord = target;
+      const choices = [target, ...SIGHT_WORDS.filter(w => w !== target).sort(() => Math.random() - 0.5).slice(0, 3)]
+        .sort(() => Math.random() - 0.5);
+
+      const say = () => unicornSpeak(target.toLowerCase(), { updateBubble: false, customRate: 0.85 });
+      currentSoundOutCallback = say;
+
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        <button class="read-big-btn ear" id="sight-ear">👂🔊</button>
+      `;
+      document.getElementById('sight-ear').onclick = () => { playMagicSound('pop'); say(); };
+
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `<div class="choices-grid" id="choices-grid"></div>`;
+      const grid = document.getElementById('choices-grid');
+      choices.forEach(w => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn sight-word';
+        btn.textContent = w.toLowerCase();
+        btn.onclick = () => {
+          if (roundLocked) return;
+          if (w === target) {
+            celebrateWin(btn, w, runReadMode);
+          } else {
+            btn.classList.add('wrong');
+            playMagicSound('oops');
+            say();
+          }
+        };
+        grid.appendChild(btn);
+      });
+
+      lastSpokenPrompt = target.toLowerCase();
+      document.getElementById('speech-text').textContent = '⭐ 👂';
+      setTimeout(say, 300);
+    }
+
+    // 📚 STORY: read a sentence word by word, then pick its picture
+    function startStoryRead() {
+      let target;
+      do { target = READ_SENTENCES[Math.floor(Math.random() * READ_SENTENCES.length)]; } while (target.text === readLastWord);
+      readLastWord = target.text;
+      const others = READ_SENTENCES.filter(s => s.emoji !== target.emoji).sort(() => Math.random() - 0.5).slice(0, 2);
+      const choices = [target, ...others].sort(() => Math.random() - 0.5);
+      const words = target.text.replace('.', '').split(' ');
+
+      const showcase = document.getElementById('showcase-card');
+      showcase.innerHTML = `
+        <div class="story-line" id="story-line">
+          ${words.map((w, i) => `<span class="story-word" data-i="${i}">${w}</span>`).join(' ')}<span class="story-dot">.</span>
+        </div>
+        <button class="read-big-btn" id="story-read">🦄🔊</button>
+      `;
+
+      const readToMe = () => {
+        const els = document.querySelectorAll('#story-line .story-word');
+        els.forEach(e => e.classList.remove('lit'));
+        unicornSpeak(target.text, { updateBubble: false, customRate: 0.7 });
+        words.forEach((w, i) => setTimeout(() => {
+          els.forEach(e => e.classList.remove('lit'));
+          if (els[i]) els[i].classList.add('lit');
+        }, i * 520));
+        setTimeout(() => els.forEach(e => e.classList.remove('lit')), words.length * 520 + 400);
+      };
+      currentSoundOutCallback = readToMe;
+      document.getElementById('story-read').onclick = () => { playMagicSound('pop'); readToMe(); };
+      document.querySelectorAll('#story-line .story-word').forEach(el => {
+        el.onclick = () => {
+          el.classList.add('lit');
+          playMagicSound('pop');
+          unicornSpeak(el.textContent.toLowerCase(), { updateBubble: false, customRate: 0.85 });
+          setTimeout(() => el.classList.remove('lit'), 700);
+        };
+      });
+
+      const area = document.getElementById('interactive-area');
+      area.innerHTML = `<div class="choices-grid three" id="choices-grid"></div>`;
+      const grid = document.getElementById('choices-grid');
+      choices.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerHTML = `<span style="font-size:3rem;">${item.emoji}</span>`;
+        btn.onclick = () => {
+          if (roundLocked) return;
+          if (item.text === target.text) {
+            celebrateWin(btn, target.text, runReadMode);
+          } else {
+            btn.classList.add('wrong');
+            playMagicSound('oops');
+          }
+        };
+        grid.appendChild(btn);
+      });
+
+      lastSpokenPrompt = 'Read it!';
+      document.getElementById('speech-text').textContent = '📚 Read it!';
+      unicornSpeak('Read it!', { updateBubble: false });
     }
 
     /*************************************************************************
@@ -2703,129 +3386,348 @@
     }
 
     /*************************************************************************
-     * WORLD 8: 🎈 KEEPY UPPY! (Balloon Pop Mini Game)
+     * WORLD 8: 🎈 KEEPY UPPY! (full screen, just for fun, no learning)
+     * Balloons drift down slowly in a cosy room. Tap them so they never touch
+     * the floor. A new balloon joins only every 40 seconds, up to six.
      *************************************************************************/
-    const BALLOON_COLORS = [
-      'radial-gradient(circle at 30% 30%, #ff5252, #c62828)',
-      'radial-gradient(circle at 30% 30%, #80d8ff, #0277bd)',
-      'radial-gradient(circle at 30% 30%, #ffcc80, #ef6c00)',
-      'radial-gradient(circle at 30% 30%, #ff80ab, #c51162)',
-      'radial-gradient(circle at 30% 30%, #ea80fc, #6a1b9a)',
-      'radial-gradient(circle at 30% 30%, #b9f6ca, #00c853)'
+    const KUP_BALLOON_COLORS = [
+      ['#ff80ab', '#d81b60'], ['#ce93d8', '#7b1fa2'], ['#80d8ff', '#0288d1'],
+      ['#ffe082', '#f9a825'], ['#b9f6ca', '#2e7d32'], ['#ff8a80', '#c62828']
     ];
+    const KUP_ADD_EVERY_MS = 40000;
+    const KUP_MAX_BALLOONS = 6;
+
+    // Each room is a flat, rounded, Bluey-style picture. Floor top is y=600 of 700.
+    const KUP_ROOMS = [
+      { id: 'living', icon: '🛋️', svg: `
+        <rect width="400" height="700" fill="#f8bbd0"/>
+        ${[0,1,2,3,4,5,6,7].map(i => `<rect x="${i*52}" y="0" width="26" height="600" fill="#fcd5e3"/>`).join('')}
+        <rect x="40" y="90" width="130" height="150" rx="18" fill="#fff" stroke="#8e24aa" stroke-width="6"/>
+        <rect x="50" y="100" width="110" height="130" rx="12" fill="#b3e5fc"/>
+        <circle cx="130" cy="135" r="18" fill="#fff59d"/>
+        <ellipse cx="85" cy="175" rx="30" ry="13" fill="#fff"/>
+        <line x1="105" y1="100" x2="105" y2="230" stroke="#8e24aa" stroke-width="5"/>
+        <rect x="240" y="120" width="90" height="70" rx="10" fill="#fff" stroke="#8e24aa" stroke-width="5"/>
+        <path d="M285 165 l-14 -14 a9 9 0 0 1 14 -10 a9 9 0 0 1 14 10 z" fill="#ec407a"/>
+        <rect x="0" y="600" width="400" height="100" fill="#ce93d8"/>
+        ${[0,1,2,3,4].map(i => `<line x1="${i*90+20}" y1="600" x2="${i*90-10}" y2="700" stroke="#ba68c8" stroke-width="4"/>`).join('')}
+        <ellipse cx="200" cy="640" rx="150" ry="26" fill="#f48fb1"/>
+        <ellipse cx="200" cy="640" rx="110" ry="16" fill="#f8bbd0"/>
+        <rect x="70" y="480" width="260" height="110" rx="34" fill="#7e57c2" stroke="#4a148c" stroke-width="6"/>
+        <rect x="95" y="455" width="210" height="75" rx="28" fill="#9575cd" stroke="#4a148c" stroke-width="6"/>
+        <rect x="45" y="490" width="55" height="100" rx="24" fill="#9575cd" stroke="#4a148c" stroke-width="6"/>
+        <rect x="300" y="490" width="55" height="100" rx="24" fill="#9575cd" stroke="#4a148c" stroke-width="6"/>
+        <rect x="120" y="470" width="60" height="45" rx="14" fill="#ffd54f" stroke="#4a148c" stroke-width="5"/>
+        <rect x="220" y="470" width="60" height="45" rx="14" fill="#ff80ab" stroke="#4a148c" stroke-width="5"/>
+        <rect x="355" y="380" width="10" height="220" fill="#4a148c"/>
+        <path d="M330 390 L390 390 L375 330 L345 330 Z" fill="#fff59d" stroke="#4a148c" stroke-width="5"/>
+      ` },
+      { id: 'bedroom', icon: '🛏️', svg: `
+        <rect width="400" height="700" fill="#e1bee7"/>
+        ${[[60,60],[180,40],[320,80],[110,200],[260,170],[350,260],[40,300]].map(([x,y]) => `<text x="${x}" y="${y}" font-size="26" fill="#fff59d">★</text>`).join('')}
+        <path d="M0 40 Q100 110 200 40 Q300 110 400 40" fill="none" stroke="#8e24aa" stroke-width="4"/>
+        ${[30,70,110,150,250,290,330,370].map((x,i) => `<path d="M${x-14} ${54+Math.abs(200-x)*0.18} l14 30 l14 -30 z" fill="${['#ff80ab','#ffd54f','#80d8ff','#b9f6ca'][i%4]}"/>`).join('')}
+        <rect x="250" y="190" width="110" height="120" rx="55" fill="#4a148c" stroke="#fff" stroke-width="6"/>
+        <circle cx="318" cy="240" r="24" fill="#fff59d"/>
+        <circle cx="306" cy="232" r="22" fill="#4a148c"/>
+        <rect x="0" y="600" width="400" height="100" fill="#b39ddb"/>
+        <rect x="30" y="470" width="250" height="40" rx="18" fill="#fff" stroke="#4a148c" stroke-width="6"/>
+        <rect x="30" y="500" width="250" height="90" rx="20" fill="#f06292" stroke="#4a148c" stroke-width="6"/>
+        ${[60,110,160,210,250].map(x => `<circle cx="${x}" cy="545" r="9" fill="#fff" opacity="0.7"/>`).join('')}
+        <rect x="18" y="400" width="30" height="200" rx="12" fill="#9575cd" stroke="#4a148c" stroke-width="6"/>
+        <ellipse cx="80" cy="470" rx="38" ry="22" fill="#fff" stroke="#4a148c" stroke-width="5"/>
+        <rect x="300" y="500" width="80" height="100" rx="16" fill="#ffcc80" stroke="#4a148c" stroke-width="6"/>
+        <text x="314" y="490" font-size="46">🦄</text>
+      ` },
+      { id: 'yard', icon: '🌳', svg: `
+        <defs><linearGradient id="kupSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f8bbd0"/><stop offset="1" stop-color="#ffe0b2"/></linearGradient></defs>
+        <rect width="400" height="700" fill="url(#kupSky)"/>
+        <circle cx="320" cy="100" r="46" fill="#fff59d"/>
+        <ellipse cx="90" cy="120" rx="55" ry="22" fill="#fff"/><ellipse cx="120" cy="105" rx="35" ry="22" fill="#fff"/>
+        <ellipse cx="240" cy="210" rx="45" ry="18" fill="#fff" opacity="0.9"/>
+        ${[0,1,2,3,4,5,6,7,8,9].map(i => `<rect x="${i*42+4}" y="430" width="30" height="175" rx="12" fill="#e1bee7" stroke="#8e24aa" stroke-width="4"/>`).join('')}
+        <rect x="0" y="470" width="400" height="14" fill="#ce93d8"/>
+        <rect x="270" y="330" width="34" height="280" rx="12" fill="#a1887f" stroke="#4e342e" stroke-width="5"/>
+        <circle cx="287" cy="300" r="80" fill="#81c784" stroke="#2e7d32" stroke-width="6"/>
+        <circle cx="240" cy="330" r="45" fill="#a5d6a7"/>
+        <circle cx="300" cy="270" r="9" fill="#ff80ab"/><circle cx="250" cy="300" r="9" fill="#ff80ab"/><circle cx="320" cy="320" r="9" fill="#ff80ab"/>
+        <rect x="0" y="600" width="400" height="100" fill="#a5d6a7"/>
+        ${[30,80,140,200,350].map((x,i) => `<g transform="translate(${x} ${625 + (i%2)*25})"><circle r="8" fill="${['#ff80ab','#fff59d','#ce93d8'][i%3]}"/><circle r="3.5" fill="#fff"/></g>`).join('')}
+        <path d="M50 604 L84 296 L118 604 M142 604 L176 296 L210 604" fill="none" stroke="#ec407a" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="70" y="286" width="120" height="16" rx="8" fill="#ab47bc" stroke="#4a148c" stroke-width="4"/>
+        <line x1="104" y1="302" x2="104" y2="557" stroke="#6d4c41" stroke-width="4"/>
+        <line x1="156" y1="302" x2="156" y2="557" stroke="#6d4c41" stroke-width="4"/>
+        <rect x="92" y="555" width="76" height="16" rx="7" fill="#ffd54f" stroke="#4a148c" stroke-width="4"/>
+      ` },
+      { id: 'kitchen', icon: '🧁', svg: `
+        <rect width="400" height="700" fill="#fce4ec"/>
+        ${[0,1,2,3,4,5,6,7].map(r => [0,1,2,3,4,5,6,7].map(c => `<rect x="${c*50+3}" y="${r*30+330}" width="44" height="24" rx="5" fill="${(r+c)%2 ? '#f8bbd0' : '#fff'}"/>`).join('')).join('')}
+        <rect x="30" y="60" width="140" height="110" rx="14" fill="#fff" stroke="#8e24aa" stroke-width="6"/>
+        <rect x="40" y="70" width="120" height="90" rx="10" fill="#b3e5fc"/>
+        <path d="M40 70 Q100 110 160 70" fill="#f48fb1"/>
+        <line x1="290" y1="0" x2="290" y2="90" stroke="#4a148c" stroke-width="4"/>
+        <path d="M250 125 Q290 70 330 125 Z" fill="#ba68c8" stroke="#4a148c" stroke-width="5"/>
+        <rect x="270" y="320" width="110" height="280" rx="22" fill="#fff" stroke="#4a148c" stroke-width="6"/>
+        <line x1="270" y1="420" x2="380" y2="420" stroke="#4a148c" stroke-width="5"/>
+        <rect x="285" y="360" width="10" height="40" rx="5" fill="#ce93d8"/><rect x="285" y="440" width="10" height="50" rx="5" fill="#ce93d8"/>
+        <text x="300" y="400" font-size="26">🌈</text>
+        <rect x="0" y="600" width="400" height="100" fill="#b39ddb"/>
+        <rect x="20" y="500" width="230" height="22" rx="10" fill="#ff80ab" stroke="#4a148c" stroke-width="5"/>
+        <rect x="45" y="520" width="16" height="80" fill="#9575cd" stroke="#4a148c" stroke-width="4"/>
+        <rect x="210" y="520" width="16" height="80" fill="#9575cd" stroke="#4a148c" stroke-width="4"/>
+        <text x="95" y="500" font-size="64">🎂</text>
+        <text x="30" y="500" font-size="34">🧁</text>
+      ` },
+      { id: 'party', icon: '🎉', svg: `
+        <rect width="400" height="700" fill="#d1c4e9"/>
+        ${[0,1,2,3,4,5,6,7,8,9,10,11].map(i => `<circle cx="${(i*67)%400}" cy="${(i*113)%560+20}" r="${6+(i%3)*3}" fill="${['#ff80ab','#fff59d','#80d8ff','#b9f6ca'][i%4]}" opacity="0.8"/>`).join('')}
+        <path d="M0 30 Q200 140 400 30" fill="none" stroke="#ec407a" stroke-width="10" stroke-linecap="round"/>
+        <path d="M0 70 Q200 190 400 70" fill="none" stroke="#ffd54f" stroke-width="10" stroke-linecap="round"/>
+        <rect x="60" y="200" width="280" height="80" rx="30" fill="#fff" stroke="#8e24aa" stroke-width="6"/>
+        <text x="200" y="256" font-size="44" text-anchor="middle">🎈 🦄 🎈</text>
+        <rect x="0" y="600" width="400" height="100" fill="#f48fb1"/>
+        ${[0,1,2,3,4,5,6,7].map(i => `<rect x="${i*50}" y="600" width="25" height="100" fill="#f8bbd0"/>`).join('')}
+        <rect x="30" y="520" width="70" height="70" rx="12" fill="#80d8ff" stroke="#4a148c" stroke-width="5"/>
+        <rect x="65" y="450" width="70" height="70" rx="12" fill="#ffd54f" stroke="#4a148c" stroke-width="5"/>
+        <rect x="100" y="520" width="70" height="70" rx="12" fill="#ff80ab" stroke="#4a148c" stroke-width="5"/>
+        <text x="48" y="568" font-size="36" font-weight="700" fill="#4a148c">K</text>
+        <text x="86" y="498" font-size="36" font-weight="700" fill="#4a148c">I</text>
+        <text x="120" y="568" font-size="36" font-weight="700" fill="#4a148c">K</text>
+        <text x="270" y="590" font-size="80">🎁</text>
+      ` }
+    ];
+
+    let kup = null;
+
+    function kupRoomSVG(room) {
+      return `<svg viewBox="0 0 400 700" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">${room.svg}</svg>`;
+    }
+
+    function setKupRoom(idx) {
+      if (!kup) return;
+      kup.roomIdx = idx;
+      document.getElementById('kup-room').innerHTML = kupRoomSVG(KUP_ROOMS[idx]);
+      document.querySelectorAll('#kup-room-bar .lego-scene-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+      try { localStorage.setItem('kiki_kup_room', idx); } catch (e) {}
+      playMagicSound('pop');
+      kupResize();
+    }
+
+    function kupResize() {
+      if (!kup) return;
+      const c = kup.canvas;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      kup.W = c.clientWidth;
+      kup.H = c.clientHeight;
+      c.width = kup.W * dpr;
+      c.height = kup.H * dpr;
+      kup.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // Match the room picture's floor line (y=600 of 700, bottom-anchored "slice" scaling)
+      const scale = Math.max(kup.W / 400, kup.H / 700);
+      kup.floorY = kup.H - 100 * scale + 14 * scale;
+      kup.R = Math.max(44, Math.min(80, Math.min(kup.W, kup.H) * 0.13));
+    }
+
+    function kupAddBalloon() {
+      const [light, dark] = KUP_BALLOON_COLORS[kup.balloons.length % KUP_BALLOON_COLORS.length];
+      kup.balloons.push({
+        x: kup.W * (0.25 + Math.random() * 0.5),
+        y: -kup.R * 1.5,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: 0.4,
+        light, dark,
+        squash: 0,
+        face: 'happy',
+        faceTimer: 0,
+        wob: Math.random() * Math.PI * 2
+      });
+      playMagicSound('sparkle');
+    }
+
+    function kupUpdateHud() {
+      document.getElementById('kup-count').textContent = kup.streak;
+      document.getElementById('kup-best').textContent = kup.best;
+    }
+
+    function kupTap(ev) {
+      if (!kup) return;
+      const rect = kup.canvas.getBoundingClientRect();
+      const tx = ev.clientX - rect.left;
+      const ty = ev.clientY - rect.top;
+      // Generous hit area: little fingers miss
+      let hit = null, bestD = Infinity;
+      kup.balloons.forEach(b => {
+        const d = Math.hypot(b.x - tx, b.y - ty);
+        if (d < kup.R * 1.7 && d < bestD) { hit = b; bestD = d; }
+      });
+      if (!hit) return;
+      hit.vy = -6.2;
+      hit.vx = Math.max(-3, Math.min(3, (hit.x - tx) / kup.R * 2.2 + (Math.random() - 0.5)));
+      hit.squash = 1;
+      hit.face = 'wow';
+      hit.faceTimer = 30;
+      kup.streak++;
+      if (kup.streak > kup.best) {
+        kup.best = kup.streak;
+        try { localStorage.setItem('kiki_kup_best', kup.best); } catch (e) {}
+      }
+      kupUpdateHud();
+      playCountNote((kup.streak % 12) + 1);
+      burstSparkles(ev.clientX, ev.clientY, 14);
+      if (kup.streak % 10 === 0) {
+        addStar();
+        playMagicSound('success');
+        burstSparkles(window.innerWidth / 2, window.innerHeight / 3, 60);
+        const p = BLUEY_PRAISES[Math.floor(Math.random() * BLUEY_PRAISES.length)];
+        showPraisePop(p);
+        unicornSpeak(p.word, { updateBubble: false });
+      }
+    }
+
+    function kupDrawBalloon(g, b, R) {
+      const sq = b.squash;
+      const rx = R * (1 + sq * 0.12);
+      const ry = R * 1.15 * (1 - sq * 0.12);
+      g.save();
+      g.translate(b.x, b.y);
+      g.rotate(Math.sin(b.wob) * 0.08 + b.vx * 0.04);
+      // string
+      g.strokeStyle = '#6a1b9a';
+      g.lineWidth = 2.5;
+      g.beginPath();
+      g.moveTo(0, ry + 6);
+      g.bezierCurveTo(10, ry + 30, -10, ry + 50, 4, ry + 72);
+      g.stroke();
+      // knot
+      g.fillStyle = b.dark;
+      g.beginPath();
+      g.moveTo(-7, ry + 8); g.lineTo(7, ry + 8); g.lineTo(0, ry - 2); g.closePath();
+      g.fill();
+      // body
+      const grad = g.createRadialGradient(-rx * 0.35, -ry * 0.4, R * 0.1, 0, 0, R * 1.3);
+      grad.addColorStop(0, '#ffffff');
+      grad.addColorStop(0.25, b.light);
+      grad.addColorStop(1, b.dark);
+      g.fillStyle = grad;
+      g.strokeStyle = '#4a148c';
+      g.lineWidth = 4;
+      g.beginPath();
+      g.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+      g.fill();
+      g.stroke();
+      // shine
+      g.fillStyle = 'rgba(255,255,255,0.75)';
+      g.beginPath();
+      g.ellipse(-rx * 0.42, -ry * 0.45, rx * 0.16, ry * 0.26, -0.5, 0, Math.PI * 2);
+      g.fill();
+      // cute face
+      g.fillStyle = '#4a148c';
+      g.strokeStyle = '#4a148c';
+      g.lineWidth = 3.2;
+      g.lineCap = 'round';
+      const ey = -R * 0.05, ex = R * 0.3;
+      if (b.face === 'sad') {
+        g.beginPath(); g.moveTo(-ex - 6, ey - 4); g.lineTo(-ex + 6, ey + 2); g.stroke();
+        g.beginPath(); g.moveTo(ex + 6, ey - 4); g.lineTo(ex - 6, ey + 2); g.stroke();
+        g.beginPath(); g.arc(0, R * 0.42, R * 0.16, Math.PI * 1.15, Math.PI * 1.85); g.stroke();
+      } else if (b.face === 'wow') {
+        g.beginPath(); g.arc(-ex, ey, R * 0.1, 0, Math.PI * 2); g.fill();
+        g.beginPath(); g.arc(ex, ey, R * 0.1, 0, Math.PI * 2); g.fill();
+        g.beginPath(); g.ellipse(0, R * 0.32, R * 0.1, R * 0.13, 0, 0, Math.PI * 2); g.fill();
+      } else {
+        g.beginPath(); g.arc(-ex, ey + 2, R * 0.11, Math.PI * 1.1, Math.PI * 1.9); g.stroke();
+        g.beginPath(); g.arc(ex, ey + 2, R * 0.11, Math.PI * 1.1, Math.PI * 1.9); g.stroke();
+        g.beginPath(); g.arc(0, R * 0.22, R * 0.2, Math.PI * 0.15, Math.PI * 0.85); g.stroke();
+      }
+      g.fillStyle = 'rgba(255, 64, 129, 0.45)';
+      g.beginPath(); g.ellipse(-ex - R * 0.14, R * 0.2, R * 0.11, R * 0.07, 0, 0, Math.PI * 2); g.fill();
+      g.beginPath(); g.ellipse(ex + R * 0.14, R * 0.2, R * 0.11, R * 0.07, 0, 0, Math.PI * 2); g.fill();
+      g.restore();
+    }
+
+    function kupStep(ts) {
+      if (!kup || currentWorld !== 'balloon') return;
+      const dt = kup.last ? Math.min(2.5, (ts - kup.last) / 16.67) : 1;
+      kup.last = ts;
+      kup.playMs += dt * 16.67;
+
+      if (kup.balloons.length < KUP_MAX_BALLOONS && kup.playMs - kup.lastAddMs > KUP_ADD_EVERY_MS) {
+        kup.lastAddMs = kup.playMs;
+        kupAddBalloon();
+        showPraisePop({ word: '+1', emoji: '🎈' });
+      }
+
+      const g = kup.ctx, R = kup.R;
+      g.clearRect(0, 0, kup.W, kup.H);
+
+      kup.balloons.forEach(b => {
+        // Very floaty: gentle gravity, lots of air drag
+        b.vy += 0.022 * dt;
+        b.vy *= Math.pow(0.988, dt);
+        b.vx *= Math.pow(0.992, dt);
+        b.x += b.vx * dt;
+        b.y += b.vy * dt;
+        b.wob += 0.04 * dt;
+        b.squash = Math.max(0, b.squash - 0.08 * dt);
+        if (b.faceTimer > 0) { b.faceTimer -= dt; if (b.faceTimer <= 0) b.face = 'happy'; }
+
+        if (b.x < R) { b.x = R; b.vx = Math.abs(b.vx) * 0.7; }
+        if (b.x > kup.W - R) { b.x = kup.W - R; b.vx = -Math.abs(b.vx) * 0.7; }
+        if (b.y < R + 70 && b.vy < 0) { b.vy *= 0.5; }
+
+        // Touched the floor: soft bonk, sad face, the run starts again. Nobody loses.
+        if (b.y + R * 1.15 >= kup.floorY) {
+          b.y = kup.floorY - R * 1.15;
+          b.vy = -2.6;
+          b.squash = 1;
+          b.face = 'sad';
+          b.faceTimer = 70;
+          if (kup.streak > 0) {
+            kup.streak = 0;
+            kupUpdateHud();
+          }
+          playMagicSound('oops');
+        }
+
+        kupDrawBalloon(g, b, R);
+      });
+
+      balloonLoopId = requestAnimationFrame(kupStep);
+    }
+
+    function exitKeepyUppy() {
+      document.getElementById('kup-overlay').classList.remove('open');
+      if (balloonLoopId) cancelAnimationFrame(balloonLoopId);
+      balloonLoopId = null;
+      kup = null;
+      setWorld('abc');
+    }
 
     function startBalloonWorld() {
       if (balloonLoopId) cancelAnimationFrame(balloonLoopId);
-      const targetItem = ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
-      let poppedCount = 0;
-
-      currentSoundOutCallback = () => {
-        unicornSpeak(`Pop letter ${targetItem.letter} for ${targetItem.word}!`, { updateBubble: false });
+      const overlay = document.getElementById('kup-overlay');
+      overlay.classList.add('open');
+      const canvas = document.getElementById('kup-canvas');
+      kup = {
+        canvas, ctx: canvas.getContext('2d'),
+        balloons: [], streak: 0,
+        best: parseInt(localStorage.getItem('kiki_kup_best') || '0', 10),
+        playMs: 0, lastAddMs: 0, last: 0, roomIdx: 0
       };
-
-      const showcase = document.getElementById('showcase-card');
-      showcase.innerHTML = `
-        <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:6px;">
-          <div style="font-size:1.05rem; font-weight:700; color:#c62828;">
-            🎈 Pop Letter: <strong>${targetItem.letter}${targetItem.letter.toLowerCase()}</strong> (${targetItem.emoji} ${targetItem.word})
-          </div>
-          <div class="phonics-pill" id="balloon-score-pill">
-            💥 Popped: <strong id="balloon-pop-count">0</strong>
-          </div>
-        </div>
-      `;
-
-      const area = document.getElementById('interactive-area');
-      area.innerHTML = `<div class="balloon-arena" id="balloon-arena"></div>`;
-      const arena = document.getElementById('balloon-arena');
-
-      let activeBalloons = [];
-      let lastSpawn = 0;
-
-      function spawnBalloon() {
-        const isTarget = Math.random() < 0.42;
-        const isBonusUnicorn = !isTarget && Math.random() < 0.22;
-        const randomAlpha = ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
-        const item = isTarget ? targetItem : randomAlpha;
-
-        const el = document.createElement('div');
-        el.className = 'balloon-node';
-        el.style.background = BALLOON_COLORS[Math.floor(Math.random() * BALLOON_COLORS.length)];
-
-        const label = isBonusUnicorn ? '🦄' : `${item.letter}${item.letter.toLowerCase()}`;
-        const sub = isBonusUnicorn ? '💵' : item.emoji;
-        el.innerHTML = `<span>${label}</span><span style="font-size:1.1rem; line-height:1;">${sub}</span>`;
-
-        const arenaWidth = arena.clientWidth || 340;
-        const x = Math.random() * Math.max(20, arenaWidth - 88) + 6;
-        const bObj = {
-          el,
-          x,
-          y: (arena.clientHeight || 300) + 20,
-          speed: Math.random() * 0.75 + 0.7,
-          wobbleOffset: Math.random() * Math.PI * 2,
-          item,
-          isTarget,
-          isBonusUnicorn
-        };
-
-        const popHandler = (ev) => {
-          ev.stopPropagation();
-          const rect = el.getBoundingClientRect();
-          burstSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 28);
-
-          poppedCount++;
-          const counterEl = document.getElementById('balloon-pop-count');
-          if (counterEl) counterEl.textContent = poppedCount;
-
-          if (bObj.isTarget) {
-            playMagicSound('success');
-            addStar();
-            // Only speak brief acknowledgement when popping the target letter!
-            unicornSpeak(`Yay! ${item.letter} for ${item.word}!`, { updateBubble: false });
-          } else if (bObj.isBonusUnicorn) {
-            playMagicSound('legoStud');
-            addStar();
-          } else {
-            playMagicSound('pop');
-          }
-
-          el.remove();
-          activeBalloons = activeBalloons.filter(b => b !== bObj);
-        };
-
-        el.addEventListener('pointerdown', popHandler);
-        arena.appendChild(el);
-        activeBalloons.push(bObj);
-      }
-
-      for (let i = 0; i < 4; i++) {
-        spawnBalloon();
-        activeBalloons[activeBalloons.length - 1].y -= i * 65;
-      }
-
-      function stepBalloons(ts) {
-        if (currentWorld !== 'balloon') return;
-        if (ts - lastSpawn > 1150 && activeBalloons.length < 7) {
-          spawnBalloon();
-          lastSpawn = ts;
-        }
-        for (let i = activeBalloons.length - 1; i >= 0; i--) {
-          const b = activeBalloons[i];
-          b.y -= b.speed;
-          const sway = Math.sin(ts * 0.003 + b.wobbleOffset) * 8;
-          b.el.style.transform = `translate3d(${b.x + sway}px, ${b.y}px, 0)`;
-          if (b.y < -110) {
-            b.el.remove();
-            activeBalloons.splice(i, 1);
-          }
-        }
-        balloonLoopId = requestAnimationFrame(stepBalloons);
-      }
-
-      balloonLoopId = requestAnimationFrame(stepBalloons);
-      unicornSpeak(`Pop the ${targetItem.letter} balloons for ${targetItem.word}!`);
+      const bar = document.getElementById('kup-room-bar');
+      bar.innerHTML = KUP_ROOMS.map((r, i) => `<button class="lego-scene-btn" onclick="setKupRoom(${i})">${r.icon}</button>`).join('');
+      let savedRoom = 0;
+      try { savedRoom = parseInt(localStorage.getItem('kiki_kup_room') || '0', 10) || 0; } catch (e) {}
+      setKupRoom(Math.min(savedRoom, KUP_ROOMS.length - 1));
+      canvas.onpointerdown = kupTap;
+      kupAddBalloon();
+      kup.balloons[0].y = kup.H * 0.25;
+      kupUpdateHud();
+      document.getElementById('speech-text').textContent = '🎈 Keepy Uppy!';
+      unicornSpeak('Keepy uppy!', { updateBubble: false });
+      balloonLoopId = requestAnimationFrame(kupStep);
     }
+    window.addEventListener('resize', kupResize);
 
     /*************************************************************************
      * WORLD 9: 🎂 DUCK CAKE & CANDY CRUSH
@@ -4502,62 +5404,1234 @@
     }
 
     /*************************************************************************
-     * WORLD 10: 🕶️ HERE COME THE GRANNIES! (Dress Up Closet)
+     * WORLD 10: 💄 KIKI'S GLAM ROOM (full screen dressing room, was "Grannies")
+     * Stations along the top, picture-only options along the bottom:
+     *   💄 makeup  💇 hair  👗 clothes  🫧 spa (rub to wash)  🧺 laundry
+     *   📸 photo booth (backdrops + saved looks)  🦄 dress up Kiki
+     * The doll is one SVG rebuilt from a small "look" object on every change,
+     * so option thumbnails are real previews made by the same function.
      *************************************************************************/
-    function startClosetWorld() {
-      document.getElementById('speech-text').textContent = "🕶️ Tap any unlocked accessory to dress me up!";
+    const GLAM_INK = '#4a148c';
 
-      const showcase = document.getElementById('showcase-card');
-      showcase.innerHTML = `
-        <div style="font-size:1.15rem; font-weight:700; color:#2b4c7e;">
-          🕶️ Here Come The Grannies Closet — 💵⭐ ${stars} Dollarbuck Stars!
-        </div>
-        <div style="font-size:0.92rem; color:#d95f02; font-weight:700;">
-          Unlock Granny Glasses, Featherwand, Chattermax &amp; Unicorse!
-        </div>
-      `;
+    function glamShade(hex, amt) {
+      const n = parseInt(hex.slice(1), 16);
+      const f = c => Math.max(0, Math.min(255, Math.round(c * (1 - amt))));
+      return '#' + [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(f).map(c => c.toString(16).padStart(2, '0')).join('');
+    }
+    function glamTint(hex, amt) {
+      const n = parseInt(hex.slice(1), 16);
+      const f = c => Math.round(c + (255 - c) * amt);
+      return '#' + [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(f).map(c => c.toString(16).padStart(2, '0')).join('');
+    }
+    function ell(cx, cy, rx, ry) {
+      return `M${cx - rx} ${cy}a${rx} ${ry} 0 1 0 ${2 * rx} 0a${rx} ${ry} 0 1 0 ${-2 * rx} 0Z`;
+    }
 
-      const area = document.getElementById('interactive-area');
-      area.innerHTML = `<div class="closet-grid" id="closet-grid"></div>`;
-      const grid = document.getElementById('closet-grid');
+    // One big friendly palette, reused so every colour tab has 30+ choices
+    const GLAM_PALETTE = ['#ffcdd2', '#ef9a9a', '#ef5350', '#e53935', '#b71c1c', '#ff8a80', '#ff4081', '#f50057', '#f8bbd0', '#f48fb1', '#f06292', '#ec407a', '#d81b60', '#ad1457', '#e1bee7', '#ce93d8', '#ba68c8', '#ab47bc', '#8e24aa', '#6a1b9a', '#d1c4e9', '#b39ddb', '#7e57c2', '#512da8', '#c5cae9', '#7986cb', '#3949ab', '#bbdefb', '#64b5f6', '#1e88e5', '#b3e5fc', '#4fc3f7', '#0288d1', '#b2ebf2', '#4dd0e1', '#00acc1', '#b2dfdb', '#4db6ac', '#00897b', '#c8e6c9', '#81c784', '#43a047', '#dcedc8', '#aed581', '#7cb342', '#f0f4c3', '#dce775', '#fff9c4', '#fff176', '#fdd835', '#ffecb3', '#ffd54f', '#ffb300', '#ffe0b2', '#ffb74d', '#fb8c00', '#ffccbc', '#ff8a65', '#f4511e', '#d7ccc8', '#a1887f', '#6d4c41', '#f5f5f5', '#bdbdbd', '#757575', '#424242', '#212121', '#ffffff'];
+    const GLAM_SKINS = ['#fff3ea', '#ffe9dc', '#ffe3d1', '#fbd7bd', '#f8cfae', '#f3c39c', '#f1c27d', '#ecb88a', '#e8b08a', '#dfa27a', '#d4a373', '#c99366', '#c68a62', '#b57a52', '#a86f48', '#9a6544', '#8a5a3c', '#7b4a2e', '#6b4229', '#5a3622', '#4a2c1d', '#3b2218'];
+    const GLAM_HAIR_COLORS = [
+      ...['#2e2a2a', '#3e2723', '#4e342e', '#5d4037', '#6d4c41', '#795548', '#8d6e63', '#a1887f', '#b5651d', '#c68642',
+          '#e0762b', '#d35400', '#b03a2e', '#f6d365', '#ffe082', '#fff3c4', '#e0c097', '#f3f3f3', '#bdbdbd', '#9e9e9e',
+          '#ff80ab', '#f06292', '#ec407a', '#ce93d8', '#ab47bc', '#7e57c2', '#4fc3f7', '#1e88e5', '#80deea', '#69f0ae',
+          '#43a047', '#ffd54f', '#ff7043', '#ef5350'].map(id => ({ id })),
+      { id: 'rainbow', stars: 5 }, { id: 'galaxy', stars: 10 }
+    ];
+    const GLAM_EYES = ['#6d4c41', '#3e2723', '#5d4037', '#8d6e63', '#a1887f', '#1e88e5', '#64b5f6', '#81d4fa', '#3949ab', '#43a047', '#81c784', '#26a69a', '#4db6ac', '#8e24aa', '#ba68c8', '#ec407a', '#f48fb1', '#9e9e9e', '#607d8b', '#ffb300', '#fb8c00', '#ef5350', '#00acc1', '#7e57c2', '#212121', '#7cb342', '#c0ca33', '#d81b60', '#5c6bc0', '#00897b'];
+    const GLAM_SHADOWS = ['none', 'rainbow', 'gold', ...GLAM_PALETTE.filter((c, i) => i % 2 === 0)];
+    const GLAM_BLUSH = ['none', '#ff8a80', '#f06292', '#ffab91', '#ce93d8', '#ff4081', '#ffccbc', '#e57373', '#f8bbd0', '#ba68c8', '#ffb74d', '#ff8a65', '#ef9a9a', '#f48fb1', '#ec407a', '#d81b60', '#ff80ab', '#ffcdd2', '#e1bee7', '#b39ddb', '#ffab40', '#ff6e40', '#ffd180', '#bcaaa4', '#a1887f', '#f50057', '#c2185b', '#9575cd', '#ffe0b2', '#ff5252'];
+    const GLAM_LIPS = [
+      { id: 'none' },
+      ...['#ec407a', '#d81b60', '#ff8a80', '#ab47bc', '#e53935', '#ffab91', '#7e57c2', '#f48fb1', '#c2185b', '#ff7043',
+          '#8e24aa', '#ffcdd2', '#b71c1c', '#4fc3f7', '#a1887f', '#ff80ab', '#f50057', '#ad1457', '#880e4f', '#ef9a9a',
+          '#ce93d8', '#6a1b9a', '#ff5252', '#d7ccc8', '#8d6e63', '#ffb74d', '#1e88e5', '#43a047', '#212121', '#ffffff'].map(id => ({ id })),
+      { id: 'glitter', stars: 2 }, { id: 'gold', stars: 3 }
+    ];
+    const GLAM_STICKERS = ['none', '❤️', '💖', '💕', '💜', '💙', '💚', '💛', '🧡', '⭐', '🌟', '✨', '💫', '🦋', '🌈', '🌸', '🌼', '🌺', '🌷', '🌹', '🦄', '🍓', '🍒', '🍭', '🧁', '🐞', '🐝', '🌙', '☀️', '💎', '🎀', '🐾', '🍀', '🐱', '🐶', '🐰', '🦊', '🐼', '👑', '🎵'];
+    const GLAM_PAINT = ['none', 'cat', 'butterfly', 'rainbow', 'tiger', 'hearts', 'stars', 'flower', 'bunny'];
+    const GLAM_LASHES = ['none', 'natural', 'long', 'glam'];
+    const GLAM_LINER = ['none', 'line', 'wing', 'glitter', 'color'];
+    const GLAM_GEMS = ['none', 'tears', 'brow', 'cheek', 'heart', 'all'];
+    const GLAM_NAILS = ['none', 'rainbow', 'glitter', ...GLAM_PALETTE.filter((c, i) => i % 2 === 1)];
+    const GLAM_OUTFIT_COLORS = GLAM_PALETTE.slice(0, 40).concat(GLAM_PALETTE.slice(46, 68).filter((c, i) => i % 2 === 0));
+    const GLAM_ACCENTS = ['auto', ...GLAM_PALETTE.filter((c, i) => i % 2 === 1)];
+    const GLAM_PATTERNS = ['none', 'dots', 'stripes', 'hearts', 'stars', 'glitter', 'rainbow', 'flowers', 'plaid', 'leopard', 'zigzag', 'checks', 'bigdots', 'waves', 'confetti', 'moons'];
+    const GLAM_SHOE_COLORS = GLAM_PALETTE.filter((c, i) => i % 2 === 0);
 
+    const GLAM_HAIR_STYLES = ['long', 'wavy', 'bob', 'ponytail', 'sidepony', 'pigtails', 'buns', 'curly', 'afro', 'afropuffs', 'braids', 'boxbraids', 'princess', 'pixie', 'hijab'];
+    const GLAM_OUTFITS = [
+      { id: 'dress' }, { id: 'sundress' }, { id: 'party' }, { id: 'tutu' }, { id: 'ballerina' },
+      { id: 'tee' }, { id: 'jeans' }, { id: 'skater' }, { id: 'hoodie' }, { id: 'cheer' },
+      { id: 'pjs' }, { id: 'onesie' }, { id: 'swim' }, { id: 'raincoat' }, { id: 'overalls' },
+      { id: 'doctor' }, { id: 'hero' }, { id: 'astronaut' },
+      { id: 'mermaid', stars: 3 }, { id: 'gown', stars: 4 }
+    ];
+    const GLAM_SHOES = ['flats', 'sneakers', 'boots', 'heels', 'bunny', 'bare'];
+    const GLAM_HEAD = [
+      { id: 'none' }, { id: 'bow' }, { id: 'flowers' }, { id: 'headband' }, { id: 'catears' },
+      { id: 'bunny' }, { id: 'clips' }, { id: 'tiara' }, { id: 'crown', stars: 2 }, { id: 'horn', stars: 3 }
+    ];
+    const GLAM_EARRINGS = ['none', 'pearls', 'hearts', 'stars', 'hoops'];
+    const GLAM_NECK = ['none', 'pearls', 'heart', 'bowtie', 'scarf'];
+    const GLAM_GLASSES = ['none', 'round', 'heart', 'star', 'sunnies'];
+    const GLAM_BACK = [{ id: 'none' }, { id: 'fairy' }, { id: 'butterfly' }, { id: 'angel', stars: 6 }];
+
+    const GLAM_SCENES = [
+      { id: 'vanity', icon: '🪞' }, { id: 'castle', icon: '🏰' }, { id: 'beach', icon: '🏖️' },
+      { id: 'stage', icon: '🎤' }, { id: 'garden', icon: '🌷' }, { id: 'space', icon: '🚀' }, { id: 'rainbow', icon: '🌈' }
+    ];
+
+    // Pick-a-friend presets: every skin tone, lots of hair types
+    const GLAM_FRIENDS = [
+      { name: 'Mia',   skin: 4,  hairStyle: 'pigtails',  hairColor: '#e0762b', eyes: '#43a047' },
+      { name: 'Zara',  skin: 19, hairStyle: 'afropuffs', hairColor: '#2e2a2a', eyes: '#6d4c41' },
+      { name: 'Lily',  skin: 1,  hairStyle: 'long',      hairColor: '#f6d365', eyes: '#1e88e5' },
+      { name: 'Amara', skin: 17, hairStyle: 'boxbraids', hairColor: '#2e2a2a', eyes: '#3e2723' },
+      { name: 'Sofia', skin: 8,  hairStyle: 'wavy',      hairColor: '#6d4c41', eyes: '#6d4c41' },
+      { name: 'Mei',   skin: 6,  hairStyle: 'bob',       hairColor: '#2e2a2a', eyes: '#3e2723' },
+      { name: 'Aisha', skin: 12, hairStyle: 'hijab',     hairColor: '#ce93d8', eyes: '#6d4c41' },
+      { name: 'Ruby',  skin: 15, hairStyle: 'afro',      hairColor: '#2e2a2a', eyes: '#8e24aa' },
+      { name: 'Nora',  skin: 2,  hairStyle: 'curly',     hairColor: '#e0762b', eyes: '#26a69a' },
+      { name: 'Priya', skin: 13, hairStyle: 'braids',    hairColor: '#2e2a2a', eyes: '#3e2723' },
+      { name: 'Luna',  skin: 10, hairStyle: 'sidepony',  hairColor: '#ab47bc', eyes: '#ec407a' },
+      { name: 'Kai',   skin: 20, hairStyle: 'pixie',     hairColor: '#2e2a2a', eyes: '#6d4c41' },
+      { name: 'Hana',  skin: 5,  hairStyle: 'buns',      hairColor: '#6d4c41', eyes: '#6d4c41' },
+      { name: 'Ella',  skin: 0,  hairStyle: 'princess',  hairColor: '#f3f3f3', eyes: '#81d4fa' },
+      { name: 'Maya',  skin: 14, hairStyle: 'ponytail',  hairColor: '#3e2723', eyes: '#5d4037' },
+      { name: 'Ivy',   skin: 3,  hairStyle: 'bob',       hairColor: '#ff80ab', eyes: '#43a047' },
+      { name: 'Jada',  skin: 18, hairStyle: 'curly',     hairColor: '#4e342e', eyes: '#3e2723' },
+      { name: 'Rosa',  skin: 9,  hairStyle: 'braids',    hairColor: '#5d4037', eyes: '#6d4c41' },
+      { name: 'Noor',  skin: 11, hairStyle: 'hijab',     hairColor: '#4fc3f7', eyes: '#3e2723' },
+      { name: 'Tia',   skin: 21, hairStyle: 'afro',      hairColor: '#ab47bc', eyes: '#6d4c41' },
+      { name: 'Grace', skin: 7,  hairStyle: 'long',      hairColor: '#2e2a2a', eyes: '#3e2723' },
+      { name: 'Olive', skin: 2,  hairStyle: 'wavy',      hairColor: '#b03a2e', eyes: '#81c784' },
+      { name: 'Leah',  skin: 16, hairStyle: 'boxbraids', hairColor: '#e0c097', eyes: '#5d4037' },
+      { name: 'Ana',   skin: 10, hairStyle: 'buns',      hairColor: '#2e2a2a', eyes: '#6d4c41' },
+      { name: 'Skye',  skin: 4,  hairStyle: 'ponytail',  hairColor: '#80deea', eyes: '#1e88e5' },
+      { name: 'Imani', skin: 20, hairStyle: 'afropuffs', hairColor: '#ff80ab', eyes: '#3e2723' },
+      { name: 'Lea',   skin: 6,  hairStyle: 'sidepony',  hairColor: '#2e2a2a', eyes: '#5d4037' },
+      { name: 'Bella', skin: 12, hairStyle: 'princess',  hairColor: '#3e2723', eyes: '#8d6e63' },
+      { name: 'Wren',  skin: 1,  hairStyle: 'pixie',     hairColor: '#ffe082', eyes: '#64b5f6' },
+      { name: 'Nia',   skin: 17, hairStyle: 'pigtails',  hairColor: '#2e2a2a', eyes: '#3e2723' }
+    ];
+
+    const GLAM_DEFAULT_LOOK = {
+      skin: 4, hairStyle: 'long', hairColor: '#6d4c41', eyes: '#6d4c41', friend: '',
+      shadow: 'none', blush: '#ff8a80', lips: 'none', lashes: 'natural', liner: 'none', gems: 'none', paint: 'none',
+      nails: 'none', shimmer: false, freckles: false, sticker: 'none', accent: 'auto',
+      outfit: 'dress', outfitColor: '#f06292', pattern: 'dots', shoes: 'flats', shoeColor: '#ec407a',
+      head: 'bow', earrings: 'none', neck: 'none', glasses: 'none', back: 'none',
+      cucumbers: false, spots: [], scene: 0
+    };
+
+    let glamLook = (() => {
+      try {
+        const saved = JSON.parse(localStorage.getItem('kiki_glam_look') || 'null');
+        return saved ? Object.assign({}, GLAM_DEFAULT_LOOK, saved) : Object.assign({}, GLAM_DEFAULT_LOOK);
+      } catch (e) { return Object.assign({}, GLAM_DEFAULT_LOOK); }
+    })();
+    let glamStation = 'friends';
+    let glamTab = 0;
+    let glamSpaTool = 'scrub';
+    let glamUid = 0;
+
+    function saveGlamLook() {
+      try { localStorage.setItem('kiki_glam_look', JSON.stringify(glamLook)); } catch (e) {}
+    }
+
+    /* ---------- Doll drawing ---------- */
+    function glamDefs(u, L) {
+      const rainbowStops = ['#ff5252', '#ffab40', '#ffee58', '#69f0ae', '#40c4ff', '#b388ff'];
+      return `<defs>
+        <pattern id="${u}-dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="9" cy="9" r="3.6" fill="#fff" opacity=".8"/></pattern>
+        <pattern id="${u}-stripes" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="7" height="16" fill="#fff" opacity=".55"/></pattern>
+        <pattern id="${u}-hearts" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M13 20 l-7 -7 a4.2 4.2 0 0 1 7 -5 a4.2 4.2 0 0 1 7 5 z" fill="#fff" opacity=".8"/></pattern>
+        <pattern id="${u}-stars" width="24" height="24" patternUnits="userSpaceOnUse"><text x="4" y="18" font-size="15" fill="#fff59d">★</text></pattern>
+        <pattern id="${u}-glitter" width="30" height="30" patternUnits="userSpaceOnUse">
+          <circle cx="5" cy="6" r="1.8" fill="#fff"/><circle cx="20" cy="4" r="1.3" fill="#ffd700"/><circle cx="13" cy="16" r="2" fill="#fff"/>
+          <circle cx="26" cy="22" r="1.6" fill="#ffd700"/><circle cx="6" cy="26" r="1.3" fill="#fff"/></pattern>
+        <pattern id="${u}-flowers" width="30" height="30" patternUnits="userSpaceOnUse">
+          ${[[0,-5],[5,0],[0,5],[-5,0]].map(([x,y]) => `<circle cx="${15+x}" cy="${15+y}" r="4" fill="#fff" opacity=".85"/>`).join('')}<circle cx="15" cy="15" r="3" fill="#ffd54f"/></pattern>
+        <pattern id="${u}-plaid" width="24" height="24" patternUnits="userSpaceOnUse"><rect width="24" height="7" fill="#fff" opacity=".35"/><rect width="7" height="24" fill="#fff" opacity=".35"/><rect y="14" width="24" height="2" fill="#4a148c" opacity=".25"/></pattern>
+        <pattern id="${u}-leopard" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M6 8 a5 4 0 1 0 0.1 0 M18 18 a5 4 0 1 0 0.1 0 M22 4 a3 3 0 1 0 0.1 0" fill="none" stroke="#4a148c" stroke-width="2.5" opacity=".45"/></pattern>
+        <pattern id="${u}-zigzag" width="20" height="14" patternUnits="userSpaceOnUse"><path d="M0 10 L5 4 L10 10 L15 4 L20 10" fill="none" stroke="#fff" stroke-width="3" opacity=".7"/></pattern>
+        <pattern id="${u}-checks" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#fff" opacity=".45"/><rect x="10" y="10" width="10" height="10" fill="#fff" opacity=".45"/></pattern>
+        <pattern id="${u}-bigdots" width="34" height="34" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="7" fill="#fff" opacity=".7"/><circle cx="27" cy="27" r="7" fill="#fff" opacity=".7"/></pattern>
+        <pattern id="${u}-waves" width="24" height="12" patternUnits="userSpaceOnUse"><path d="M0 6 Q6 0 12 6 T24 6" fill="none" stroke="#fff" stroke-width="2.5" opacity=".7"/></pattern>
+        <pattern id="${u}-confetti" width="30" height="30" patternUnits="userSpaceOnUse"><rect x="3" y="4" width="6" height="3" fill="#ffee58" transform="rotate(30 6 5)"/><rect x="18" y="10" width="6" height="3" fill="#40c4ff" transform="rotate(-20 21 11)"/><rect x="8" y="20" width="6" height="3" fill="#69f0ae" transform="rotate(60 11 21)"/><rect x="22" y="24" width="6" height="3" fill="#fff" transform="rotate(10 25 25)"/></pattern>
+        <pattern id="${u}-moons" width="28" height="28" patternUnits="userSpaceOnUse"><text x="4" y="20" font-size="15" fill="#fff59d">☾</text></pattern>
+        <linearGradient id="${u}-rainbow" x1="0" y1="0" x2="0" y2="1">${rainbowStops.map((c, i) => `<stop offset="${i / 5}" stop-color="${c}"/>`).join('')}</linearGradient>
+        <linearGradient id="${u}-galaxy" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#311b92"/><stop offset=".5" stop-color="#8e24aa"/><stop offset="1" stop-color="#40c4ff"/></linearGradient>
+        <linearGradient id="${u}-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff59d"/><stop offset="1" stop-color="#ffb300"/></linearGradient>
+      </defs>`;
+    }
+
+    function hairPaths(style) {
+      // Returns [back, front]; head ellipse is centre (160,150), 68 x 74
+      const cap = 'M90 150 Q86 70 160 68 Q234 70 230 150 Q226 108 160 96 Q100 104 90 150 Z';
+      switch (style) {
+        case 'bob': return [
+          'M84 150 Q80 66 160 64 Q240 66 236 150 L238 222 Q218 238 200 226 L120 226 Q102 238 82 222 Z',
+          'M88 160 Q84 70 160 66 Q236 70 232 160 Q220 110 160 100 Q130 118 100 128 Q92 140 88 160 Z'];
+        case 'ponytail': return [
+          'M200 82 Q276 58 272 150 Q266 236 240 268 Q240 184 212 120 Z',
+          cap];
+        case 'pigtails': return [
+          'M88 118 Q30 136 38 232 Q58 268 80 214 Q84 170 98 140 Z M232 118 Q290 136 282 232 Q262 268 240 214 Q236 170 222 140 Z',
+          cap + ' M160 70 L160 96'];
+        case 'buns': return [
+          ell(106, 82, 34, 32) + ell(214, 82, 34, 32),
+          cap];
+        case 'curly': {
+          let back = '';
+          for (let a = 160; a <= 380; a += 22) {
+            const r = a * Math.PI / 180;
+            back += ell(Math.round(160 + Math.cos(r) * 84), Math.round(150 + Math.sin(r) * 82), 30, 30);
+          }
+          back += ell(84, 210, 28, 28) + ell(236, 210, 28, 28);
+          let front = cap;
+          [104, 128, 152, 176, 200, 220].forEach((x, i) => { front += ell(x, 96 + (i % 2) * 6, 17, 15); });
+          return [back, front];
+        }
+        case 'braids': {
+          let back = 'M86 150 Q80 66 160 64 Q240 66 234 150 L232 200 L88 200 Z';
+          for (let i = 0; i < 6; i++) {
+            back += ell(96 - i, 196 + i * 26, 15, 15) + ell(224 + i, 196 + i * 26, 15, 15);
+          }
+          return [back, 'M90 152 Q86 70 160 68 Q234 70 230 152 Q216 112 166 100 L160 76 L154 100 Q104 112 90 152 Z'];
+        }
+        case 'princess': return [
+          'M86 150 Q78 66 160 62 Q242 66 234 150 Q258 200 240 250 Q262 300 238 352 Q200 372 160 362 Q120 372 82 352 Q58 300 80 250 Q62 200 86 150 Z',
+          'M88 156 Q84 68 160 64 Q236 68 232 156 Q226 116 196 102 Q176 132 150 110 Q120 128 108 112 Q94 128 88 156 Z'];
+        case 'wavy': return [
+          'M86 150 Q80 70 160 66 Q240 70 234 150 Q250 200 238 240 Q256 280 240 320 Q220 340 200 326 Q180 344 160 330 Q140 344 120 326 Q100 340 80 320 Q64 280 82 240 Q70 200 86 150 Z',
+          'M90 152 Q86 70 160 66 Q234 70 230 152 Q224 110 190 100 Q170 116 150 104 Q120 112 90 152 Z'];
+        case 'sidepony': return [
+          'M100 132 Q36 160 50 270 Q62 320 90 300 Q78 230 100 170 Z',
+          'M88 156 Q84 68 160 64 Q236 68 232 156 Q226 104 170 96 Q120 106 96 130 Q90 140 88 156 Z'];
+        case 'afro': {
+          let back = ell(160, 136, 100, 96);
+          for (let a = 0; a < 360; a += 24) {
+            const r = a * Math.PI / 180;
+            back += ell(Math.round(160 + Math.cos(r) * 98), Math.round(136 + Math.sin(r) * 92), 24, 24);
+          }
+          let front = 'M90 150 Q86 70 160 66 Q234 70 230 150 Q226 108 160 98 Q100 108 90 150 Z';
+          [102, 122, 142, 162, 182, 202, 220].forEach((x, i) => { front += ell(x, 98 + (i % 2) * 5, 13, 12); });
+          return [back, front];
+        }
+        case 'afropuffs': {
+          let back = '';
+          [[92, 74], [228, 74]].forEach(([cx, cy]) => {
+            back += ell(cx, cy, 44, 42);
+            for (let a = 0; a < 360; a += 40) {
+              const r = a * Math.PI / 180;
+              back += ell(Math.round(cx + Math.cos(r) * 40), Math.round(cy + Math.sin(r) * 38), 14, 14);
+            }
+          });
+          return [back, cap + ' M160 70 L160 96'];
+        }
+        case 'boxbraids': {
+          let back = 'M86 150 Q80 66 160 64 Q240 66 234 150 L234 170 L86 170 Z';
+          for (let x = 80; x <= 240; x += 12) {
+            const len = 200 + ((x * 7) % 30);
+            back += `M${x - 5} 130 h10 v${len} a5 5 0 0 1 -10 0 Z`;
+          }
+          return [back, 'M90 150 Q86 70 160 68 Q234 70 230 150 Q224 106 172 96 L166 80 L160 96 L154 80 L148 96 Q100 106 90 150 Z'];
+        }
+        case 'hijab': return [
+          'M76 160 Q74 52 160 48 Q246 52 244 160 L270 320 Q160 352 50 320 Z',
+          'M82 170 Q80 56 160 52 Q240 56 238 170 L238 250 Q160 286 82 250 Z ' + ell(160, 160, 58, 66),
+          true];
+        case 'pixie': return [
+          '',
+          'M88 162 Q80 64 160 60 Q240 64 232 162 Q228 118 210 110 Q180 92 150 108 Q120 96 104 116 Q92 132 88 162 Z'];
+        default: return [
+          'M86 150 Q80 70 160 66 Q240 70 234 150 L246 330 Q160 350 74 330 Z',
+          'M90 150 Q86 72 160 68 Q234 72 230 150 Q222 112 196 104 Q170 122 130 108 Q104 112 90 150 Z'];
+      }
+    }
+
+    function outfitPieces(id) {
+      // tone m = main colour, a = lighter, w = white, d = darker trim. pat = pattern on top
+      const sleeves = [{ d: ell(114, 262, 19, 15), t: 'm', pat: true }, { d: ell(206, 262, 19, 15), t: 'm', pat: true }];
+      const tee = { d: 'M112 250 Q160 238 208 250 L224 292 L202 302 L198 348 L122 348 L118 302 L96 292 Z', t: 'm', pat: true };
+      switch (id) {
+        case 'gown': return { front: [
+          { d: 'M122 250 Q160 240 198 250 L202 320 Q264 470 258 498 Q160 520 62 498 Q56 470 118 320 Z', t: 'm', pat: true },
+          { d: 'M90 440 Q120 460 160 450 Q200 460 230 440 Q240 470 230 490 Q160 505 90 490 Q80 470 90 440 Z', t: 'a', pat: true },
+          { d: 'M118 316 L202 316 L204 330 L116 330 Z', t: 'd' },
+          { d: ell(112, 262, 24, 18), t: 'a', pat: true }, { d: ell(208, 262, 24, 18), t: 'a', pat: true }] };
+        case 'tutu': {
+          let spikes = 'M78 372';
+          for (let i = 0; i <= 16; i++) spikes += ` L${78 + i * 10.25} ${i % 2 ? 410 : 360}`;
+          spikes += ' L242 372 Q160 340 78 372 Z';
+          return { front: [
+            { d: 'M120 250 Q160 240 200 250 L198 362 Q160 374 122 362 Z', t: 'm', pat: true },
+            { d: spikes, t: 'a', pat: true },
+            { d: ell(160, 362, 44, 9), t: 'd' }] };
+        }
+        case 'sundress': return { front: [
+          { d: 'M126 262 L194 262 L214 424 Q160 438 106 424 Z', t: 'm', pat: true },
+          { d: 'M128 264 L130 242 L137 242 L137 264 Z M183 264 L183 242 L190 242 L192 264 Z', t: 'd' },
+          { d: ell(160, 300, 10, 7), t: 'a' }] };
+        case 'party': return { front: [
+          { d: 'M122 250 Q160 240 198 250 L200 330 L120 330 Z', t: 'm', pat: true },
+          { d: 'M116 326 L204 326 L214 362 Q160 372 106 362 Z', t: 'a' },
+          { d: 'M106 356 L214 356 L226 394 Q160 406 94 394 Z', t: 'm', pat: true },
+          { d: 'M94 388 L226 388 L238 428 Q160 442 82 428 Z', t: 'a' },
+          { d: ell(160, 326, 12, 8), t: 'd' }] };
+        case 'ballerina': return { front: [
+          { d: 'M126 254 Q160 266 194 254 L198 362 Q160 374 122 362 Z', t: 'm', pat: true },
+          { d: ell(160, 366, 78, 22), t: 'a', pat: true },
+          { d: ell(160, 358, 64, 15), t: 'm' }] };
+        case 'jeans': return { front: [
+          tee,
+          { d: 'M122 344 L198 344 L196 484 L166 484 L160 380 L154 484 L124 484 Z', t: 'denim' },
+          { d: 'M122 344 L198 344 L198 354 L122 354 Z', t: 'denimD' }] };
+        case 'skater': return { front: [
+          tee,
+          { d: 'M120 344 L200 344 L206 404 L166 404 L160 382 L154 404 L114 404 Z', t: 'a' }] };
+        case 'hoodie': return { front: [
+          { d: 'M110 250 Q160 238 210 250 L228 302 L204 310 L202 372 L118 372 L116 310 L92 302 Z', t: 'm', pat: true },
+          { d: 'M132 334 L188 334 L184 364 L136 364 Z', t: 'd' },
+          { d: 'M150 254 L148 290 M170 254 L172 290', t: 'line' },
+          { d: 'M124 368 L196 368 L194 486 L166 486 L160 396 L154 486 L126 486 Z', t: 'a' }] };
+        case 'cheer': return { front: [
+          { d: 'M120 250 Q160 240 200 250 L198 336 L122 336 Z', t: 'm' },
+          { d: 'M134 270 L186 270 L160 300 Z', t: 'w' },
+          { d: 'M118 332 L202 332 L220 400 Q160 410 100 400 Z', t: 'm' },
+          { d: 'M130 336 L120 402 M150 336 L146 406 M170 336 L174 406 M190 336 L200 402', t: 'line' },
+          { d: 'M106 386 Q160 398 214 386 L216 394 Q160 406 104 394 Z', t: 'w' }] };
+        case 'onesie': return {
+          behind: [{ d: ell(160, 140, 88, 92), t: 'm' }, { d: 'M148 60 L160 14 L172 60 Z', t: 'gold' },
+                   { d: 'M96 92 L92 44 L128 70 Z M224 92 L228 44 L192 70 Z', t: 'a' }],
+          front: [
+            { d: 'M112 250 Q160 238 208 250 L224 300 L204 306 L200 482 L166 482 L160 392 L154 482 L120 482 L116 306 L96 300 Z', t: 'm', pat: true },
+            { d: ell(160, 330, 28, 36), t: 'a' }] };
+        case 'raincoat': return { front: [
+          { d: 'M108 250 Q160 238 212 250 L230 302 L208 308 L220 424 Q160 436 100 424 L112 308 L90 302 Z', t: 'm', pat: true },
+          { d: 'M159 252 L161 252 L161 428 L159 428 Z', t: 'd' },
+          ...[290, 330, 370].map(y => ({ d: ell(170, y, 5, 5), t: 'w' }))] };
+        case 'doctor': return { front: [
+          tee,
+          { d: 'M120 344 L200 344 L204 410 L166 410 L160 388 L154 410 L116 410 Z', t: 'a' },
+          { d: 'M108 250 L150 252 L146 432 L102 432 L96 300 Z', t: 'w' },
+          { d: 'M212 250 L170 252 L174 432 L218 432 L224 300 Z', t: 'w' },
+          { d: 'M182 300 L204 300 L204 318 L182 318 Z', t: 'm' }] };
+        case 'astronaut': return { front: [
+          { d: 'M108 250 Q160 236 212 250 L228 304 L206 310 L204 484 L166 484 L160 396 L154 484 L116 484 L114 310 L92 304 Z', t: 'w' },
+          { d: 'M134 280 L186 280 L186 320 L134 320 Z', t: 'm' },
+          { d: 'M114 360 L206 360 L206 372 L114 372 Z', t: 'd' },
+          { d: ell(146, 300, 5, 5) + ell(160, 300, 5, 5) + ell(174, 300, 5, 5), t: 'gold' }] };
+        case 'mermaid': return { front: [
+          { d: ell(146, 284, 15, 12) + ell(174, 284, 15, 12), t: 'a' },
+          { d: 'M122 338 Q160 328 198 338 Q208 420 178 470 L206 506 Q172 500 160 486 Q148 500 114 506 L142 470 Q112 420 122 338 Z', t: 'm', pat: true },
+          { d: 'M120 336 Q160 326 200 336 L200 348 Q160 338 120 348 Z', t: 'd' }] };
+        case 'tee': return { front: [
+          tee,
+          { d: 'M120 344 L200 344 L224 410 Q160 420 96 410 Z', t: 'a', pat: true }] };
+        case 'pjs': return { front: [
+          { d: 'M112 250 Q160 238 208 250 L224 300 L202 308 L198 362 L122 362 L118 308 L96 300 Z', t: 'm', pat: true },
+          { d: 'M122 356 L198 356 L196 482 L166 482 L160 384 L154 482 L124 482 Z', t: 'm', pat: true },
+          ...[300, 322, 344].map(y => ({ d: ell(160, y, 4, 4), t: 'w' }))] };
+        case 'swim': return { front: [
+          { d: 'M126 254 Q160 272 194 254 L196 360 Q178 396 160 402 Q142 396 124 360 Z', t: 'm', pat: true },
+          { d: 'M114 360 Q160 384 206 360 Q200 378 160 396 Q120 378 114 360 Z', t: 'a', pat: true },
+          { d: 'M126 254 L132 238 L138 254 Z M182 254 L188 238 L194 254 Z', t: 'm' }] };
+        case 'overalls': return { front: [
+          { d: tee.d, t: 'w' },
+          { d: 'M130 288 L190 288 L192 346 L128 346 Z', t: 'm', pat: true },
+          { d: 'M120 340 L200 340 L204 412 L166 412 L160 388 L154 412 L116 412 Z', t: 'm', pat: true },
+          { d: 'M120 252 L136 292 L130 294 L114 256 Z M200 252 L184 292 L190 294 L206 256 Z', t: 'd' },
+          { d: ell(140, 298, 5, 5) + ell(180, 298, 5, 5), t: 'w' }] };
+        case 'hero': return {
+          behind: [{ d: 'M116 252 L204 252 L256 476 Q160 498 64 476 Z', t: 'd' }],
+          front: [
+            tee,
+            { d: 'M120 344 L200 344 L204 400 L166 400 L160 380 L154 400 L116 400 Z', t: 'd' },
+            { d: 'M160 278 L166 294 L183 294 L169 304 L175 320 L160 310 L145 320 L151 304 L137 294 L154 294 Z', t: 'gold' }] };
+        default: return { front: [
+          { d: 'M120 250 Q160 240 200 250 L206 330 Q240 410 238 426 Q160 444 82 426 Q80 410 114 330 Z', t: 'm', pat: true },
+          ...sleeves,
+          { d: 'M114 326 L206 326 L207 337 L113 337 Z', t: 'd' }] };
+      }
+    }
+
+    function paintPieces(pieces, look, u) {
+      const main = look.outfitColor;
+      const alt = look.accent && look.accent !== 'auto' ? look.accent : glamTint(main, 0.45);
+      const toneFill = t => t === 'a' ? alt : t === 'w' ? '#ffffff' : t === 'd' ? glamShade(main, 0.28) : t === 'gold' ? `url(#${u}-gold)`
+        : t === 'denim' ? '#5c6bc0' : t === 'denimD' ? '#3949ab' : main;
+      const pat = look.pattern;
+      return pieces.map(p => {
+        if (p.t === 'line') return `<path d="${p.d}" fill="none" stroke="${GLAM_INK}" stroke-width="3" stroke-linecap="round"/>`;
+        let s = `<path d="${p.d}" fill="${toneFill(p.t)}" stroke="${GLAM_INK}" stroke-width="4" stroke-linejoin="round"/>`;
+        if (p.pat && pat !== 'none') {
+          s += pat === 'rainbow'
+            ? `<path d="${p.d}" fill="url(#${u}-rainbow)" opacity=".55"/>`
+            : `<path d="${p.d}" fill="url(#${u}-${pat})"/>`;
+        }
+        return s;
+      }).join('');
+    }
+
+    function backAccessory(id) {
+      if (id === 'fairy') return `
+        <g fill="#b3e5fc" fill-opacity=".75" stroke="#4fc3f7" stroke-width="3">
+          <ellipse cx="100" cy="250" rx="62" ry="34" transform="rotate(-30 100 250)"/>
+          <ellipse cx="220" cy="250" rx="62" ry="34" transform="rotate(30 220 250)"/>
+          <ellipse cx="108" cy="320" rx="40" ry="22" transform="rotate(25 108 320)"/>
+          <ellipse cx="212" cy="320" rx="40" ry="22" transform="rotate(-25 212 320)"/></g>
+        <g fill="#fff">${[[80,240],[240,240],[100,322],[220,322]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="3"/>`).join('')}</g>`;
+      if (id === 'butterfly') return `
+        <g stroke="${GLAM_INK}" stroke-width="4">
+          <path d="M160 280 Q70 170 54 250 Q50 300 160 300 Z" fill="#ff80ab"/>
+          <path d="M160 280 Q250 170 266 250 Q270 300 160 300 Z" fill="#ff80ab"/>
+          <path d="M160 300 Q80 300 84 360 Q110 380 160 310 Z" fill="#ce93d8"/>
+          <path d="M160 300 Q240 300 236 360 Q210 380 160 310 Z" fill="#ce93d8"/></g>
+        <g fill="#fff59d">${[[90,250],[230,250],[110,346],[210,346]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="9"/>`).join('')}</g>`;
+      if (id === 'angel') {
+        let s = '<g fill="#ffffff" stroke="#b39ddb" stroke-width="3">';
+        for (let i = 0; i < 5; i++) {
+          s += `<ellipse cx="${110 - i * 12}" cy="${250 + i * 18}" rx="${40 - i * 4}" ry="16" transform="rotate(-25 ${110 - i * 12} ${250 + i * 18})"/>`;
+          s += `<ellipse cx="${210 + i * 12}" cy="${250 + i * 18}" rx="${40 - i * 4}" ry="16" transform="rotate(25 ${210 + i * 12} ${250 + i * 18})"/>`;
+        }
+        return s + '</g>';
+      }
+      return '';
+    }
+
+    function shoeSVG(style, color, skin) {
+      const feet = [141, 179];
+      const line = `stroke="${GLAM_INK}" stroke-width="3.5"`;
+      return feet.map(cx => {
+        const toe = cx + (cx < 160 ? -3 : 3);
+        let s = `<path d="${ell(toe, 492, 15, 8)}" fill="${skin}" ${line}/>`;
+        if (style === 'flats') s += `<path d="${ell(toe, 493, 17, 9)}" fill="${color}" ${line}/><circle cx="${toe}" cy="488" r="3.5" fill="#fff"/>`;
+        if (style === 'sneakers') s += `<path d="${ell(toe, 490, 19, 12)}" fill="${color}" ${line}/><rect x="${toe - 19}" y="494" width="38" height="7" rx="3.5" fill="#fff" ${line}/><path d="M${toe - 6} 484 l12 0 M${toe - 6} 489 l12 0" stroke="#fff" stroke-width="2.5"/>`;
+        if (style === 'boots') s += `<rect x="${cx - 14}" y="450" width="28" height="44" rx="9" fill="${color}" ${line}/><path d="${ell(toe, 494, 18, 8)}" fill="${color}" ${line}/><rect x="${cx - 15}" y="448" width="30" height="9" rx="4" fill="#fff" ${line}/>`;
+        if (style === 'heels') s += `<path d="M${toe - 16} 494 Q${toe} 478 ${toe + 16} 492 L${toe + 14} 506 L${toe + 10} 496 Z" fill="${color}" ${line}/><circle cx="${toe - 4}" cy="488" r="3" fill="#ffd700"/>`;
+        if (style === 'bunny') s += `<path d="${ell(toe, 490, 20, 13)}" fill="#fff" ${line}/><path d="${ell(toe - 7, 474, 5, 12)}" fill="#f8bbd0" ${line}/><path d="${ell(toe + 7, 474, 5, 12)}" fill="#f8bbd0" ${line}/><circle cx="${toe - 5}" cy="488" r="2.2" fill="${GLAM_INK}"/><circle cx="${toe + 5}" cy="488" r="2.2" fill="${GLAM_INK}"/><circle cx="${toe}" cy="494" r="2.5" fill="#ff80ab"/>`;
+        return s;
+      }).join('');
+    }
+
+    function headAccessory(id, u) {
+      const L = `stroke="${GLAM_INK}" stroke-width="3.5" stroke-linejoin="round"`;
+      switch (id) {
+        case 'crown': return `<path d="M116 92 L124 46 L144 72 L160 36 L176 72 L196 46 L204 92 Z" fill="url(#${u}-gold)" ${L}/>
+          <circle cx="160" cy="70" r="7" fill="#ff4081"/><circle cx="134" cy="80" r="5" fill="#40c4ff"/><circle cx="186" cy="80" r="5" fill="#69f0ae"/>`;
+        case 'tiara': return `<path d="M112 98 Q160 50 208 98 Q160 80 112 98 Z" fill="#e1f5fe" ${L}/>
+          <path d="M160 52 L166 66 L160 80 L154 66 Z" fill="#ff80ab" ${L}/><circle cx="136" cy="80" r="4" fill="#ce93d8"/><circle cx="184" cy="80" r="4" fill="#ce93d8"/>`;
+        case 'bow': return `<g transform="translate(200 84) rotate(18)"><path d="M0 0 L-30 -20 Q-38 0 -30 20 Z" fill="#ff4081" ${L}/>
+          <path d="M0 0 L30 -20 Q38 0 30 20 Z" fill="#ff4081" ${L}/><circle r="8" fill="#f8bbd0" ${L}/></g>`;
+        case 'flowers': return [[104, 104, '#ff80ab'], [126, 84, '#fff59d'], [160, 74, '#ce93d8'], [194, 84, '#80deea'], [216, 104, '#ff80ab']].map(([x, y, c]) =>
+          [0, 72, 144, 216, 288].map(a => `<circle cx="${x + Math.cos(a * Math.PI / 180) * 8}" cy="${y + Math.sin(a * Math.PI / 180) * 8}" r="7" fill="${c}" stroke="${GLAM_INK}" stroke-width="2"/>`).join('') +
+          `<circle cx="${x}" cy="${y}" r="5" fill="#ffb300"/>`).join('');
+        case 'headband': return `<path d="M94 128 Q160 46 226 128" fill="none" stroke="${GLAM_INK}" stroke-width="14" stroke-linecap="round"/>
+          <path d="M94 128 Q160 46 226 128" fill="none" stroke="#ec407a" stroke-width="8" stroke-linecap="round"/><circle cx="160" cy="88" r="9" fill="#fff59d" ${L}/>`;
+        case 'catears': return `<path d="M98 104 L104 44 L140 80 Z" fill="#424242" ${L}/><path d="M106 92 L109 60 L128 80 Z" fill="#f8bbd0"/>
+          <path d="M222 104 L216 44 L180 80 Z" fill="#424242" ${L}/><path d="M214 92 L211 60 L192 80 Z" fill="#f8bbd0"/>`;
+        case 'bunny': return `<path d="${ell(134, 38, 14, 40)}" fill="#fff" ${L}/><path d="${ell(134, 42, 6, 28)}" fill="#f8bbd0"/>
+          <path d="${ell(186, 38, 14, 40)}" fill="#fff" ${L}/><path d="${ell(186, 42, 6, 28)}" fill="#f8bbd0"/>`;
+        case 'clips': return `<text x="98" y="118" font-size="26" fill="#fff176" stroke="${GLAM_INK}" stroke-width="1.5">★</text>
+          <text x="118" y="100" font-size="22" fill="#ff80ab" stroke="${GLAM_INK}" stroke-width="1.5">★</text>`;
+        case 'horn': return `<path d="M148 80 L160 14 L172 80 Z" fill="url(#${u}-gold)" ${L}/>
+          <path d="M152 66 L168 58 M150 50 L166 44 M155 34 L164 30" stroke="#ff8f00" stroke-width="3" stroke-linecap="round"/>
+          <path d="M108 96 L112 60 L134 84 Z" fill="#fff" ${L}/><path d="M212 96 L208 60 L186 84 Z" fill="#fff" ${L}/>`;
+        default: return '';
+      }
+    }
+
+    function faceAccessories(look) {
+      let s = '';
+      const L = `stroke="${GLAM_INK}" stroke-width="3"`;
+      [[92, 1], [228, -1]].forEach(([x]) => {
+        if (look.earrings === 'pearls') s += `<circle cx="${x}" cy="182" r="5.5" fill="#fff" ${L}/>`;
+        if (look.earrings === 'hearts') s += `<path d="M${x} 192 l-7 -7 a4 4 0 0 1 7 -5 a4 4 0 0 1 7 5 z" fill="#ff4081" ${L}/>`;
+        if (look.earrings === 'stars') s += `<text x="${x - 9}" y="196" font-size="18" fill="#ffd54f" stroke="${GLAM_INK}" stroke-width="1">★</text>`;
+        if (look.earrings === 'hoops') s += `<circle cx="${x}" cy="188" r="10" fill="none" stroke="#ffb300" stroke-width="3.5"/>`;
+      });
+      if (look.neck === 'pearls') for (let i = 0; i <= 8; i++) {
+        const t = i / 8;
+        s += `<circle cx="${138 + t * 44}" cy="${238 + Math.sin(t * Math.PI) * 16}" r="4.5" fill="#fff" ${L}/>`;
+      }
+      if (look.neck === 'heart') s += `<path d="M140 238 Q160 262 180 238" fill="none" stroke="#ffb300" stroke-width="2.5"/><path d="M160 268 l-9 -9 a5 5 0 0 1 9 -6 a5 5 0 0 1 9 6 z" fill="#ff4081" ${L}/>`;
+      if (look.neck === 'bowtie') s += `<path d="M160 248 L140 236 L140 260 Z M160 248 L180 236 L180 260 Z" fill="#ff4081" ${L}/><circle cx="160" cy="248" r="5" fill="#fff" ${L}/>`;
+      if (look.neck === 'scarf') s += `<path d="M138 232 Q160 248 182 232 L186 250 Q160 266 134 250 Z" fill="#ffab91" ${L}/><path d="M168 252 L176 300 L190 298 L180 248 Z" fill="#ffab91" ${L}/>`;
+      return s;
+    }
+
+    function glassesSVG(id) {
+      const eyes = [134, 186];
+      if (id === 'round') return eyes.map(x => `<circle cx="${x}" cy="158" r="19" fill="#ffffff" fill-opacity=".18" stroke="${GLAM_INK}" stroke-width="4"/>`).join('') + `<path d="M153 156 Q160 150 167 156" fill="none" stroke="${GLAM_INK}" stroke-width="4"/>`;
+      if (id === 'heart') return eyes.map(x => `<path d="M${x} 178 l-20 -20 a11 11 0 0 1 20 -14 a11 11 0 0 1 20 14 z" fill="#ff80ab" fill-opacity=".4" stroke="#d81b60" stroke-width="4"/>`).join('') + `<path d="M154 152 L166 152" stroke="#d81b60" stroke-width="4"/>`;
+      if (id === 'star') return eyes.map(x => `<path d="M${x} 136 L${x + 6} 151 L${x + 22} 152 L${x + 10} 162 L${x + 14} 178 L${x} 169 L${x - 14} 178 L${x - 10} 162 L${x - 22} 152 L${x - 6} 151 Z" fill="#fff59d" fill-opacity=".55" stroke="#f9a825" stroke-width="3.5" stroke-linejoin="round"/>`).join('');
+      if (id === 'sunnies') return eyes.map(x => `<rect x="${x - 20}" y="144" width="40" height="28" rx="12" fill="#311b92" fill-opacity=".85" stroke="${GLAM_INK}" stroke-width="4"/><path d="M${x - 12} 152 l10 0" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/>`).join('') + `<path d="M154 154 L166 154" stroke="${GLAM_INK}" stroke-width="4"/>`;
+      return '';
+    }
+
+    function faceSVG(look) {
+      const skin = GLAM_SKINS[look.skin];
+      const hairLine = look.hairStyle === 'hijab' || !look.hairColor.startsWith('#') ? '#4e342e' : glamShade(look.hairColor, 0.35);
+      const lashes = look.lashes === true ? 'natural' : look.lashes === false ? 'none' : (look.lashes || 'none');
+      let s = '';
+      s += paintSVG(look.paint);
+      if (look.blush !== 'none') s += `<path d="${ell(114, 186, 14, 8)}${ell(206, 186, 14, 8)}" fill="${look.blush}" opacity=".55"/>`;
+      if (look.shadow === 'rainbow') {
+        ['#ff5252', '#ffee58', '#40c4ff'].forEach((c, i) => { s += `<path d="${ell(134, 152 - i * 4, 18 - i * 2, 9)}${ell(186, 152 - i * 4, 18 - i * 2, 9)}" fill="${c}" opacity=".55"/>`; });
+      } else if (look.shadow === 'gold') {
+        s += `<path d="${ell(134, 149, 18, 11)}${ell(186, 149, 18, 11)}" fill="#ffd54f" opacity=".85"/>`;
+        [[126, 146], [140, 144], [180, 144], [194, 146]].forEach(([x, y]) => { s += `<circle cx="${x}" cy="${y}" r="1.5" fill="#fff"/>`; });
+      } else if (look.shadow !== 'none') s += `<path d="${ell(134, 149, 18, 11)}${ell(186, 149, 18, 11)}" fill="${look.shadow}" opacity=".8"/>`;
+      [[134, -1], [186, 1]].forEach(([x, side]) => {
+        s += `<path d="${ell(x, 158, 12.5, 14)}" fill="#fff" stroke="${GLAM_INK}" stroke-width="2.5"/>`;
+        s += `<circle cx="${x + 1}" cy="160" r="9" fill="${look.eyes}"/><circle cx="${x + 1}" cy="160" r="5" fill="#26102f"/>`;
+        s += `<circle cx="${x + 4}" cy="155.5" r="3.2" fill="#fff"/><circle cx="${x - 2}" cy="164" r="1.6" fill="#fff"/>`;
+        if (look.liner === 'line' || look.liner === 'wing') s += `<path d="M${x - 13} 153 Q${x} 141 ${x + 13} 153${look.liner === 'wing' ? ` l${side * 9} -7` : ''}" fill="none" stroke="#26102f" stroke-width="3" stroke-linecap="round"/>`;
+        if (look.liner === 'glitter') s += `<path d="M${x - 13} 152 Q${x} 140 ${x + 13} 152" fill="none" stroke="#ffd700" stroke-width="3.5" stroke-dasharray="2 3" stroke-linecap="round"/>`;
+        if (look.liner === 'color') s += `<path d="M${x - 13} 153 Q${x} 141 ${x + 13} 153 l${side * 9} -7" fill="none" stroke="#00b0ff" stroke-width="3.2" stroke-linecap="round"/>`;
+        const lashLen = { natural: 1, long: 1.5, glam: 1.9 }[lashes] || 0;
+        if (lashLen) {
+          const n = lashes === 'glam' ? 5 : 3;
+          let d = '';
+          for (let k = 0; k < n; k++) {
+            const t = k / (n - 1);
+            const bx = x + side * (10 - t * 12);
+            const by = 149 - Math.sin(t * Math.PI * 0.9) * 5;
+            d += `M${bx} ${by} l${side * (5 - t * 4) * lashLen} ${-5 * lashLen}`;
+          }
+          s += `<path d="${d}" stroke="${GLAM_INK}" stroke-width="2.6" stroke-linecap="round"/>`;
+        }
+        s += `<path d="M${x - 14} 132 Q${x} ${124} ${x + 14} 131" fill="none" stroke="${hairLine}" stroke-width="4" stroke-linecap="round"/>`;
+      });
+      s += `<path d="M156 178 Q160 183 164 178" fill="none" stroke="${glamShade(skin, 0.3)}" stroke-width="3" stroke-linecap="round"/>`;
+      if (look.shimmer) [[116, 172], [204, 172], [160, 168]].forEach(([x, y]) => { s += `<path d="M${x} ${y - 6} L${x + 2} ${y - 1} L${x + 7} ${y} L${x + 2} ${y + 1} L${x} ${y + 6} L${x - 2} ${y + 1} L${x - 7} ${y} L${x - 2} ${y - 1} Z" fill="#ffffff" opacity=".9"/>`; });
+      s += gemsSVG(look.gems);
+      if (look.freckles) [[146, 182], [140, 188], [152, 189], [174, 182], [180, 188], [168, 189]].forEach(([x, y]) => { s += `<circle cx="${x}" cy="${y}" r="1.9" fill="#8d5a3b" opacity=".6"/>`; });
+      if (look.lips === 'none') {
+        s += `<path d="M144 197 Q160 212 176 197" fill="none" stroke="#a0405a" stroke-width="3.5" stroke-linecap="round"/>`;
+      } else {
+        const c = look.lips === 'glitter' ? '#f06292' : look.lips === 'gold' ? '#ffb300' : look.lips;
+        s += `<path d="M142 197 Q151 189 160 194 Q169 189 178 197 Q160 216 142 197 Z" fill="${c}" stroke="${glamShade(c, 0.3)}" stroke-width="2"/>`;
+        s += `<path d="M144 197 Q160 203 176 197" fill="none" stroke="${glamShade(c, 0.35)}" stroke-width="1.6"/><path d="${ell(165, 204, 5, 2)}" fill="#fff" opacity=".55"/>`;
+        if (look.lips === 'glitter' || look.lips === 'gold') [[150, 199], [158, 206], [168, 201], [163, 196]].forEach(([x, y]) => { s += `<circle cx="${x}" cy="${y}" r="1.4" fill="#ffd700"/>`; });
+      }
+      if (look.sticker === 'cat') {
+        s += paintSVG('cat');
+      } else if (look.sticker !== 'none') {
+        s += `<text x="196" y="214" font-size="20">${look.sticker}</text>`;
+      }
+      return s;
+    }
+
+    function paintSVG(id) {
+      const L = `stroke="${GLAM_INK}" stroke-width="2"`;
+      switch (id) {
+        case 'cat': return `<path d="M112 190 l-22 -4 M112 196 l-22 4 M208 190 l22 -4 M208 196 l22 4" stroke="${GLAM_INK}" stroke-width="2.5" stroke-linecap="round"/><path d="${ell(160, 180, 6, 4)}" fill="${GLAM_INK}"/>`;
+        case 'bunny': return `<path d="M114 190 l-18 -3 M114 196 l-18 3 M206 190 l18 -3 M206 196 l18 3" stroke="#f06292" stroke-width="2.5" stroke-linecap="round"/><path d="${ell(160, 180, 6, 4)}" fill="#f06292"/><rect x="154" y="200" width="12" height="9" rx="2" fill="#fff" ${L}/>`;
+        case 'butterfly': return `<g opacity=".55"><path d="M160 150 Q104 92 92 146 Q96 196 160 166 Z" fill="#ce93d8"/><path d="M160 150 Q216 92 228 146 Q224 196 160 166 Z" fill="#ff80ab"/></g><path d="M160 136 L160 170" stroke="${GLAM_INK}" stroke-width="3" stroke-linecap="round"/>`;
+        case 'rainbow': return ['#ff5252', '#ffab40', '#ffee58', '#69f0ae', '#40c4ff'].map((c, i) => `<path d="M${164 + i * 3} 160 A${30 - i * 3} ${30 - i * 3} 0 0 1 ${224 - i * 3} 160" fill="none" stroke="${c}" stroke-width="3.5" opacity=".85"/>`).join('');
+        case 'tiger': return `<path d="M100 170 l22 6 M98 182 l20 2 M220 170 l-22 6 M222 182 l-20 2 M150 92 l4 18 M170 92 l-4 18 M160 88 l0 20" stroke="#ff7043" stroke-width="4.5" stroke-linecap="round"/>`;
+        case 'hearts': return [[110, 194, 6], [122, 204, 4], [206, 196, 6]].map(([x, y, r]) => `<path d="M${x} ${y + r} l${-r} ${-r} a${r * 0.6} ${r * 0.6} 0 0 1 ${r} ${-r * 0.8} a${r * 0.6} ${r * 0.6} 0 0 1 ${r} ${r * 0.8} z" fill="#ff4081"/>`).join('');
+        case 'stars': return [[140, 176], [150, 170], [170, 170], [180, 176], [160, 166]].map(([x, y]) => `<text x="${x - 4}" y="${y + 4}" font-size="10" fill="#ffd54f" stroke="${GLAM_INK}" stroke-width=".6">★</text>`).join('');
+        case 'flower': return [0, 72, 144, 216, 288].map(a => `<circle cx="${208 + Math.cos(a * Math.PI / 180) * 6}" cy="${198 + Math.sin(a * Math.PI / 180) * 6}" r="5" fill="#ff80ab"/>`).join('') + `<circle cx="208" cy="198" r="3.5" fill="#ffd54f"/>`;
+        default: return '';
+      }
+    }
+
+    function gemsSVG(id) {
+      if (!id || id === 'none') return '';
+      const gem = (x, y, c, r = 3.2) => `<path d="M${x} ${y - r} L${x + r} ${y} L${x} ${y + r} L${x - r} ${y} Z" fill="${c}" stroke="#fff" stroke-width="1"/>`;
+      let s = '';
+      if (id === 'tears' || id === 'all') s += gem(114, 172, '#40c4ff') + gem(119, 180, '#ce93d8', 2.4) + gem(206, 172, '#40c4ff') + gem(201, 180, '#ce93d8', 2.4);
+      if (id === 'brow' || id === 'all') [118, 128, 138, 182, 192, 202].forEach((x, i) => { s += gem(x, 122 - (i % 3 === 1 ? 3 : 0), '#ff80ab', 2.6); });
+      if (id === 'cheek' || id === 'all') s += gem(200, 196, '#ffd54f') + gem(208, 202, '#ff4081', 2.6) + gem(214, 194, '#69f0ae', 2.4);
+      if (id === 'heart' || id === 'all') s += `<path d="M160 120 l-6 -6 a3.5 3.5 0 0 1 6 -4 a3.5 3.5 0 0 1 6 4 z" fill="#ff4081" stroke="#fff" stroke-width="1"/>`;
+      return s;
+    }
+
+    function spaSVG(look, u) {
+      let s = '';
+      (look.spots || []).forEach((sp, i) => {
+        const fill = sp.k === 'mud' ? '#8d6e63' : sp.k === 'mask' ? '#9ccc65' : '#ffffff';
+        const stroke = sp.k === 'foam' ? ' stroke="#b3e5fc" stroke-width="2"' : '';
+        s += `<circle id="${u}-spot-${i}" class="spa-spot" cx="${sp.x}" cy="${sp.y}" r="${sp.r}" fill="${fill}" opacity="${sp.o}"${stroke}/>`;
+      });
+      if (look.cucumbers) [134, 186].forEach(x => {
+        s += `<circle cx="${x}" cy="158" r="17" fill="#aed581" stroke="#558b2f" stroke-width="4"/><circle cx="${x}" cy="158" r="11" fill="#dcedc8"/>`;
+        [0, 60, 120, 180, 240, 300].forEach(a => { s += `<circle cx="${x + Math.cos(a * Math.PI / 180) * 6}" cy="${158 + Math.sin(a * Math.PI / 180) * 6}" r="1.6" fill="#8bc34a"/>`; });
+      });
+      return s;
+    }
+
+    function renderDoll(look, viewBox = '0 0 320 520', cls = '') {
+      const u = 'gd' + (glamUid++);
+      const skin = GLAM_SKINS[look.skin];
+      const skinLine = glamShade(skin, 0.35);
+      const hairFill = look.hairColor === 'rainbow' ? `url(#${u}-rainbow)` : look.hairColor === 'galaxy' ? `url(#${u}-galaxy)` : look.hairColor;
+      const hairLine = look.hairColor.startsWith('#') ? glamShade(look.hairColor, 0.35) : GLAM_INK;
+      const [hairBack, hairFront, hairHole] = hairPaths(look.hairStyle);
+      const outfit = outfitPieces(look.outfit);
+      const arm = (d) => `<path d="${d}" fill="none" stroke="${GLAM_INK}" stroke-width="27" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${skin}" stroke-width="20" stroke-linecap="round"/>`;
+      return `<svg class="doll ${cls}" viewBox="${viewBox}" xmlns="http://www.w3.org/2000/svg">
+        ${glamDefs(u)}
+        ${backAccessory(look.back)}
+        ${hairBack ? `<path d="${hairBack}" fill="${hairFill}" stroke="${hairLine}" stroke-width="4" stroke-linejoin="round"/>` : ''}
+        ${outfit.behind ? paintPieces(outfit.behind, look, u) : ''}
+        <rect x="129" y="378" width="24" height="114" rx="11" fill="${skin}" stroke="${GLAM_INK}" stroke-width="3.5"/>
+        <rect x="167" y="378" width="24" height="114" rx="11" fill="${skin}" stroke="${GLAM_INK}" stroke-width="3.5"/>
+        ${look.outfit === 'mermaid' ? '' : shoeSVG(look.shoes, look.shoeColor, skin)}
+        ${arm('M118 262 Q98 320 96 380')}${arm('M202 262 Q222 320 224 380')}
+        <circle cx="96" cy="384" r="12" fill="${skin}" stroke="${GLAM_INK}" stroke-width="3.5"/>
+        <circle cx="224" cy="384" r="12" fill="${skin}" stroke="${GLAM_INK}" stroke-width="3.5"/>
+        ${look.nails && look.nails !== 'none' ? [92, 97, 102, 218, 223, 228].map((x, i) => `<path d="${ell(x, 393, 2.6, 3.4)}" fill="${look.nails === 'rainbow' ? ['#ff5252', '#ffee58', '#40c4ff'][i % 3] : look.nails === 'glitter' ? '#ffd700' : look.nails}" stroke="${GLAM_INK}" stroke-width="1"/>`).join('') : ''}
+        <path d="M118 250 Q160 238 202 250 L196 392 L124 392 Z" fill="${skin}" stroke="${GLAM_INK}" stroke-width="3.5"/>
+        <rect x="147" y="210" width="26" height="44" rx="10" fill="${skin}" stroke="${GLAM_INK}" stroke-width="3.5"/>
+        ${paintPieces(outfit.front, look, u)}
+        <circle cx="92" cy="162" r="14" fill="${skin}" stroke="${GLAM_INK}" stroke-width="3.5"/>
+        <circle cx="228" cy="162" r="14" fill="${skin}" stroke="${GLAM_INK}" stroke-width="3.5"/>
+        <path d="${ell(160, 150, 68, 74)}" fill="${skin}" stroke="${GLAM_INK}" stroke-width="4"/>
+        <g class="doll-face">${faceSVG(look)}</g>
+        ${faceAccessories(look)}
+        ${spaSVG(look, u)}
+        <path d="${hairFront}" fill="${hairFill}" stroke="${hairLine}" stroke-width="4" stroke-linejoin="round"${hairHole ? ' fill-rule="evenodd"' : ''}/>
+        ${headAccessory(look.head, u)}
+        ${glassesSVG(look.glasses)}
+      </svg>`;
+    }
+
+    /* ---------- Stage backdrops ---------- */
+    function glamSceneSVG(id) {
+      const S = (inner, bg) => `<svg viewBox="0 0 400 700" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="700" fill="${bg}"/>${inner}</svg>`;
+      switch (id) {
+        case 'castle': return S(`
+          <circle cx="330" cy="110" r="40" fill="#fff59d"/>
+          <ellipse cx="80" cy="140" rx="60" ry="22" fill="#fff"/><ellipse cx="260" cy="230" rx="50" ry="18" fill="#fff" opacity=".8"/>
+          <g fill="#f8bbd0" stroke="#8e24aa" stroke-width="5" stroke-linejoin="round">
+            <rect x="40" y="300" width="70" height="300"/><path d="M30 300 L75 220 L120 300 Z" fill="#ce93d8"/>
+            <rect x="290" y="300" width="70" height="300"/><path d="M280 300 L325 220 L370 300 Z" fill="#ce93d8"/>
+            <rect x="110" y="360" width="180" height="240"/><path d="M170 600 L170 520 Q200 480 230 520 L230 600 Z" fill="#8e24aa"/></g>
+          <rect y="600" width="400" height="100" fill="#a5d6a7"/>`, '#e1bee7');
+        case 'beach': return S(`
+          <circle cx="300" cy="140" r="56" fill="#fff59d"/>
+          <rect y="440" width="400" height="120" fill="#4fc3f7"/>
+          <path d="M0 450 Q50 430 100 450 T200 450 T300 450 T400 450 L400 470 L0 470 Z" fill="#b3e5fc"/>
+          <rect y="540" width="400" height="160" fill="#ffe0b2"/>
+          <path d="M40 560 L60 700 M60 560 Q20 520 10 560 M60 560 Q100 520 110 560" stroke="#8d6e63" stroke-width="6" fill="none"/>
+          <text x="300" y="640" font-size="46">🐚</text><text x="40" y="660" font-size="40">⭐</text>`, '#f8bbd0');
+        case 'stage': return S(`
+          <path d="M0 0 L120 0 Q90 300 120 700 L0 700 Z" fill="#8e24aa"/><path d="M400 0 L280 0 Q310 300 280 700 L400 700 Z" fill="#8e24aa"/>
+          <path d="M0 0 L400 0 L400 60 Q200 110 0 60 Z" fill="#6a1b9a"/>
+          <path d="M150 60 L250 60 L360 600 L40 600 Z" fill="#fff59d" opacity=".22"/>
+          <rect y="600" width="400" height="100" fill="#ad1457"/>
+          ${[40,100,160,220,280,340].map(x => `<circle cx="${x}" cy="40" r="10" fill="#fff59d"/>`).join('')}`, '#311b92');
+        case 'garden': return S(`
+          <circle cx="70" cy="110" r="44" fill="#fff59d"/>
+          <ellipse cx="290" cy="130" rx="60" ry="22" fill="#fff"/>
+          <path d="M0 470 Q100 420 200 470 T400 460 L400 700 L0 700 Z" fill="#a5d6a7"/>
+          ${[30,80,130,270,320,370].map((x,i) => `<line x1="${x}" y1="${560+(i%2)*30}" x2="${x}" y2="${620+(i%2)*30}" stroke="#43a047" stroke-width="5"/><text x="${x-16}" y="${570+(i%2)*30}" font-size="34">${['🌷','🌸','🌼','🌻','🌹','🌺'][i]}</text>`).join('')}
+          <text x="300" y="300" font-size="40">🦋</text>`, '#f8bbd0');
+        case 'space': return S(`
+          ${Array.from({ length: 40 }, (_, i) => `<circle cx="${(i * 97) % 400}" cy="${(i * 53) % 600}" r="${1 + (i % 3)}" fill="#fff"/>`).join('')}
+          <circle cx="320" cy="140" r="50" fill="#ff80ab"/><ellipse cx="320" cy="140" rx="80" ry="14" fill="none" stroke="#fff59d" stroke-width="7"/>
+          <circle cx="70" cy="240" r="24" fill="#80deea"/>
+          <path d="M0 610 Q200 570 400 610 L400 700 L0 700 Z" fill="#b39ddb"/>`, '#311b92');
+        case 'rainbow': return S(`
+          ${['#ff5252','#ffab40','#ffee58','#69f0ae','#40c4ff','#b388ff'].map((c, i) => `<path d="M${-40 + i * 22} 600 A${240 - i * 22} ${240 - i * 22} 0 0 1 ${440 - i * 22} 600" fill="none" stroke="${c}" stroke-width="22"/>`).join('')}
+          <ellipse cx="40" cy="590" rx="80" ry="40" fill="#fff"/><ellipse cx="360" cy="590" rx="80" ry="40" fill="#fff"/>
+          <rect y="610" width="400" height="90" fill="#fce4ec"/>`, '#e1f5fe');
+        default: return S(`
+          ${[0,1,2,3,4,5,6,7].map(i => `<rect x="${i * 52}" width="26" height="600" fill="#fcd5e3"/>`).join('')}
+          <path d="M70 600 L70 200 Q200 60 330 200 L330 600 Z" fill="#e1f5fe" stroke="#8e24aa" stroke-width="10"/>
+          ${Array.from({ length: 11 }, (_, i) => { const a = Math.PI + i * Math.PI / 10; return `<circle cx="${200 + Math.cos(a) * 150}" cy="${230 + Math.sin(a) * 150}" r="11" fill="#fff59d" stroke="#f9a825" stroke-width="3"/>`; }).join('')}
+          <rect y="600" width="400" height="100" fill="#ce93d8"/>
+          <text x="20" y="590" font-size="44">🧴</text><text x="330" y="590" font-size="44">💐</text>`, '#f8bbd0');
+      }
+    }
+
+    /* ---------- Stations & option lists ---------- */
+    function opt(list, key, kind, extra = {}) {
+      return Object.assign({ list: list.map(o => typeof o === 'string' || typeof o === 'number' ? { id: o } : o), key, kind }, extra);
+    }
+
+    const GLAM_STATIONS = {
+      friends: { icon: '👧', tabs: [
+        { icon: '👧', kind: 'preview', key: 'friend', crop: '20 10 280 260',
+          list: GLAM_FRIENDS.map(f => ({ id: f.name, look: f })),
+          apply: (item) => { Object.assign(glamLook, item.look, { friend: item.look.name }); unicornSpeak(item.look.name + '!', { updateBubble: false }); } },
+        Object.assign(opt(GLAM_SKINS.map((c, i) => ({ id: i, color: c })), 'skin', 'color'), { icon: '🙂' }),
+        Object.assign(opt(GLAM_HAIR_STYLES, 'hairStyle', 'preview', { crop: '20 0 280 280' }), { icon: '💇' }),
+        Object.assign(opt(GLAM_EYES, 'eyes', 'color'), { icon: '👀' })
+      ] },
+      makeup: { icon: '💄', tabs: [
+        Object.assign(opt(GLAM_SHADOWS, 'shadow', 'color'), { icon: '💜' }),
+        Object.assign(opt(GLAM_LINER, 'liner', 'preview', { crop: '100 120 120 70' }), { icon: '✏️' }),
+        Object.assign(opt(GLAM_LASHES, 'lashes', 'preview', { crop: '100 120 120 70' }), { icon: '👁️' }),
+        Object.assign(opt(GLAM_BLUSH, 'blush', 'color'), { icon: '🌸' }),
+        Object.assign(opt(GLAM_LIPS, 'lips', 'color'), { icon: '💋' }),
+        Object.assign(opt(GLAM_GEMS, 'gems', 'preview', { crop: '90 100 140 120' }), { icon: '💎' }),
+        Object.assign(opt(GLAM_PAINT, 'paint', 'preview', { crop: '80 80 160 150' }), { icon: '🎨' }),
+        Object.assign(opt(GLAM_STICKERS, 'sticker', 'emoji'), { icon: '✨' }),
+        Object.assign(opt(GLAM_NAILS, 'nails', 'color'), { icon: '💅' }),
+        { icon: '🪄', kind: 'toggles', toggles: [{ key: 'shimmer', icon: '🌟' }, { key: 'freckles', icon: '🟤' }] }
+      ] },
+      hair: { icon: '💇', tabs: [
+        Object.assign(opt(GLAM_HAIR_STYLES, 'hairStyle', 'preview', { crop: '20 0 280 280' }), { icon: '💇' }),
+        Object.assign(opt(GLAM_HAIR_COLORS, 'hairColor', 'color'), { icon: '🎨' }),
+        Object.assign(opt(GLAM_HEAD, 'head', 'preview', { crop: '50 0 220 200' }), { icon: '👑' })
+      ] },
+      clothes: { icon: '👗', tabs: [
+        Object.assign(opt(GLAM_OUTFITS, 'outfit', 'preview', { crop: '40 220 240 300' }), { icon: '👗' }),
+        Object.assign(opt(GLAM_OUTFIT_COLORS, 'outfitColor', 'color'), { icon: '🎨' }),
+        Object.assign(opt(GLAM_ACCENTS.map(c => ({ id: c, color: c === 'auto' ? 'none' : c })), 'accent', 'color'), { icon: '🖌️' }),
+        Object.assign(opt(GLAM_PATTERNS, 'pattern', 'preview', { crop: '80 230 160 200' }), { icon: '🔵' }),
+        Object.assign(opt(GLAM_SHOES, 'shoes', 'preview', { crop: '100 430 120 90' }), { icon: '👟' }),
+        Object.assign(opt(GLAM_SHOE_COLORS, 'shoeColor', 'color'), { icon: '🖍️' }),
+        Object.assign(opt(GLAM_EARRINGS, 'earrings', 'preview', { crop: '60 120 200 160' }), { icon: '💎' }),
+        Object.assign(opt(GLAM_NECK, 'neck', 'preview', { crop: '90 190 140 120' }), { icon: '📿' }),
+        Object.assign(opt(GLAM_GLASSES, 'glasses', 'preview', { crop: '80 100 160 120' }), { icon: '🕶️' }),
+        Object.assign(opt(GLAM_BACK, 'back', 'preview', { crop: '20 140 280 280' }), { icon: '🧚' })
+      ] },
+      spa: { icon: '🫧' },
+      laundry: { icon: '🧺' },
+      photo: { icon: '📸' },
+      kiki: { icon: '🦄' }
+    };
+
+    const GLAM_CHEERS = ['Pretty!', 'Cute!', 'Wow!', 'Ooh!', 'Sparkly!', 'Love it!', 'Fancy!', 'Yay!'];
+
+    function glamCheer(force) {
+      const word = GLAM_CHEERS[Math.floor(Math.random() * GLAM_CHEERS.length)];
+      const bubble = document.getElementById('glam-kiki-say');
+      if (bubble) {
+        bubble.textContent = word;
+        bubble.classList.remove('pop');
+        void bubble.offsetWidth;
+        bubble.classList.add('pop');
+      }
+      if (force || Math.random() < 0.45) unicornSpeak(word, { updateBubble: false });
+    }
+
+    function glamLocked(item) {
+      return item.stars && stars < item.stars;
+    }
+
+    function openGlamRoom() {
+      document.getElementById('glam-overlay').classList.add('open');
+      const bar = document.getElementById('glam-stations');
+      bar.innerHTML = Object.entries(GLAM_STATIONS).map(([id, st]) =>
+        `<button class="glam-station-btn" data-st="${id}" onclick="setGlamStation('${id}')">${st.icon}</button>`).join('');
+      document.getElementById('glam-stars').textContent = stars;
+      setGlamStation(glamStation);
+      glamCheer(true);
+    }
+
+    function exitGlamRoom() {
+      document.getElementById('glam-overlay').classList.remove('open');
+      saveGlamLook();
+      setWorld('abc');
+    }
+
+    function setGlamStation(id) {
+      glamStation = id;
+      glamTab = 0;
+      document.querySelectorAll('.glam-station-btn').forEach(b => b.classList.toggle('active', b.dataset.st === id));
+      playMagicSound('pop');
+      renderGlamStage();
+      renderGlamDock();
+    }
+
+    function renderGlamStage() {
+      const stage = document.getElementById('glam-stage');
+      const scene = GLAM_SCENES[glamLook.scene] || GLAM_SCENES[0];
+      document.getElementById('glam-scene').innerHTML = glamSceneSVG(scene.id);
+      const holder = document.getElementById('glam-model');
+      stage.classList.toggle('spa-mode', glamStation === 'spa');
+      if (glamStation === 'laundry') {
+        holder.innerHTML = '';
+        renderLaundry(holder);
+        return;
+      }
+      if (glamStation === 'kiki') {
+        holder.innerHTML = renderKikiModel();
+        return;
+      }
+      holder.innerHTML = renderDoll(glamLook, '0 0 320 520', 'main-doll');
+      if (glamStation === 'spa') wireSpaRubbing(holder.querySelector('svg'));
+    }
+
+    function tileHTML(tab, item, i) {
+      const val = item.id;
+      const sel = glamLook[tab.key] === val;
+      const locked = glamLocked(item);
+      let inner = '';
+      if (tab.kind === 'color') {
+        const c = item.color || val;
+        if (c === 'none') inner = '<span class="glam-none">🚫</span>';
+        else if (c === 'rainbow') inner = '<span class="glam-swatch" style="background:linear-gradient(135deg,#ff5252,#ffee58,#69f0ae,#40c4ff,#b388ff)"></span>';
+        else if (c === 'galaxy') inner = '<span class="glam-swatch" style="background:linear-gradient(135deg,#311b92,#8e24aa,#40c4ff)"></span>';
+        else if (c === 'glitter') inner = '<span class="glam-swatch" style="background:radial-gradient(circle at 30% 30%,#fff 0 8%,transparent 9%),radial-gradient(circle at 70% 60%,#ffd700 0 8%,transparent 9%),#f06292"></span>';
+        else inner = `<span class="glam-swatch" style="background:${c}"></span>`;
+      } else if (tab.kind === 'emoji') {
+        inner = val === 'none' ? '<span class="glam-none">🚫</span>' : val === 'cat' ? '<span class="glam-emoji">🐱</span>' : `<span class="glam-emoji">${val}</span>`;
+      } else {
+        const preview = Object.assign({}, glamLook, item.look || { [tab.key]: val }, { spots: [], cucumbers: false });
+        inner = renderDoll(preview, tab.crop, 'thumb');
+      }
+      return `<button class="glam-tile ${sel ? 'sel' : ''} ${locked ? 'locked' : ''}" data-i="${i}">${inner}${locked ? `<span class="glam-lock">🔒${item.stars}⭐</span>` : ''}</button>`;
+    }
+
+    function renderGlamDock() {
+      const tabsEl = document.getElementById('glam-tabs');
+      const optsEl = document.getElementById('glam-options');
+      const st = GLAM_STATIONS[glamStation];
+      tabsEl.innerHTML = '';
+      optsEl.innerHTML = '';
+      optsEl.className = 'glam-options';
+
+      if (glamStation === 'spa') return renderSpaDock(tabsEl, optsEl);
+      if (glamStation === 'laundry') return renderLaundryDock(tabsEl, optsEl);
+      if (glamStation === 'photo') return renderPhotoDock(tabsEl, optsEl);
+      if (glamStation === 'kiki') return renderKikiDock(tabsEl, optsEl);
+
+      st.tabs.forEach((t, i) => {
+        const b = document.createElement('button');
+        b.className = 'glam-tab' + (i === glamTab ? ' active' : '');
+        b.textContent = t.icon;
+        b.onclick = () => { glamTab = i; playMagicSound('pop'); renderGlamDock(); };
+        tabsEl.appendChild(b);
+      });
+
+      const tab = st.tabs[glamTab];
+      if (tab.kind === 'toggles') {
+        tab.toggles.forEach(tg => {
+          const b = document.createElement('button');
+          b.className = 'glam-tile' + (glamLook[tg.key] ? ' sel' : '');
+          b.innerHTML = `<span class="glam-emoji">${tg.icon}</span><span class="glam-onoff">${glamLook[tg.key] ? '✅' : '⬜'}</span>`;
+          b.onclick = () => {
+            glamLook[tg.key] = !glamLook[tg.key];
+            glamApplied(b);
+          };
+          optsEl.appendChild(b);
+        });
+        return;
+      }
+      optsEl.innerHTML = tab.list.map((item, i) => tileHTML(tab, item, i)).join('');
+      optsEl.querySelectorAll('.glam-tile').forEach(b => {
+        b.onclick = () => {
+          const item = tab.list[parseInt(b.dataset.i, 10)];
+          if (glamLocked(item)) {
+            playMagicSound('oops');
+            b.classList.add('nope');
+            setTimeout(() => b.classList.remove('nope'), 420);
+            return;
+          }
+          if (tab.apply) tab.apply(item); else glamLook[tab.key] = item.id;
+          glamApplied(b);
+        };
+      });
+    }
+
+    function glamApplied(btn) {
+      saveGlamLook();
+      playMagicSound('sparkle');
+      if (btn) {
+        const r = btn.getBoundingClientRect();
+        burstSparkles(r.left + r.width / 2, r.top, 14);
+      }
+      const doll = document.querySelector('#glam-model svg');
+      if (doll) {
+        const r = doll.getBoundingClientRect();
+        burstSparkles(r.left + r.width / 2, r.top + r.height * 0.35, 22);
+      }
+      renderGlamStage();
+      renderGlamDock();
+      glamCheer();
+    }
+
+    function glamRandomLook() {
+      const pick = (arr) => {
+        const ok = arr.map(o => typeof o === 'object' ? o : { id: o }).filter(o => !glamLocked(o));
+        return ok[Math.floor(Math.random() * ok.length)].id;
+      };
+      Object.assign(glamLook, {
+        hairStyle: pick(GLAM_HAIR_STYLES), hairColor: pick(GLAM_HAIR_COLORS), eyes: pick(GLAM_EYES),
+        skin: Math.floor(Math.random() * GLAM_SKINS.length),
+        shadow: pick(GLAM_SHADOWS), blush: pick(GLAM_BLUSH), lips: pick(GLAM_LIPS), sticker: Math.random() < 0.4 ? pick(GLAM_STICKERS) : 'none',
+        liner: pick(GLAM_LINER), lashes: pick(GLAM_LASHES), gems: Math.random() < 0.4 ? pick(GLAM_GEMS) : 'none',
+        paint: Math.random() < 0.25 ? pick(GLAM_PAINT) : 'none', nails: pick(GLAM_NAILS), accent: pick(GLAM_ACCENTS),
+        outfit: pick(GLAM_OUTFITS), outfitColor: pick(GLAM_OUTFIT_COLORS), pattern: pick(GLAM_PATTERNS),
+        shoes: pick(GLAM_SHOES), shoeColor: pick(GLAM_SHOE_COLORS), head: pick(GLAM_HEAD),
+        earrings: pick(GLAM_EARRINGS), neck: pick(GLAM_NECK), glasses: Math.random() < 0.3 ? pick(GLAM_GLASSES) : 'none',
+        back: Math.random() < 0.4 ? pick(GLAM_BACK) : 'none', shimmer: Math.random() < 0.3, freckles: Math.random() < 0.3,
+        scene: Math.floor(Math.random() * GLAM_SCENES.length)
+      });
+      if (['laundry', 'kiki'].includes(glamStation)) glamStation = 'clothes';
+      playMagicSound('success');
+      burstSparkles(window.innerWidth / 2, window.innerHeight * 0.4, 70);
+      saveGlamLook();
+      setGlamStation(glamStation);
+      glamCheer(true);
+    }
+
+    /* ---------- 🫧 Spa: rub the mud and the face mask away ---------- */
+    const SPA_TOOLS = [
+      { id: 'mud', icon: '🟤' }, { id: 'mask', icon: '🥝' }, { id: 'scrub', icon: '🧽' },
+      { id: 'rinse', icon: '🚿' }, { id: 'cucumber', icon: '🥒' }, { id: 'lotion', icon: '🧴' }
+    ];
+
+    function renderSpaDock(tabsEl, optsEl) {
+      SPA_TOOLS.forEach(t => {
+        const b = document.createElement('button');
+        const isMode = t.id === 'scrub' || t.id === 'rinse';
+        b.className = 'glam-tile big' + (isMode && glamSpaTool === t.id ? ' sel' : '');
+        b.innerHTML = `<span class="glam-emoji">${t.icon}</span>`;
+        b.onclick = () => spaUseTool(t.id, b);
+        optsEl.appendChild(b);
+      });
+      spaHint();
+    }
+
+    function spaHint() {
+      // Point at the next step so no reading is needed
+      const tiles = document.querySelectorAll('#glam-options .glam-tile');
+      tiles.forEach(t => t.classList.remove('pulse-hint'));
+      const spots = glamLook.spots || [];
+      let next = -1;
+      if (!spots.length) next = 0;
+      else if (spots.some(s => s.k !== 'foam')) next = glamSpaTool === 'scrub' ? -1 : 2;
+      else next = glamSpaTool === 'rinse' ? -1 : 3;
+      if (next >= 0 && tiles[next]) tiles[next].classList.add('pulse-hint');
+    }
+
+    function spaUseTool(id, btn) {
+      if (id === 'mud' || id === 'mask') {
+        const spots = glamLook.spots || [];
+        if (id === 'mud') {
+          for (let i = 0; i < 14; i++) {
+            const onFace = i < 9;
+            spots.push(onFace
+              ? { x: 110 + Math.random() * 100, y: 104 + Math.random() * 110, r: 9 + Math.random() * 9, k: 'mud', o: 1 }
+              : { x: 120 + Math.random() * 80, y: 270 + Math.random() * 200, r: 10 + Math.random() * 10, k: 'mud', o: 1 });
+          }
+          playMagicSound('oops');
+        } else {
+          for (let y = 100; y <= 216; y += 18) for (let x = 100; x <= 220; x += 18) {
+            if (((x - 160) / 64) ** 2 + ((y - 152) / 70) ** 2 < 1) spots.push({ x, y, r: 14, k: 'mask', o: 1 });
+          }
+          playMagicSound('legoSpring');
+        }
+        glamLook.spots = spots;
+        glamSpaTool = 'scrub';
+      } else if (id === 'scrub' || id === 'rinse') {
+        glamSpaTool = id;
+        playMagicSound('pop');
+      } else if (id === 'cucumber') {
+        glamLook.cucumbers = !glamLook.cucumbers;
+        playMagicSound('pop');
+      } else if (id === 'lotion') {
+        playMagicSound('sparkle');
+        const doll = document.querySelector('#glam-model svg');
+        if (doll) {
+          doll.classList.remove('glow');
+          void doll.getBoundingClientRect();
+          doll.classList.add('glow');
+          const r = doll.getBoundingClientRect();
+          burstSparkles(r.left + r.width / 2, r.top + r.height * 0.3, 50);
+        }
+        glamCheer(true);
+        return;
+      }
+      saveGlamLook();
+      renderGlamStage();
+      renderGlamDock();
+    }
+
+    function wireSpaRubbing(svg) {
+      if (!svg) return;
+      let down = false;
+      let lastSound = 0;
+      const toSvg = (ev) => {
+        const pt = svg.createSVGPoint();
+        pt.x = ev.clientX; pt.y = ev.clientY;
+        return pt.matrixTransform(svg.getScreenCTM().inverse());
+      };
+      const rub = (ev) => {
+        if (!down) return;
+        const p = toSvg(ev);
+        const spots = glamLook.spots || [];
+        let touched = false;
+        spots.forEach((sp, i) => {
+          if (Math.hypot(sp.x - p.x, sp.y - p.y) > sp.r + 20) return;
+          const el = svg.querySelector(`[id$="-spot-${i}"]`);
+          if (glamSpaTool === 'scrub' && sp.k !== 'foam') {
+            sp.o -= 0.12;
+            touched = true;
+            if (sp.o <= 0.35) {
+              // Mud turns into soapy foam, ready to rinse
+              sp.k = 'foam'; sp.o = 0.95;
+              if (el) { el.setAttribute('fill', '#ffffff'); el.setAttribute('stroke', '#b3e5fc'); el.setAttribute('stroke-width', '2'); }
+            }
+          } else if (glamSpaTool === 'rinse' && sp.k === 'foam') {
+            sp.o -= 0.14;
+            touched = true;
+          }
+          if (el) el.setAttribute('opacity', Math.max(0, sp.o));
+        });
+        if (touched) {
+          const now = performance.now();
+          if (now - lastSound > 140) { playMagicSound('bubble'); lastSound = now; }
+          if (Math.random() < 0.5) spawnSpaBubble(ev.clientX, ev.clientY, glamSpaTool === 'rinse' ? '💧' : '🫧');
+        }
+        // Rinsed spots stay in the list (invisible) until the drag ends, so ids never shift mid-rub
+        const left = spots.filter(sp => !(sp.k === 'foam' && sp.o <= 0.05));
+        if (spots.length && !left.length) {
+          glamLook.spots = [];
+          // Squeaky clean!
+          saveGlamLook();
+          addStar();
+          document.getElementById('glam-stars').textContent = stars;
+          playMagicSound('success');
+          const r = svg.getBoundingClientRect();
+          burstSparkles(r.left + r.width / 2, r.top + r.height * 0.3, 80);
+          showPraisePop({ word: 'Clean!', emoji: '🫧' });
+          unicornSpeak('Clean!', { updateBubble: false });
+          down = false;
+          setTimeout(() => { renderGlamStage(); renderGlamDock(); }, 300);
+        }
+      };
+      svg.addEventListener('pointerdown', (ev) => { down = true; svg.setPointerCapture && svg.setPointerCapture(ev.pointerId); rub(ev); });
+      svg.addEventListener('pointermove', rub);
+      const stop = () => {
+        if (!down) return;
+        down = false;
+        glamLook.spots = (glamLook.spots || []).filter(sp => !(sp.k === 'foam' && sp.o <= 0.05));
+        saveGlamLook();
+        renderGlamStage();
+        spaHint();
+      };
+      svg.addEventListener('pointerup', stop);
+      svg.addEventListener('pointercancel', stop);
+    }
+
+    function spawnSpaBubble(x, y, ch) {
+      const b = document.createElement('div');
+      b.className = 'spa-bubble';
+      b.textContent = ch;
+      b.style.left = (x + (Math.random() - 0.5) * 40) + 'px';
+      b.style.top = (y + (Math.random() - 0.5) * 30) + 'px';
+      document.body.appendChild(b);
+      setTimeout(() => b.remove(), 1100);
+    }
+
+    /* ---------- 🧺 Laundry: dirty clothes → washer → soap → spin → clothesline ---------- */
+    const LAUNDRY_ITEMS = ['👗', '👕', '👖', '🧦', '🩱', '🧣', '👚', '🩳', '🧤', '👒'];
+    let laundry = null;
+
+    function newLaundryBatch() {
+      const items = [...LAUNDRY_ITEMS].sort(() => Math.random() - 0.5).slice(0, 4);
+      laundry = { phase: 'load', basket: items, drum: [], line: [], soap: false };
+    }
+
+    function renderLaundry(holder) {
+      if (!laundry) newLaundryBatch();
+      const L = laundry;
+      holder.innerHTML = `
+        <div class="laundry-room">
+          <div class="clothesline">
+            <div class="line-rope"></div>
+            <div class="line-items">${L.line.map(i => `<span class="line-item">${i}</span>`).join('')}</div>
+          </div>
+          <div class="laundry-floor">
+            <div class="washer ${L.phase === 'washing' ? 'shaking' : ''}">
+              <div class="washer-top"><span class="washer-light ${L.phase === 'washing' ? 'on' : ''}"></span><span class="washer-knob"></span><span class="washer-knob"></span></div>
+              <div class="washer-door">
+                <div class="washer-drum ${L.phase === 'washing' ? 'spin' : ''}" id="washer-drum">
+                  ${L.drum.map((i, n) => `<span class="drum-item dirty" style="--n:${n}">${i}</span>`).join('')}
+                  ${L.soap ? '<span class="drum-suds">🫧🫧🫧</span>' : ''}
+                </div>
+              </div>
+            </div>
+            <div class="laundry-basket" id="laundry-basket">
+              ${L.basket.map((i, n) => `<button class="basket-item dirty ${L.phase === 'load' && n === 0 ? 'pulse-hint' : ''}" data-n="${n}">${i}</button>`).join('')}
+              <div class="basket-weave">🧺</div>
+            </div>
+          </div>
+        </div>`;
+      holder.querySelectorAll('.basket-item').forEach(b => {
+        b.onclick = () => {
+          if (laundry.phase !== 'load') return;
+          const n = parseInt(b.dataset.n, 10);
+          laundry.drum.push(laundry.basket.splice(n, 1)[0]);
+          playMagicSound('pop');
+          const r = b.getBoundingClientRect();
+          burstSparkles(r.left + r.width / 2, r.top, 10);
+          if (!laundry.basket.length) laundry.phase = 'soap';
+          renderGlamStage();
+          renderGlamDock();
+        };
+      });
+    }
+
+    function renderLaundryDock(tabsEl, optsEl) {
+      const L = laundry || (newLaundryBatch(), laundry);
+      const tools = [
+        { id: 'soap', icon: '🧴', hint: L.phase === 'soap' },
+        { id: 'start', icon: '▶️', hint: L.phase === 'start' },
+        { id: 'again', icon: '🧺', hint: L.phase === 'done' }
+      ];
+      tools.forEach(t => {
+        const b = document.createElement('button');
+        b.className = 'glam-tile big' + (t.hint ? ' pulse-hint' : '');
+        b.innerHTML = `<span class="glam-emoji">${t.icon}</span>`;
+        b.onclick = () => laundryAction(t.id);
+        optsEl.appendChild(b);
+      });
+    }
+
+    function laundryAction(id) {
+      const L = laundry;
+      if (id === 'soap' && L.phase === 'soap') {
+        L.soap = true; L.phase = 'start';
+        playMagicSound('bubble');
+      } else if (id === 'start' && L.phase === 'start') {
+        L.phase = 'washing';
+        playMagicSound('legoSpring');
+        let spins = 0;
+        const hum = setInterval(() => {
+          if (glamStation !== 'laundry' || !document.getElementById('glam-overlay').classList.contains('open')) { clearInterval(hum); return; }
+          playMagicSound('bubble');
+          if (++spins > 10) clearInterval(hum);
+        }, 300);
+        setTimeout(() => {
+          if (!laundry || laundry !== L) return;
+          L.phase = 'hang';
+          L.soap = false;
+          const items = L.drum.splice(0);
+          renderGlamStage(); renderGlamDock();
+          // Clean clothes hop onto the line one by one
+          items.forEach((it, i) => setTimeout(() => {
+            if (laundry !== L) return;
+            L.line.push(it);
+            playCountNote(i + 3);
+            if (glamStation === 'laundry') { renderGlamStage(); }
+            const line = document.querySelector('.line-items');
+            if (line) { const r = line.getBoundingClientRect(); burstSparkles(r.left + r.width * (0.2 + i * 0.2), r.top + 20, 18); }
+            if (i === items.length - 1) {
+              L.phase = 'done';
+              addStar();
+              document.getElementById('glam-stars').textContent = stars;
+              playMagicSound('success');
+              showPraisePop({ word: 'Clean!', emoji: '☀️' });
+              unicornSpeak('Clean!', { updateBubble: false });
+              if (glamStation === 'laundry') renderGlamDock();
+            }
+          }, 450 * (i + 1)));
+        }, 3400);
+      } else if (id === 'again' && L.phase === 'done') {
+        newLaundryBatch();
+        playMagicSound('pop');
+      } else {
+        playMagicSound('oops');
+        return;
+      }
+      renderGlamStage();
+      renderGlamDock();
+    }
+
+    /* ---------- 📸 Photo booth ---------- */
+    function glamGallery() {
+      try { return JSON.parse(localStorage.getItem('kiki_glam_gallery') || '[]'); } catch (e) { return []; }
+    }
+
+    function renderPhotoDock(tabsEl, optsEl) {
+      const snap = document.createElement('button');
+      snap.className = 'glam-tile big snap pulse-hint';
+      snap.innerHTML = '<span class="glam-emoji">📸</span>';
+      snap.onclick = glamSnapPhoto;
+      tabsEl.appendChild(snap);
+      GLAM_SCENES.forEach((sc, i) => {
+        const b = document.createElement('button');
+        b.className = 'glam-tab' + (glamLook.scene === i ? ' active' : '');
+        b.textContent = sc.icon;
+        b.onclick = () => { glamLook.scene = i; saveGlamLook(); playMagicSound('pop'); renderGlamStage(); renderGlamDock(); };
+        tabsEl.appendChild(b);
+      });
+      const gallery = glamGallery();
+      if (!gallery.length) {
+        optsEl.innerHTML = '<div class="glam-empty-gallery">🖼️ ➕ 📸</div>';
+        return;
+      }
+      gallery.forEach((look, i) => {
+        const b = document.createElement('button');
+        b.className = 'glam-tile photo';
+        b.innerHTML = `<div class="photo-frame">${renderDoll(Object.assign({}, GLAM_DEFAULT_LOOK, look), '20 0 280 520', 'thumb')}</div>`;
+        b.onclick = () => {
+          glamLook = Object.assign({}, GLAM_DEFAULT_LOOK, look);
+          glamApplied(b);
+        };
+        optsEl.appendChild(b);
+      });
+    }
+
+    function glamSnapPhoto() {
+      const flash = document.createElement('div');
+      flash.className = 'glam-flash';
+      document.body.appendChild(flash);
+      setTimeout(() => flash.remove(), 600);
+      playMagicSound('shutter');
+      const gallery = glamGallery();
+      const copy = Object.assign({}, glamLook, { spots: [], cucumbers: false });
+      gallery.unshift(copy);
+      try { localStorage.setItem('kiki_glam_gallery', JSON.stringify(gallery.slice(0, 12))); } catch (e) {}
+      setTimeout(() => {
+        playMagicSound('success');
+        showPraisePop({ word: 'Cheese!', emoji: '📸' });
+        unicornSpeak('Cheese!', { updateBubble: false });
+        renderGlamDock();
+      }, 350);
+    }
+
+    /* ---------- 🦄 Dress up Kiki (the old Grannies closet) ---------- */
+    function renderKikiModel() {
+      const svg = document.querySelector('#unicorn-box svg');
+      const badges = ROYAL_CLOSET.filter(i => i.equipped).map(i => `<span class="kiki-badge kb-${i.slot}">${i.emoji}</span>`).join('');
+      return `<div class="kiki-model">${svg ? svg.outerHTML.replace(/ id="[^"]*"/g, '') : '🦄'}${badges}</div>`;
+    }
+
+    function renderKikiDock(tabsEl, optsEl) {
       ROYAL_CLOSET.forEach(item => {
         const unlocked = stars >= item.stars;
-        const card = document.createElement('div');
-        card.className = `closet-card ${item.equipped ? 'equipped' : ''} ${!unlocked ? 'locked' : ''}`;
-        card.innerHTML = `
-          <div style="font-size:2.4rem;">${item.emoji}</div>
-          <div style="font-weight:700; color:#2b4c7e; font-size:0.95rem;">${item.name}</div>
-          <div style="font-size:0.85rem; font-weight:700; color:#d95f02; margin-top:3px;">
-            ${unlocked ? (item.equipped ? '✅ Wearing!' : '✨ Wear!') : `🔒 ⭐ ${item.stars}`}
-          </div>
-        `;
-        card.onclick = () => {
+        const b = document.createElement('button');
+        b.className = `glam-tile ${item.equipped ? 'sel' : ''} ${!unlocked ? 'locked' : ''}`;
+        b.innerHTML = `<span class="glam-emoji">${item.emoji}</span>${!unlocked ? `<span class="glam-lock">🔒${item.stars}⭐</span>` : ''}`;
+        b.onclick = () => {
           if (!unlocked) {
             playMagicSound('oops');
-            document.getElementById('speech-text').textContent = `🔒 Need ${item.stars} ⭐ Dollarbuck Stars for ${item.name}!`;
+            b.classList.add('nope');
+            setTimeout(() => b.classList.remove('nope'), 420);
             return;
           }
           const wasEquipped = item.equipped;
           ROYAL_CLOSET.filter(i => i.slot === item.slot).forEach(i => i.equipped = false);
           item.equipped = !wasEquipped;
-
           const slotEl = document.getElementById(item.slot);
           if (item.equipped) {
             slotEl.textContent = item.emoji;
             slotEl.style.display = 'block';
-            playMagicSound('success');
-            burstSparkles(window.innerWidth / 2, 180, 35);
-            document.getElementById('speech-text').textContent = `✨ Wearing ${item.emoji} ${item.name}!`;
           } else {
             slotEl.style.display = 'none';
-            playMagicSound('pop');
-            document.getElementById('speech-text').textContent = `Took off ${item.name}!`;
           }
-          startClosetWorld();
+          glamApplied(b);
         };
-        grid.appendChild(card);
+        optsEl.appendChild(b);
       });
+    }
+
+    function startClosetWorld() {
+      document.getElementById('speech-text').textContent = '💄 Glam Room!';
+      openGlamRoom();
     }
 
     /*************************************************************************
