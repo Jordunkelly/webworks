@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#ec407a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>v7.8 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
+  <title>v7.9 | Kiki the Unicorn 🦄💖 Loveable Unicorns</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -1423,6 +1423,51 @@
     .studio-chip.now { border-color: var(--bluey-dark); box-shadow: 0 0 0 2px #ffd54f; color: var(--bluey-dark); }
 
     /* =========================================================================
+       v7.8: LEGO MAPS, WALKING, PICKER
+       ========================================================================= */
+    .lego-hud-pill {
+      background: rgba(49, 27, 146, 0.85); padding: 6px 9px; border-radius: 16px; font-family: var(--font-ui);
+      font-size: 0.95rem; font-weight: 700; border: 2.5px solid #ffd54f; display: flex; align-items: center; gap: 2px; white-space: nowrap; flex-shrink: 0;
+    }
+    .lego-walk {
+      position: absolute; top: 42%; left: 8px; z-index: 11; width: 64px; height: 84px; border-radius: 22px;
+      border: 3px solid #ffffff; background: rgba(123, 31, 162, 0.55); color: #fff; font-size: 2rem; cursor: pointer;
+      box-shadow: 0 4px 0 rgba(49, 27, 146, 0.6); touch-action: none; transition: opacity 0.3s;
+    }
+    .lego-walk.right { left: auto; right: 8px; }
+    .lego-walk:active { transform: scale(0.94); background: rgba(236, 64, 122, 0.7); }
+    .lego-picker {
+      position: absolute; inset: 0; z-index: 20; display: none; align-items: center; justify-content: center;
+      background: rgba(49, 27, 146, 0.5); padding: 12px;
+    }
+    .lego-picker.open { display: flex; }
+    .lego-picker-panel {
+      width: min(560px, 100%); max-height: 100%; overflow-y: auto; background: #ffffff; border-radius: 26px;
+      border: 4px solid var(--bluey-dark); box-shadow: 0 8px 0 var(--bluey-dark); padding: 12px;
+    }
+    .lego-picker-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+    .lego-picker-tab {
+      flex: 1; height: 56px; border-radius: 18px; border: 3px solid #ce93d8; background: #fce4ec; font-size: 1.8rem; cursor: pointer;
+    }
+    .lego-picker-tab.active { background: #fff59d; border-color: var(--bluey-dark); box-shadow: 0 3px 0 var(--bluey-dark); }
+    .lego-picker-tab.close { flex: 0 0 56px; font-size: 1.3rem; }
+    .lego-picker-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .lego-map-card {
+      position: relative; aspect-ratio: 1; border-radius: 20px; border: 4px solid #ffffff; cursor: pointer;
+      box-shadow: 0 5px 0 rgba(49, 27, 146, 0.45); display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0;
+    }
+    .lego-map-card.build { background: linear-gradient(180deg, #fce4ec, #e1bee7); }
+    .lego-map-card.free { background: linear-gradient(135deg, #fff59d, #ff80ab, #b388ff); }
+    .lego-map-card.active { border-color: #ffd54f; box-shadow: 0 0 0 4px var(--bluey-dark), 0 5px 0 rgba(49, 27, 146, 0.45); }
+    .lego-map-card img { width: 100%; height: 100%; object-fit: cover; }
+    .lego-card-emoji { font-size: clamp(2.6rem, 11vw, 3.6rem); filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.15)); }
+    .lego-card-badge {
+      position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.9);
+      border-radius: 99px; padding: 1px 8px; font-weight: 700; font-size: 0.85rem; color: var(--bluey-dark); white-space: nowrap;
+    }
+    .lego-picker-empty { grid-column: 1 / -1; text-align: center; font-size: 2.4rem; padding: 20px; opacity: 0.6; letter-spacing: 6px; }
+
+    /* =========================================================================
        MINI GAME 3: 🧱 5-YEAR-OLD PICTURE-ONLY LEGO UNICORN BUILDER (v5.0)
        ========================================================================= */
     .lego-fs-overlay {
@@ -1873,7 +1918,7 @@
   <div class="game-header">
     <div class="brand-pill">
       <span>🦄💖</span>
-      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.8</small></span>
+      <span><span class="brand-name">Loveable Unicorns </span><small id="version-badge" style="background:rgba(136,14,79,0.22); padding:1px 6px; border-radius:999px; font-size:0.75em; margin-left:3px;">v7.9</small></span>
     </div>
 
     <div class="header-controls">
@@ -2023,15 +2068,22 @@
         <button class="lego-icon-btn" onclick="exitLegoWorld()" title="Home">🏠</button>
 
         <div class="lego-scene-pills" id="lego-zone-bar">
-          <button class="lego-scene-btn active" data-zone="0" onclick="teleportLegoZone(0)">🏰</button>
-          <button class="lego-scene-btn" data-zone="1" onclick="teleportLegoZone(1)">🦄</button>
-          <button class="lego-scene-btn" data-zone="2" onclick="teleportLegoZone(2)">🚀</button>
-          <button class="lego-scene-btn" data-zone="3" onclick="teleportLegoZone(3)">🏎️</button>
+          <button class="lego-scene-btn" onclick="openLegoPicker('maps')" title="Worlds">🗺️</button>
+          <button class="lego-scene-btn" onclick="openLegoPicker('builds')" title="Builds">🧩</button>
+          <button class="lego-scene-btn" onclick="saveLegoCreation()" title="Save">💾</button>
+          <button class="lego-scene-btn" id="lego-sky-btn" onclick="cycleLegoSkyMode()" title="Sky">🌸</button>
         </div>
+        <div class="lego-hud-pill"><span id="lego-treasure-count">💎0/6</span></div>
+        <div class="lego-hud-pill">⭐<span id="lego-fs-stars">0</span></div>
+      </div>
 
-        <button class="lego-icon-btn" id="lego-sky-btn" onclick="cycleLegoSkyMode()" style="background:linear-gradient(180deg,#ab47bc,#6a1b9a);">🌸</button>
-        <div style="background:rgba(49,27,146,0.85); padding:6px 10px; border-radius:16px; font-family:var(--font-ui); font-size:1rem; font-weight:700; border:2.5px solid #ffd54f; display:flex; align-items:center; gap:3px;">
-          ⭐<span id="lego-fs-stars">0</span>
+      <button class="lego-walk" id="lego-walk-left" title="Walk left">◀</button>
+      <button class="lego-walk right" id="lego-walk-right" title="Walk right">▶</button>
+
+      <div class="lego-picker" id="lego-picker">
+        <div class="lego-picker-panel">
+          <div class="lego-picker-tabs" id="lego-picker-tabs"></div>
+          <div class="lego-picker-grid" id="lego-picker-grid"></div>
         </div>
       </div>
 
@@ -5578,7 +5630,9 @@
       { name: 'Sky',      hex: '#42a5f5', top: '#80d6ff', side: '#0077c2' },
       { name: 'Mint',     hex: '#69f0ae', top: '#9fffe0', side: '#2bbd7e' },
       { name: 'Brown',    hex: '#8d6e63', top: '#be9c91', side: '#5f4339' },
-      { name: 'Black',    hex: '#37474f', top: '#62727b', side: '#102027' }
+      { name: 'Black',    hex: '#37474f', top: '#62727b', side: '#102027' },
+      { name: 'Sand',     hex: '#ffe0b2', top: '#fff3e0', side: '#d7a86e' },
+      { name: 'Moon',     hex: '#b0bec5', top: '#e2f1f8', side: '#808e95' }
     ];
 
     // LEGO Law Grid Constants: 1 Stud = 24px wide, 1 Standard Brick = 28px tall
@@ -6203,6 +6257,294 @@
       playMagicSound('legoSnap');
     }
 
+    /*************************************************************************
+     * 🗺️ LEGO MAPS, TREASURES, FREE BUILD & SAVED CREATIONS
+     * Eight worlds to explore. Each one is three screens wide: the ◀ ▶ buttons
+     * walk the unicorn and the camera follows. Six treasures are hidden in each
+     * world (some up high, so you build stairs to reach them). ✨ Free Build is an
+     * empty world with no templates, and 💾 saves a creation with a picture.
+     *************************************************************************/
+    const LEGO_MAPS = [
+      { id: 'meadow', icon: '🌸', say: 'Flower meadow!', sky: ['#f48fb1', '#f8bbd0', '#f3e5f5'], hills: 'rgba(206, 147, 216, 0.45)',
+        ground: [3, 3], decor: ['🌷', '🌳', '🏡', '🌼', '🍄', '🐇'], particles: { chars: ['🌸'], kind: 'fall', n: 10 }, gravity: 1, treasure: '💎' },
+      { id: 'beach', icon: '🏖️', say: 'Beach day!', sky: ['#4fc3f7', '#b3e5fc', '#fff9c4'], hills: 'rgba(41, 182, 246, 0.35)',
+        ground: [14, 4], decor: ['🌴', '⛱️', '🐚', '🦀', '🏰', '🌴'], particles: null, gravity: 1, treasure: '🐚' },
+      { id: 'snow', icon: '❄️', say: 'Snowy land!', sky: ['#90caf9', '#e3f2fd', '#ffffff'], hills: 'rgba(255, 255, 255, 0.7)',
+        ground: [7, 10], decor: ['⛄', '🌲', '🐧', '🌲', '🛷', '🏔️'], particles: { chars: ['❄'], kind: 'fall', n: 26, color: '#ffffff' }, gravity: 1, treasure: '🎁' },
+      { id: 'moon', icon: '🌙', say: 'To the moon!', sky: ['#0d0221', '#311b92', '#4a148c'], hills: 'rgba(176, 190, 197, 0.35)',
+        ground: [15, 15], decor: ['🪐', '🛸', '🚀', '👽', '🌍', '🛰️'], particles: { chars: ['✦', '·'], kind: 'twinkle', n: 30, color: '#fff59d' }, gravity: 0.38, treasure: '⭐' },
+      { id: 'candy', icon: '🍭', say: 'Candy land!', sky: ['#f8bbd0', '#fce4ec', '#fff9c4'], hills: 'rgba(255, 128, 171, 0.35)',
+        ground: [0, 7], decor: ['🍭', '🧁', '🍩', '🍬', '🍰', '🍦'], particles: { chars: ['•'], kind: 'fall', n: 24, rainbow: true }, gravity: 1, treasure: '🍬' },
+      { id: 'dino', icon: '🦖', say: 'Dino jungle!', sky: ['#a5d6a7', '#e8f5e9', '#fff59d'], hills: 'rgba(56, 142, 60, 0.3)',
+        ground: [9, 12], decor: ['🌴', '🦕', '🌋', '🦖', '🌿', '🥚'], particles: { chars: ['🍃'], kind: 'drift', n: 8 }, gravity: 1, treasure: '🥚' },
+      { id: 'sea', icon: '🐠', say: 'Under the sea!', sky: ['#01579b', '#0288d1', '#4fc3f7'], hills: 'rgba(0, 96, 100, 0.35)',
+        ground: [14, 14], decor: ['🐠', '🪸', '🐙', '🐢', '🐳', '🪸'], particles: { chars: ['○'], kind: 'rise', n: 22, color: 'rgba(255,255,255,0.75)' }, gravity: 0.55, treasure: '💎' },
+      { id: 'clouds', icon: '🌈', say: 'Rainbow clouds!', sky: ['#e1bee7', '#f8bbd0', '#ffffff'], hills: 'rgba(255, 255, 255, 0.6)',
+        ground: [7, 2], decor: ['🌈', '🏰', '🦄', '☁️', '🌈', '🦄'], particles: { chars: ['✨'], kind: 'twinkle', n: 14 }, gravity: 0.7, treasure: '🌟' }
+    ];
+
+    // Build templates shown in the 🧩 picker; index 8 is Free Build
+    const LEGO_BUILDS = [
+      { icon: '🏰' }, { icon: '🦄' }, { icon: '🚀' }, { icon: '🏎️' },
+      { icon: '🏠' }, { icon: '🎂' }, { icon: '⛵' }, { icon: '❄️' }, { icon: '✨' }
+    ];
+    const LEGO_FREE_BUILD = 8;
+
+    function legoFound() {
+      try { return JSON.parse(localStorage.getItem('kiki_lego_found') || '{}'); } catch (e) { return {}; }
+    }
+
+    // Six treasures spread across the world: some on the ground, some you jump to, one you build up to
+    function makeLegoTreasures(mapW, floorY) {
+      const heights = [44, 44, 120, 44, 120, 200];
+      return heights.map((h, i) => ({ x: Math.round(mapW * (0.12 + i * 0.15)), y: floorY - h, found: false, i }));
+    }
+
+    function applyLegoMap(idx, quiet) {
+      if (!legoState) return;
+      legoState.mapIdx = idx;
+      try { localStorage.setItem('kiki_lego_map', String(idx)); } catch (e) {}
+      const map = LEGO_MAPS[idx];
+      legoState.treasures = makeLegoTreasures(legoState.mapW, legoState.floorY);
+      const found = legoFound()[map.id] || [];
+      legoState.treasures.forEach(t => { t.found = found.includes(t.i); });
+      legoState.mapParticles = [];
+      updateLegoTreasureHud();
+      if (!quiet) {
+        playMagicSound('sparkle');
+        unicornSpeak(map.say, { updateBubble: false });
+      }
+    }
+
+    function updateLegoTreasureHud() {
+      const el = document.getElementById('lego-treasure-count');
+      if (!el || !legoState) return;
+      const map = LEGO_MAPS[legoState.mapIdx];
+      el.textContent = `${map.treasure}${legoState.treasures.filter(t => t.found).length}/6`;
+    }
+
+    function collectLegoTreasure(t) {
+      t.found = true;
+      const map = LEGO_MAPS[legoState.mapIdx];
+      const all = legoFound();
+      all[map.id] = Array.from(new Set([...(all[map.id] || []), t.i]));
+      try { localStorage.setItem('kiki_lego_found', JSON.stringify(all)); } catch (e) {}
+      addStar();
+      playMagicSound('legoStud');
+      setTimeout(() => playMagicSound('success'), 120);
+      legoState.spawnFlyingDebris(t.x, t.y, '#ffd700', 22);
+      updateLegoTreasureHud();
+      if (legoState.treasures.every(x => x.found)) {
+        addStar(); addStar();
+        showPraisePop({ word: 'All found!', emoji: map.treasure });
+        unicornSpeak('You found them all!', { updateBubble: false });
+      } else {
+        showPraisePop({ word: 'Found it!', emoji: map.treasure });
+      }
+    }
+
+    // Weather and sparkles for each map, drawn in screen space
+    function stepLegoParticles(c, W, H, ts) {
+      const map = LEGO_MAPS[legoState.mapIdx];
+      const cfg = map.particles;
+      if (!cfg) return;
+      const ps = legoState.mapParticles;
+      while (ps.length < cfg.n) {
+        ps.push({
+          x: Math.random() * W, y: cfg.kind === 'rise' ? H * Math.random() + H * 0.2 : Math.random() * H * 0.8,
+          v: 0.4 + Math.random() * 0.8, ph: Math.random() * 6.28, s: 12 + Math.random() * 12,
+          ch: cfg.chars[Math.floor(Math.random() * cfg.chars.length)],
+          col: cfg.rainbow ? ['#ff5252', '#ffee58', '#40c4ff', '#69f0ae', '#ea80fc'][Math.floor(Math.random() * 5)] : cfg.color
+        });
+      }
+      c.save();
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      ps.forEach(p => {
+        if (cfg.kind === 'fall') { p.y += p.v; p.x += Math.sin(ts * 0.002 + p.ph) * 0.5; if (p.y > legoState.floorY) { p.y = -10; p.x = Math.random() * W; } }
+        if (cfg.kind === 'rise') { p.y -= p.v; p.x += Math.sin(ts * 0.003 + p.ph) * 0.4; if (p.y < -10) { p.y = legoState.floorY; p.x = Math.random() * W; } }
+        if (cfg.kind === 'drift') { p.x -= p.v * 1.3; p.y += Math.sin(ts * 0.002 + p.ph) * 0.6 + 0.2; if (p.x < -20 || p.y > legoState.floorY) { p.x = W + 10; p.y = Math.random() * H * 0.6; } }
+        const alpha = cfg.kind === 'twinkle' ? 0.35 + 0.65 * Math.abs(Math.sin(ts * 0.002 + p.ph)) : 0.9;
+        c.globalAlpha = alpha;
+        c.fillStyle = p.col || '#ffffff';
+        c.font = `${p.s}px sans-serif`;
+        c.fillText(p.ch, p.x, p.y);
+      });
+      c.restore();
+    }
+
+    function drawLegoMapDecor(c, camX, W, floorY, ts) {
+      const map = LEGO_MAPS[legoState.mapIdx];
+      c.save();
+      c.textAlign = 'center';
+      c.textBaseline = 'bottom';
+      const centre = W / 2;
+      for (let i = 0; i < 14; i++) {
+        const x = 90 + i * 230 + ((i * 97) % 70);
+        if (x > legoState.mapW + 40) break;
+        if (Math.abs(x - centre) < 170) continue;          // keep the build spot clear
+        if (x < camX - 80 || x > camX + W + 80) continue;
+        const e = map.decor[i % map.decor.length];
+        const size = 46 + (i % 3) * 12;
+        const bob = map.id === 'sea' ? Math.sin(ts * 0.002 + i) * 6 : 0;
+        c.font = `${size}px sans-serif`;
+        c.fillText(e, x, floorY + 6 + bob);
+      }
+      c.restore();
+    }
+
+    function drawLegoTreasures(c, camX, W, ts) {
+      const map = LEGO_MAPS[legoState.mapIdx];
+      c.save();
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      legoState.treasures.forEach(t => {
+        if (t.found || t.x < camX - 40 || t.x > camX + W + 40) return;
+        const bob = Math.sin(ts * 0.004 + t.i) * 5;
+        const glow = c.createRadialGradient(t.x, t.y + bob, 2, t.x, t.y + bob, 30);
+        glow.addColorStop(0, 'rgba(255, 245, 157, 0.9)');
+        glow.addColorStop(1, 'rgba(255, 245, 157, 0)');
+        c.fillStyle = glow;
+        c.beginPath(); c.arc(t.x, t.y + bob, 30, 0, Math.PI * 2); c.fill();
+        c.font = '34px sans-serif';
+        c.fillText(map.treasure, t.x, t.y + bob);
+      });
+      c.restore();
+    }
+
+    // Tint for the 🌸 / 🌅 / 🌙 button, on top of any map's own sky
+    function drawLegoSkyTint(c, W, floorY, ts) {
+      if (legoState.skyMode === 1) {
+        const g = c.createLinearGradient(0, 0, 0, floorY);
+        g.addColorStop(0, 'rgba(74, 20, 140, 0.35)');
+        g.addColorStop(1, 'rgba(255, 152, 0, 0.3)');
+        c.fillStyle = g;
+        c.fillRect(0, 0, W, floorY);
+      } else if (legoState.skyMode === 2) {
+        c.fillStyle = 'rgba(26, 0, 51, 0.55)';
+        c.fillRect(0, 0, W, floorY);
+        c.fillStyle = '#fff59d';
+        for (let i = 0; i < 26; i++) {
+          c.globalAlpha = 0.4 + 0.6 * Math.abs(Math.sin(ts * 0.002 + i));
+          c.fillRect((i * 137) % W, (i * 71) % (floorY * 0.7), 2.5, 2.5);
+        }
+        c.globalAlpha = 1;
+      }
+    }
+
+    /* ---------- 🗺️ 🧩 🖼️ picker ---------- */
+    function legoSaves() {
+      try { return JSON.parse(localStorage.getItem('kiki_lego_saves') || '[]'); } catch (e) { return []; }
+    }
+
+    function openLegoPicker(tab) {
+      const el = document.getElementById('lego-picker');
+      el.classList.add('open');
+      renderLegoPicker(tab);
+      playMagicSound('pop');
+    }
+    function closeLegoPicker() {
+      document.getElementById('lego-picker').classList.remove('open');
+    }
+
+    function renderLegoPicker(tab) {
+      const tabs = document.getElementById('lego-picker-tabs');
+      tabs.innerHTML = [['maps', '🗺️'], ['builds', '🧩'], ['saves', '🖼️']].map(([id, ic]) =>
+        `<button class="lego-picker-tab ${id === tab ? 'active' : ''}" onclick="renderLegoPicker('${id}')">${ic}</button>`).join('') +
+        `<button class="lego-picker-tab close" onclick="closeLegoPicker()">✖</button>`;
+      const grid = document.getElementById('lego-picker-grid');
+      if (tab === 'maps') {
+        grid.innerHTML = LEGO_MAPS.map((m, i) => {
+          const found = (legoFound()[m.id] || []).length;
+          return `<button class="lego-map-card ${legoState.mapIdx === i ? 'active' : ''}" style="background:linear-gradient(180deg, ${m.sky[0]}, ${m.sky[2]})" onclick="pickLegoMap(${i})">
+            <span class="lego-card-emoji">${m.icon}</span><span class="lego-card-badge">${m.treasure}${found}/6</span></button>`;
+        }).join('');
+      } else if (tab === 'builds') {
+        grid.innerHTML = LEGO_BUILDS.map((b, i) =>
+          `<button class="lego-map-card build ${legoState.questIdx === i ? 'active' : ''} ${i === LEGO_FREE_BUILD ? 'free' : ''}" onclick="pickLegoBuild(${i})">
+            <span class="lego-card-emoji">${b.icon}</span></button>`).join('');
+      } else {
+        const saves = legoSaves();
+        grid.innerHTML = saves.length
+          ? saves.map((sv, i) => `<button class="lego-map-card save" onclick="loadLegoSave(${i})"><img src="${sv.pic}" alt=""></button>`).join('')
+          : '<div class="lego-picker-empty">💾 ➡️ 🖼️</div>';
+      }
+    }
+
+    function pickLegoMap(i) {
+      applyLegoMap(i);
+      closeLegoPicker();
+    }
+    function pickLegoBuild(i) {
+      teleportLegoZone(i);
+      closeLegoPicker();
+    }
+
+    function saveLegoCreation() {
+      if (!legoState) return;
+      const fCanvas = document.getElementById('lego-fs-canvas');
+      const mine = legoState.bricks.filter(b => !b.launching && !b.falling);
+      if (!mine.length) { playMagicSound('oops'); return; }
+      // Small picture of what's on screen
+      const pic = document.createElement('canvas');
+      pic.width = 200;
+      pic.height = Math.round(200 * fCanvas.height / fCanvas.width);
+      pic.getContext('2d').drawImage(fCanvas, 0, 0, pic.width, pic.height);
+      const save = {
+        map: legoState.mapIdx,
+        pic: pic.toDataURL('image/jpeg', 0.6),
+        bricks: mine.map(b => ({ s: b.shape, c: LEGO_COLORS.indexOf(b.colorObj), x: b.x, up: legoState.floorY - b.y, p: b.isPermanent ? 1 : 0 }))
+      };
+      const saves = [save, ...legoSaves()].slice(0, 9);
+      try { localStorage.setItem('kiki_lego_saves', JSON.stringify(saves)); } catch (e) {}
+      const flash = document.createElement('div');
+      flash.className = 'glam-flash';
+      document.body.appendChild(flash);
+      setTimeout(() => flash.remove(), 600);
+      playMagicSound('shutter');
+      setTimeout(() => { playMagicSound('success'); showPraisePop({ word: 'Saved!', emoji: '🖼️' }); }, 300);
+      unicornSpeak('Saved!', { updateBubble: false });
+    }
+
+    function loadLegoSave(i) {
+      const sv = legoSaves()[i];
+      if (!sv || !legoState) return;
+      teleportLegoZone(LEGO_FREE_BUILD);
+      applyLegoMap(sv.map || 0, true);
+      legoState.bricks = sv.bricks.map(b => {
+        const sh = LEGO_BRICK_SHAPES.find(x => x.id === b.s) || LEGO_BRICK_SHAPES[0];
+        return { x: b.x, y: legoState.floorY - b.up, w: sh.w, h: sh.h, shape: sh.id, colorObj: LEGO_COLORS[b.c] || LEGO_COLORS[0],
+          isPermanent: !!b.p, isRocketPart: false, vy: 0, falling: false };
+      });
+      closeLegoPicker();
+      playMagicSound('success');
+      showPraisePop({ word: 'Ta-da!', emoji: '🧱' });
+    }
+
+    // Big ◀ ▶ buttons (and arrow keys on a PC) walk the unicorn around the map
+    function wireLegoWalkButtons() {
+      [['lego-walk-left', 'left'], ['lego-walk-right', 'right']].forEach(([id, dir]) => {
+        const b = document.getElementById(id);
+        if (!b || b.dataset.wired) return;
+        b.dataset.wired = '1';
+        const on = (e) => { e.preventDefault(); if (legoState) { legoState.keys[dir] = true; legoState.person.targetWalkX = null; } };
+        const off = () => { if (legoState) legoState.keys[dir] = false; };
+        b.addEventListener('pointerdown', on);
+        ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, off));
+      });
+      if (!window.legoKeysBound) {
+        window.legoKeysBound = true;
+        const set = (e, v) => {
+          if (currentWorld !== 'lego' || !legoState) return;
+          if (e.key === 'ArrowLeft') legoState.keys.left = v;
+          if (e.key === 'ArrowRight') legoState.keys.right = v;
+          if (v && (e.key === 'ArrowUp' || e.key === ' ') && legoState.person.onGround) { legoState.person.vy = -11.2; e.preventDefault(); }
+        };
+        window.addEventListener('keydown', e => set(e, true));
+        window.addEventListener('keyup', e => set(e, false));
+      }
+    }
+
     // Build Single-Screen Centered Scene Data (Zero horizontal scrolling needed!)
     function buildSingleScreenScene(sceneIdx, screenW, floorY) {
       // Center stud column on the phone screen
@@ -6293,6 +6635,54 @@
         addPlaceholder(-1, 6, 'horn',     4, true); // Golden Nosecone!
 
         trophies.push({ x: cx, y: floorY - 7 * LEGO_BRICK_H, collected: false });
+      } else if (sceneIdx === 4) {
+        // 🏠 COZY HOUSE
+        addSolid(-6, 1, 'tree', 9, true);
+        addSolid(5, 1, 'flower', 0, true);
+        addPlaceholder(-3, 1, '2x6', 2);
+        addPlaceholder(-3, 3, 'window', 10);
+        addPlaceholder(-1, 3, 'door', 0);
+        addPlaceholder(1, 3, 'window', 10);
+        addPlaceholder(-3, 4, '2x6', 2);
+        addPlaceholder(-3, 5, 'roof', 1);
+        addPlaceholder(-1, 5, 'roof', 1);
+        addPlaceholder(-1, 7, 'heart', 0);
+        trophies.push({ x: cx, y: floorY - 9 * LEGO_BRICK_H, collected: false });
+      } else if (sceneIdx === 5) {
+        // 🎂 GIANT BIRTHDAY CAKE
+        addSolid(-6, 1, 'icecream', 2, true);
+        addSolid(4, 1, 'icecream', 11, true);
+        addPlaceholder(-3, 1, '2x6', 2);
+        addPlaceholder(-3, 2, '2x6', 7);
+        addPlaceholder(-2, 3, '2x4', 0);
+        addPlaceholder(-2, 4, '2x4', 7);
+        addPlaceholder(-2, 6, 'cake', 2);
+        addPlaceholder(-1, 8, 'star', 4);
+        trophies.push({ x: cx, y: floorY - 10 * LEGO_BRICK_H, collected: false });
+      } else if (sceneIdx === 6) {
+        // ⛵ SAIL BOAT
+        addSolid(-6, 1, 'fence', 12, true);
+        addPlaceholder(-3, 2, 'boat', 10);
+        addPlaceholder(-2, 3, '2x2', 7);
+        addPlaceholder(-2, 4, 'window', 5);
+        addPlaceholder(-2, 6, 'flag', 0);
+        addPlaceholder(1, 3, 'kitty', 8);
+        trophies.push({ x: cx, y: floorY - 8 * LEGO_BRICK_H, collected: false });
+      } else if (sceneIdx === 7) {
+        // ❄️ ICE PALACE
+        addSolid(-6, 1, '2x2', 7, true);
+        addSolid(4, 1, '2x2', 7, true);
+        addPlaceholder(-3, 1, 'glass', 10);
+        addPlaceholder(1, 1, 'glass', 10);
+        addPlaceholder(-3, 2, '2x6', 7);
+        addPlaceholder(-2, 3, 'glass', 5);
+        addPlaceholder(0, 3, 'glass', 5);
+        addPlaceholder(-3, 4, 'turret', 7);
+        addPlaceholder(-1, 6, 'flag', 10);
+        addPlaceholder(1, 5, 'star', 4);
+        trophies.push({ x: cx, y: floorY - 8 * LEGO_BRICK_H, collected: false });
+      } else if (sceneIdx === LEGO_FREE_BUILD) {
+        // ✨ FREE BUILD: an empty world, build anything
       } else {
         // 🏎️ SCENE 3: PRINCESS SUPER RACECAR (Centered on screen!)
         addSolid(-3, 1, 'wheel', 0, true); // Front Spinning Wheel
@@ -6314,7 +6704,7 @@
     // 1-Tap Picture Scene Switcher (Zero scrolling needed!)
     function teleportLegoZone(zoneIdx) {
       if (!legoState) return;
-      const idx = Math.max(0, Math.min(3, zoneIdx));
+      const idx = Math.max(0, Math.min(LEGO_FREE_BUILD, zoneIdx));
       legoState.questIdx = idx;
       legoState.camX = 0;
 
@@ -6328,6 +6718,7 @@
       legoState.quests[idx].rewarded = false;
 
       legoState.person.x = scene.spawnX;
+      legoState.camX = 0;
       legoState.person.y = legoState.floorY - 64;
       legoState.person.vy = -4;
       legoState.person.facing = 1;
@@ -6343,7 +6734,7 @@
 
     function nextLegoQuest() {
       if (!legoState) return;
-      teleportLegoZone((legoState.questIdx + 1) % 4);
+      teleportLegoZone((legoState.questIdx + 1) % LEGO_FREE_BUILD);
     }
 
     // Day / Sunset / Starry Night Sky Mode Toggle (Icon-only button!)
@@ -6387,6 +6778,15 @@
     function autoSolveCurrentLegoBlueprint() {
       if (!legoState) return;
       const nextSlot = legoState.blueprints.find(bp => !bp.filled);
+      if (!nextSlot && legoState.questIdx === LEGO_FREE_BUILD) {
+        const fun = ['heart', 'star', 'unihead', 'rainbow', 'tree', 'kitty', 'bunny', 'butterfly', 'cake', 'icecream', 'flower', 'mushroom', 'crown', 'car', 'boat', 'lamp'];
+        const shapeId = fun[Math.floor(Math.random() * fun.length)];
+        const sh = LEGO_BRICK_SHAPES.find(x => x.id === shapeId);
+        const p = legoState.person;
+        const x = Math.max(0, Math.min(legoState.mapW - sh.w, Math.round((p.x + p.facing * 70) / LEGO_STUD_W) * LEGO_STUD_W));
+        legoState.placeBrickAt(x, legoState.floorY - sh.h, shapeId, LEGO_COLORS[Math.floor(Math.random() * LEGO_COLORS.length)], true);
+        return;
+      }
       if (nextSlot) {
         legoState.person.targetWalkX = Math.max(12, nextSlot.x - 52);
         legoState.placeBrickAt(nextSlot.x, nextSlot.y, nextSlot.shape, nextSlot.colorObj, true, nextSlot.isRocketPart);
@@ -6427,6 +6827,7 @@
         fCanvas.height = h;
         if (legoState) {
           legoState.floorY = Math.floor((h - 128) / LEGO_BRICK_H) * LEGO_BRICK_H;
+          legoState.mapW = Math.min(LEGO_WORLD_W, Math.max(w * 3, 1200));
         }
       }
       syncCanvasSize();
@@ -6441,17 +6842,16 @@
       // Solid Royal Lavender LEGO ground across the entire single-screen view!
       const isRiverStud = () => false;
 
-      const quests = [
-        { id: 0, rewarded: false },
-        { id: 1, rewarded: false },
-        { id: 2, rewarded: false },
-        { id: 3, rewarded: false }
-      ];
+      const quests = LEGO_BUILDS.map((b, id) => ({ id, rewarded: false }));
 
       const initialScene = buildSingleScreenScene(0, fCanvas.width || window.innerWidth, floorY);
 
       legoState = {
         floorY,
+        mapW: Math.min(LEGO_WORLD_W, Math.max((fCanvas.width || window.innerWidth) * 3, 1200)),
+        mapIdx: 0,
+        treasures: [],
+        mapParticles: [],
         skyMode: 0,
         tool: 'build',
         selectedColor: LEGO_COLORS[0],
@@ -6618,6 +7018,11 @@
       renderPictureBrickTray();
       enableDragScroll(shapeContainer);
       enableDragScroll(colorContainer);
+      let savedMap = 0;
+      try { savedMap = parseInt(localStorage.getItem('kiki_lego_map') || '0', 10) || 0; } catch (e) {}
+      applyLegoMap(Math.min(savedMap, LEGO_MAPS.length - 1), true);
+      wireLegoWalkButtons();
+      closeLegoPicker();
 
       // REAL LEGO LAW & STRUCTURAL SUPPORT GRAPH SOLVER (Clutch Power + Cantilever + Cascade Gravity)
       function bricksOverlapX(a, b) {
@@ -6685,7 +7090,7 @@
 
       function computeSnapTarget(wx, wy, shapeId) {
         const sh = LEGO_BRICK_SHAPES.find(s => s.id === shapeId) || LEGO_BRICK_SHAPES[0];
-        const maxW = Math.max(240, fCanvas.width - sh.w);
+        const maxW = Math.max(240, legoState.mapW - sh.w);
         const snapX = Math.max(0, Math.min(maxW, Math.round((wx - sh.w / 2) / LEGO_STUD_W) * LEGO_STUD_W));
         let snapY = Math.min(legoState.floorY - sh.h, Math.max(LEGO_BRICK_H, Math.round((wy - sh.h / 2) / LEGO_BRICK_H) * LEGO_BRICK_H));
 
@@ -6713,11 +7118,11 @@
       // 1-Tap Kid-Friendly Touch Interaction on the Single-Screen LEGO Canvas!
       fCanvas.onpointerdown = (e) => {
         const rect = fCanvas.getBoundingClientRect();
-        const wx = (e.clientX - rect.left) * (fCanvas.width / rect.width);
+        const wx = (e.clientX - rect.left) * (fCanvas.width / rect.width) + legoState.camX;
         const wy = (e.clientY - rect.top) * (fCanvas.height / rect.height);
 
         // Have the Cute LEGO Unicorn trot toward the tapped spot!
-        legoState.person.targetWalkX = Math.max(12, Math.min(fCanvas.width - 64, wx - 48));
+        legoState.person.targetWalkX = Math.max(12, Math.min(legoState.mapW - 64, wx - 48));
 
         // 1. Check if tapping near ANY glowing placeholder brick (generous 32px touch margin for a 5-year-old!)
         const hitBlueprint = legoState.blueprints.find(bp =>
@@ -6747,7 +7152,7 @@
 
       fCanvas.onpointermove = (e) => {
         const rect = fCanvas.getBoundingClientRect();
-        const wx = (e.clientX - rect.left) * (fCanvas.width / rect.width);
+        const wx = (e.clientX - rect.left) * (fCanvas.width / rect.width) + legoState.camX;
         const wy = (e.clientY - rect.top) * (fCanvas.height / rect.height);
 
         const shapeId = legoState.selectedShape;
@@ -6897,7 +7302,7 @@
           }
 
           if (b.falling) {
-            b.vy = (b.vy || 0) + 0.62;
+            b.vy = (b.vy || 0) + 0.62 * LEGO_MAPS[legoState.mapIdx].gravity;
             b.y += b.vy;
 
             const overSolidGround = (() => {
@@ -6964,7 +7369,7 @@
           p.armSwing = Math.max(0, p.armSwing - 0.08);
         }
 
-        const nextX = Math.max(8, Math.min(fCanvas.width - p.w - 8, p.x + p.vx));
+        const nextX = Math.max(8, Math.min(legoState.mapW - p.w - 8, p.x + p.vx));
         const wallBrick = legoState.bricks.find(b =>
           !b.falling && !b.launching &&
           nextX + p.w > b.x + 2 && nextX < b.x + b.w - 2 &&
@@ -6982,8 +7387,9 @@
 
         // Vertical Gravity & Brick Top Landing for the Cute LEGO Unicorn
         const prevFootY = p.y + p.h;
-        p.vy += 0.5;
+        p.vy += 0.5 * LEGO_MAPS[legoState.mapIdx].gravity;
         p.y += p.vy;
+        if (p.y < 70) { p.y = 70; p.vy = Math.max(p.vy, 0); }   // floaty maps: don't fly off the top
         p.onGround = false;
 
         for (let i = 0; i < legoState.bricks.length; i++) {
@@ -7025,31 +7431,30 @@
           }
         });
 
-        // 4. Lock Camera to 0 (Single-Screen Zero-Scroll Mobile View for 5-Year-Old!)
-        legoState.camX = 0;
+        // 3b. Hidden map treasures
+        legoState.treasures.forEach(t => {
+          if (t.found) return;
+          const dx = (p.x + p.w / 2) - t.x;
+          const dy = (p.y + p.h / 2) - t.y;
+          if (dx * dx + dy * dy < 46 * 46) collectLegoTreasure(t);
+        });
+
+        // 4. Camera follows the unicorn across the wide map, smoothly
+        const camTarget = Math.max(0, Math.min(legoState.mapW - fCanvas.width, p.x + p.w / 2 - fCanvas.width / 2));
+        legoState.camX += (camTarget - legoState.camX) * 0.12;
+        if (Math.abs(camTarget - legoState.camX) < 0.5) legoState.camX = camTarget;
 
         // 5. RENDER FULL-SCREEN PINK & PURPLE LEGO UNICORN KINGDOM
         fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
 
+        const map = LEGO_MAPS[legoState.mapIdx];
         const skyGrad = fCtx.createLinearGradient(0, 0, 0, fY);
-        if (legoState.skyMode === 1) {
-          // Royal Sunset
-          skyGrad.addColorStop(0, '#4a148c');
-          skyGrad.addColorStop(0.55, '#ec407a');
-          skyGrad.addColorStop(1, '#ffe082');
-        } else if (legoState.skyMode === 2) {
-          // Starry Night
-          skyGrad.addColorStop(0, '#1a0033');
-          skyGrad.addColorStop(0.6, '#311b92');
-          skyGrad.addColorStop(1, '#6a1b9a');
-        } else {
-          // Pink & Lavender Unicorn Day
-          skyGrad.addColorStop(0, '#f48fb1');
-          skyGrad.addColorStop(0.6, '#f8bbd0');
-          skyGrad.addColorStop(1, '#f3e5f5');
-        }
+        skyGrad.addColorStop(0, map.sky[0]);
+        skyGrad.addColorStop(0.6, map.sky[1]);
+        skyGrad.addColorStop(1, map.sky[2]);
         fCtx.fillStyle = skyGrad;
         fCtx.fillRect(0, 0, fCanvas.width, fCanvas.height);
+        drawLegoSkyTint(fCtx, fCanvas.width, fY, ts);
 
         fCtx.save();
         fCtx.translate(-legoState.camX, 0);
@@ -7059,7 +7464,7 @@
           const mx = m * 240;
           const mh = 65 + (m % 3) * 28;
           if (mx + 180 > legoState.camX && mx < legoState.camX + fCanvas.width) {
-            fCtx.fillStyle = legoState.skyMode === 2 ? 'rgba(74, 20, 140, 0.55)' : 'rgba(206, 147, 216, 0.45)';
+            fCtx.fillStyle = map.hills;
             fCtx.beginPath();
             fCtx.moveTo(mx, fY);
             fCtx.lineTo(mx + 90, fY - mh);
@@ -7086,8 +7491,8 @@
           fCtx.stroke();
         }
 
-        // Parallax Pink & White LEGO Clouds
-        for (let i = 0; i < 18; i++) {
+        // Parallax Pink & White LEGO Clouds (not in space or under the sea)
+        for (let i = 0; i < (map.id === 'moon' || map.id === 'sea' ? 0 : 18); i++) {
           const cx = i * 210 + 48;
           if (cx + 96 > legoState.camX && cx < legoState.camX + fCanvas.width) {
             drawLegoShape(fCtx, {
@@ -7113,9 +7518,12 @@
             w: LEGO_STUD_W * 2,
             h: fCanvas.height - fY + 10,
             shape: '2x2',
-            colorObj: river ? LEGO_COLORS[5] : LEGO_COLORS[3]
+            colorObj: river ? LEGO_COLORS[5] : LEGO_COLORS[map.ground[(col / 2) % 2]]
           }, false, true, ts);
         }
+
+        drawLegoMapDecor(fCtx, legoState.camX, fCanvas.width, fY, ts);
+        drawLegoTreasures(fCtx, legoState.camX, fCanvas.width, ts);
 
         // Draw Blueprint Ghost Guides
         legoState.blueprints.forEach(bp => {
@@ -7175,6 +7583,13 @@
         }
 
         fCtx.restore();
+        stepLegoParticles(fCtx, fCanvas.width, fCanvas.height, ts);
+
+        // Hide the walk arrows at the ends of the map
+        const wl = document.getElementById('lego-walk-left');
+        const wr = document.getElementById('lego-walk-right');
+        if (wl) wl.style.opacity = legoState.camX > 2 || p.x > 40 ? '1' : '0.35';
+        if (wr) wr.style.opacity = legoState.camX < legoState.mapW - fCanvas.width - 2 ? '1' : '0.35';
 
         legoLoopId = requestAnimationFrame(stepLegoMasterWorld);
       }
